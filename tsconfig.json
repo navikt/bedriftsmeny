@@ -1,8 +1,12 @@
 {
     "compilerOptions": {
+        "noEmit": true,
+        "strict": true,
         "jsx": "react",
-        "target": "es6",
+        "target": "es5",
+        "lib": ["dom", "dom.iterable", "esnext"],
         "allowSyntheticDefaultImports": true,
         "moduleResolution": "node"
-    }
+    },
+    "include": ["src/**/*"]
 }

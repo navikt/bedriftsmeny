@@ -11,7 +11,7 @@
     },
     "scripts": {
         "start:parcel": "parcel src/index.html --open --port 8000",
-        "start:ts": "node_modules/typescript/bin/tsc --watch --noEmit",
+        "start:ts": "node_modules/typescript/bin/tsc --watch",
         "start": "run-p start:parcel start:ts",
         "build": "parcel build src/index.html -d build",
         "serve": "serve -s build"
