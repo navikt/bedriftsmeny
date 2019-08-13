@@ -12,7 +12,7 @@ const config = {
 
     output: {
         path: path.resolve(__dirname, 'lib'),
-        filename: 'Bedriftsmeny.js',
+        filename: '[name].js',
         libraryTarget: 'commonjs2'
     },
 
@@ -23,28 +23,31 @@ const config = {
                 exclude: /node_modules/,
                 use: [
                     {
-                        loader: 'ts-loader'
+                        loader: 'awesome-typescript-loader'
                     }
                 ]
             },
             {
-                test: /\.less$/,
+                test: /\.css$/,
                 use: [
                     {
-                        loader: 'style-loader'
+                        loader: MiniCssExtractPlugin.loader
                     },
                     {
                         loader: 'css-loader'
-                    },
-                    {
-                        loader: 'less-loader'
                     }
                 ]
             }
         ]
     },
 
-    plugins: [new CleanWebpackPlugin()]
+    plugins: [
+        new MiniCssExtractPlugin({
+            filename: '[name].css',
+            ignoreOrder: false
+        }),
+        new CleanWebpackPlugin()
+    ]
 };
 
 module.exports = config;
