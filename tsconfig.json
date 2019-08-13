@@ -1,12 +1,13 @@
 {
     "compilerOptions": {
-        "noEmit": true,
+        "outDir": "./lib",
+        "declaration": true,
         "strict": true,
         "jsx": "react",
         "target": "es5",
-        "lib": ["dom", "dom.iterable", "esnext"],
         "allowSyntheticDefaultImports": true,
-        "moduleResolution": "node"
+        "moduleResolution": "node",
+        "esModuleInterop": true
     },
     "include": ["src/**/*"]
 }
