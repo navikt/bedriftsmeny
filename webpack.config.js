@@ -20,6 +20,7 @@ const config = {
         rules: [
             {
                 test: /\.ts(x?)$/,
+                exclude: /node_modules/,
                 use: [
                     {
                         loader: 'ts-loader'
@@ -33,9 +34,6 @@ const config = {
                         loader: 'style-loader'
                     },
                     {
-                        loader: MiniCssExtractPlugin.loader
-                    },
-                    {
                         loader: 'css-loader'
                     },
                     {
@@ -46,13 +44,7 @@ const config = {
         ]
     },
 
-    plugins: [
-        new MiniCssExtractPlugin({
-            filename: 'bedriftsmeny.css',
-            ignoreOrder: false
-        }),
-        new CleanWebpackPlugin()
-    ]
+    plugins: [new CleanWebpackPlugin()]
 };
 
 module.exports = config;

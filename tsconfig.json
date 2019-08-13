@@ -4,7 +4,7 @@
         "declaration": true,
         "strict": true,
         "jsx": "react",
-        "target": "es5",
+        "target": "es6",
         "allowSyntheticDefaultImports": true,
         "moduleResolution": "node",
         "esModuleInterop": true
