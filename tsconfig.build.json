@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "outDir": "./lib",
+        "emitDeclarationOnly": true,
+        "declaration": true,
+        "strict": true,
+        "jsx": "react",
+        "allowSyntheticDefaultImports": true
+    },
+    "include": ["src/bedriftsmeny/**/*"]
+}

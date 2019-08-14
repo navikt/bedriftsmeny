@@ -1,5 +1,12 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
 import Bedriftsmeny from './bedriftsmeny/Bedriftsmeny';
 
-ReactDOM.render(<Bedriftsmeny />, document.getElementById('bedriftsmeny'));
+const App = () => (
+    <>
+        <h1>Utviklingsapp for bedriftsmeny</h1>
+        <Bedriftsmeny />
+    </>
+);
+
+render(<App />, document.getElementById('app'));

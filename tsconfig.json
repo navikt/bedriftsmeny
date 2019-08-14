@@ -1,12 +1,13 @@
 {
     "compilerOptions": {
         "noEmit": true,
+        "declaration": false,
         "strict": true,
         "jsx": "react",
-        "target": "es5",
-        "lib": ["dom", "dom.iterable", "esnext"],
         "allowSyntheticDefaultImports": true,
-        "moduleResolution": "node"
+        "moduleResolution": "node",
+        "allowJs": true,
+        "esModuleInterop": true
     },
     "include": ["src/**/*"]
 }
