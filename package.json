@@ -34,6 +34,7 @@
         "@types/react-dom": "^16.8.5",
         "babel-loader": "^8.0.6",
         "clean-webpack-plugin": "^3.0.0",
+        "core-js": "^3.2.1",
         "css-loader": "^3.2.0",
         "less": "^3.9.0",
         "less-loader": "^5.0.0",
@@ -43,5 +44,9 @@
         "typescript": "^3.5.3",
         "webpack": "^4.39.1",
         "webpack-cli": "^3.3.6"
-    }
+    },
+    "browserslist": [
+        "> 1% in NO",
+        "not ie 11"
+    ]
 }
