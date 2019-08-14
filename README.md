@@ -31,7 +31,7 @@ import '../node_modules/@navikt/bedriftsmeny/lib/bedriftsmeny.css';
 
 ```sh
 npm install
-npm run start
+npm start
 ```
 
 ## Stack
