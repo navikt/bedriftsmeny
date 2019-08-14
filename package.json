@@ -1,8 +1,8 @@
 {
-    "name": "bedriftsmeny",
+    "name": "@navikt/bedriftsmeny",
     "version": "1.0.0",
     "description": "Bedriftsvelger og -meny for innlogget arbeidsgiver. Laget av TAG (Tjenester for Arbeidsgivere).",
-    "author": "Team TAG",
+    "author": "NAVIKT",
     "license": "MIT",
     "main": "lib/Bedriftsmeny.js",
     "types": "lib/Bedriftsmeny.d.ts",
@@ -10,6 +10,16 @@
         "type": "git",
         "url": "git+https://github.com/navikt/bedriftsmeny.git"
     },
+    "files": [
+        "lib",
+        "src/bedriftsmeny"
+    ],
+    "keywords": [
+        "react",
+        "bedrift",
+        "bedriftsmeny",
+        "arbeidsgiver"
+    ],
     "scripts": {
         "start:parcel": "parcel src/index.html --open --port 8000",
         "start:ts": "tsc --watch",
