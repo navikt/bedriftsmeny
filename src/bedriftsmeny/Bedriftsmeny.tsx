@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import './bedriftsmeny.css';
+import './bedriftsmeny.less';
 
 const Bedriftsmeny: FunctionComponent = () => {
     return <nav className="bedriftsmeny">Bedriftsmeny</nav>;

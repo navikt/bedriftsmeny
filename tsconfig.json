@@ -1,13 +1,12 @@
 {
     "compilerOptions": {
-        "outDir": "./lib",
-        "declaration": true,
+        "noEmit": true,
+        "declaration": false,
         "strict": true,
         "jsx": "react",
-        "target": "es5",
         "allowSyntheticDefaultImports": true,
         "moduleResolution": "node",
-        "module": "commonjs",
+        "allowJs": true,
         "esModuleInterop": true
     },
     "include": ["src/**/*"]

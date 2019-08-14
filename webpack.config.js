@@ -2,9 +2,9 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
-const config = {
+module.exports = {
     mode: 'production',
-    entry: './src/Bedriftsmeny.tsx',
+    entry: './src/bedriftsmeny/Bedriftsmeny.tsx',
 
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.jsx', '.less', '.css']
@@ -12,7 +12,8 @@ const config = {
 
     output: {
         path: path.resolve(__dirname, 'lib'),
-        filename: '[name].js',
+        publicPath: '/lib/',
+        filename: 'Bedriftsmeny.js',
         libraryTarget: 'commonjs2'
     },
 
@@ -20,34 +21,23 @@ const config = {
         rules: [
             {
                 test: /\.ts(x?)$/,
-                exclude: /node_modules/,
                 use: [
                     {
-                        loader: 'awesome-typescript-loader'
+                        loader: 'babel-loader'
                     }
                 ]
             },
             {
-                test: /\.css$/,
-                use: [
-                    {
-                        loader: MiniCssExtractPlugin.loader
-                    },
-                    {
-                        loader: 'css-loader'
-                    }
-                ]
+                test: /\.(css|less)$/,
+                use: [MiniCssExtractPlugin.loader, 'css-loader', 'less-loader']
             }
         ]
     },
 
     plugins: [
         new MiniCssExtractPlugin({
-            filename: '[name].css',
-            ignoreOrder: false
+            filename: 'bedriftsmeny.css'
         }),
         new CleanWebpackPlugin()
     ]
 };
-
-module.exports = config;
