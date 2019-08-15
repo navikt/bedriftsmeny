@@ -39,5 +39,10 @@ module.exports = {
             filename: 'bedriftsmeny.css'
         }),
         new CleanWebpackPlugin()
-    ]
+    ],
+
+    externals: {
+        react: 'react',
+        'react-dom': 'reactDOM'
+    }
 };

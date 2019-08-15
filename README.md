@@ -18,6 +18,8 @@ import Bedriftsmeny from '@navikt/bedriftsmeny';
 import '../node_modules/@navikt/bedriftsmeny/lib/bedriftsmeny.css';
 ```
 
+Du er selv ansvarlig for å importere `nav-frontend-core` i din egen app. Bedriftsmenyen antar at CSS-klasser og Less-variabler fra denne pakken er tilgjengelige.
+
 ### Render komponenten øverst i applikasjonen
 
 ```jsx
