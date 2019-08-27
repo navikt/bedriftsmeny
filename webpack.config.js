@@ -37,12 +37,11 @@ module.exports = {
     plugins: [
         new MiniCssExtractPlugin({
             filename: 'bedriftsmeny.css'
-        }),
-        new CleanWebpackPlugin()
+        })
     ],
 
     externals: {
         react: 'react',
-        'react-dom': 'reactDOM'
+        'react-dom': 'react-dom'
     }
 };

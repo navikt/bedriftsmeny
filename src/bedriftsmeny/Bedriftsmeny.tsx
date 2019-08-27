@@ -1,15 +1,22 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Innholdstittel, Element } from 'nav-frontend-typografi';
+import { Innholdstittel } from 'nav-frontend-typografi';
+import Virksomhetsvelger, { VirksomhetsvelgerProps } from './Virksomhetsvelger/Virksomhetsvelger';
+import { Organisasjon, JuridiskEnhetMedUnderEnheterArray } from './Organisasjon';
 import './bedriftsmeny.less';
 
-interface Props {
+interface EgneProps {
     sidetittel?: string;
+    organisasjoner: Organisasjon[];
+    organisasjonstre?: JuridiskEnhetMedUnderEnheterArray[];
+    valgtOrganisasjon: Organisasjon;
 }
+
+type AlleProps = EgneProps & VirksomhetsvelgerProps;
 
 const hentBedriftFraUrl = () => new URLSearchParams(window.location.search).get('bedrift');
 
-const Bedriftsmeny: FunctionComponent<Props> = (props) => {
-    const { sidetittel = 'Arbeidsgiver' } = props;
+const Bedriftsmeny: FunctionComponent<AlleProps> = (props) => {
+    const { sidetittel = 'Arbeidsgiver', ...virksomhetsvelgerProps } = props;
     const [valgtBedrift, velgBedrift] = useState<string | null>(null);
 
     useEffect(() => {
@@ -19,9 +26,7 @@ const Bedriftsmeny: FunctionComponent<Props> = (props) => {
     return (
         <nav className="bedriftsmeny">
             <Innholdstittel>{sidetittel}</Innholdstittel>
-            <Element className="bedriftsmeny__bedriftsvelger">
-                {valgtBedrift ? valgtBedrift.toUpperCase() : 'N/A'}
-            </Element>
+            <Virksomhetsvelger {...virksomhetsvelgerProps} />
         </nav>
     );
 };
