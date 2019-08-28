@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
 import { Collapse } from 'react-collapse';
+import { RouteComponentProps, withRouter } from 'react-router';
 import { Undertittel } from 'nav-frontend-typografi';
-// import { withRouter, RouteComponentProps } from 'react-router';
 import { Wrapper, Button, Menu } from 'react-aria-menubutton';
 
 import { byggSokeresultat } from './byggSokeresultat';
@@ -14,27 +14,56 @@ import DefaultMeny from './MenyValg/DefaultMeny';
 import MenyFraSokeresultat from './MenyValg/MenyFraSokeresultat';
 import Organisasjonsbeskrivelse from './Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
 import Sokefelt from './Sokefelt/Sokefelt';
+import { hentUrlMedOrgnummer } from './MenyValg/JuridiskEnhetMedUnderenheter/Underenhetsvelger/Underenhetsvelger';
 import './Virksomhetsvelger.less';
 
 export interface VirksomhetsvelgerProps {
     organisasjoner: Organisasjon[];
     organisasjonstre: JuridiskEnhetMedUnderEnheterArray[];
-    valgtOrganisasjon: Organisasjon;
 }
 
-type Props = VirksomhetsvelgerProps; // & RouteComponentProps;
+type Props = VirksomhetsvelgerProps & RouteComponentProps;
+
+const finnOrganisasjonVedOrgnummer = (organisasjoner: Organisasjon[]) => {
+    const orgnummerFraUrl = new URL(window.location.href).searchParams.get('bedrift');
+    return organisasjoner.find(
+        (organisasjon) => organisasjon.OrganizationNumber === orgnummerFraUrl
+    );
+};
 
 const Virksomhetsvelger: FunctionComponent<Props> = (props) => {
-    const { organisasjoner, organisasjonstre, valgtOrganisasjon } = props;
+    const { organisasjoner, organisasjonstre, history } = props;
+
+    const [valgtOrganisasjon, setValgtOrganisasjon] = useState<Organisasjon | undefined>();
     const [erApen, setErApen] = useState(false);
     const [soketekst, setSoketekst] = useState('');
     const [listeMedOrganisasjonerFraSok, setlisteMedOrganisasjonerFraSok] = useState(
         organisasjonstre
     );
 
+    const brukOrgnummerFraFørsteOrganisasjon = () => {
+        const { search } = hentUrlMedOrgnummer(organisasjoner[0].OrganizationNumber);
+        history.replace({ search });
+    };
+
+    const brukOrganisasjonMedOrgnummer = () => {
+        const organisasjonFraUrl = finnOrganisasjonVedOrgnummer(organisasjoner);
+
+        if (!organisasjonFraUrl) {
+            brukOrgnummerFraFørsteOrganisasjon();
+        }
+
+        setValgtOrganisasjon(organisasjonFraUrl || organisasjoner[0]);
+    };
+
     useEffect(() => {
         setErApen(false);
-    }, [valgtOrganisasjon]);
+
+        const organisasjonerErLastetInn = organisasjoner.length > 0;
+        if (organisasjonerErLastetInn) {
+            brukOrganisasjonMedOrgnummer();
+        }
+    }, [history.location, organisasjoner]);
 
     const brukSoketekst = (soketekst: string) => {
         setSoketekst(soketekst);
@@ -43,11 +72,13 @@ const Virksomhetsvelger: FunctionComponent<Props> = (props) => {
         );
     };
 
-    const setOrganisasjonHvisUnderEnhet = (org: JuridiskEnhetMedUnderEnheterArray) => {
-        if (org.JuridiskEnhet.Type !== 'Enterprise') {
-            //props.history.push('/' + org.JuridiskEnhet.OrganizationNumber);
-            setErApen(false);
-        }
+    const setOrganisasjonHvisUnderEnhet = (value: any) => {
+        const { pathname, search } = hentUrlMedOrgnummer(value);
+
+        history.replace({
+            pathname,
+            search
+        });
     };
 
     return (
@@ -59,44 +90,55 @@ const Virksomhetsvelger: FunctionComponent<Props> = (props) => {
                 onMenuToggle={({ isOpen }) => {
                     setErApen(isOpen);
                 }}>
-                {valgtOrganisasjon !== tomAltinnOrganisasjon && (
-                    <Button className="virksomhetsvelger__button">
-                        <Organisasjonsbeskrivelse
-                            navn={valgtOrganisasjon.Name}
-                            orgnummer={valgtOrganisasjon.OrganizationNumber}
-                        />
-                    </Button>
-                )}
-
-                <div className={`virksomhetsvelger__wrapper--${erApen ? 'apen' : 'lukket'}`}>
-                    <Collapse isOpened={erApen}>
-                        <Menu className="virksomhetsvelger__dropdown">
-                            <div className="virksomhetsvelger__valgtVirksomhet">
+                <>
+                    {valgtOrganisasjon !== tomAltinnOrganisasjon && (
+                        <Button
+                            className="virksomhetsvelger__button"
+                            disabled={valgtOrganisasjon === undefined}>
+                            {valgtOrganisasjon !== undefined && (
                                 <Organisasjonsbeskrivelse
-                                    brukOverskrift
                                     navn={valgtOrganisasjon.Name}
                                     orgnummer={valgtOrganisasjon.OrganizationNumber}
                                 />
-                            </div>
-                            <Undertittel className="virksomhetsvelger__overskrift">
-                                Dine aktører
-                            </Undertittel>
-                            <Sokefelt soketekst={soketekst} onChange={brukSoketekst} />
-                            <div className="virksomhetsvelger__meny">
-                                {soketekst.length === 0 ? (
-                                    <DefaultMeny menyKomponenter={organisasjonstre} />
-                                ) : (
-                                    <MenyFraSokeresultat
-                                        ListeMedObjektFraSok={listeMedOrganisasjonerFraSok}
-                                    />
-                                )}
-                            </div>
-                        </Menu>
-                    </Collapse>
-                </div>
+                            )}
+                        </Button>
+                    )}
+
+                    {valgtOrganisasjon !== undefined && (
+                        <div
+                            className={`virksomhetsvelger__dropdownwrapper--${
+                                erApen ? 'apen' : 'lukket'
+                            }`}>
+                            <Collapse isOpened={erApen}>
+                                <Menu className="virksomhetsvelger__dropdown">
+                                    <div className="virksomhetsvelger__valgtVirksomhet">
+                                        <Organisasjonsbeskrivelse
+                                            brukOverskrift
+                                            navn={valgtOrganisasjon.Name}
+                                            orgnummer={valgtOrganisasjon.OrganizationNumber}
+                                        />
+                                    </div>
+                                    <Undertittel className="virksomhetsvelger__overskrift">
+                                        Dine aktører
+                                    </Undertittel>
+                                    <Sokefelt soketekst={soketekst} onChange={brukSoketekst} />
+                                    <div className="virksomhetsvelger__meny">
+                                        {soketekst.length === 0 ? (
+                                            <DefaultMeny menyKomponenter={organisasjonstre} />
+                                        ) : (
+                                            <MenyFraSokeresultat
+                                                ListeMedObjektFraSok={listeMedOrganisasjonerFraSok}
+                                            />
+                                        )}
+                                    </div>
+                                </Menu>
+                            </Collapse>
+                        </div>
+                    )}
+                </>
             </Wrapper>
         </div>
     );
 };
 
-export default Virksomhetsvelger;
+export default withRouter(Virksomhetsvelger);

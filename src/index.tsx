@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { render } from 'react-dom';
 import Bedriftsmeny from './bedriftsmeny/Bedriftsmeny';
 import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from './bedriftsmeny/Organisasjon';
 import MOCK_ORGANISASJONER from './mock/organisasjoner';
 
 import './index.less';
+import { Router } from 'react-router';
+import { createBrowserHistory } from 'history';
 
 export function byggOrganisasjonstre(
     organisasjoner: Organisasjon[]
@@ -12,6 +14,7 @@ export function byggOrganisasjonstre(
     let juridiskeEnheter = organisasjoner.filter(function(organisasjon: Organisasjon) {
         return organisasjon.Type === 'Enterprise';
     });
+
     let utenTilgangTilJuridiskEnhetBedrifter = organisasjoner;
     let organisasjonsliste = juridiskeEnheter.map((juridiskEnhet) => {
         const underenheter = organisasjoner.filter((underenhet) => {
@@ -37,18 +40,36 @@ export function byggOrganisasjonstre(
     return organisasjonsliste;
 }
 
-const organisasjoner = MOCK_ORGANISASJONER;
-const organisasjonstre = byggOrganisasjonstre(MOCK_ORGANISASJONER);
+const history = createBrowserHistory();
 
-const App = () => (
-    <>
-        <h1>Utviklingsapp for bedriftsmeny</h1>
-        <Bedriftsmeny
-            organisasjoner={organisasjoner}
-            organisasjonstre={organisasjonstre}
-            valgtOrganisasjon={organisasjoner[0]}
-        />
-    </>
-);
+const App = () => {
+    const [organisasjoner, setOrganisasjoner] = useState<Organisasjon[]>([]);
+    const [organisasjonstre, setOrganisasjonstre] = useState<JuridiskEnhetMedUnderEnheterArray[]>(
+        []
+    );
+
+    useEffect(() => {
+        setTimeout(() => {
+            setOrganisasjoner(MOCK_ORGANISASJONER);
+            setOrganisasjonstre(byggOrganisasjonstre(MOCK_ORGANISASJONER));
+        }, 500);
+    }, []);
+
+    return (
+        <Router history={history}>
+            <div className="eksempelapp">
+                <Bedriftsmeny
+                    sidetittel="Utviklingsapp"
+                    organisasjoner={organisasjoner}
+                    organisasjonstre={organisasjonstre}
+                />
+                <main>
+                    Her ser du et eksempel på bruk av bedriftsmenyen. Hvis du endrer organisasjon
+                    vil organisasjonsnummer i adressefeltet også endres tilsvarende.
+                </main>
+            </div>
+        </Router>
+    );
+};
 
 render(<App />, document.getElementById('app'));

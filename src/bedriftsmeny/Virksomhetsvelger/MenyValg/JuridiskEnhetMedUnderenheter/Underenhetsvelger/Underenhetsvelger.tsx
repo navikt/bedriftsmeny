@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState } from 'react';
 import { Collapse } from 'react-collapse';
 import { NedChevron, OppChevron } from 'nav-frontend-chevron';
-// import { withRouter, RouteComponentProps } from 'react-router';
+import { withRouter, RouteComponentProps } from 'react-router';
 import { Wrapper, Button, Menu } from 'react-aria-menubutton';
 
 import Underenhet from '../../Underenhet/Underenhet';
@@ -12,9 +12,18 @@ interface EgneProps {
     hovedOrganisasjon: JuridiskEnhetMedUnderEnheterArray;
 }
 
-const Underenhetsvelger: FunctionComponent<EgneProps> = ({ hovedOrganisasjon }) => {
+export const hentUrlMedOrgnummer = (orgnummer: string): URL => {
+    const currentUrl = new URL(window.location.href);
+    currentUrl.searchParams.set('bedrift', orgnummer);
+    return currentUrl;
+};
+
+type Props = EgneProps & RouteComponentProps;
+
+const Underenhetsvelger: FunctionComponent<Props> = ({ history, hovedOrganisasjon }) => {
     const settUrl = (orgnr: string) => {
-        // history.push('/' + orgnr);
+        const { search } = hentUrlMedOrgnummer(orgnr);
+        history.replace({ search });
     };
 
     const [visUnderenheter, setVisUnderenheter] = useState(false);
@@ -55,4 +64,4 @@ const Underenhetsvelger: FunctionComponent<EgneProps> = ({ hovedOrganisasjon }) 
     );
 };
 
-export default Underenhetsvelger;
+export default withRouter(Underenhetsvelger);

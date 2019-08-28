@@ -1,6 +1,5 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
     mode: 'production',
@@ -42,6 +41,7 @@ module.exports = {
 
     externals: {
         react: 'react',
-        'react-dom': 'react-dom'
+        'react-dom': 'react-dom',
+        'react-router-dom': 'react-router-dom'
     }
 };
