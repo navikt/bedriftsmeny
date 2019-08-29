@@ -1,20 +1,28 @@
 import React, { FunctionComponent, useState } from 'react';
 import { Collapse } from 'react-collapse';
 import { NedChevron, OppChevron } from 'nav-frontend-chevron';
-// import { withRouter, RouteComponentProps } from 'react-router';
 import { Wrapper, Button, Menu } from 'react-aria-menubutton';
 
 import Underenhet from '../../Underenhet/Underenhet';
 import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../../../Organisasjon';
 import './Underenhetsvelger.less';
+import { History } from 'history';
 
-interface EgneProps {
+interface Props {
     hovedOrganisasjon: JuridiskEnhetMedUnderEnheterArray;
+    history: History;
 }
 
-const Underenhetsvelger: FunctionComponent<EgneProps> = ({ hovedOrganisasjon }) => {
+export const hentUrlMedOrgnummer = (orgnummer: string): URL => {
+    const currentUrl = new URL(window.location.href);
+    currentUrl.searchParams.set('bedrift', orgnummer);
+    return currentUrl;
+};
+
+const Underenhetsvelger: FunctionComponent<Props> = ({ history, hovedOrganisasjon }) => {
     const settUrl = (orgnr: string) => {
-        // history.push('/' + orgnr);
+        const { search } = hentUrlMedOrgnummer(orgnr);
+        history.replace({ search });
     };
 
     const [visUnderenheter, setVisUnderenheter] = useState(false);

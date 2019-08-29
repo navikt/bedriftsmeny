@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, Fragment } from 'react';
 
 import Underenhet from './Underenhet/Underenhet';
 import JuridiskEnhet from './JuridiskEnhet/JuridiskEnhet';
@@ -15,10 +15,10 @@ const MenyFraSokeresultat: FunctionComponent<Props> = (props) => {
         ));
 
         return (
-            <>
+            <Fragment key={juridiskEnhet.JuridiskEnhet.OrganizationNumber}>
                 <JuridiskEnhet organisasjon={juridiskEnhet} />
                 {UnderOrganisasjonsMenyKomponenter}
-            </>
+            </Fragment>
         );
     });
 
