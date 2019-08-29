@@ -1,8 +1,8 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
 import { Collapse } from 'react-collapse';
-import { RouteComponentProps, withRouter } from 'react-router';
 import { Undertittel } from 'nav-frontend-typografi';
 import { Wrapper, Button, Menu } from 'react-aria-menubutton';
+import { History } from 'history';
 
 import { byggSokeresultat } from './byggSokeresultat';
 import {
@@ -20,9 +20,8 @@ import './Virksomhetsvelger.less';
 export interface VirksomhetsvelgerProps {
     organisasjoner: Organisasjon[];
     organisasjonstre: JuridiskEnhetMedUnderEnheterArray[];
+    history: History;
 }
-
-type Props = VirksomhetsvelgerProps & RouteComponentProps;
 
 const finnOrganisasjonVedOrgnummer = (organisasjoner: Organisasjon[]) => {
     const orgnummerFraUrl = new URL(window.location.href).searchParams.get('bedrift');
@@ -31,7 +30,7 @@ const finnOrganisasjonVedOrgnummer = (organisasjoner: Organisasjon[]) => {
     );
 };
 
-const Virksomhetsvelger: FunctionComponent<Props> = (props) => {
+const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => {
     const { organisasjoner, organisasjonstre, history } = props;
 
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState<Organisasjon | undefined>();
@@ -124,7 +123,10 @@ const Virksomhetsvelger: FunctionComponent<Props> = (props) => {
                                     <Sokefelt soketekst={soketekst} onChange={brukSoketekst} />
                                     <div className="virksomhetsvelger__meny">
                                         {soketekst.length === 0 ? (
-                                            <DefaultMeny menyKomponenter={organisasjonstre} />
+                                            <DefaultMeny
+                                                menyKomponenter={organisasjonstre}
+                                                history={history}
+                                            />
                                         ) : (
                                             <MenyFraSokeresultat
                                                 ListeMedObjektFraSok={listeMedOrganisasjonerFraSok}
@@ -141,4 +143,4 @@ const Virksomhetsvelger: FunctionComponent<Props> = (props) => {
     );
 };
 
-export default withRouter(Virksomhetsvelger);
+export default Virksomhetsvelger;

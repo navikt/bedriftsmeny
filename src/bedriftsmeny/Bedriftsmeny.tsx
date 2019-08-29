@@ -3,11 +3,13 @@ import { Innholdstittel } from 'nav-frontend-typografi';
 import Virksomhetsvelger, { VirksomhetsvelgerProps } from './Virksomhetsvelger/Virksomhetsvelger';
 import { Organisasjon, JuridiskEnhetMedUnderEnheterArray } from './Organisasjon';
 import './bedriftsmeny.less';
+import { History } from 'history';
 
 interface EgneProps {
     sidetittel?: string;
     organisasjoner: Organisasjon[];
     organisasjonstre?: JuridiskEnhetMedUnderEnheterArray[];
+    history: History;
 }
 
 type AlleProps = EgneProps & VirksomhetsvelgerProps;

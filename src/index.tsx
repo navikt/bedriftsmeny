@@ -5,8 +5,8 @@ import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from './bedriftsmeny/
 import MOCK_ORGANISASJONER from './mock/organisasjoner';
 
 import './index.less';
-import { Router } from 'react-router';
-import { createBrowserHistory } from 'history';
+import { Router } from 'react-router-dom';
+import { createBrowserHistory, History } from 'history';
 
 export function byggOrganisasjonstre(
     organisasjoner: Organisasjon[]
@@ -40,7 +40,7 @@ export function byggOrganisasjonstre(
     return organisasjonsliste;
 }
 
-const history = createBrowserHistory();
+const history: History = createBrowserHistory();
 
 const App = () => {
     const [organisasjoner, setOrganisasjoner] = useState<Organisasjon[]>([]);
@@ -62,6 +62,7 @@ const App = () => {
                     sidetittel="Utviklingsapp"
                     organisasjoner={organisasjoner}
                     organisasjonstre={organisasjonstre}
+                    history={history}
                 />
                 <main>
                     Her ser du et eksempel på bruk av bedriftsmenyen. Hvis du endrer organisasjon

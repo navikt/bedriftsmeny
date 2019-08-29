@@ -1,15 +1,16 @@
 import React, { FunctionComponent, useState } from 'react';
 import { Collapse } from 'react-collapse';
 import { NedChevron, OppChevron } from 'nav-frontend-chevron';
-import { withRouter, RouteComponentProps } from 'react-router';
 import { Wrapper, Button, Menu } from 'react-aria-menubutton';
 
 import Underenhet from '../../Underenhet/Underenhet';
 import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../../../Organisasjon';
 import './Underenhetsvelger.less';
+import { History } from 'history';
 
-interface EgneProps {
+interface Props {
     hovedOrganisasjon: JuridiskEnhetMedUnderEnheterArray;
+    history: History;
 }
 
 export const hentUrlMedOrgnummer = (orgnummer: string): URL => {
@@ -17,8 +18,6 @@ export const hentUrlMedOrgnummer = (orgnummer: string): URL => {
     currentUrl.searchParams.set('bedrift', orgnummer);
     return currentUrl;
 };
-
-type Props = EgneProps & RouteComponentProps;
 
 const Underenhetsvelger: FunctionComponent<Props> = ({ history, hovedOrganisasjon }) => {
     const settUrl = (orgnr: string) => {
@@ -64,4 +63,4 @@ const Underenhetsvelger: FunctionComponent<Props> = ({ history, hovedOrganisasjo
     );
 };
 
-export default withRouter(Underenhetsvelger);
+export default Underenhetsvelger;
