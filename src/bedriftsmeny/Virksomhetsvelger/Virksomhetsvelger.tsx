@@ -28,6 +28,8 @@ const hentOrgnummerFraUrl = () => new URL(window.location.href).searchParams.get
 const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => {
     const { organisasjoner, organisasjonstre, history } = props;
 
+    console.log('organisasjoner:', organisasjoner, 'organisasjonstre:', organisasjonstre);
+
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState<Organisasjon | undefined>();
     const [erApen, setErApen] = useState(false);
     const [soketekst, setSoketekst] = useState('');
@@ -70,6 +72,8 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
         const orgnummer = hentOrgnummerFraUrl();
         if (orgnummer) {
             brukNyttOrgnummer(orgnummer);
+        } else if (organisasjoner.length > 0) {
+            brukOrgnummerFraFørsteOrganisasjon();
         }
     };
 
