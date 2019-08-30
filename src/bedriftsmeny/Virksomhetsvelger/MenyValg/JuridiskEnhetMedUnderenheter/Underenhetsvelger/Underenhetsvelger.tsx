@@ -1,34 +1,35 @@
 import React, { FunctionComponent, useState } from 'react';
 import { Collapse } from 'react-collapse';
-import { NedChevron, OppChevron } from 'nav-frontend-chevron';
-import { Wrapper, Button, Menu } from 'react-aria-menubutton';
-
-import Underenhet from '../../Underenhet/Underenhet';
-import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../../../Organisasjon';
-import './Underenhetsvelger.less';
 import { History } from 'history';
+import { NedChevron, OppChevron } from 'nav-frontend-chevron';
+import { Wrapper, Button, Menu, WrapperState } from 'react-aria-menubutton';
+
+import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../../../Organisasjon';
+import { settOrgnummerIUrl } from '../../../utils';
+import Underenhet from '../../Underenhet/Underenhet';
+import './Underenhetsvelger.less';
 
 interface Props {
     hovedOrganisasjon: JuridiskEnhetMedUnderEnheterArray;
     history: History;
 }
 
-export const hentUrlMedOrgnummer = (orgnummer: string): URL => {
-    const currentUrl = new URL(window.location.href);
-    currentUrl.searchParams.set('bedrift', orgnummer);
-    return currentUrl;
-};
-
 const Underenhetsvelger: FunctionComponent<Props> = ({ history, hovedOrganisasjon }) => {
-    const settUrl = (orgnr: string) => {
-        const { search } = hentUrlMedOrgnummer(orgnr);
-        history.replace({ search });
-    };
-
     const [visUnderenheter, setVisUnderenheter] = useState(false);
     const label = `${visUnderenheter ? 'Skjul' : 'Vis'} ${
         hovedOrganisasjon.Underenheter.length
     } underenheter`;
+
+    const onUnderenhetSelect = (value: string) => {
+        settOrgnummerIUrl(value, history);
+    };
+
+    const onMenuToggle = ({ isOpen }: WrapperState) => {
+        setVisUnderenheter(isOpen);
+        if (hovedOrganisasjon.JuridiskEnhet.Type !== 'Enterprise') {
+            onUnderenhetSelect(hovedOrganisasjon.JuridiskEnhet.OrganizationNumber);
+        }
+    };
 
     const Chevron = visUnderenheter ? OppChevron : NedChevron;
 
@@ -36,14 +37,9 @@ const Underenhetsvelger: FunctionComponent<Props> = ({ history, hovedOrganisasjo
         <div className="underenhetsvelger">
             <Wrapper
                 className="underenhetsvelger__wrapper"
-                onSelection={(value: string) => settUrl(value)}
+                onSelection={onUnderenhetSelect}
                 closeOnSelection={false}
-                onMenuToggle={({ isOpen }) => {
-                    setVisUnderenheter(isOpen);
-                    if (hovedOrganisasjon.JuridiskEnhet.Type !== 'Enterprise') {
-                        settUrl(hovedOrganisasjon.JuridiskEnhet.OrganizationNumber);
-                    }
-                }}>
+                onMenuToggle={onMenuToggle}>
                 <Button className={'underenhetsvelger__button'}>
                     <div className="underenhetsvelger__button__chevron">
                         <Chevron />

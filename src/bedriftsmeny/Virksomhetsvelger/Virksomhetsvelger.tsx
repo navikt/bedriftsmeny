@@ -10,11 +10,11 @@ import {
     tomAltinnOrganisasjon,
     Organisasjon
 } from '../Organisasjon';
+import { settOrgnummerIUrl } from './utils';
 import DefaultMeny from './MenyValg/DefaultMeny';
 import MenyFraSokeresultat from './MenyValg/MenyFraSokeresultat';
 import Organisasjonsbeskrivelse from './Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
 import Sokefelt from './Sokefelt/Sokefelt';
-import { hentUrlMedOrgnummer } from './MenyValg/JuridiskEnhetMedUnderenheter/Underenhetsvelger/Underenhetsvelger';
 import './Virksomhetsvelger.less';
 
 export interface VirksomhetsvelgerProps {
@@ -23,12 +23,7 @@ export interface VirksomhetsvelgerProps {
     history: History;
 }
 
-const finnOrganisasjonVedOrgnummer = (organisasjoner: Organisasjon[]) => {
-    const orgnummerFraUrl = new URL(window.location.href).searchParams.get('bedrift');
-    return organisasjoner.find(
-        (organisasjon) => organisasjon.OrganizationNumber === orgnummerFraUrl
-    );
-};
+const hentOrgnummerFraUrl = () => new URL(window.location.href).searchParams.get('bedrift');
 
 const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => {
     const { organisasjoner, organisasjonstre, history } = props;
@@ -40,13 +35,21 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
         organisasjonstre
     );
 
+    useEffect(() => {
+        hentNyttOrgnummer();
+
+        const unlisten = history.listen(hentNyttOrgnummer);
+        return unlisten;
+    }, [organisasjoner]);
+
     const brukOrgnummerFraFørsteOrganisasjon = () => {
-        const { search } = hentUrlMedOrgnummer(organisasjoner[0].OrganizationNumber);
-        history.replace({ search });
+        settOrgnummerIUrl(organisasjoner[0].OrganizationNumber, history);
     };
 
-    const brukOrganisasjonMedOrgnummer = () => {
-        const organisasjonFraUrl = finnOrganisasjonVedOrgnummer(organisasjoner);
+    const brukOrganisasjonMedOrgnummer = (orgnummer: string) => {
+        const organisasjonFraUrl = organisasjoner.find(
+            (organisasjon) => organisasjon.OrganizationNumber === orgnummer
+        );
 
         if (!organisasjonFraUrl) {
             brukOrgnummerFraFørsteOrganisasjon();
@@ -55,14 +58,20 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
         setValgtOrganisasjon(organisasjonFraUrl || organisasjoner[0]);
     };
 
-    useEffect(() => {
+    const brukNyttOrgnummer = (orgnummer: string) => {
         setErApen(false);
 
-        const organisasjonerErLastetInn = organisasjoner.length > 0;
-        if (organisasjonerErLastetInn) {
-            brukOrganisasjonMedOrgnummer();
+        if (organisasjoner.length > 0) {
+            brukOrganisasjonMedOrgnummer(orgnummer);
         }
-    }, [history.location, organisasjoner]);
+    };
+
+    const hentNyttOrgnummer = () => {
+        const orgnummer = hentOrgnummerFraUrl();
+        if (orgnummer) {
+            brukNyttOrgnummer(orgnummer);
+        }
+    };
 
     const brukSoketekst = (soketekst: string) => {
         setSoketekst(soketekst);
@@ -71,21 +80,14 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
         );
     };
 
-    const setOrganisasjonHvisUnderEnhet = (value: any) => {
-        const { pathname, search } = hentUrlMedOrgnummer(value);
-
-        history.replace({
-            pathname,
-            search
-        });
-    };
-
     return (
         <div className="virksomhetsvelger">
             <Wrapper
                 className="virksomhetsvelger__wrapper"
                 closeOnSelection={false}
-                onSelection={(value) => setOrganisasjonHvisUnderEnhet(value)}
+                onSelection={(value: string) => {
+                    settOrgnummerIUrl(value, history);
+                }}
                 onMenuToggle={({ isOpen }) => {
                     setErApen(isOpen);
                 }}>
