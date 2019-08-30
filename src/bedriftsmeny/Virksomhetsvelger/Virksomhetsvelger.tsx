@@ -40,7 +40,7 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
 
         const unlisten = history.listen(hentNyttOrgnummer);
         return unlisten;
-    }, [organisasjoner]);
+    }, [organisasjoner, organisasjonstre]);
 
     const brukOrgnummerFraFørsteOrganisasjon = () => {
         settOrgnummerIUrl(organisasjoner[0].OrganizationNumber, history);
