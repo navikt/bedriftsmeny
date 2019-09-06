@@ -15,6 +15,7 @@ import DefaultMeny from './MenyValg/DefaultMeny';
 import MenyFraSokeresultat from './MenyValg/MenyFraSokeresultat';
 import Organisasjonsbeskrivelse from './Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
 import Sokefelt from './Sokefelt/Sokefelt';
+import useOrganisasjon from './useOrganisasjon';
 import './Virksomhetsvelger.less';
 
 export interface VirksomhetsvelgerProps {
@@ -23,59 +24,17 @@ export interface VirksomhetsvelgerProps {
     history: History;
 }
 
-const hentOrgnummerFraUrl = () => new URL(window.location.href).searchParams.get('bedrift');
-
 const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => {
     const { organisasjoner, organisasjonstre, history } = props;
 
-    console.log('organisasjoner:', organisasjoner, 'organisasjonstre:', organisasjonstre);
-
-    const [valgtOrganisasjon, setValgtOrganisasjon] = useState<Organisasjon | undefined>();
     const [erApen, setErApen] = useState(false);
+    const lukkMeny = () => setErApen(false);
     const [soketekst, setSoketekst] = useState('');
     const [listeMedOrganisasjonerFraSok, setlisteMedOrganisasjonerFraSok] = useState(
         organisasjonstre
     );
 
-    useEffect(() => {
-        hentNyttOrgnummer();
-
-        const unlisten = history.listen(hentNyttOrgnummer);
-        return unlisten;
-    }, [organisasjoner, organisasjonstre]);
-
-    const brukOrgnummerFraFørsteOrganisasjon = () => {
-        settOrgnummerIUrl(organisasjoner[0].OrganizationNumber, history);
-    };
-
-    const brukOrganisasjonMedOrgnummer = (orgnummer: string) => {
-        const organisasjonFraUrl = organisasjoner.find(
-            (organisasjon) => organisasjon.OrganizationNumber === orgnummer
-        );
-
-        if (!organisasjonFraUrl) {
-            brukOrgnummerFraFørsteOrganisasjon();
-        }
-
-        setValgtOrganisasjon(organisasjonFraUrl || organisasjoner[0]);
-    };
-
-    const brukNyttOrgnummer = (orgnummer: string) => {
-        setErApen(false);
-
-        if (organisasjoner.length > 0) {
-            brukOrganisasjonMedOrgnummer(orgnummer);
-        }
-    };
-
-    const hentNyttOrgnummer = () => {
-        const orgnummer = hentOrgnummerFraUrl();
-        if (orgnummer) {
-            brukNyttOrgnummer(orgnummer);
-        } else if (organisasjoner.length > 0) {
-            brukOrgnummerFraFørsteOrganisasjon();
-        }
-    };
+    const { valgtOrganisasjon } = useOrganisasjon(organisasjoner, lukkMeny, history);
 
     const brukSoketekst = (soketekst: string) => {
         setSoketekst(soketekst);
