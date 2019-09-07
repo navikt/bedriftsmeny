@@ -1,3 +1,5 @@
+@import '~nav-frontend-core/less/_variabler';
+
 .pilOpp {
     position: relative;
     display: flex;
@@ -26,5 +28,12 @@
         top: -21px;
         z-index: 1;
         border-bottom-color: #78706a;
+    }
+
+    @media (max-width: @screen-md-min) {
+        &:before,
+        &:after {
+            right: 45%;
+        }
     }
 }

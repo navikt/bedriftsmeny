@@ -4,7 +4,7 @@ export interface Organisasjon {
     OrganizationNumber: string;
     OrganizationForm: string;
     Status: string;
-    ParentOrganizationNumber?: string;
+    ParentOrganizationNumber: string;
 }
 
 export interface JuridiskEnhetMedUnderEnheterArray {

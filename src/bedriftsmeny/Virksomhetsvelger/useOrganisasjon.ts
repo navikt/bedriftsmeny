@@ -5,51 +5,58 @@ import { settOrgnummerIUrl } from './utils';
 
 const hentOrgnummerFraUrl = () => new URL(window.location.href).searchParams.get('bedrift');
 
-const useOrganisasjon = (
-    organisasjoner: Organisasjon[],
-    lukkMeny: () => void,
-    history: History
-) => {
+const useOrganisasjon = (organisasjoner: Organisasjon[], history: History) => {
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState<Organisasjon | undefined>();
 
-    const brukOrgnummerFraUrl = () => {
-        if (organisasjoner.length > 0) {
-            let nesteValgteOrganisasjon;
-            const orgnummerFraUrl = hentOrgnummerFraUrl();
+    const velgOrganisasjon = (organisasjon: Organisasjon, settOgsåOrgnummer?: boolean) => {
+        if (settOgsåOrgnummer) {
+            settOrgnummerIUrl(organisasjon.OrganizationNumber, history);
+        }
 
-            if (orgnummerFraUrl) {
-                const orgnummerErUendret =
-                    valgtOrganisasjon && orgnummerFraUrl === valgtOrganisasjon.OrganizationNumber;
+        setValgtOrganisasjon(organisasjon);
+    };
 
-                if (orgnummerErUendret) {
-                    return;
-                }
+    const velgFørsteOrganisasjonSomFallback = () => {
+        velgOrganisasjon(organisasjoner[0], true);
+    };
 
-                const organisasjonReferertIUrl = organisasjoner.find(
-                    (org) => org.OrganizationNumber === orgnummerFraUrl
-                );
+    const velgOrganisasjonMedUrl = (orgnummerFraUrl: string) => {
+        const organisasjonReferertIUrl = organisasjoner.find(
+            (org) => org.OrganizationNumber === orgnummerFraUrl
+        );
 
-                if (organisasjonReferertIUrl) {
-                    nesteValgteOrganisasjon = organisasjonReferertIUrl;
-                } else {
-                    nesteValgteOrganisasjon = organisasjoner[0];
-                    settOrgnummerIUrl(organisasjoner[0].OrganizationNumber, history);
-                }
-            } else {
-                nesteValgteOrganisasjon = organisasjoner[0];
-                settOrgnummerIUrl(organisasjoner[0].OrganizationNumber, history);
-            }
-
-            lukkMeny();
-            setValgtOrganisasjon(nesteValgteOrganisasjon);
+        if (organisasjonReferertIUrl) {
+            velgOrganisasjon(organisasjonReferertIUrl);
+        } else {
+            velgFørsteOrganisasjonSomFallback();
         }
     };
 
-    useEffect(() => {
+    const brukOrgnummerFraUrl = () => {
+        if (organisasjoner.length > 0) {
+            const orgnummerFraUrl = hentOrgnummerFraUrl();
+
+            if (valgtOrganisasjon) {
+                if (valgtOrganisasjon.OrganizationNumber === orgnummerFraUrl) {
+                    return;
+                }
+            }
+
+            if (orgnummerFraUrl) {
+                velgOrganisasjonMedUrl(orgnummerFraUrl);
+            } else {
+                velgFørsteOrganisasjonSomFallback();
+            }
+        }
+    };
+
+    const velgOrganisasjonOgLyttPåUrl = () => {
         brukOrgnummerFraUrl();
         const unlisten = history.listen(brukOrgnummerFraUrl);
         return unlisten;
-    }, [organisasjoner]);
+    };
+
+    useEffect(velgOrganisasjonOgLyttPåUrl, [organisasjoner]);
 
     return { valgtOrganisasjon };
 };

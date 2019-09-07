@@ -43,10 +43,15 @@ export function byggOrganisasjonstre(
 const history: History = createBrowserHistory();
 
 const App = () => {
+    const [valgtOrganisasjon, setValgtOrganisasjon] = useState<Organisasjon | undefined>();
     const [organisasjoner, setOrganisasjoner] = useState<Organisasjon[]>([]);
     const [organisasjonstre, setOrganisasjonstre] = useState<JuridiskEnhetMedUnderEnheterArray[]>(
         []
     );
+
+    const onOrganisasjonChange = (organisasjon?: Organisasjon) => {
+        setValgtOrganisasjon(organisasjon);
+    };
 
     useEffect(() => {
         setTimeout(() => {
@@ -62,11 +67,23 @@ const App = () => {
                     sidetittel="Utviklingsapp"
                     organisasjoner={organisasjoner}
                     organisasjonstre={organisasjonstre}
+                    onOrganisasjonChange={onOrganisasjonChange}
                     history={history}
                 />
                 <main>
-                    Her ser du et eksempel på bruk av bedriftsmenyen. Hvis du endrer organisasjon
-                    vil organisasjonsnummer i adressefeltet også endres tilsvarende.
+                    <p>
+                        Her ser du et eksempel på bruk av bedriftsmenyen. Hvis du endrer
+                        organisasjon vil organisasjonsnummer i adressefeltet også endres
+                        tilsvarende.
+                    </p>
+                    {valgtOrganisasjon && (
+                        <>
+                            <p>
+                                <em>Heisann, du har valgt en organisasjon!</em>
+                            </p>
+                            <code>{JSON.stringify(valgtOrganisasjon, null, 4)}</code>
+                        </>
+                    )}
                 </main>
             </div>
         </Router>

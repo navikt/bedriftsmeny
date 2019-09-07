@@ -21,20 +21,27 @@ import './Virksomhetsvelger.less';
 export interface VirksomhetsvelgerProps {
     organisasjoner: Organisasjon[];
     organisasjonstre: JuridiskEnhetMedUnderEnheterArray[];
+    onOrganisasjonChange: (organisasjon: Organisasjon) => void;
     history: History;
 }
 
 const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => {
-    const { organisasjoner, organisasjonstre, history } = props;
+    const { organisasjoner, organisasjonstre, onOrganisasjonChange, history } = props;
 
     const [erApen, setErApen] = useState(false);
-    const lukkMeny = () => setErApen(false);
     const [soketekst, setSoketekst] = useState('');
     const [listeMedOrganisasjonerFraSok, setlisteMedOrganisasjonerFraSok] = useState(
         organisasjonstre
     );
 
-    const { valgtOrganisasjon } = useOrganisasjon(organisasjoner, lukkMeny, history);
+    const { valgtOrganisasjon } = useOrganisasjon(organisasjoner, history);
+
+    useEffect(() => {
+        setErApen(false);
+        if (valgtOrganisasjon) {
+            onOrganisasjonChange(valgtOrganisasjon);
+        }
+    }, [valgtOrganisasjon]);
 
     const brukSoketekst = (soketekst: string) => {
         setSoketekst(soketekst);

@@ -21,6 +21,7 @@ const MOCK_ORGANISASJONER: Organisasjon[] = [
         Name: 'BALLSTAD OG HORTEN',
         Type: 'Enterprise',
         OrganizationNumber: '811076112',
+        ParentOrganizationNumber: '',
         OrganizationForm: 'AS',
         Status: 'Active'
     },
@@ -35,6 +36,7 @@ const MOCK_ORGANISASJONER: Organisasjon[] = [
     {
         Name: 'BAREKSTAD OG YTTERVÅG REGNSKAP',
         Type: 'Enterprise',
+        ParentOrganizationNumber: '',
         OrganizationNumber: '810514442',
         OrganizationForm: 'AS',
         Status: 'Active'
@@ -42,6 +44,7 @@ const MOCK_ORGANISASJONER: Organisasjon[] = [
     {
         Name: 'BIRI OG VANNAREID REVISJON',
         Type: 'Enterprise',
+        ParentOrganizationNumber: '',
         OrganizationNumber: '910998250',
         OrganizationForm: 'AS',
         Status: 'Active'
@@ -57,6 +60,7 @@ const MOCK_ORGANISASJONER: Organisasjon[] = [
     {
         Name: 'FRØNNINGEN OG LAUVSTAD REVISJON',
         Type: 'Enterprise',
+        ParentOrganizationNumber: '',
         OrganizationNumber: '910223208',
         OrganizationForm: 'AS',
         Status: 'Active'
@@ -64,6 +68,7 @@ const MOCK_ORGANISASJONER: Organisasjon[] = [
     {
         Name: 'HARSTAD OG TYSSEDAL REVISJON',
         Type: 'Enterprise',
+        ParentOrganizationNumber: '',
         OrganizationNumber: '810989572',
         OrganizationForm: 'AS',
         Status: 'Active'
@@ -71,6 +76,7 @@ const MOCK_ORGANISASJONER: Organisasjon[] = [
     {
         Name: 'HAVNNES OG ÅGSKARDET',
         Type: 'Enterprise',
+        ParentOrganizationNumber: '',
         OrganizationNumber: '910646176',
         OrganizationForm: 'AS',
         Status: 'Active'
@@ -78,6 +84,7 @@ const MOCK_ORGANISASJONER: Organisasjon[] = [
     {
         Name: 'KJØLLEFJORD OG ØKSFJORD',
         Type: 'Enterprise',
+        ParentOrganizationNumber: '',
         OrganizationNumber: '910175777',
         OrganizationForm: 'AS',
         Status: 'Active'
@@ -93,6 +100,7 @@ const MOCK_ORGANISASJONER: Organisasjon[] = [
     {
         Name: 'RAMNES OG TYSSEDAL REGNSKAP',
         Type: 'Business',
+        ParentOrganizationNumber: '',
         OrganizationNumber: '910804456',
         OrganizationForm: 'BEDR',
         Status: 'Active'
@@ -108,6 +116,7 @@ const MOCK_ORGANISASJONER: Organisasjon[] = [
     {
         Name: 'SKOTSELV OG HJELSET',
         Type: 'Enterprise',
+        ParentOrganizationNumber: '',
         OrganizationNumber: '910720120',
         OrganizationForm: 'AS',
         Status: 'Active'
@@ -115,6 +124,7 @@ const MOCK_ORGANISASJONER: Organisasjon[] = [
     {
         Name: 'STOL PÅ TORE',
         Type: 'Enterprise',
+        ParentOrganizationNumber: '',
         OrganizationNumber: '810771852',
         OrganizationForm: 'AS',
         Status: 'Active'
@@ -122,6 +132,7 @@ const MOCK_ORGANISASJONER: Organisasjon[] = [
     {
         Name: 'SØR-HIDLE OG STRAUMGJERDE',
         Type: 'Enterprise',
+        ParentOrganizationNumber: '',
         OrganizationNumber: '910167200',
         OrganizationForm: 'AS',
         Status: 'Active'
@@ -137,6 +148,7 @@ const MOCK_ORGANISASJONER: Organisasjon[] = [
     {
         Name: 'Tore sitt testselskap',
         Type: 'Enterprise',
+        ParentOrganizationNumber: '',
         OrganizationNumber: '910820834',
         OrganizationForm: 'AS',
         Status: 'Active'
