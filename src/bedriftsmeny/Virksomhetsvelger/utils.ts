@@ -1,4 +1,5 @@
 import { History } from 'history';
+import { Organisasjon, JuridiskEnhetMedUnderEnheterArray } from '../Organisasjon';
 
 const ORGNUMMER_PARAMETER = 'bedrift';
 
@@ -10,3 +11,12 @@ export const settOrgnummerIUrl = (orgnummer: string, history: History) => {
 
     history.replace({ search });
 };
+
+export const hentUnderenheter = (organisasjonstre: JuridiskEnhetMedUnderEnheterArray[]) =>
+    organisasjonstre.reduce(
+        (organisasjoner: Organisasjon[], parentOrg) => [
+            ...organisasjoner,
+            ...parentOrg.Underenheter
+        ],
+        []
+    );

@@ -1,5 +1,6 @@
 import fuzzysort from 'fuzzysort';
 import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../Organisasjon';
+import { hentUnderenheter } from './utils';
 
 const fuzzysortConfig = {
     key: 'Name',
@@ -9,17 +10,19 @@ const fuzzysortConfig = {
 
 export function byggSokeresultat(
     organisasjonstre: JuridiskEnhetMedUnderEnheterArray[],
-    organisasjoner: Organisasjon[],
     inputTekst: string
 ): JuridiskEnhetMedUnderEnheterArray[] {
-    const sokeresultat = finnUnderEnheterMedSok(organisasjoner, inputTekst);
+    const sokeresultat = finnUnderEnheterMedSok(organisasjonstre, inputTekst);
 
     return matchResultatMedJuridiskEnhet(organisasjonstre, sokeresultat);
 }
 
-const finnUnderEnheterMedSok = (organisasjoner: Organisasjon[], inputTekst: string) =>
+const finnUnderEnheterMedSok = (
+    organisasjonstre: JuridiskEnhetMedUnderEnheterArray[],
+    inputTekst: string
+) =>
     fuzzysort
-        .go(inputTekst, organisasjoner, fuzzysortConfig)
+        .go(inputTekst, hentUnderenheter(organisasjonstre), fuzzysortConfig)
         .map((underenhet: any) => underenhet.obj);
 
 const matchResultatMedJuridiskEnhet = (

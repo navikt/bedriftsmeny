@@ -1,11 +1,14 @@
 import { History } from 'history';
-import { Organisasjon } from '../Organisasjon';
-import { useState, useEffect } from 'react';
-import { settOrgnummerIUrl } from './utils';
+import { Organisasjon, JuridiskEnhetMedUnderEnheterArray } from '../Organisasjon';
+import { useState, useEffect, useMemo } from 'react';
+import { settOrgnummerIUrl, hentUnderenheter } from './utils';
 
 const hentOrgnummerFraUrl = () => new URL(window.location.href).searchParams.get('bedrift');
 
-const useOrganisasjon = (organisasjoner: Organisasjon[], history: History) => {
+const useOrganisasjon = (
+    organisasjonstre: JuridiskEnhetMedUnderEnheterArray[],
+    history: History
+) => {
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState<Organisasjon | undefined>();
 
     const velgOrganisasjon = (organisasjon: Organisasjon, settOgsåOrgnummer?: boolean) => {
@@ -17,11 +20,13 @@ const useOrganisasjon = (organisasjoner: Organisasjon[], history: History) => {
     };
 
     const velgFørsteOrganisasjonSomFallback = () => {
-        velgOrganisasjon(organisasjoner[0], true);
+        const førsteOrganisasjon = organisasjonstre[0].Underenheter[0];
+        velgOrganisasjon(førsteOrganisasjon, true);
     };
 
     const velgOrganisasjonMedUrl = (orgnummerFraUrl: string) => {
-        const organisasjonReferertIUrl = organisasjoner.find(
+        const underenheter = hentUnderenheter(organisasjonstre);
+        const organisasjonReferertIUrl = underenheter.find(
             (org) => org.OrganizationNumber === orgnummerFraUrl
         );
 
@@ -33,7 +38,7 @@ const useOrganisasjon = (organisasjoner: Organisasjon[], history: History) => {
     };
 
     const brukOrgnummerFraUrl = () => {
-        if (organisasjoner.length > 0) {
+        if (organisasjonstre.length > 0) {
             const orgnummerFraUrl = hentOrgnummerFraUrl();
 
             if (valgtOrganisasjon) {
@@ -52,11 +57,12 @@ const useOrganisasjon = (organisasjoner: Organisasjon[], history: History) => {
 
     const velgOrganisasjonOgLyttPåUrl = () => {
         brukOrgnummerFraUrl();
+
         const unlisten = history.listen(brukOrgnummerFraUrl);
         return unlisten;
     };
 
-    useEffect(velgOrganisasjonOgLyttPåUrl, [organisasjoner]);
+    useEffect(velgOrganisasjonOgLyttPåUrl, [organisasjonstre]);
 
     return { valgtOrganisasjon };
 };

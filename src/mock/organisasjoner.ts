@@ -1,6 +1,78 @@
-import { Organisasjon } from '../bedriftsmeny/Organisasjon';
+import { JuridiskEnhetMedUnderEnheterArray } from '../bedriftsmeny/Organisasjon';
 
-const MOCK_ORGANISASJONER: Organisasjon[] = [
+const MOCK_ORGANISASJONSTRE: JuridiskEnhetMedUnderEnheterArray[] = [
+    {
+        JuridiskEnhet: {
+            Name: 'BALLSTAD OG HORTEN',
+            Type: 'Enterprise',
+            OrganizationNumber: '811076112',
+            ParentOrganizationNumber: '',
+            OrganizationForm: 'AS',
+            Status: 'Active'
+        },
+        Underenheter: [
+            {
+                Name: 'BALLSTAD OG HAMARØY',
+                Type: 'Business',
+                OrganizationNumber: '811076732',
+                ParentOrganizationNumber: '811076112',
+                OrganizationForm: 'BEDR',
+                Status: 'Active'
+            }
+        ]
+    },
+    {
+        JuridiskEnhet: {
+            Name: 'DIGITAL JUNKIES AS ',
+            Type: 'Enterprise',
+            OrganizationNumber: '822565212',
+            ParentOrganizationNumber: '811076112',
+            OrganizationForm: 'AS',
+            Status: 'Active'
+        },
+        Underenheter: [
+            {
+                Name: 'DIGITAL JUNKIES AS ',
+                Type: 'Business',
+                OrganizationNumber: '922658986',
+                ParentOrganizationNumber: '822565212',
+                OrganizationForm: 'BEDR',
+                Status: 'Active'
+            }
+        ]
+    },
+    {
+        JuridiskEnhet: {
+            Name: 'NAV INNLANDET',
+            Type: '',
+            OrganizationNumber: '874652202',
+            OrganizationForm: '',
+            Status: '',
+            ParentOrganizationNumber: ''
+        },
+        Underenheter: [
+            {
+                Name: 'NAV ENGERDAL',
+                Type: 'Business',
+                ParentOrganizationNumber: '874652202',
+                OrganizationNumber: '991378642',
+                OrganizationForm: 'BEDR',
+                Status: 'Active'
+            },
+            {
+                Name: 'NAV HAMAR',
+                Type: 'Business',
+                ParentOrganizationNumber: '874652202',
+                OrganizationNumber: '990229023',
+                OrganizationForm: 'BEDR',
+                Status: 'Active'
+            }
+        ]
+    }
+];
+
+/*
+const MOCK_ORGANISASJONER2: Organisasjon[] = [
     {
         Name: 'BALLSTAD OG EIDSLANDET',
         Type: 'Business',
@@ -177,6 +249,6 @@ const MOCK_ORGANISASJONER: Organisasjon[] = [
         OrganizationForm: 'BEDR',
         Status: 'Active'
     }
-];
+*/
 
-export default MOCK_ORGANISASJONER;
+export default MOCK_ORGANISASJONSTRE;

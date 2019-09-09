@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
+import React, { FunctionComponent, useState, useEffect, useMemo } from 'react';
 import { Collapse } from 'react-collapse';
 import { Undertittel } from 'nav-frontend-typografi';
 import { Wrapper, Button, Menu } from 'react-aria-menubutton';
@@ -19,14 +19,13 @@ import useOrganisasjon from './useOrganisasjon';
 import './Virksomhetsvelger.less';
 
 export interface VirksomhetsvelgerProps {
-    organisasjoner: Organisasjon[];
     organisasjonstre: JuridiskEnhetMedUnderEnheterArray[];
     onOrganisasjonChange: (organisasjon: Organisasjon) => void;
     history: History;
 }
 
 const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => {
-    const { organisasjoner, organisasjonstre, onOrganisasjonChange, history } = props;
+    const { organisasjonstre, onOrganisasjonChange, history } = props;
 
     const [erApen, setErApen] = useState(false);
     const [soketekst, setSoketekst] = useState('');
@@ -34,7 +33,7 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
         organisasjonstre
     );
 
-    const { valgtOrganisasjon } = useOrganisasjon(organisasjoner, history);
+    const { valgtOrganisasjon } = useOrganisasjon(organisasjonstre, history);
 
     useEffect(() => {
         setErApen(false);
@@ -45,9 +44,7 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
 
     const brukSoketekst = (soketekst: string) => {
         setSoketekst(soketekst);
-        setlisteMedOrganisasjonerFraSok(
-            byggSokeresultat(organisasjonstre, organisasjoner, soketekst)
-        );
+        setlisteMedOrganisasjonerFraSok(byggSokeresultat(organisasjonstre, soketekst));
     };
 
     return (

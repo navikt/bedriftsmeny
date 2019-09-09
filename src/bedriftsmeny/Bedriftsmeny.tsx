@@ -7,7 +7,6 @@ import { History } from 'history';
 
 interface EgneProps {
     sidetittel?: string;
-    organisasjoner: Organisasjon[];
     organisasjonstre?: JuridiskEnhetMedUnderEnheterArray[];
     history: History;
 }

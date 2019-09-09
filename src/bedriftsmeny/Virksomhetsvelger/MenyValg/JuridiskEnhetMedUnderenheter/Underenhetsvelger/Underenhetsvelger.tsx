@@ -26,9 +26,6 @@ const Underenhetsvelger: FunctionComponent<Props> = ({ history, hovedOrganisasjo
 
     const onMenuToggle = ({ isOpen }: WrapperState) => {
         setVisUnderenheter(isOpen);
-        if (hovedOrganisasjon.JuridiskEnhet.Type !== 'Enterprise') {
-            onUnderenhetSelect(hovedOrganisasjon.JuridiskEnhet.OrganizationNumber);
-        }
     };
 
     const Chevron = visUnderenheter ? OppChevron : NedChevron;
