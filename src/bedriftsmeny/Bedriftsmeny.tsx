@@ -19,7 +19,9 @@ const Bedriftsmeny: FunctionComponent<AlleProps> = (props) => {
     return (
         <nav className="bedriftsmeny">
             <Innholdstittel className="bedriftsmeny__tittel">{sidetittel}</Innholdstittel>
+            {virksomhetsvelgerProps.organisasjonstre.length > 0 &&
             <Virksomhetsvelger {...virksomhetsvelgerProps} />
+            }
         </nav>
     );
 };
