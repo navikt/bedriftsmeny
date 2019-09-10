@@ -9,7 +9,7 @@ const fuzzysortConfig = {
 };
 
 export function byggSokeresultat(
-    organisasjonstre: JuridiskEnhetMedUnderEnheterArray[],
+    organisasjonstre: JuridiskEnhetMedUnderEnheterArray[] = [],
     inputTekst: string
 ): JuridiskEnhetMedUnderEnheterArray[] {
     const sokeresultat = finnUnderEnheterMedSok(organisasjonstre, inputTekst);

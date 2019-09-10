@@ -5,11 +5,13 @@ import JuridiskEnhet from './JuridiskEnhet/JuridiskEnhet';
 import { JuridiskEnhetMedUnderEnheterArray } from '../../Organisasjon';
 
 export interface Props {
-    ListeMedObjektFraSok: JuridiskEnhetMedUnderEnheterArray[];
+    ListeMedObjektFraSok?: JuridiskEnhetMedUnderEnheterArray[];
 }
 
 const MenyFraSokeresultat: FunctionComponent<Props> = (props) => {
-    const menyKomponenter = props.ListeMedObjektFraSok.map((juridiskEnhet) => {
+    const { ListeMedObjektFraSok = [] } = props;
+
+    const menyKomponenter = ListeMedObjektFraSok.map((juridiskEnhet) => {
         const UnderOrganisasjonsMenyKomponenter = juridiskEnhet.Underenheter.map((org) => (
             <Underenhet key={org.Name} underEnhet={org} />
         ));
