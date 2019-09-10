@@ -12,9 +12,9 @@ const history: History = createBrowserHistory();
 
 const App = () => {
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState<Organisasjon | undefined>();
-    const [organisasjonstre, setOrganisasjonstre] = useState<JuridiskEnhetMedUnderEnheterArray[]>(
-        []
-    );
+    const [organisasjonstre, setOrganisasjonstre] = useState<
+        JuridiskEnhetMedUnderEnheterArray[] | undefined
+    >(undefined);
 
     const onOrganisasjonChange = (organisasjon?: Organisasjon) => {
         setValgtOrganisasjon(organisasjon);

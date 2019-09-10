@@ -19,7 +19,7 @@ import useOrganisasjon from './useOrganisasjon';
 import './Virksomhetsvelger.less';
 
 export interface VirksomhetsvelgerProps {
-    organisasjonstre: JuridiskEnhetMedUnderEnheterArray[];
+    organisasjonstre?: JuridiskEnhetMedUnderEnheterArray[];
     onOrganisasjonChange: (organisasjon: Organisasjon) => void;
     history: History;
 }

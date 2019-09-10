@@ -16,10 +16,14 @@ type AlleProps = EgneProps & VirksomhetsvelgerProps;
 const Bedriftsmeny: FunctionComponent<AlleProps> = (props) => {
     const { sidetittel = 'Arbeidsgiver', ...virksomhetsvelgerProps } = props;
 
+    const visVirksomhetsvelger =
+        virksomhetsvelgerProps.organisasjonstre === undefined ||
+        virksomhetsvelgerProps.organisasjonstre.length > 0;
+
     return (
         <nav className="bedriftsmeny">
             <Innholdstittel className="bedriftsmeny__tittel">{sidetittel}</Innholdstittel>
-            <Virksomhetsvelger {...virksomhetsvelgerProps} />
+            {visVirksomhetsvelger && <Virksomhetsvelger {...virksomhetsvelgerProps} />}
         </nav>
     );
 };

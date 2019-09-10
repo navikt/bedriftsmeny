@@ -6,7 +6,7 @@ import { settOrgnummerIUrl, hentUnderenheter } from './utils';
 const hentOrgnummerFraUrl = () => new URL(window.location.href).searchParams.get('bedrift');
 
 const useOrganisasjon = (
-    organisasjonstre: JuridiskEnhetMedUnderEnheterArray[],
+    organisasjonstre: JuridiskEnhetMedUnderEnheterArray[] = [],
     history: History
 ) => {
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState<Organisasjon | undefined>();
