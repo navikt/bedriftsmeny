@@ -22,8 +22,10 @@ const Bedriftsmeny: FunctionComponent<AlleProps> = (props) => {
 
     return (
         <nav className="bedriftsmeny">
-            <Innholdstittel className="bedriftsmeny__tittel">{sidetittel}</Innholdstittel>
-            {visVirksomhetsvelger && <Virksomhetsvelger {...virksomhetsvelgerProps} />}
+            <div className="bedriftsmeny__inner">
+                <Innholdstittel className="bedriftsmeny__tittel">{sidetittel}</Innholdstittel>
+                {visVirksomhetsvelger && <Virksomhetsvelger {...virksomhetsvelgerProps} />}
+            </div>
         </nav>
     );
 };
