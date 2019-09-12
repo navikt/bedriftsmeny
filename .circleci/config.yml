@@ -64,6 +64,8 @@ workflows:
                   filters:
                       tags:
                           only: /^v.*/
+                      branches:
+                          ignore: /.*/
 
             - publiser:
                   requires:
