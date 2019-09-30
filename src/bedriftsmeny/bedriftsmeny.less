@@ -5,28 +5,30 @@
     border-bottom: 0.25rem solid #99c2e8;
     padding-bottom: 2rem;
 
-    &__inner {
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        justify-content: space-between;
+    .bedriftsmeny {
+        &__inner {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: space-between;
 
-        width: 100%;
-        max-width: 60rem;
-        margin: 0 auto;
-    }
+            width: 100%;
+            max-width: 60rem;
+            margin: 0 auto;
+        }
 
-    &__tittel {
-        margin-top: 2rem;
-    }
-
-    @media (min-width: @screen-md-min) {
         &__tittel {
             margin-top: 2rem;
         }
 
-        &__inner {
-            flex-direction: row;
+        @media (min-width: @screen-md-min) {
+            &__tittel {
+                margin-top: 2rem;
+            }
+
+            &__inner {
+                flex-direction: row;
+            }
         }
     }
 }

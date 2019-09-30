@@ -1,134 +1,136 @@
 @import '~nav-frontend-core/less/_variabler';
 @import './pilOpp.less';
 
-.virksomhetsvelger {
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    width: 100%;
-
-    &__wrapper {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    &__dropdownwrapper {
-        &--apen {
-            display: flex;
-            flex-direction: column;
-            background-color: white;
-            outline: none;
-            border: solid 1px #78706a;
-            border-left-width: 0;
-            border-right-width: 0;
-            width: 100%;
-
-            position: absolute;
-            top: 0;
-            width: 100%;
-            transform: translateY(6.5rem);
-
-            .pilOpp();
-        }
-
-        &--lukket {
-            display: none;
-        }
-    }
-
-    &__valgtVirksomhet {
-        .organisasjonsbeskrivelse {
-            margin: 1rem 0;
-        }
-    }
-
-    &__meny {
-        max-height: 25rem;
-        overflow: scroll;
-    }
-
-    &__overskrift {
-        margin-bottom: 1rem;
-    }
-
-    &__dropdown {
-        position: relative;
+.bedriftsmeny {
+    .virksomhetsvelger {
         z-index: 10;
         display: flex;
         flex-direction: column;
-        padding: 1rem;
-    }
+        position: relative;
+        width: 100%;
 
-    &__button {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 17.5rem;
-        height: 3.75rem;
-        background-color: white;
-        border-radius: 4px;
-        border: 2px solid @navBlaLighten60;
-        margin-top: 1rem;
-
-        .organisasjonsbeskrivelse {
-            width: 100%;
-            margin: 0 1rem;
+        &__wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-
-        &:hover {
-            background-color: @navBla;
-        }
-
-        &:active {
-            background-color: @navBlaDarken40;
-        }
-
-        &:active,
-        &:hover {
-            color: white;
-
-            svg g {
-                stroke: white;
-            }
-        }
-
-        &:focus {
-            outline: none;
-            box-shadow: 0 0 0 3px @fokusFarge;
-        }
-    }
-
-    .juridisk-enhet:not(:first-child) {
-        margin-top: 0.5rem;
-    }
-
-    @media (min-width: 28rem) {
-        width: unset;
 
         &__dropdownwrapper {
             &--apen {
-                width: 26rem;
-                border-left-width: 1px;
-                border-right-width: 1px;
+                display: flex;
+                flex-direction: column;
+                background-color: white;
+                outline: none;
+                border: solid 1px #78706a;
+                border-left-width: 0;
+                border-right-width: 0;
+                width: 100%;
+
+                position: absolute;
+                top: 0;
+                width: 100%;
+                transform: translateY(6.5rem);
+
+                .pilOpp();
             }
 
             &--lukket {
                 display: none;
             }
         }
-    }
 
-    @media (min-width: @screen-md-min) {
-        &__button {
-            margin-top: 2rem;
+        &__valgtVirksomhet {
+            .organisasjonsbeskrivelse {
+                margin: 1rem 0;
+            }
         }
 
-        &__dropdownwrapper {
-            &--apen {
-                top: 2rem;
-                right: 0;
+        &__meny {
+            max-height: 25rem;
+            overflow: scroll;
+        }
+
+        &__overskrift {
+            margin-bottom: 1rem;
+        }
+
+        &__dropdown {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            padding: 1rem;
+        }
+
+        &__button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 17.5rem;
+            height: 3.75rem;
+            background-color: white;
+            border-radius: 4px;
+            border: 2px solid @navBlaLighten60;
+            margin-top: 1rem;
+
+            .organisasjonsbeskrivelse {
+                width: 100%;
+                margin: 0 1rem;
+            }
+
+            &:hover {
+                background-color: @navBla;
+            }
+
+            &:active {
+                background-color: @navBlaDarken40;
+            }
+
+            &:active,
+            &:hover {
+                color: white;
+
+                svg g {
+                    stroke: white;
+                }
+            }
+
+            &:focus {
+                outline: none;
+                box-shadow: 0 0 0 3px @fokusFarge;
+            }
+        }
+
+        .juridisk-enhet:not(:first-child) {
+            margin-top: 0.5rem;
+        }
+
+        @media (min-width: 28rem) {
+            width: unset;
+
+            &__dropdownwrapper {
+                &--apen {
+                    width: 26rem;
+                    border-left-width: 1px;
+                    border-right-width: 1px;
+                }
+
+                &--lukket {
+                    display: none;
+                }
+            }
+        }
+
+        @media (min-width: @screen-md-min) {
+            &__button {
+                margin-top: 2rem;
+            }
+
+            &__dropdownwrapper {
+                &--apen {
+                    top: 2rem;
+                    right: 0;
+                }
             }
         }
     }
