@@ -37,7 +37,8 @@ module.exports = {
                         options: {
                             plugins: () => [
                                 prefixer({
-                                    prefix: '.my-prefix'
+                                    prefix: '.bedriftsmeny',
+                                    exclude: ['.bedriftsmeny']
                                 })
                             ]
                         }
