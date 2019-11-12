@@ -1,22 +1,14 @@
-import React, { FunctionComponent, useState, useEffect, useMemo } from 'react';
-import { Collapse } from 'react-collapse';
-import { Undertittel } from 'nav-frontend-typografi';
-import { Wrapper, Button, Menu } from 'react-aria-menubutton';
+import React, { FunctionComponent, useEffect, useState } from 'react';
+import { Button, Wrapper } from 'react-aria-menubutton';
 import { History } from 'history';
 
 import { byggSokeresultat } from './byggSokeresultat';
-import {
-    JuridiskEnhetMedUnderEnheterArray,
-    tomAltinnOrganisasjon,
-    Organisasjon
-} from '../Organisasjon';
+import { JuridiskEnhetMedUnderEnheterArray, Organisasjon, tomAltinnOrganisasjon } from '../Organisasjon';
 import { settOrgnummerIUrl } from './utils';
-import DefaultMeny from './MenyValg/DefaultMeny';
-import MenyFraSokeresultat from './MenyValg/MenyFraSokeresultat';
 import Organisasjonsbeskrivelse from './Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
-import Sokefelt from './Sokefelt/Sokefelt';
 import useOrganisasjon from './useOrganisasjon';
 import './Virksomhetsvelger.less';
+import { VirksomhetsvelgerDropdown } from './VirksomhetsvelgerDropdown/VirksomhetsvelgerDropdown';
 
 export interface VirksomhetsvelgerProps {
     organisasjonstre?: JuridiskEnhetMedUnderEnheterArray[];
@@ -73,38 +65,15 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                     )}
 
                     {valgtOrganisasjon !== undefined && (
-                        <div
-                            className={`virksomhetsvelger__dropdownwrapper--${
-                                erApen ? 'apen' : 'lukket'
-                            }`}>
-                            <Collapse isOpened={erApen}>
-                                <Menu className="virksomhetsvelger__dropdown">
-                                    <div className="virksomhetsvelger__valgtVirksomhet">
-                                        <Organisasjonsbeskrivelse
-                                            brukOverskrift
-                                            navn={valgtOrganisasjon.Name}
-                                            orgnummer={valgtOrganisasjon.OrganizationNumber}
-                                        />
-                                    </div>
-                                    <Undertittel className="virksomhetsvelger__overskrift">
-                                        Dine aktører
-                                    </Undertittel>
-                                    <Sokefelt soketekst={soketekst} onChange={brukSoketekst} />
-                                    <div className="virksomhetsvelger__meny">
-                                        {soketekst.length === 0 ? (
-                                            <DefaultMeny
-                                                menyKomponenter={organisasjonstre}
-                                                history={history}
-                                            />
-                                        ) : (
-                                            <MenyFraSokeresultat
-                                                ListeMedObjektFraSok={listeMedOrganisasjonerFraSok}
-                                            />
-                                        )}
-                                    </div>
-                                </Menu>
-                            </Collapse>
-                        </div>
+                        <VirksomhetsvelgerDropdown
+                            soketekst={soketekst}
+                            erApen={erApen}
+                            valgtOrganisasjon={valgtOrganisasjon}
+                            onSoketekstChange={brukSoketekst}
+                            organisasjonstre={organisasjonstre}
+                            history={history}
+                            sokeresultat={listeMedOrganisasjonerFraSok}
+                        />
                     )}
                 </>
             </Wrapper>
