@@ -1,34 +1,28 @@
 @import '~nav-frontend-core/less/_variabler';
-@import '../pilOpp.less';
+@import 'pilOpp.less';
+
+.ReactCollapse--collapse {
+    transition: height 500ms;
+}
 
 .virksomhetsvelger-dropdown {
-    position: relative;
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-    padding: 1rem;
+    position: absolute;
+    top: 0;
+    transform: translateY(6.5rem);
+    // .pilOpp();
 
-    &__wrapper {
-        &--apen {
-            display: flex;
-            flex-direction: column;
-            background-color: white;
-            outline: none;
-            border: solid 1px #78706a;
-            border-left-width: 0;
-            border-right-width: 0;
-            width: 100%;
-
-            position: absolute;
-            top: 0;
-            transform: translateY(6.5rem);
-
-            .pilOpp();
-        }
-
-        &--lukket {
-            display: none;
-        }
+    &__meny-wrapper {
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        outline: none;
+        border: solid 1px #78706a;
+        border-left-width: 0;
+        border-right-width: 0;
+        width: 100%;
+        position: relative;
+        z-index: 10;
+        padding: 1rem;
     }
 
     &__valgtVirksomhet {
@@ -47,25 +41,13 @@
     }
 
     @media (min-width: 28rem) {
-        &__wrapper {
-            &--apen {
-                width: 26rem;
-                border-left-width: 1px;
-                border-right-width: 1px;
-            }
-
-            &--lukket {
-                display: none;
-            }
-        }
+        width: 26rem;
+        border-left-width: 1px;
+        border-right-width: 1px;
     }
 
     @media (min-width: @screen-md-min) {
-        &__wrapper {
-            &--apen {
-                top: 2rem;
-                right: 0;
-            }
-        }
+        top: 2rem;
+        right: 0;
     }
 }

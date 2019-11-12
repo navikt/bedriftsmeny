@@ -31,28 +31,28 @@ export const VirksomhetsvelgerDropdown: React.FunctionComponent<Props> = (props)
         sokeresultat
     } = props;
     return (
-        <div className={`virksomhetsvelger-dropdown__wrapper--${erApen ? 'apen' : 'lukket'}`}>
+        <div className={'virksomhetsvelger-dropdown'}>
             <Collapse isOpened={erApen}>
-                <Menu className="virksomhetsvelger-dropdown">
-                    <div className="virksomhetsvelger-dropdown__valgtVirksomhet">
-                        <Organisasjonsbeskrivelse
-                            brukOverskrift
-                            navn={valgtOrganisasjon.Name}
-                            orgnummer={valgtOrganisasjon.OrganizationNumber}
-                        />
-                    </div>
-                    <Undertittel className="virksomhetsvelger-dropdown__overskrift">
-                        Dine aktører
-                    </Undertittel>
-                    <Sokefelt soketekst={soketekst} onChange={onSoketekstChange} />
-                    <div className="virksomhetsvelger-dropdown__meny">
-                        {soketekst.length === 0 ? (
-                            <DefaultMeny menyKomponenter={organisasjonstre} history={history} />
-                        ) : (
-                            <MenyFraSokeresultat ListeMedObjektFraSok={sokeresultat} />
-                        )}
-                    </div>
-                </Menu>
+                    <Menu className="virksomhetsvelger-dropdown__meny-wrapper">
+                        <div className="virksomhetsvelger-dropdown__valgtVirksomhet">
+                            <Organisasjonsbeskrivelse
+                                brukOverskrift
+                                navn={valgtOrganisasjon.Name}
+                                orgnummer={valgtOrganisasjon.OrganizationNumber}
+                            />
+                        </div>
+                        <Undertittel className="virksomhetsvelger-dropdown__overskrift">
+                            Dine aktører
+                        </Undertittel>
+                        <Sokefelt soketekst={soketekst} onChange={onSoketekstChange} />
+                        <div className="virksomhetsvelger-dropdown__meny">
+                            {soketekst.length === 0 ? (
+                                <DefaultMeny menyKomponenter={organisasjonstre} history={history} />
+                            ) : (
+                                <MenyFraSokeresultat ListeMedObjektFraSok={sokeresultat} />
+                            )}
+                        </div>
+                    </Menu>
             </Collapse>
         </div>
     );
