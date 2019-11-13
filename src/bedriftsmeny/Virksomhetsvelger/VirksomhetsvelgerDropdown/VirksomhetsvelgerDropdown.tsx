@@ -32,7 +32,7 @@ export const VirksomhetsvelgerDropdown: React.FunctionComponent<Props> = (props)
 
     return (
         <div className="virksomhetsvelger-dropdown">
-            <Collapse isOpened={erApen} className="heisann">
+            <Collapse isOpened={erApen}>
                 <div className="virksomhetsvelger-dropdown__meny-wrapper">
                     <Menu className="virksomhetsvelger-dropdown__meny">
                         <Organisasjonsbeskrivelse
