@@ -46,6 +46,7 @@
         "@babel/preset-env": "^7.7.1",
         "@babel/preset-react": "^7.7.0",
         "@babel/preset-typescript": "^7.7.2",
+        "@types/classnames": "^2.2.9",
         "@types/history": "^4.7.3",
         "@types/react": "^16.9.11",
         "@types/react-aria-menubutton": "^6.2.2",

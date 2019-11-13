@@ -27,6 +27,8 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
 
     const { valgtOrganisasjon } = useOrganisasjon(organisasjonstre, history);
 
+    console.log("erApen 2", erApen)
+
     useEffect(() => {
         setErApen(false);
         if (valgtOrganisasjon) {
@@ -48,6 +50,7 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                     settOrgnummerIUrl(value, history);
                 }}
                 onMenuToggle={({ isOpen }) => {
+                    console.log("togglin")
                     setErApen(isOpen);
                 }}>
                 <>
@@ -64,7 +67,7 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                         </Button>
                     )}
 
-                    {valgtOrganisasjon !== undefined && (
+                    {valgtOrganisasjon !== undefined &&
                         <VirksomhetsvelgerDropdown
                             soketekst={soketekst}
                             erApen={erApen}
@@ -74,7 +77,7 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                             history={history}
                             sokeresultat={listeMedOrganisasjonerFraSok}
                         />
-                    )}
+                    }
                 </>
             </Wrapper>
         </div>
