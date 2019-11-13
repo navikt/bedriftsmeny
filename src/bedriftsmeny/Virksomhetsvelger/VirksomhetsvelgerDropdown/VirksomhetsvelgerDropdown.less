@@ -1,24 +1,22 @@
 @import '~nav-frontend-core/less/_variabler';
 @import 'pilOpp.less';
 
-.ReactCollapse--collapse {
-    transition: height 500ms;
-}
-
-.test {
-    width: 10rem;
-    height: 10rem;
-    background: red;
-    border: 5px solid black;
-}
-
 .virksomhetsvelger-dropdown {
     position: absolute;
     top: 0;
     transform: translateY(6.5rem);
-    // .pilOpp();
+
+    width: 100%;
+
+    .ReactCollapse--collapse {
+        transition: height 500ms;
+    }
 
     &__meny-wrapper {
+        padding-top: 2rem;
+    }
+
+    &__meny {
         display: flex;
         flex-direction: column;
         background-color: white;
@@ -30,15 +28,14 @@
         position: relative;
         z-index: 10;
         padding: 1rem;
+        .pilOpp();
     }
 
     &__valgtVirksomhet {
-        .organisasjonsbeskrivelse {
-            margin: 1rem 0;
-        }
+        margin: 1rem 0;
     }
 
-    &__meny {
+    &__virksomhetsliste {
         max-height: 25rem;
         overflow: scroll;
     }
@@ -49,12 +46,14 @@
 
     @media (min-width: 28rem) {
         width: 26rem;
-        border-left-width: 1px;
-        border-right-width: 1px;
+
+        &__meny {
+            border-left-width: 1px;
+            border-right-width: 1px;
+        }
     }
 
     @media (min-width: @screen-md-min) {
-        top: 2rem;
         right: 0;
     }
 }
