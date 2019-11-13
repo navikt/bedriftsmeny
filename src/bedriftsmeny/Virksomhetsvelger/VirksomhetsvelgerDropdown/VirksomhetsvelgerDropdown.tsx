@@ -5,31 +5,30 @@ import { Undertittel } from 'nav-frontend-typografi';
 import Sokefelt from '../Sokefelt/Sokefelt';
 import DefaultMeny from '../MenyValg/DefaultMeny';
 import MenyFraSokeresultat from '../MenyValg/MenyFraSokeresultat';
-import React from 'react';
+import React, { useState } from 'react';
 import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../Organisasjon';
 import { History } from 'history';
 import './VirksomhetsvelgerDropdown.less';
+import { byggSokeresultat } from './byggSokeresultat';
 
 interface Props {
     erApen: boolean;
-    soketekst: string;
     valgtOrganisasjon: Organisasjon;
-    onSoketekstChange: (soketekst: string) => void;
     organisasjonstre?: JuridiskEnhetMedUnderEnheterArray[];
     history: History;
     sokeresultat?: JuridiskEnhetMedUnderEnheterArray[];
 }
 
 export const VirksomhetsvelgerDropdown: React.FunctionComponent<Props> = (props) => {
-    const {
-        soketekst,
-        erApen,
-        valgtOrganisasjon,
-        onSoketekstChange,
-        organisasjonstre,
-        history,
-        sokeresultat
-    } = props;
+    const { erApen, valgtOrganisasjon, organisasjonstre, history } = props;
+
+    const [soketekst, setSoketekst] = useState('');
+    const [sokeresultat, setSokeresultat] = useState(organisasjonstre);
+
+    const onSoketekstChange = (soketekst: string) => {
+        setSoketekst(soketekst);
+        setSokeresultat(byggSokeresultat(organisasjonstre, soketekst));
+    };
 
     return (
         <div className="virksomhetsvelger-dropdown">

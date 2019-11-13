@@ -1,6 +1,6 @@
 import fuzzysort from 'fuzzysort';
-import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../Organisasjon';
-import { hentUnderenheter } from './utils';
+import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../Organisasjon';
+import { hentUnderenheter } from '../utils';
 
 const fuzzysortConfig = {
     key: 'Name',
