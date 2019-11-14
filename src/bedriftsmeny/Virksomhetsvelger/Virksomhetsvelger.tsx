@@ -6,7 +6,6 @@ import {
     Organisasjon,
     tomAltinnOrganisasjon
 } from '../Organisasjon';
-import { settOrgnummerIUrl } from './utils';
 import Organisasjonsbeskrivelse from './Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
 import useOrganisasjon from './useOrganisasjon';
 import './Virksomhetsvelger.less';
@@ -37,9 +36,6 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
             <Wrapper
                 className="virksomhetsvelger__wrapper"
                 closeOnSelection={false}
-                onSelection={(value: string) => {
-                    settOrgnummerIUrl(value, history);
-                }}
                 onMenuToggle={({ isOpen }) => {
                     setErApen(isOpen);
                 }}>
