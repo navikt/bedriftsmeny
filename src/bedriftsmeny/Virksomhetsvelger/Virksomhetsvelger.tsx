@@ -41,7 +41,6 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                     settOrgnummerIUrl(value, history);
                 }}
                 onMenuToggle={({ isOpen }) => {
-                    console.log('togglin');
                     setErApen(isOpen);
                 }}>
                 <>
