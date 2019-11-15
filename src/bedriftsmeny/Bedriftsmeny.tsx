@@ -1,10 +1,9 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent } from 'react';
 import { Innholdstittel } from 'nav-frontend-typografi';
 import Virksomhetsvelger, { VirksomhetsvelgerProps } from './Virksomhetsvelger/Virksomhetsvelger';
-import { Organisasjon, JuridiskEnhetMedUnderEnheterArray } from './Organisasjon';
+import { JuridiskEnhetMedUnderEnheterArray } from './Organisasjon';
 import './bedriftsmeny.less';
 import { History } from 'history';
-import { Collapse } from 'react-collapse';
 
 interface EgneProps {
     sidetittel?: string;
