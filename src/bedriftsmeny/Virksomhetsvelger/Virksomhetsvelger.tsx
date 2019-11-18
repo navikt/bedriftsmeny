@@ -77,7 +77,7 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                             className={`virksomhetsvelger__dropdownwrapper--${
                                 erApen ? 'apen' : 'lukket'
                             }`}>
-                            <Collapse isOpened={erApen}>
+                            <div>
                                 <Menu className="virksomhetsvelger__dropdown">
                                     <div className="virksomhetsvelger__valgtVirksomhet">
                                         <Organisasjonsbeskrivelse
@@ -103,7 +103,7 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                                         )}
                                     </div>
                                 </Menu>
-                            </Collapse>
+                            </div>
                         </div>
                     )}
                 </>
