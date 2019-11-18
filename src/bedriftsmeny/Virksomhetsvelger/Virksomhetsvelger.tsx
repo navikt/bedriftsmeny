@@ -1,14 +1,13 @@
-import React, { FunctionComponent, useState, useEffect, useMemo } from 'react';
-import { Collapse } from 'react-collapse';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Undertittel } from 'nav-frontend-typografi';
-import { Wrapper, Button, Menu } from 'react-aria-menubutton';
+import { Button, Menu, Wrapper } from 'react-aria-menubutton';
 import { History } from 'history';
 
 import { byggSokeresultat } from './byggSokeresultat';
 import {
     JuridiskEnhetMedUnderEnheterArray,
-    tomAltinnOrganisasjon,
-    Organisasjon
+    Organisasjon,
+    tomAltinnOrganisasjon
 } from '../Organisasjon';
 import { settOrgnummerIUrl } from './utils';
 import DefaultMeny from './MenyValg/DefaultMeny';
@@ -77,33 +76,31 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                             className={`virksomhetsvelger__dropdownwrapper--${
                                 erApen ? 'apen' : 'lukket'
                             }`}>
-                            <Collapse isOpened={erApen}>
-                                <Menu className="virksomhetsvelger__dropdown">
-                                    <div className="virksomhetsvelger__valgtVirksomhet">
-                                        <Organisasjonsbeskrivelse
-                                            brukOverskrift
-                                            navn={valgtOrganisasjon.Name}
-                                            orgnummer={valgtOrganisasjon.OrganizationNumber}
+                            <Menu className="virksomhetsvelger__dropdown">
+                                <div className="virksomhetsvelger__valgtVirksomhet">
+                                    <Organisasjonsbeskrivelse
+                                        brukOverskrift
+                                        navn={valgtOrganisasjon.Name}
+                                        orgnummer={valgtOrganisasjon.OrganizationNumber}
+                                    />
+                                </div>
+                                <Undertittel className="virksomhetsvelger__overskrift">
+                                    Dine aktører
+                                </Undertittel>
+                                <Sokefelt soketekst={soketekst} onChange={brukSoketekst} />
+                                <div className="virksomhetsvelger__meny">
+                                    {soketekst.length === 0 ? (
+                                        <DefaultMeny
+                                            menyKomponenter={organisasjonstre}
+                                            history={history}
                                         />
-                                    </div>
-                                    <Undertittel className="virksomhetsvelger__overskrift">
-                                        Dine aktører
-                                    </Undertittel>
-                                    <Sokefelt soketekst={soketekst} onChange={brukSoketekst} />
-                                    <div className="virksomhetsvelger__meny">
-                                        {soketekst.length === 0 ? (
-                                            <DefaultMeny
-                                                menyKomponenter={organisasjonstre}
-                                                history={history}
-                                            />
-                                        ) : (
-                                            <MenyFraSokeresultat
-                                                ListeMedObjektFraSok={listeMedOrganisasjonerFraSok}
-                                            />
-                                        )}
-                                    </div>
-                                </Menu>
-                            </Collapse>
+                                    ) : (
+                                        <MenyFraSokeresultat
+                                            ListeMedObjektFraSok={listeMedOrganisasjonerFraSok}
+                                        />
+                                    )}
+                                </div>
+                            </Menu>
                         </div>
                     )}
                 </>

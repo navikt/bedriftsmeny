@@ -35,7 +35,6 @@
         "postcss-loader": "^3.0.0",
         "postcss-prefix-selector": "^1.7.2",
         "react-aria-menubutton": "^6.2.0",
-        "react-collapse": "^5.0.0",
         "react-motion": "^0.5.2"
     },
     "devDependencies": {
