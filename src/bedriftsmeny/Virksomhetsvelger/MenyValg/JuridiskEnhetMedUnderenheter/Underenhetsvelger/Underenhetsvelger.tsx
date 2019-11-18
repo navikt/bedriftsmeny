@@ -1,8 +1,7 @@
 import React, { FunctionComponent, useState } from 'react';
-import { Collapse } from 'react-collapse';
 import { History } from 'history';
 import { NedChevron, OppChevron } from 'nav-frontend-chevron';
-import { Wrapper, Button, Menu, WrapperState } from 'react-aria-menubutton';
+import { Button, Menu, Wrapper, WrapperState } from 'react-aria-menubutton';
 
 import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../../../Organisasjon';
 import { settOrgnummerIUrl } from '../../../utils';
@@ -43,13 +42,11 @@ const Underenhetsvelger: FunctionComponent<Props> = ({ history, hovedOrganisasjo
                     </div>
                     {label}
                 </Button>
-                <div>
-                    <Menu className={'underenhetsvelger__menyvalg-wrapper'}>
-                        {hovedOrganisasjon.Underenheter.map((organisasjon: Organisasjon) => (
-                            <Underenhet key={organisasjon.Name} underEnhet={organisasjon} />
-                        ))}
-                    </Menu>
-                </div>
+                <Menu className={'underenhetsvelger__menyvalg-wrapper'}>
+                    {hovedOrganisasjon.Underenheter.map((organisasjon: Organisasjon) => (
+                        <Underenhet key={organisasjon.Name} underEnhet={organisasjon} />
+                    ))}
+                </Menu>
             </Wrapper>
         </div>
     );
