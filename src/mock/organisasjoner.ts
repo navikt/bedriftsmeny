@@ -171,14 +171,6 @@ export const MOCK_ORGANISASJONER2: Organisasjon[] = [
         Status: 'Active'
     },
     {
-        Name: 'RAMNES OG TYSSEDAL REGNSKAP',
-        Type: 'Business',
-        ParentOrganizationNumber: '',
-        OrganizationNumber: '910804456',
-        OrganizationForm: 'BEDR',
-        Status: 'Active'
-    },
-    {
         Name: 'SANDVÆR OG HOV',
         Type: 'Business',
         OrganizationNumber: '910793829',
@@ -249,6 +241,15 @@ export const MOCK_ORGANISASJONER2: Organisasjon[] = [
         ParentOrganizationNumber: '910820834',
         OrganizationForm: 'BEDR',
         Status: 'Active'
+    },
+    {
+        Name: 'DIGITAL JUNKIES AS ',
+        Type: 'Business',
+        OrganizationNumber: '922658986',
+        ParentOrganizationNumber: '822565212',
+        OrganizationForm: 'BEDR',
+        Status: 'Active'
     }
     ]
 ;
+
