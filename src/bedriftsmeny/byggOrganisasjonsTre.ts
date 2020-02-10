@@ -1,23 +1,9 @@
-import { JuridiskEnhetMedUnderEnheterArray } from '@navikt/bedriftsmeny/lib/Organisasjon';
-import { Organisasjon } from '../../Objekter/OrganisasjonFraAltinn';
-import { hentAlleJuridiskeEnheter } from '../../../api/enhetsregisteretApi';
-
-const settSammenJuridiskEnhetMedUnderOrganisasjoner = (
-    juridiskeEnheter: Organisasjon[],
-    underEnheter: Organisasjon[]
-): JuridiskEnhetMedUnderEnheterArray[] => {
-    const organisasjonsTre: JuridiskEnhetMedUnderEnheterArray[] = juridiskeEnheter.map(juridiskEnhet => {
-        const underenheter = underEnheter.filter(
-            underenhet => underenhet.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber
-        );
-        const resultat = {
-            JuridiskEnhet: juridiskEnhet,
-            Underenheter: underenheter
-        };
-        return resultat;
-    });
-    return organisasjonsTre.filter(orgtre => orgtre.Underenheter.length > 0);
-};
+import {
+    JuridiskEnhetMedUnderEnheterArray,
+    ListeMedJuridiskeEnheter,
+    Organisasjon,
+    tomAltinnOrganisasjon
+} from "./Organisasjon";
 
 export async function byggOrganisasjonstre(
     organisasjoner: Organisasjon[]
@@ -40,4 +26,60 @@ export async function byggOrganisasjonstre(
     ).then(() => juridiskeEnheter.concat(juridiskeEnheterUtenTilgang));
     const orgtre = settSammenJuridiskEnhetMedUnderOrganisasjoner(juridiskeEnheter, underenheter);
     return orgtre.sort((a, b) => a.JuridiskEnhet.Name.localeCompare(b.JuridiskEnhet.Name));
+}
+
+
+const settSammenJuridiskEnhetMedUnderOrganisasjoner = (
+    juridiskeEnheter: Organisasjon[],
+    underEnheter: Organisasjon[]
+): JuridiskEnhetMedUnderEnheterArray[] => {
+    const organisasjonsTre: JuridiskEnhetMedUnderEnheterArray[] = juridiskeEnheter.map(juridiskEnhet => {
+        const underenheter = underEnheter.filter(
+            underenhet => underenhet.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber
+        );
+        const resultat = {
+            JuridiskEnhet: juridiskEnhet,
+            Underenheter: underenheter
+        };
+        return resultat;
+    });
+    return organisasjonsTre.filter(orgtre => orgtre.Underenheter.length > 0);
+};
+
+export async function hentAlleJuridiskeEnheter(listeMedJuridiskeOrgNr: string[]): Promise<Organisasjon[]> {
+    const listerMedDefinerteOrgNr = listeMedJuridiskeOrgNr.filter(orgnr => {
+        return orgnr !== null;
+    });
+    let url: string = 'https://data.brreg.no/enhetsregisteret/api/enheter/?organisasjonsnummer=';
+    const distinkteJuridiskeEnhetsnr: string[] = listerMedDefinerteOrgNr.filter(
+        (jurOrg, index) => listeMedJuridiskeOrgNr.indexOf(jurOrg) === index
+    );
+    distinkteJuridiskeEnhetsnr.forEach(orgnr => {
+        if (distinkteJuridiskeEnhetsnr.indexOf(orgnr) === 0) {
+            url += orgnr;
+        } else {
+            url += ',' + orgnr;
+        }
+    });
+    let respons = await fetch(url);
+    if (respons.ok && distinkteJuridiskeEnhetsnr.length > 0) {
+        const distinkteJuridiskeEnheterFraEreg: ListeMedJuridiskeEnheter = await respons.json();
+        if (
+            distinkteJuridiskeEnheterFraEreg._embedded &&
+            distinkteJuridiskeEnheterFraEreg._embedded.enheter.length > 0
+        ) {
+            const distinkteJuridiskeEnheter: Organisasjon[] = distinkteJuridiskeEnheterFraEreg._embedded.enheter.map(
+                orgFraEereg => {
+                    const jurOrg: Organisasjon = {
+                        ...tomAltinnOrganisasjon,
+                        Name: orgFraEereg.navn,
+                        OrganizationNumber: orgFraEereg.organisasjonsnummer
+                    };
+                    return jurOrg;
+                }
+            );
+            return distinkteJuridiskeEnheter;
+        }
+    }
+    return [];
 }
