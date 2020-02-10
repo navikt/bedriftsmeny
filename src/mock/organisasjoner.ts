@@ -1,6 +1,6 @@
-import { JuridiskEnhetMedUnderEnheterArray } from '../bedriftsmeny/Organisasjon';
+import {JuridiskEnhetMedUnderEnheterArray, Organisasjon} from '../bedriftsmeny/Organisasjon';
 
-const MOCK_ORGANISASJONSTRE: JuridiskEnhetMedUnderEnheterArray[] = [
+/*const MOCK_ORGANISASJONSTRE: JuridiskEnhetMedUnderEnheterArray[] = [
     {
         JuridiskEnhet: {
             Name: 'BALLSTAD OG HORTEN',
@@ -70,9 +70,10 @@ const MOCK_ORGANISASJONSTRE: JuridiskEnhetMedUnderEnheterArray[] = [
         ]
     }
 ];
+*/
 
-/*
-const MOCK_ORGANISASJONER2: Organisasjon[] = [
+
+export const MOCK_ORGANISASJONER2: Organisasjon[] = [
     {
         Name: 'BALLSTAD OG EIDSLANDET',
         Type: 'Business',
@@ -249,6 +250,5 @@ const MOCK_ORGANISASJONER2: Organisasjon[] = [
         OrganizationForm: 'BEDR',
         Status: 'Active'
     }
-*/
-
-export default MOCK_ORGANISASJONSTRE;
+    ]
+;

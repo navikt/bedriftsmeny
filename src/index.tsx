@@ -5,8 +5,9 @@ import { createBrowserHistory, History } from 'history';
 
 import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from './bedriftsmeny/Organisasjon';
 import Bedriftsmeny from './bedriftsmeny/Bedriftsmeny';
-import MOCK_ORGANISASJONSTRE from './mock/organisasjoner';
+import {MOCK_ORGANISASJONER2} from './mock/organisasjoner';
 import './index.less';
+import {byggOrganisasjonstre} from "./bedriftsmeny/byggOrganisasjonsTre";
 
 const history: History = createBrowserHistory();
 
@@ -16,15 +17,23 @@ const App = () => {
         JuridiskEnhetMedUnderEnheterArray[] | undefined
     >(undefined);
 
+
     const onOrganisasjonChange = (organisasjon?: Organisasjon) => {
         setValgtOrganisasjon(organisasjon);
     };
 
     useEffect(() => {
         setTimeout(() => {
-            setOrganisasjonstre(MOCK_ORGANISASJONSTRE);
+            const byggTre = async (organisasjoner: Organisasjon[]) => {
+                const juridiskeenheterMedBarn: JuridiskEnhetMedUnderEnheterArray[] = await byggOrganisasjonstre(
+                    organisasjoner
+                );
+                return juridiskeenheterMedBarn;
+            };
+            byggTre(MOCK_ORGANISASJONER2).then(juridiskeenheterMedBarn => setOrganisasjonstre(juridiskeenheterMedBarn));
+
         }, 500);
-    }, []);
+    }, [MOCK_ORGANISASJONER2]);
 
     return (
         <Router history={history}>

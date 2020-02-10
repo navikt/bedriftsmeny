@@ -16,6 +16,7 @@ import Organisasjonsbeskrivelse from './Organisasjonsbeskrivelse/Organisasjonsbe
 import Sokefelt from './Sokefelt/Sokefelt';
 import useOrganisasjon from './useOrganisasjon';
 import './Virksomhetsvelger.less';
+import {byggOrganisasjonstre} from "../byggOrganisasjonsTre";
 
 export interface VirksomhetsvelgerProps {
     organisasjonstre?: JuridiskEnhetMedUnderEnheterArray[];
@@ -25,7 +26,6 @@ export interface VirksomhetsvelgerProps {
 
 const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => {
     const { organisasjonstre, onOrganisasjonChange, history } = props;
-
     const [erApen, setErApen] = useState(false);
     const [soketekst, setSoketekst] = useState('');
     const [listeMedOrganisasjonerFraSok, setlisteMedOrganisasjonerFraSok] = useState(

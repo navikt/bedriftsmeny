@@ -1,13 +1,14 @@
-import React, { FunctionComponent } from 'react';
+import React, {FunctionComponent, useEffect, useState} from 'react';
 import { Innholdstittel } from 'nav-frontend-typografi';
 import Virksomhetsvelger, { VirksomhetsvelgerProps } from './Virksomhetsvelger/Virksomhetsvelger';
 import { Organisasjon, JuridiskEnhetMedUnderEnheterArray } from './Organisasjon';
 import './bedriftsmeny.less';
 import { History } from 'history';
+import {byggOrganisasjonstre} from "./byggOrganisasjonsTre";
 
 interface EgneProps {
     sidetittel?: string;
-    organisasjonstre?: JuridiskEnhetMedUnderEnheterArray[];
+    organisasjoner?: Organisasjon[];
     history: History;
 }
 
@@ -15,6 +16,22 @@ type AlleProps = EgneProps & VirksomhetsvelgerProps;
 
 const Bedriftsmeny: FunctionComponent<AlleProps> = (props) => {
     const { sidetittel = 'Arbeidsgiver', ...virksomhetsvelgerProps } = props;
+    const [organisasjonstre, setOrganisasjonstre] = useState<
+        JuridiskEnhetMedUnderEnheterArray[] | undefined
+        >(undefined);
+
+    useEffect(() => {
+
+            const byggTre = async (organisasjoner: Organisasjon[]) => {
+                const juridiskeenheterMedBarn: JuridiskEnhetMedUnderEnheterArray[] = await byggOrganisasjonstre(
+                    organisasjoner
+                );
+                return juridiskeenheterMedBarn;
+            };
+            if (props.organisasjoner){
+                byggTre(props.organisasjoner).then(juridiskeenheterMedBarn => setOrganisasjonstre(juridiskeenheterMedBarn));
+            }
+            }, []);
 
     const visVirksomhetsvelger =
         virksomhetsvelgerProps.organisasjonstre === undefined ||
