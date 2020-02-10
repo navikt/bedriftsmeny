@@ -29,7 +29,7 @@ export async function byggOrganisasjonstre(
         return juridiskeEnheterUtenTilgang;
     };
     if (underEnheterUtenJuridiskEnhet.length>0) {
-        finnJuridiskeEnheter(underEnheterUtenJuridiskEnhet).then(juridiskeEnheterUtenTilgang => {juridiskeEnheter.push(...juridiskeEnheterUtenTilgang);
+        await finnJuridiskeEnheter(underEnheterUtenJuridiskEnhet).then(juridiskeEnheterUtenTilgang => {juridiskeEnheter.push(...juridiskeEnheterUtenTilgang);
         });
     }
     const orgtre = settSammenJuridiskEnhetMedUnderOrganisasjoner(juridiskeEnheter, underenheter);
@@ -40,8 +40,6 @@ const settSammenJuridiskEnhetMedUnderOrganisasjoner = (
     juridiskeEnheter: Organisasjon[],
     underEnheter: Organisasjon[]
 ): JuridiskEnhetMedUnderEnheterArray[] => {
-    console.log("Skal sette sammen tre: ", juridiskeEnheter);
-    console.log("underenheter: ", underEnheter);
     const organisasjonsTre: JuridiskEnhetMedUnderEnheterArray[] = juridiskeEnheter.map(juridiskEnhet => {
         const underenheter = underEnheter.filter(
             underenhet => underenhet.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber
@@ -82,7 +80,9 @@ export async function hentAlleJuridiskeEnheter(listeMedJuridiskeOrgNr: string[])
                     const jurOrg: Organisasjon = {
                         ...tomAltinnOrganisasjon,
                         Name: orgFraEereg.navn,
-                        OrganizationNumber: orgFraEereg.organisasjonsnummer
+                        OrganizationNumber: orgFraEereg.organisasjonsnummer,
+                        Type: 'Business'
+
                     };
                     return jurOrg;
                 }
