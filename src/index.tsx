@@ -13,8 +13,8 @@ const history: History = createBrowserHistory();
 
 const App = () => {
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState<Organisasjon | undefined>();
-    const [organisasjonstre, setOrganisasjonstre] = useState<
-        JuridiskEnhetMedUnderEnheterArray[] | undefined
+    const [organisasjoner, setOrganisasjoner] = useState<
+        Organisasjon[] | undefined
     >(undefined);
 
 
@@ -24,23 +24,17 @@ const App = () => {
 
     useEffect(() => {
         setTimeout(() => {
-            const byggTre = async (organisasjoner: Organisasjon[]) => {
-                const juridiskeenheterMedBarn: JuridiskEnhetMedUnderEnheterArray[] = await byggOrganisasjonstre(
-                    organisasjoner
-                );
-                return juridiskeenheterMedBarn;
-            };
-            byggTre(MOCK_ORGANISASJONER2).then(juridiskeenheterMedBarn => setOrganisasjonstre(juridiskeenheterMedBarn));
+            setOrganisasjoner(MOCK_ORGANISASJONER2);
 
         }, 500);
-    }, [MOCK_ORGANISASJONER2]);
+    }, []);
 
     return (
         <Router history={history}>
             <div className="eksempelapp">
                 <Bedriftsmeny
                     sidetittel="Utviklingsapp"
-                    organisasjonstre={organisasjonstre}
+                  organisasjoner={organisasjoner}
                     onOrganisasjonChange={onOrganisasjonChange}
                     history={history}
                 />

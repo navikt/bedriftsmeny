@@ -5,6 +5,7 @@ import { Organisasjon, JuridiskEnhetMedUnderEnheterArray } from './Organisasjon'
 import './bedriftsmeny.less';
 import { History } from 'history';
 import {byggOrganisasjonstre} from "./byggOrganisasjonsTre";
+import {MOCK_ORGANISASJONER2} from "../mock/organisasjoner";
 
 interface EgneProps {
     sidetittel?: string;
@@ -21,21 +22,22 @@ const Bedriftsmeny: FunctionComponent<AlleProps> = (props) => {
         >(undefined);
 
     useEffect(() => {
+        const byggTre = async (organisasjoner: Organisasjon[]) => {
+            const juridiskeenheterMedBarn: JuridiskEnhetMedUnderEnheterArray[] = await byggOrganisasjonstre(
+                organisasjoner
+            );
+            return juridiskeenheterMedBarn;
+        };
+        if (props.organisasjoner) {
+            byggTre(props.organisasjoner).then(juridiskeenheterMedBarn => setOrganisasjonstre(juridiskeenheterMedBarn));
+        }
+    }, [props.organisasjoner]);
 
-            const byggTre = async (organisasjoner: Organisasjon[]) => {
-                const juridiskeenheterMedBarn: JuridiskEnhetMedUnderEnheterArray[] = await byggOrganisasjonstre(
-                    organisasjoner
-                );
-                return juridiskeenheterMedBarn;
-            };
-            if (props.organisasjoner){
-                byggTre(props.organisasjoner).then(juridiskeenheterMedBarn => setOrganisasjonstre(juridiskeenheterMedBarn));
-            }
-            }, []);
+    console.log(organisasjonstre, props.organisasjoner);
 
     const visVirksomhetsvelger =
-        virksomhetsvelgerProps.organisasjonstre === undefined ||
-        virksomhetsvelgerProps.organisasjonstre.length > 0;
+        organisasjonstre === undefined ||
+       organisasjonstre.length > 0;
 
     return (
         <nav className="bedriftsmeny">
