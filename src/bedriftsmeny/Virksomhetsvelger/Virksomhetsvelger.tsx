@@ -16,7 +16,6 @@ import Organisasjonsbeskrivelse from './Organisasjonsbeskrivelse/Organisasjonsbe
 import Sokefelt from './Sokefelt/Sokefelt';
 import useOrganisasjon from './useOrganisasjon';
 import './Virksomhetsvelger.less';
-import {byggOrganisasjonstre} from "../byggOrganisasjonsTre";
 
 export interface VirksomhetsvelgerProps {
     organisasjonstre?: JuridiskEnhetMedUnderEnheterArray[];

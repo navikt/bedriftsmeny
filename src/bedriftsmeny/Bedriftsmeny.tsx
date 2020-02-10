@@ -1,22 +1,20 @@
 import React, {FunctionComponent, useEffect, useState} from 'react';
 import { Innholdstittel } from 'nav-frontend-typografi';
-import Virksomhetsvelger, { VirksomhetsvelgerProps } from './Virksomhetsvelger/Virksomhetsvelger';
+import Virksomhetsvelger from './Virksomhetsvelger/Virksomhetsvelger';
 import { Organisasjon, JuridiskEnhetMedUnderEnheterArray } from './Organisasjon';
 import './bedriftsmeny.less';
 import { History } from 'history';
 import {byggOrganisasjonstre} from "./byggOrganisasjonsTre";
-import {MOCK_ORGANISASJONER2} from "../mock/organisasjoner";
 
 interface EgneProps {
     sidetittel?: string;
     organisasjoner?: Organisasjon[];
     history: History;
+    onOrganisasjonChange: (organisasjon: Organisasjon) => void;
 }
 
-type AlleProps = EgneProps & VirksomhetsvelgerProps;
-
-const Bedriftsmeny: FunctionComponent<AlleProps> = (props) => {
-    const { sidetittel = 'Arbeidsgiver', ...virksomhetsvelgerProps } = props;
+const Bedriftsmeny: FunctionComponent<EgneProps> = (props) => {
+    const { sidetittel = 'Arbeidsgiver' } = props;
     const [organisasjonstre, setOrganisasjonstre] = useState<
         JuridiskEnhetMedUnderEnheterArray[] | undefined
         >(undefined);
@@ -33,8 +31,6 @@ const Bedriftsmeny: FunctionComponent<AlleProps> = (props) => {
         }
     }, [props.organisasjoner]);
 
-    console.log(organisasjonstre, props.organisasjoner);
-
     const visVirksomhetsvelger =
         organisasjonstre === undefined ||
        organisasjonstre.length > 0;
@@ -43,7 +39,7 @@ const Bedriftsmeny: FunctionComponent<AlleProps> = (props) => {
         <nav className="bedriftsmeny">
             <div className="bedriftsmeny__inner">
                 <Innholdstittel className="bedriftsmeny__tittel">{sidetittel}</Innholdstittel>
-                {visVirksomhetsvelger && <Virksomhetsvelger {...virksomhetsvelgerProps} />}
+                {visVirksomhetsvelger && <Virksomhetsvelger history={props.history} onOrganisasjonChange={props.onOrganisasjonChange} organisasjonstre={organisasjonstre} />}
             </div>
         </nav>
     );
