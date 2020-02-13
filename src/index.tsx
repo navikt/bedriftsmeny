@@ -3,11 +3,10 @@ import { render } from 'react-dom';
 import { Router } from 'react-router-dom';
 import { createBrowserHistory, History } from 'history';
 
-import { Organisasjon } from './bedriftsmeny/Organisasjon';
+import {  Organisasjon } from './bedriftsmeny/Organisasjon';
 import Bedriftsmeny from './bedriftsmeny/Bedriftsmeny';
 import {MOCK_ORGANISASJONER} from './mock/organisasjoner';
 import './index.less';
-import {byggOrganisasjonstre} from "./bedriftsmeny/byggOrganisasjonsTre";
 
 const history: History = createBrowserHistory();
 

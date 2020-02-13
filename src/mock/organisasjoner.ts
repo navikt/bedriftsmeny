@@ -179,4 +179,3 @@ export const MOCK_ORGANISASJONER: Organisasjon[] = [
     }
     ]
 ;
-

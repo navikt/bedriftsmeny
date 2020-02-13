@@ -21,13 +21,13 @@ const Bedriftsmeny: FunctionComponent<EgneProps> = (props) => {
 
     useEffect(() => {
         const byggTre = async (organisasjoner: Organisasjon[]) => {
-            const juridiskeenheterMedBarn: JuridiskEnhetMedUnderEnheterArray[] = await byggOrganisasjonstre(
+            const juridiskEnhetMedUnderEnheterArray: JuridiskEnhetMedUnderEnheterArray[] = await byggOrganisasjonstre(
                 organisasjoner
             );
-            return juridiskeenheterMedBarn;
+            return juridiskEnhetMedUnderEnheterArray;
         };
         if (props.organisasjoner) {
-            byggTre(props.organisasjoner).then(juridiskeenheterMedBarn => setOrganisasjonstre(juridiskeenheterMedBarn));
+            byggTre(props.organisasjoner).then(juridiskEnhetMedUnderEnheterArray => setOrganisasjonstre(juridiskEnhetMedUnderEnheterArray));
         }
     }, [props.organisasjoner]);
 
