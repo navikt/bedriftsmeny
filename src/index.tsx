@@ -3,9 +3,9 @@ import { render } from 'react-dom';
 import { Router } from 'react-router-dom';
 import { createBrowserHistory, History } from 'history';
 
-import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from './bedriftsmeny/Organisasjon';
+import { Organisasjon } from './bedriftsmeny/Organisasjon';
 import Bedriftsmeny from './bedriftsmeny/Bedriftsmeny';
-import {MOCK_ORGANISASJONER2} from './mock/organisasjoner';
+import {MOCK_ORGANISASJONER} from './mock/organisasjoner';
 import './index.less';
 import {byggOrganisasjonstre} from "./bedriftsmeny/byggOrganisasjonsTre";
 
@@ -24,7 +24,7 @@ const App = () => {
 
     useEffect(() => {
         setTimeout(() => {
-            setOrganisasjoner(MOCK_ORGANISASJONER2);
+            setOrganisasjoner(MOCK_ORGANISASJONER);
 
         }, 500);
     }, []);

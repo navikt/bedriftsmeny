@@ -28,37 +28,6 @@ export interface OrganisasjonFraEnhetsregisteret {
         kode: string;
         beskrivelse: string;
     };
-    naeringskode1: {
-        kode: string;
-        beskrivelse: string;
-    }
-    naeringskode2: {
-        kode: string;
-        beskrivelse: string;
-    }
-    naeringskode3: {
-        kode: string;
-        beskrivelse: string;
-    }
-    postadresse: {
-        adresse: Array<string>;
-        postnummer: string;
-        poststed: string;
-        kommunenummer: string;
-        kommune: string;
-        landkode: string;
-        land: string;
-    };
-    forretningsadresse: {
-        adresse: Array<string>;
-        postnummer: string;
-        poststed: string;
-        kommunenummer: string;
-        kommune: string;
-        landkode: string;
-        land: string;
-    }
-    hjemmeside: string;
     overordnetEnhet: string;
 }
 
@@ -70,39 +39,8 @@ export const tomEnhetsregOrg: OrganisasjonFraEnhetsregisteret = {
         beskrivelse: ''
     },
     overordnetEnhet: '',
-    hjemmeside: '',
-    postadresse: {
-        land: '',
-        landkode: '',
-        postnummer: '',
-        poststed: '',
-        adresse: [''],
-        kommune: '',
-        kommunenummer: ''
-    },
-    forretningsadresse: {
-        land: '',
-        landkode: '',
-        postnummer: '',
-        poststed: '',
-        adresse: [''],
-        kommune: '',
-        kommunenummer: ''
-    },
-    naeringskode1: {
-        beskrivelse: '',
-        kode: ''
-    },
-    naeringskode2: {
-        beskrivelse: '',
-        kode: ''
-    },
-    naeringskode3: {
-        beskrivelse: '',
-        kode: ''
-    }
-};
 
+};
 
 export interface ListeMedJuridiskeEnheter {
     _embedded: {
