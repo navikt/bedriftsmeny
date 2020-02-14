@@ -25,7 +25,6 @@ export interface VirksomhetsvelgerProps {
 
 const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => {
     const { organisasjonstre, onOrganisasjonChange, history } = props;
-
     const [erApen, setErApen] = useState(false);
     const [soketekst, setSoketekst] = useState('');
     const [listeMedOrganisasjonerFraSok, setlisteMedOrganisasjonerFraSok] = useState(
