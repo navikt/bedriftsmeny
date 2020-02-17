@@ -3,18 +3,19 @@ import { render } from 'react-dom';
 import { Router } from 'react-router-dom';
 import { createBrowserHistory, History } from 'history';
 
-import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from './bedriftsmeny/Organisasjon';
+import {  Organisasjon } from './bedriftsmeny/Organisasjon';
 import Bedriftsmeny from './bedriftsmeny/Bedriftsmeny';
-import MOCK_ORGANISASJONSTRE from './mock/organisasjoner';
+import {MOCK_ORGANISASJONER} from './mock/organisasjoner';
 import './index.less';
 
 const history: History = createBrowserHistory();
 
 const App = () => {
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState<Organisasjon | undefined>();
-    const [organisasjonstre, setOrganisasjonstre] = useState<
-        JuridiskEnhetMedUnderEnheterArray[] | undefined
+    const [organisasjoner, setOrganisasjoner] = useState<
+        Organisasjon[] | undefined
     >(undefined);
+
 
     const onOrganisasjonChange = (organisasjon?: Organisasjon) => {
         setValgtOrganisasjon(organisasjon);
@@ -22,7 +23,8 @@ const App = () => {
 
     useEffect(() => {
         setTimeout(() => {
-            setOrganisasjonstre(MOCK_ORGANISASJONSTRE);
+            setOrganisasjoner(MOCK_ORGANISASJONER);
+
         }, 500);
     }, []);
 
@@ -31,7 +33,7 @@ const App = () => {
             <div className="eksempelapp">
                 <Bedriftsmeny
                     sidetittel="Utviklingsapp"
-                    organisasjonstre={organisasjonstre}
+                  organisasjoner={organisasjoner}
                     onOrganisasjonChange={onOrganisasjonChange}
                     history={history}
                 />

@@ -1,30 +1,45 @@
-import React, { FunctionComponent } from 'react';
+import React, {FunctionComponent, useEffect, useState} from 'react';
 import { Innholdstittel } from 'nav-frontend-typografi';
-import Virksomhetsvelger, { VirksomhetsvelgerProps } from './Virksomhetsvelger/Virksomhetsvelger';
+import Virksomhetsvelger from './Virksomhetsvelger/Virksomhetsvelger';
 import { Organisasjon, JuridiskEnhetMedUnderEnheterArray } from './Organisasjon';
 import './bedriftsmeny.less';
 import { History } from 'history';
+import {byggOrganisasjonstre} from "./byggOrganisasjonsTre";
 
 interface EgneProps {
     sidetittel?: string;
-    organisasjonstre?: JuridiskEnhetMedUnderEnheterArray[];
+    organisasjoner?: Organisasjon[];
     history: History;
+    onOrganisasjonChange: (organisasjon: Organisasjon) => void;
 }
 
-type AlleProps = EgneProps & VirksomhetsvelgerProps;
+const Bedriftsmeny: FunctionComponent<EgneProps> = (props) => {
+    const { sidetittel = 'Arbeidsgiver' } = props;
+    const [organisasjonstre, setOrganisasjonstre] = useState<
+        JuridiskEnhetMedUnderEnheterArray[] | undefined
+        >(undefined);
 
-const Bedriftsmeny: FunctionComponent<AlleProps> = (props) => {
-    const { sidetittel = 'Arbeidsgiver', ...virksomhetsvelgerProps } = props;
+    useEffect(() => {
+        const byggTre = async (organisasjoner: Organisasjon[]) => {
+            const juridiskEnhetMedUnderEnheterArray: JuridiskEnhetMedUnderEnheterArray[] = await byggOrganisasjonstre(
+                organisasjoner
+            );
+            return juridiskEnhetMedUnderEnheterArray;
+        };
+        if (props.organisasjoner) {
+            byggTre(props.organisasjoner).then(juridiskEnhetMedUnderEnheterArray => setOrganisasjonstre(juridiskEnhetMedUnderEnheterArray));
+        }
+    }, [props.organisasjoner]);
 
     const visVirksomhetsvelger =
-        virksomhetsvelgerProps.organisasjonstre === undefined ||
-        virksomhetsvelgerProps.organisasjonstre.length > 0;
+        organisasjonstre === undefined ||
+       organisasjonstre.length > 0;
 
     return (
         <nav className="bedriftsmeny">
             <div className="bedriftsmeny__inner">
                 <Innholdstittel className="bedriftsmeny__tittel">{sidetittel}</Innholdstittel>
-                {visVirksomhetsvelger && <Virksomhetsvelger {...virksomhetsvelgerProps} />}
+                {visVirksomhetsvelger && <Virksomhetsvelger history={props.history} onOrganisasjonChange={props.onOrganisasjonChange} organisasjonstre={organisasjonstre} />}
             </div>
         </nav>
     );
