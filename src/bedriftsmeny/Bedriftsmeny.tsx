@@ -19,6 +19,7 @@ const Bedriftsmeny: FunctionComponent<EgneProps> = (props) => {
         JuridiskEnhetMedUnderEnheterArray[] | undefined
         >(undefined);
 
+
     useEffect(() => {
         const byggTre = async (organisasjoner: Organisasjon[]) => {
             const juridiskEnhetMedUnderEnheterArray: JuridiskEnhetMedUnderEnheterArray[] = await byggOrganisasjonstre(
@@ -26,14 +27,17 @@ const Bedriftsmeny: FunctionComponent<EgneProps> = (props) => {
             );
             return juridiskEnhetMedUnderEnheterArray;
         };
-        if (props.organisasjoner) {
-            byggTre(props.organisasjoner).then(juridiskEnhetMedUnderEnheterArray => setOrganisasjonstre(juridiskEnhetMedUnderEnheterArray));
+        if (props.organisasjoner && props.organisasjoner.length> 0 ) {
+            byggTre(props.organisasjoner).then(juridiskEnhetMedUnderEnheterArray => {
+                const organisasjonstre = juridiskEnhetMedUnderEnheterArray;
+                if (organisasjonstre.length>0) {
+                    setOrganisasjonstre(organisasjonstre);
+                }
+            });
         }
     }, [props.organisasjoner]);
 
-    const visVirksomhetsvelger =
-        organisasjonstre === undefined ||
-       organisasjonstre.length > 0;
+    const visVirksomhetsvelger = organisasjonstre  && organisasjonstre.length>0;
 
     return (
         <nav className="bedriftsmeny">

@@ -3,26 +3,27 @@
 .bedriftsmeny {
     background-color: #cce1f3;
     border-bottom: 0.25rem solid #99c2e8;
-    padding-bottom: 2rem;
+    padding: 2rem;
+
+    &__tittel {
+        margin-bottom: 1rem;
+    }
 
     &__inner {
         display: flex;
         align-items: center;
         flex-direction: column;
         justify-content: space-between;
-
         width: 100%;
         max-width: 60rem;
         margin: 0 auto;
     }
 
-    &__tittel {
-        margin-top: 2rem;
-    }
 
-    @media (min-width: @screen-md-min) {
+
+    @media (min-width: @screen-sm-min) {
         &__tittel {
-            margin-top: 2rem;
+            margin-bottom: 0;
         }
 
         &__inner {
