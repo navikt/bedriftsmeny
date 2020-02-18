@@ -13,7 +13,7 @@ interface Props {
 const Underenhet: FunctionComponent<Props> = ({ underEnhet }) => {
     return (
         <MenuItem
-            key={underEnhet.OrganizationNumber}
+            key={underEnhet.ParentOrganizationNumber}
             value={underEnhet.OrganizationNumber}
             text={underEnhet.Name}
             tag="button"

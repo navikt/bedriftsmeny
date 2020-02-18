@@ -8,6 +8,7 @@ import UnderenhetIkon from "../Organisasjonsbeskrivelse/UnderenhetIkon";
 interface Props {
     navn: string;
     orgnummer: string;
+    brukOverskrift?: boolean;
     erApen?: boolean;
 
 }
