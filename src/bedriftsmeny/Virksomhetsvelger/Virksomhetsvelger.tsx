@@ -16,6 +16,7 @@ import Organisasjonsbeskrivelse from './Organisasjonsbeskrivelse/Organisasjonsbe
 import Sokefelt from './Sokefelt/Sokefelt';
 import useOrganisasjon from './useOrganisasjon';
 import './Virksomhetsvelger.less';
+import MenyKnapp from "./Menyknapp/Menyknapp";
 
 export interface VirksomhetsvelgerProps {
     organisasjonstre?: JuridiskEnhetMedUnderEnheterArray[];
@@ -62,7 +63,7 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                             className="virksomhetsvelger__button"
                             disabled={valgtOrganisasjon === undefined}>
                             {valgtOrganisasjon !== undefined && (
-                                <Organisasjonsbeskrivelse
+                                <MenyKnapp
                                     navn={valgtOrganisasjon.Name}
                                     orgnummer={valgtOrganisasjon.OrganizationNumber}
                                     erApen={erApen}
