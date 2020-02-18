@@ -28,6 +28,9 @@ const Underenhetsvelger: FunctionComponent<Props> = ({ history, hovedOrganisasjo
     };
 
     const Chevron = visUnderenheter ? OppChevron : NedChevron;
+    const underEnheter = hovedOrganisasjon.Underenheter.map((organisasjon: Organisasjon) => (
+            <Underenhet key={organisasjon.Name} underEnhet={organisasjon} />
+        ));
 
     return (
         <div className="underenhetsvelger">
@@ -43,9 +46,7 @@ const Underenhetsvelger: FunctionComponent<Props> = ({ history, hovedOrganisasjo
                     {label}
                 </Button>
                 <Menu className={'underenhetsvelger__menyvalg-wrapper'}>
-                    {hovedOrganisasjon.Underenheter.map((organisasjon: Organisasjon) => (
-                        <Underenhet key={organisasjon.Name} underEnhet={organisasjon} />
-                    ))}
+                   <> {underEnheter}</>
                 </Menu>
             </Wrapper>
         </div>
