@@ -65,6 +65,7 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                                 <Organisasjonsbeskrivelse
                                     navn={valgtOrganisasjon.Name}
                                     orgnummer={valgtOrganisasjon.OrganizationNumber}
+                                    erApen={erApen}
                                 />
                             )}
                         </Button>
