@@ -40,10 +40,10 @@ npm start
 
 Alle commits vil bygges og testes på CircleCI. Commits som er tagget med en ny versjon ("vX.Y.Z") vil publiseres til NPM, men disse krever en manuell godkjenning i CircleCI først. Oppskriften på å publisere ny versjon blir dermed:
 
-1. Commit endringene dine som vanlig.
-3. Oppgrader versjonsnummer i package.json med `npm version patch/minor/major`. (se https://docs.npmjs.com/cli/version). Dette oppretter en ny commit med det nye versjonsnummeret som commit message, og oppretter samtidig en tilhørende tag.
-2. Push de to siste commitene du nettopp opprettet.
-4. Push den nye taggen (typ `git push origin vX.Y.Z`. Se `git tag` for liste over alle tagsene dine). _Dette trigger en publisering (med godkjenning) hos CircleCI_.
+1. Først merger du inn endringene dine i master.
+3. Oppgrader versjonsnummer i package.json ved å kjøre `npm version patch/minor/major` (F.eks "npm version major" hvis det er breaking changes). Hvis du er i tvil om du skal oppgradere med patch, minor eller major, kan lese om sematic versioning på https://semver.org/. Ved å kjøre en av de tre kommandoene opprettes det en ny commit med det nye versjonsnummeret som commit message. Det opprettes samtidig en ny tag med det nye versjonsnummeret. For å se alle opprettede tagger kan du kjøre git tag i prosjektet.
+2. Push commiten opprettet i punkt 2.
+4. Derettes pusher du den nye taggen ved å kjøre git push origin vX.Y.Z., der X.Y.Z er taggen du opprettet i punkt 2 (F.eks push origin v2.0.0, dersom det er den nye taggen)._Dette trigger en publisering (med godkjenning) hos CircleCI_.
 5. Hvis byggingen gikk fint (sjekk https://circleci.com/gh/navikt/workflows/bedriftsmeny) kan du godkjenne publiseringen. Da vil den nye versjonen snart ligge på NPM!
 
 ## Stack

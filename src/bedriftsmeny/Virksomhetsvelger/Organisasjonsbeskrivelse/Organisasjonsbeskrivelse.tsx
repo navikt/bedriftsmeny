@@ -4,12 +4,14 @@ import { Undertittel, Element } from 'nav-frontend-typografi';
 import JuridiskEnhetIkon from './JuridiskEnhetIkon';
 import UnderenhetIkon from './UnderenhetIkon';
 import './Organisasjonsbeskrivelse.less';
+import {NedChevron, OppChevron} from "nav-frontend-chevron";
 
 interface Props {
     navn: string;
     orgnummer: string;
     erJuridiskEnhet?: boolean;
     brukOverskrift?: boolean;
+
 }
 
 const Organisasjonsbeskrivelse: FunctionComponent<Props> = (props) => {

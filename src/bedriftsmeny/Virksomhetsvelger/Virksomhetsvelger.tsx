@@ -16,6 +16,7 @@ import Organisasjonsbeskrivelse from './Organisasjonsbeskrivelse/Organisasjonsbe
 import Sokefelt from './Sokefelt/Sokefelt';
 import useOrganisasjon from './useOrganisasjon';
 import './Virksomhetsvelger.less';
+import MenyKnapp from "./Menyknapp/Menyknapp";
 
 export interface VirksomhetsvelgerProps {
     organisasjonstre?: JuridiskEnhetMedUnderEnheterArray[];
@@ -62,9 +63,10 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                             className="virksomhetsvelger__button"
                             disabled={valgtOrganisasjon === undefined}>
                             {valgtOrganisasjon !== undefined && (
-                                <Organisasjonsbeskrivelse
+                                <MenyKnapp
                                     navn={valgtOrganisasjon.Name}
                                     orgnummer={valgtOrganisasjon.OrganizationNumber}
+                                    erApen={erApen}
                                 />
                             )}
                         </Button>
@@ -75,7 +77,7 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                             className={`virksomhetsvelger__dropdownwrapper--${
                                 erApen ? 'apen' : 'lukket'
                             }`}>
-                            <Menu className="virksomhetsvelger__dropdown">
+                            <div className="virksomhetsvelger__dropdown">
                                 <div className="virksomhetsvelger__valgtVirksomhet">
                                     <Organisasjonsbeskrivelse
                                         brukOverskrift
@@ -87,7 +89,7 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                                     Dine aktører
                                 </Undertittel>
                                 <Sokefelt soketekst={soketekst} onChange={brukSoketekst} />
-                                <div className="virksomhetsvelger__meny">
+                                <Menu className="virksomhetsvelger__meny">
                                     {soketekst.length === 0 ? (
                                         <DefaultMeny
                                             menyKomponenter={organisasjonstre}
@@ -98,8 +100,8 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                                             ListeMedObjektFraSok={listeMedOrganisasjonerFraSok}
                                         />
                                     )}
-                                </div>
-                            </Menu>
+                                </Menu>
+                            </div>
                         </div>
                     )}
                 </>
