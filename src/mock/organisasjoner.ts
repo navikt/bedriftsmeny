@@ -146,6 +146,14 @@ export const MOCK_ORGANISASJONER: Organisasjon[] = [
         Status: 'Active'
     },
     {
+        Name: 'VESTBY OG LOEN REVISJON',
+        Type: 'Business',
+        OrganizationNumber: '910989642',
+        ParentOrganizationNumber: '910820834',
+        OrganizationForm: 'BEDR',
+        Status: 'Active'
+    },
+    {
         Name: 'UGGDAL OG STEINSDALEN',
         Type: 'Business',
         OrganizationNumber: '910521616',
@@ -157,14 +165,6 @@ export const MOCK_ORGANISASJONER: Organisasjon[] = [
         Name: 'VALESTRANDSFOSSEN OG SØRLI REVISJON',
         Type: 'Business',
         OrganizationNumber: '810989602',
-        ParentOrganizationNumber: '910820834',
-        OrganizationForm: 'BEDR',
-        Status: 'Active'
-    },
-    {
-        Name: 'VESTBY OG LOEN REVISJON',
-        Type: 'Business',
-        OrganizationNumber: '910989642',
         ParentOrganizationNumber: '910820834',
         OrganizationForm: 'BEDR',
         Status: 'Active'

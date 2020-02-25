@@ -21,6 +21,8 @@ const Bedriftsmeny: FunctionComponent<EgneProps> = (props) => {
 
     useEffect(() => {
         const byggTre = async (organisasjoner: Organisasjon[]) => {
+            organisasjoner = organisasjoner.sort((org1, org2) => (org1.Name > org2.Name ? 1 : -1));
+
             const juridiskEnhetMedUnderEnheterArray: JuridiskEnhetMedUnderEnheterArray[] = await byggOrganisasjonstre(
                 organisasjoner
             );
