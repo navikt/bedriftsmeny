@@ -38,8 +38,7 @@ export const tomEnhetsregOrg: OrganisasjonFraEnhetsregisteret = {
         kode: '',
         beskrivelse: ''
     },
-    overordnetEnhet: '',
-
+    overordnetEnhet: ''
 };
 
 export interface ListeMedJuridiskeEnheter {
