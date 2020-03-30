@@ -27,7 +27,7 @@ const Bedriftsmeny: FunctionComponent<EgneProps> = (props) => {
             return juridiskEnhetMedUnderEnheterArray;
         };
         if (props.organisasjoner && props.organisasjoner.length > 0) {
-            byggTre(props.organisasjoner).then((juridiskEnhetMedUnderEnheterArray) => {
+            byggTre(props.organisasjoner.sort((a, b) => a.Name.localeCompare(b.Name))).then((juridiskEnhetMedUnderEnheterArray) => {
                 const organisasjonstre = juridiskEnhetMedUnderEnheterArray;
                 if (organisasjonstre.length > 0) {
                     setOrganisasjonstre(organisasjonstre);
