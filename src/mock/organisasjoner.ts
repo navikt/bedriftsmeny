@@ -6,7 +6,7 @@ export const MOCK_ORGANISASJONER: Organisasjon[] = [
         Type: 'Business',
         OrganizationNumber: '811076422',
         ParentOrganizationNumber: '811076112',
-        OrganizationForm: 'BEDR',
+        OrganizationForm: 'AAFY',
         Status: 'Active'
     },
     {
@@ -22,7 +22,7 @@ export const MOCK_ORGANISASJONER: Organisasjon[] = [
         Type: 'Enterprise',
         OrganizationNumber: '811076112',
         ParentOrganizationNumber: '',
-        OrganizationForm: 'AS',
+        OrganizationForm: 'FLI',
         Status: 'Active'
     },
     {

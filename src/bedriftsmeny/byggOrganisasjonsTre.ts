@@ -1,15 +1,21 @@
 import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from './Organisasjon';
 import { hentAlleJuridiskeEnheter } from './hentAlleJuridiskeEnheter';
 
+const gyldigeUnderenheter = ['BEDR', 'AAFY'];
+
+const erGyldigUnderenhet = (form: string) => {
+    return gyldigeUnderenheter.includes(form);
+};
+
 export async function byggOrganisasjonstre(
     organisasjoner: Organisasjon[]
 ): Promise<JuridiskEnhetMedUnderEnheterArray[]> {
     const juridiskeEnheter = organisasjoner.filter(function(organisasjon: Organisasjon) {
-        return organisasjon.Type === 'Enterprise';
+        return organisasjon.Type === 'Enterprise' || organisasjon.OrganizationForm === 'FLI';
     });
     const underenheter = organisasjoner.filter(
         (organisasjon) =>
-            organisasjon.OrganizationForm === 'BEDR' && organisasjon.OrganizationNumber
+            erGyldigUnderenhet(organisasjon.OrganizationForm) && organisasjon.OrganizationNumber
     );
     const jurisikeEnheterOrgnr = juridiskeEnheter.map((jurorg) => jurorg.OrganizationNumber);
     const underenheterMedJuridiskEnhet = organisasjoner.filter((org) => {
@@ -17,7 +23,7 @@ export async function byggOrganisasjonstre(
     });
 
     const underenheterUtenJuridiskEnhet = organisasjoner.filter((org) => {
-        return !underenheterMedJuridiskEnhet.includes(org) && org.OrganizationForm === 'BEDR';
+        return !underenheterMedJuridiskEnhet.includes(org) && erGyldigUnderenhet(org.OrganizationForm);
     });
     const finnJuridiskeEnheter = async (underEnheterUtenJuridisk: Organisasjon[]) => {
         const juridiskeEnheterUtenTilgang: Organisasjon[] = await hentAlleJuridiskeEnheter(
