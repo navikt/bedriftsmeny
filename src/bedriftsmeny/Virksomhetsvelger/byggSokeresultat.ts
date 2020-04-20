@@ -1,48 +1,53 @@
 import fuzzysort from 'fuzzysort';
 import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../Organisasjon';
 import { hentUnderenheter } from './utils';
-
-const fuzzysortConfig = {
-    key: 'Name',
+const fuzzysortConfigUnderenheter = {
+    keys: ['Name', 'OrganizationNumber'],
     allowTypo: false,
     threshold: -1000
 };
-
+const fuzzysortConfigJuridiskEnhet = {
+    keys: ['JuridiskEnhet.Name', 'JuridiskEnhet.OrganizationNumber'],
+    allowTypo: false,
+    threshold: -1000
+};
 export function byggSokeresultat(
     organisasjonstre: JuridiskEnhetMedUnderEnheterArray[] = [],
     inputTekst: string
 ): JuridiskEnhetMedUnderEnheterArray[] {
-    const sokeresultat = finnUnderEnheterMedSok(organisasjonstre, inputTekst);
-
-    return matchResultatMedJuridiskEnhet(organisasjonstre, sokeresultat);
+    const sokeresultatUnderenheter = finnUnderEnheterMedSok(organisasjonstre, inputTekst);
+    const sokeresultatEnheter = finnEnheterMedSok(organisasjonstre, inputTekst);
+    return matchResultatMedJuridiskEnhet(organisasjonstre, sokeresultatUnderenheter,sokeresultatEnheter);
 }
-
+const finnEnheterMedSok = (
+    organisasjonstre: JuridiskEnhetMedUnderEnheterArray[],
+    inputTekst: string
+) =>
+    fuzzysort.go(inputTekst, organisasjonstre, fuzzysortConfigJuridiskEnhet).map((juridiskEnhetMedUnderenheter: any) => juridiskEnhetMedUnderenheter.obj);
 const finnUnderEnheterMedSok = (
     organisasjonstre: JuridiskEnhetMedUnderEnheterArray[],
     inputTekst: string
 ) =>
     fuzzysort
-        .go(inputTekst, hentUnderenheter(organisasjonstre), fuzzysortConfig)
+        .go(inputTekst, hentUnderenheter(organisasjonstre), fuzzysortConfigUnderenheter)
         .map((underenhet: any) => underenhet.obj);
-
 const matchResultatMedJuridiskEnhet = (
     organisasjonstre: JuridiskEnhetMedUnderEnheterArray[],
-    sokeresultat: Organisasjon[]
+    sokeresultatUnderenheter: Organisasjon[],
+    sokeresultatEnheterMedUnderenhetArray: JuridiskEnhetMedUnderEnheterArray[]
 ): JuridiskEnhetMedUnderEnheterArray[] => {
-    let sokeResultatListe: JuridiskEnhetMedUnderEnheterArray[] = [];
-
+    let sokeResultatListe: JuridiskEnhetMedUnderEnheterArray[] = sokeresultatEnheterMedUnderenhetArray;
     organisasjonstre.forEach((juridiskEnhet) => {
+        const juridiskEnhetInkludertISokeResultat = sokeResultatListe.find(enhet => enhet.JuridiskEnhet.OrganizationNumber === juridiskEnhet.JuridiskEnhet.OrganizationNumber);
         let listeMedUnderEnheterFraSokeResultat = juridiskEnhet.Underenheter.filter((underenhet) =>
-            sokeresultat.includes(underenhet)
+            sokeresultatUnderenheter.includes(underenhet)
         );
-
-        if (listeMedUnderEnheterFraSokeResultat.length > 0) {
+        if (listeMedUnderEnheterFraSokeResultat.length > 0 && !juridiskEnhetInkludertISokeResultat) {
             sokeResultatListe.push({
                 JuridiskEnhet: juridiskEnhet.JuridiskEnhet,
                 Underenheter: listeMedUnderEnheterFraSokeResultat
             });
         }
     });
-
-    return sokeResultatListe;
+    return sokeResultatListe.sort((a, b) => a.JuridiskEnhet.Name.localeCompare(b.JuridiskEnhet.Name));
 };

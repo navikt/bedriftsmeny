@@ -78,16 +78,6 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                                 erApen ? 'apen' : 'lukket'
                             }`}>
                             <Menu className="virksomhetsvelger__meny">
-                                <div className="virksomhetsvelger__valgtVirksomhet">
-                                    <Organisasjonsbeskrivelse
-                                        brukOverskrift
-                                        navn={valgtOrganisasjon.Name}
-                                        orgnummer={valgtOrganisasjon.OrganizationNumber}
-                                    />
-                                </div>
-                                <Undertittel className="virksomhetsvelger__overskrift">
-                                    Dine aktører
-                                </Undertittel>
                                 <Sokefelt soketekst={soketekst} onChange={brukSoketekst} />
                                     {soketekst.length === 0 ? (
                                         <DefaultMeny
