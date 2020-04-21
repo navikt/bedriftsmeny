@@ -1,24 +1,21 @@
 import React, { FunctionComponent, useState } from 'react';
 import { History } from 'history';
-import { NedChevron, OppChevron } from 'nav-frontend-chevron';
-import { Button, Menu, Wrapper, WrapperState } from 'react-aria-menubutton';
+import { Menu, Wrapper, WrapperState } from 'react-aria-menubutton';
 
 import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../../../Organisasjon';
 import { settOrgnummerIUrl } from '../../../utils';
 import Underenhet from '../../Underenhet/Underenhet';
 import './Underenhetsvelger.less';
+import UnderenhetsVelgerMenyButton from "../../UnderenhetsVelgerMenyButton/UnderenhetsVelgerMenyButton";
 
 interface Props {
-    hovedOrganisasjon: JuridiskEnhetMedUnderEnheterArray;
     history: History;
+    juridiskEnhetMedUnderenheter: JuridiskEnhetMedUnderEnheterArray;
+    key: string;
 }
 
-const Underenhetsvelger: FunctionComponent<Props> = ({ history, hovedOrganisasjon }) => {
+const Underenhetsvelger: FunctionComponent<Props> = ({ history, juridiskEnhetMedUnderenheter, key }) => {
     const [visUnderenheter, setVisUnderenheter] = useState(false);
-    const label = `${visUnderenheter ? 'Skjul' : 'Vis'} ${
-        hovedOrganisasjon.Underenheter.length
-    } underenheter`;
-
     const onUnderenhetSelect = (value: string) => {
         settOrgnummerIUrl(value, history);
     };
@@ -27,8 +24,7 @@ const Underenhetsvelger: FunctionComponent<Props> = ({ history, hovedOrganisasjo
         setVisUnderenheter(isOpen);
     };
 
-    const Chevron = visUnderenheter ? OppChevron : NedChevron;
-    const underEnheter = hovedOrganisasjon.Underenheter.map((organisasjon: Organisasjon) => (
+    const underEnheter = juridiskEnhetMedUnderenheter.Underenheter.map((organisasjon: Organisasjon) => (
             <Underenhet key={organisasjon.Name} underEnhet={organisasjon} />
         ));
 
@@ -39,12 +35,7 @@ const Underenhetsvelger: FunctionComponent<Props> = ({ history, hovedOrganisasjo
                 onSelection={onUnderenhetSelect}
                 closeOnSelection={false}
                 onMenuToggle={onMenuToggle}>
-                <Button className={'underenhetsvelger__button'}>
-                    <div className="underenhetsvelger__button__chevron">
-                        <Chevron />
-                    </div>
-                    {label}
-                </Button>
+                    <UnderenhetsVelgerMenyButton visUnderenheter={visUnderenheter} juridiskEnhetMedUnderenheter={juridiskEnhetMedUnderenheter} />
                 <Menu className={'underenhetsvelger__menyvalg-wrapper'}>
                    <> {underEnheter}</>
                 </Menu>

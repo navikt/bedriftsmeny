@@ -1,8 +1,9 @@
 import React, { FunctionComponent, Fragment } from 'react';
 
 import Underenhet from './Underenhet/Underenhet';
-import JuridiskEnhet from './JuridiskEnhet/JuridiskEnhet';
+import JuridiskEnhet from './UnderenhetsVelgerMenyButton/UnderenhetsVelgerMenyButton';
 import { JuridiskEnhetMedUnderEnheterArray } from '../../Organisasjon';
+import Organisasjonsbeskrivelse from "../Organisasjonsbeskrivelse/Organisasjonsbeskrivelse";
 
 export interface Props {
     ListeMedObjektFraSok?: JuridiskEnhetMedUnderEnheterArray[];
@@ -18,7 +19,11 @@ const MenyFraSokeresultat: FunctionComponent<Props> = (props) => {
 
         return (
             <Fragment key={juridiskEnhet.JuridiskEnhet.OrganizationNumber}>
-                <JuridiskEnhet organisasjon={juridiskEnhet} />
+                <Organisasjonsbeskrivelse
+                    erJuridiskEnhet
+                    navn={juridiskEnhet.JuridiskEnhet.Name}
+                    orgnummer={juridiskEnhet.JuridiskEnhet.Name}
+                />
                 {UnderOrganisasjonsMenyKomponenter}
             </Fragment>
         );
