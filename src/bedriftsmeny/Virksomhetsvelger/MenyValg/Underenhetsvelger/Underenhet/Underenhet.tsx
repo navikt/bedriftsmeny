@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { MenuItem } from 'react-aria-menubutton';
 
-import Organisasjonsbeskrivelse from '../../Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
+import Organisasjonsbeskrivelse from '../../../Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
 import './Underenhet.less';
 import { Organisasjon } from '../../../Organisasjon';
 

@@ -2,11 +2,11 @@ import React, { FunctionComponent, useState } from 'react';
 import { History } from 'history';
 import { Menu, Wrapper, WrapperState } from 'react-aria-menubutton';
 
-import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../../../Organisasjon';
-import { settOrgnummerIUrl } from '../../../utils';
-import Underenhet from '../../Underenhet/Underenhet';
+import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../../Organisasjon';
+import { settOrgnummerIUrl } from '../../utils';
+import Underenhet from './Underenhet/Underenhet';
 import './Underenhetsvelger.less';
-import UnderenhetsVelgerMenyButton from "../../UnderenhetsVelgerMenyButton/UnderenhetsVelgerMenyButton";
+import UnderenhetsVelgerMenyButton from "./UnderenhetsVelgerMenyButton/UnderenhetsVelgerMenyButton";
 
 interface Props {
     history: History;
@@ -29,9 +29,8 @@ const Underenhetsvelger: FunctionComponent<Props> = ({ history, juridiskEnhetMed
         ));
 
     return (
-        <div className="underenhetsvelger">
             <Wrapper
-                className="underenhetsvelger__wrapper"
+                className="underenhetsvelger"
                 onSelection={onUnderenhetSelect}
                 closeOnSelection={false}
                 onMenuToggle={onMenuToggle}>
@@ -40,7 +39,6 @@ const Underenhetsvelger: FunctionComponent<Props> = ({ history, juridiskEnhetMed
                    <> {underEnheter}</>
                 </Menu>
             </Wrapper>
-        </div>
     );
 };
 

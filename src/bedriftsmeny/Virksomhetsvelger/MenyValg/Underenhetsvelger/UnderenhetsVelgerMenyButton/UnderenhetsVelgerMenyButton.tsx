@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 
-import Organisasjonsbeskrivelse from '../../Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
-import { JuridiskEnhetMedUnderEnheterArray } from '../../../Organisasjon';
+import Organisasjonsbeskrivelse from '../../../Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
+import { JuridiskEnhetMedUnderEnheterArray } from '../../../../Organisasjon';
 import {NedChevron, OppChevron} from "nav-frontend-chevron";
 import {Normaltekst} from "nav-frontend-typografi";
 import {Button} from "react-aria-menubutton";

@@ -1,7 +1,6 @@
 import React, { FunctionComponent, Fragment } from 'react';
 
-import Underenhet from './Underenhet/Underenhet';
-import JuridiskEnhet from './UnderenhetsVelgerMenyButton/UnderenhetsVelgerMenyButton';
+import Underenhet from './Underenhetsvelger/Underenhet/Underenhet';
 import { JuridiskEnhetMedUnderEnheterArray } from '../../Organisasjon';
 import Organisasjonsbeskrivelse from "../Organisasjonsbeskrivelse/Organisasjonsbeskrivelse";
 

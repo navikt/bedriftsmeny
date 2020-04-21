@@ -1,8 +1,7 @@
 import React, { FunctionComponent } from 'react';
-import JuridiskEnhetMedUnderenheter from './JuridiskEnhetMedUnderenheter/JuridiskEnhetMedUnderenheter';
 import { JuridiskEnhetMedUnderEnheterArray } from '../../Organisasjon';
 import { History } from 'history';
-import Underenhetsvelger from "./JuridiskEnhetMedUnderenheter/Underenhetsvelger/Underenhetsvelger";
+import Underenhetsvelger from "./Underenhetsvelger/Underenhetsvelger";
 
 interface Props {
     menyKomponenter?: JuridiskEnhetMedUnderEnheterArray[];
