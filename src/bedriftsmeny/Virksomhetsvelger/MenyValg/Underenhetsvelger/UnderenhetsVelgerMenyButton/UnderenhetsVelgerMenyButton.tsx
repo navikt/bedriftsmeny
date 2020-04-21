@@ -25,7 +25,7 @@ const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
                 navn={juridiskEnhet.Name}
                 orgnummer={juridiskEnhet.OrganizationNumber}
             />
-            <Normaltekst >{label}</Normaltekst>
+            <Normaltekst className="underenhetsvelger__button__label">{label}</Normaltekst>
             <div className="underenhetsvelger__button__chevron">
                 <Chevron />
             </div>
