@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
-import JuridiskEnhetMedUnderenheter from './JuridiskEnhetMedUnderenheter/JuridiskEnhetMedUnderenheter';
 import { JuridiskEnhetMedUnderEnheterArray } from '../../Organisasjon';
 import { History } from 'history';
+import Underenhetsvelger from "./Underenhetsvelger/Underenhetsvelger";
 
 interface Props {
     menyKomponenter?: JuridiskEnhetMedUnderEnheterArray[];
@@ -14,9 +14,9 @@ const DefaultMeny: FunctionComponent<Props> = (props) => {
     return (
         <>
             {menyKomponenter.map((organisasjon) => (
-                <JuridiskEnhetMedUnderenheter
+                <Underenhetsvelger
                     key={organisasjon.JuridiskEnhet.Name}
-                    organisasjon={organisasjon}
+                    juridiskEnhetMedUnderenheter={organisasjon}
                     history={history}
                 />
             ))}

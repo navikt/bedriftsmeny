@@ -7,7 +7,7 @@ import {
 } from '../Organisasjon';
 import { byggSokeresultat } from './byggSokeresultat';
 import DefaultMeny from './MenyValg/DefaultMeny';
-import MenyFraSokeresultat from './MenyValg/MenyFraSokeresultat';
+import MenyFraSokeresultat from './MenyValg/Underenhetsvelger/MenyFraSokeresultat/MenyFraSokeresultat';
 import Sokefelt from './Sokefelt/Sokefelt';
 import useOrganisasjon from './useOrganisasjon';
 import MenyKnapp from './Menyknapp/Menyknapp';
