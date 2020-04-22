@@ -1,22 +1,17 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Undertittel } from 'nav-frontend-typografi';
-import { Button, Menu, Wrapper } from 'react-aria-menubutton';
 import { History } from 'history';
-
-import { byggSokeresultat } from './byggSokeresultat';
 import {
     JuridiskEnhetMedUnderEnheterArray,
     Organisasjon,
     tomAltinnOrganisasjon
 } from '../Organisasjon';
-import { settOrgnummerIUrl } from './utils';
+import { byggSokeresultat } from './byggSokeresultat';
 import DefaultMeny from './MenyValg/DefaultMeny';
 import MenyFraSokeresultat from './MenyValg/MenyFraSokeresultat';
-import Organisasjonsbeskrivelse from './Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
 import Sokefelt from './Sokefelt/Sokefelt';
 import useOrganisasjon from './useOrganisasjon';
+import MenyKnapp from './Menyknapp/Menyknapp';
 import './Virksomhetsvelger.less';
-import MenyKnapp from "./Menyknapp/Menyknapp";
 
 export interface VirksomhetsvelgerProps {
     organisasjonstre?: JuridiskEnhetMedUnderEnheterArray[];
@@ -48,52 +43,49 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
 
     return (
         <div className="virksomhetsvelger">
-            <Wrapper
-                className="virksomhetsvelger__wrapper"
-                closeOnSelection={false}
-                onSelection={(value: string) => {
-                    settOrgnummerIUrl(value, history);
-                }}
-                onMenuToggle={({ isOpen }) => {
-                    setErApen(isOpen);
-                }}>
-                <>
-                    {valgtOrganisasjon !== tomAltinnOrganisasjon && (
-                        <Button
-                            className="virksomhetsvelger__button"
-                            disabled={valgtOrganisasjon === undefined}>
-                            {valgtOrganisasjon !== undefined && (
-                                <MenyKnapp
-                                    navn={valgtOrganisasjon.Name}
-                                    orgnummer={valgtOrganisasjon.OrganizationNumber}
-                                    erApen={erApen}
+            <div className="virksomhetsvelger__wrapper">
+                {valgtOrganisasjon && valgtOrganisasjon !== tomAltinnOrganisasjon && (
+                    <button
+                        onClick={() => {
+                            setErApen(!erApen);
+                        }}
+                        className="virksomhetsvelger__button"
+                        id="virksomhetsvelger__button"
+                        aria-label="Virksomhetsvelger"
+                        aria-pressed={erApen}
+                        aria-haspopup="true"
+                        aria-controls="virksomhetsvelger__dropdown"
+                        aria-expanded={erApen}
+                    >
+                        <MenyKnapp
+                            navn={valgtOrganisasjon.Name}
+                            orgnummer={valgtOrganisasjon.OrganizationNumber}
+                            erApen={erApen}
+                        />
+                    </button>
+                )}
+                <div>
+                {valgtOrganisasjon !== undefined && (
+                    <div
+                        className={`virksomhetsvelger__dropdownwrapper--${
+                            erApen ? 'apen' : 'lukket'
+                        }`}
+                        id="virksomhetsvelger__dropdown"
+                    >
+                        <div className="virksomhetsvelger__meny">
+                            <Sokefelt soketekst={soketekst} onChange={brukSoketekst} />
+                            {soketekst.length === 0 ? (
+                                <DefaultMeny menyKomponenter={organisasjonstre} history={history} />
+                            ) : (
+                                <MenyFraSokeresultat
+                                    ListeMedObjektFraSok={listeMedOrganisasjonerFraSok}
                                 />
                             )}
-                        </Button>
-                    )}
-
-                    {valgtOrganisasjon !== undefined && (
-                        <div
-                            className={`virksomhetsvelger__dropdownwrapper--${
-                                erApen ? 'apen' : 'lukket'
-                            }`}>
-                            <Menu className="virksomhetsvelger__meny">
-                                <Sokefelt soketekst={soketekst} onChange={brukSoketekst} />
-                                    {soketekst.length === 0 ? (
-                                        <DefaultMeny
-                                            menyKomponenter={organisasjonstre}
-                                            history={history}
-                                        />
-                                    ) : (
-                                        <MenyFraSokeresultat
-                                            ListeMedObjektFraSok={listeMedOrganisasjonerFraSok}
-                                        />
-                                    )}
-                                </Menu>
                         </div>
-                    )}
-                </>
-            </Wrapper>
+                    </div>
+                )}
+                </div>
+            </div>
         </div>
     );
 };

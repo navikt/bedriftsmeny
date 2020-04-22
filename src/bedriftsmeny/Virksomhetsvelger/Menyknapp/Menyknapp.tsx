@@ -1,9 +1,8 @@
 import React, { FunctionComponent } from 'react';
 import { Undertittel, Element } from 'nav-frontend-typografi';
-
-import './Menyknapp.less';
 import {NedChevron, OppChevron} from "nav-frontend-chevron";
 import UnderenhetIkon from "../Organisasjonsbeskrivelse/UnderenhetIkon";
+import './Menyknapp.less';
 
 interface Props {
     navn: string;
