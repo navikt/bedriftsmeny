@@ -3,8 +3,27 @@
 .underenhet {
     width: 100%;
     padding: 0.5rem 0.5rem 0.5rem 2.4rem;
-    border: 0.2px solid @navGra80;
-    border-top: none;
+    border-top: 1px solid #979797;
+
+    &.valgtunderenhet {
+        background-color: @navBla;
+        color: white;
+
+        svg g {
+            fill: none;
+            stroke: white;
+        }
+    }
+
+    &.valgtunderenhet-grey-on-hover {
+        background-color: @navGra20;
+        color: @navMorkGra;
+
+        svg g {
+            fill: @navMorkGra;
+            stroke: white;
+        }
+    }
 
     &:focus {
         box-shadow: inset 0 0 0 3px #254b6d;

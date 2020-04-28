@@ -1,29 +1,76 @@
-import React, { FunctionComponent } from 'react';
-import { MenuItem } from 'react-aria-menubutton';
-
+import React, { FunctionComponent, useEffect, useState } from 'react';
+import { History } from 'history';
 import Organisasjonsbeskrivelse from '../../../Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
+import { Organisasjon } from '../../../../Organisasjon';
+import { settOrgnummerIUrl } from '../../../utils';
 import './Underenhet.less';
-import {Organisasjon} from "../../../../Organisasjon";
 
 interface Props {
-    className?: string;
     underEnhet: Organisasjon;
+    valgtOrganisasjon: Organisasjon;
+    history: History;
+    setErApen: (bool: boolean) => void;
+    hover: boolean;
+    setHover: (bool: boolean) => void;
 }
 
-const Underenhet: FunctionComponent<Props> = ({ underEnhet }) => {
+const Underenhet: FunctionComponent<Props> = ({
+    underEnhet,
+    valgtOrganisasjon,
+    history,
+    setErApen,
+    hover,
+    setHover
+}) => {
+    const [erValgtEnhet, setErValgtEnhet] = useState(false);
+
+    const onUnderenhetSelect = (value: string) => {
+        settOrgnummerIUrl(value, history);
+        setErApen(false);
+        setHover(false);
+    };
+
+    useEffect(() => {
+        setErValgtEnhet(false);
+        if (valgtOrganisasjon.OrganizationNumber === underEnhet.OrganizationNumber) {
+            setErValgtEnhet(true);
+        }
+    }, [valgtOrganisasjon, underEnhet]);
+
     return (
-        <MenuItem
-            key={underEnhet.ParentOrganizationNumber}
-            value={underEnhet.OrganizationNumber}
-            text={underEnhet.Name}
-            tag="button"
-            className={'underenhet'}
+        <li
+            onClick={() => onUnderenhetSelect(underEnhet.OrganizationNumber)}
+            onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                    onUnderenhetSelect(underEnhet.OrganizationNumber);
+                }
+            }}
+            onMouseOver={() => {
+                if (!erValgtEnhet) {
+                    setHover(true);
+                }
+            }}
+            onMouseLeave={() => {
+                if (!erValgtEnhet) {
+                    setHover(false);
+                }
+            }}
+            role="menuitem"
+            className={`underenhet ${
+                hover && erValgtEnhet
+                    ? 'valgtunderenhet-grey-on-hover'
+                    : erValgtEnhet && !hover
+                    ? 'valgtunderenhet'
+                    : ''
+            }`}
+            id={erValgtEnhet ? 'valgtunderenhet' : 'underenhet'}
+            key={underEnhet.OrganizationNumber}
             tabIndex={0}>
             <Organisasjonsbeskrivelse
                 navn={underEnhet.Name}
                 orgnummer={underEnhet.OrganizationNumber}
             />
-        </MenuItem>
+        </li>
     );
 };
 

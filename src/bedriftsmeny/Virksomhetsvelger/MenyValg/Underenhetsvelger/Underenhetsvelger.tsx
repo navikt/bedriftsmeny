@@ -1,44 +1,71 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { History } from 'history';
-import { Menu, Wrapper, WrapperState } from 'react-aria-menubutton';
-
 import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../../Organisasjon';
-import { settOrgnummerIUrl } from '../../utils';
 import Underenhet from './Underenhet/Underenhet';
+import UnderenhetsVelgerMenyButton from './UnderenhetsVelgerMenyButton/UnderenhetsVelgerMenyButton';
 import './Underenhetsvelger.less';
-import UnderenhetsVelgerMenyButton from "./UnderenhetsVelgerMenyButton/UnderenhetsVelgerMenyButton";
 
 interface Props {
     history: History;
     juridiskEnhetMedUnderenheter: JuridiskEnhetMedUnderEnheterArray;
-    key: string;
+    valgtOrganisasjon: Organisasjon;
+    setErApen: (bool: boolean) => void;
+    juridiskEnhetTrykketPaa: string;
+    setJuridiskEnhetTrykketPaa: (juridiskenhet: string) => void;
+    hover: boolean;
+    setHover: (bool: boolean) => void;
 }
 
-const Underenhetsvelger: FunctionComponent<Props> = ({ history, juridiskEnhetMedUnderenheter, key }) => {
+const Underenhetsvelger: FunctionComponent<Props> = ({
+    history,
+    juridiskEnhetMedUnderenheter,
+    valgtOrganisasjon,
+    setErApen,
+    juridiskEnhetTrykketPaa,
+    setJuridiskEnhetTrykketPaa,
+    hover,
+    setHover
+}) => {
     const [visUnderenheter, setVisUnderenheter] = useState(false);
-    const onUnderenhetSelect = (value: string) => {
-        settOrgnummerIUrl(value, history);
-    };
 
-    const onMenuToggle = ({ isOpen }: WrapperState) => {
-        setVisUnderenheter(isOpen);
-    };
-
-    const underEnheter = juridiskEnhetMedUnderenheter.Underenheter.map((organisasjon: Organisasjon) => (
-            <Underenhet key={organisasjon.Name} underEnhet={organisasjon} />
-        ));
+    useEffect(() => {
+        setVisUnderenheter(false);
+        const erValgt = valgtOrganisasjon.ParentOrganizationNumber === juridiskEnhetMedUnderenheter.JuridiskEnhet.OrganizationNumber;
+        if (erValgt || juridiskEnhetMedUnderenheter.JuridiskEnhet.OrganizationNumber === juridiskEnhetTrykketPaa) {
+            setVisUnderenheter(true);
+        }
+    }, [juridiskEnhetMedUnderenheter, valgtOrganisasjon, juridiskEnhetTrykketPaa]);
 
     return (
-            <Wrapper
-                className="underenhetsvelger"
-                onSelection={onUnderenhetSelect}
-                closeOnSelection={false}
-                onMenuToggle={onMenuToggle}>
-                    <UnderenhetsVelgerMenyButton visUnderenheter={visUnderenheter} juridiskEnhetMedUnderenheter={juridiskEnhetMedUnderenheter} />
-                <Menu className={'underenhetsvelger__menyvalg-wrapper'}>
-                   <> {underEnheter}</>
-                </Menu>
-            </Wrapper>
+        <div className="underenhetsvelger">
+            <UnderenhetsVelgerMenyButton
+                visUnderenheter={visUnderenheter}
+                juridiskEnhetMedUnderenheter={juridiskEnhetMedUnderenheter}
+                valgtOrganisasjon={valgtOrganisasjon}
+                setVisUnderenheter={setVisUnderenheter}
+                setJuridiskEnhetTrykketPaa={setJuridiskEnhetTrykketPaa}
+                hover={hover}
+                setHover={setHover}
+            />
+            <ul
+                className="underenhetsvelger__menyvalg-wrapper"
+                id={`underenhetvelger${juridiskEnhetMedUnderenheter.JuridiskEnhet.OrganizationNumber}`}
+                role="menu"
+                aria-label={`Velg underenhet til ${juridiskEnhetMedUnderenheter.JuridiskEnhet.Name}`}>
+                {visUnderenheter &&
+                    juridiskEnhetMedUnderenheter.Underenheter.map((organisasjon: Organisasjon) => (
+                        <Underenhet
+                            key={organisasjon.OrganizationNumber}
+                            underEnhet={organisasjon}
+                            valgtOrganisasjon={valgtOrganisasjon}
+                            history={history}
+                            setErApen={setErApen}
+                            hover={hover}
+                            setHover={setHover}
+                        />
+                    ))}
+            </ul>
+        </div>
     );
 };
 

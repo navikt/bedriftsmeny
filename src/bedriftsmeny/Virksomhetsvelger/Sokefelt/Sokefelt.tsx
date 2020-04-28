@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react';
 import { Input } from 'nav-frontend-skjema';
-
 import Forstørrelsesglass from './Forstørrelsesglass';
 import Kryss from './Kryss';
 import './Sokefelt.less';
@@ -15,7 +14,7 @@ const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange }) => (
         <Input
             className="sokefelt__felt"
             type="search"
-            label={''}
+            label=""
             value={soketekst}
             onChange={(e) => onChange(e.target.value)}
             placeholder="Søk"

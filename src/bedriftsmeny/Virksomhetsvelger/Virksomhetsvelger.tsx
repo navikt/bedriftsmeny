@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 import { History } from 'history';
 import {
     JuridiskEnhetMedUnderEnheterArray,
@@ -20,6 +20,7 @@ export interface VirksomhetsvelgerProps {
 }
 
 const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => {
+    const bedriftvelgernode = useRef<HTMLDivElement>(null);
     const { organisasjonstre, onOrganisasjonChange, history } = props;
     const [erApen, setErApen] = useState(false);
     const [soketekst, setSoketekst] = useState('');
@@ -36,6 +37,23 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
         }
     }, [valgtOrganisasjon]);
 
+    const handleOutsideClick: { (event: MouseEvent): void } = (e: MouseEvent) => {
+        const node = bedriftvelgernode.current;
+        // @ts-ignore
+        if (node && node.contains(e.target as HTMLElement)) {
+            return;
+        }
+        setErApen(false);
+    };
+
+    useEffect(() => {
+        document.addEventListener('click', handleOutsideClick, false);
+
+        return () => {
+            window.removeEventListener('click', handleOutsideClick, false);
+        };
+    }, []);
+
     const brukSoketekst = (soketekst: string) => {
         setSoketekst(soketekst);
         setlisteMedOrganisasjonerFraSok(byggSokeresultat(organisasjonstre, soketekst));
@@ -43,11 +61,18 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
 
     return (
         <div className="virksomhetsvelger">
-            <div className="virksomhetsvelger__wrapper">
+            <div ref={bedriftvelgernode} className="virksomhetsvelger__wrapper">
                 {valgtOrganisasjon && valgtOrganisasjon !== tomAltinnOrganisasjon && (
                     <button
                         onClick={() => {
                             setErApen(!erApen);
+                            const valgtUnderenhet = document.getElementById('valgtunderenhet');
+                            if (valgtUnderenhet && erApen) {
+                                valgtUnderenhet.scrollIntoView({
+                                    behavior: 'smooth',
+                                    block: 'start'
+                                });
+                            }
                         }}
                         className="virksomhetsvelger__button"
                         id="virksomhetsvelger__button"
@@ -55,8 +80,7 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                         aria-pressed={erApen}
                         aria-haspopup="true"
                         aria-controls="virksomhetsvelger__dropdown"
-                        aria-expanded={erApen}
-                    >
+                        aria-expanded={erApen}>
                         <MenyKnapp
                             navn={valgtOrganisasjon.Name}
                             orgnummer={valgtOrganisasjon.OrganizationNumber}
@@ -64,27 +88,35 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                         />
                     </button>
                 )}
-                <div>
-                {valgtOrganisasjon !== undefined && (
-                    <div
-                        className={`virksomhetsvelger__dropdownwrapper--${
-                            erApen ? 'apen' : 'lukket'
-                        }`}
-                        id="virksomhetsvelger__dropdown"
-                    >
-                        <div className="virksomhetsvelger__meny">
-                            <Sokefelt soketekst={soketekst} onChange={brukSoketekst} />
-                            {soketekst.length === 0 ? (
-                                <DefaultMeny menyKomponenter={organisasjonstre} history={history} />
-                            ) : (
-                                <MenyFraSokeresultat
-                                    ListeMedObjektFraSok={listeMedOrganisasjonerFraSok}
-                                />
-                            )}
+                <>
+                    {valgtOrganisasjon !== undefined && (
+                        <div
+                            className={`virksomhetsvelger__dropdownwrapper--${
+                                erApen ? 'apen' : 'lukket'
+                            }`}
+                            id="virksomhetsvelger__dropdown">
+                            <div className="virksomhetsvelger__meny">
+                                <Sokefelt soketekst={soketekst} onChange={brukSoketekst} />
+                                {soketekst.length === 0 ? (
+                                    <DefaultMeny
+                                        menyKomponenter={organisasjonstre}
+                                        erApen={erApen}
+                                        setErApen={setErApen}
+                                        history={history}
+                                        valgtOrganisasjon={valgtOrganisasjon}
+                                    />
+                                ) : (
+                                    <MenyFraSokeresultat
+                                        ListeMedObjektFraSok={listeMedOrganisasjonerFraSok}
+                                        valgtOrganisasjon={valgtOrganisasjon}
+                                        history={history}
+                                        setErApen={setErApen}
+                                    />
+                                )}
+                            </div>
                         </div>
-                    </div>
-                )}
-                </div>
+                    )}
+                </>
             </div>
         </div>
     );
