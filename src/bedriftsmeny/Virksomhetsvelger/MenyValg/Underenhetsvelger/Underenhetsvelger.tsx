@@ -14,6 +14,8 @@ interface Props {
     setJuridiskEnhetTrykketPaa: (juridiskenhet: string) => void;
     hover: boolean;
     setHover: (bool: boolean) => void;
+    erSok: boolean;
+    erApen: boolean;
 }
 
 const Underenhetsvelger: FunctionComponent<Props> = ({
@@ -24,17 +26,25 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
     juridiskEnhetTrykketPaa,
     setJuridiskEnhetTrykketPaa,
     hover,
-    setHover
+    setHover,
+    erSok,
+    erApen
 }) => {
     const [visUnderenheter, setVisUnderenheter] = useState(false);
+    const juridiskEnhet = juridiskEnhetMedUnderenheter.JuridiskEnhet;
 
     useEffect(() => {
         setVisUnderenheter(false);
-        const erValgt = valgtOrganisasjon.ParentOrganizationNumber === juridiskEnhetMedUnderenheter.JuridiskEnhet.OrganizationNumber;
-        if (erValgt || juridiskEnhetMedUnderenheter.JuridiskEnhet.OrganizationNumber === juridiskEnhetTrykketPaa) {
+        const erValgt =
+            valgtOrganisasjon.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber;
+        if (
+            (erValgt && !erSok) ||
+            (erSok && juridiskEnhetMedUnderenheter.SokeresultatKunUnderenhet) ||
+            juridiskEnhet.OrganizationNumber === juridiskEnhetTrykketPaa
+        ) {
             setVisUnderenheter(true);
         }
-    }, [juridiskEnhetMedUnderenheter, valgtOrganisasjon, juridiskEnhetTrykketPaa]);
+    }, [juridiskEnhetMedUnderenheter, valgtOrganisasjon, juridiskEnhetTrykketPaa, erApen]);
 
     return (
         <div className="underenhetsvelger">
@@ -44,26 +54,27 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
                 valgtOrganisasjon={valgtOrganisasjon}
                 setVisUnderenheter={setVisUnderenheter}
                 setJuridiskEnhetTrykketPaa={setJuridiskEnhetTrykketPaa}
-                hover={hover}
                 setHover={setHover}
+                erSok={erSok}
             />
             <ul
-                className="underenhetsvelger__menyvalg-wrapper"
-                id={`underenhetvelger${juridiskEnhetMedUnderenheter.JuridiskEnhet.OrganizationNumber}`}
+                className={`underenhetsvelger__menyvalg-wrapper--${
+                    visUnderenheter ? 'apen' : 'lukket'
+                }`}
+                id={`underenhetvelger${juridiskEnhet.OrganizationNumber}`}
                 role="menu"
-                aria-label={`Velg underenhet til ${juridiskEnhetMedUnderenheter.JuridiskEnhet.Name}`}>
-                {visUnderenheter &&
-                    juridiskEnhetMedUnderenheter.Underenheter.map((organisasjon: Organisasjon) => (
-                        <Underenhet
-                            key={organisasjon.OrganizationNumber}
-                            underEnhet={organisasjon}
-                            valgtOrganisasjon={valgtOrganisasjon}
-                            history={history}
-                            setErApen={setErApen}
-                            hover={hover}
-                            setHover={setHover}
-                        />
-                    ))}
+                aria-label={`Velg underenhet til ${juridiskEnhet.Name}`}>
+                {juridiskEnhetMedUnderenheter.Underenheter.map((organisasjon: Organisasjon) => (
+                    <Underenhet
+                        key={organisasjon.OrganizationNumber}
+                        underEnhet={organisasjon}
+                        valgtOrganisasjon={valgtOrganisasjon}
+                        history={history}
+                        setErApen={setErApen}
+                        hover={hover}
+                        setHover={setHover}
+                    />
+                ))}
             </ul>
         </div>
     );

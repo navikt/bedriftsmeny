@@ -9,26 +9,29 @@ interface Props {
     setErApen: (bool: boolean) => void;
     history: History;
     valgtOrganisasjon: Organisasjon;
+    erSok: boolean;
 }
 
 const DefaultMeny: FunctionComponent<Props> = (props) => {
-    const { menyKomponenter = [], history, valgtOrganisasjon, setErApen } = props;
+    const { menyKomponenter = [], history, valgtOrganisasjon, setErApen, erSok, erApen } = props;
     const [juridiskEnhetTrykketPaa, setJuridiskEnhetTrykketPaa] = useState<string>('');
     const [hover, setHover] = useState(false);
 
     return (
         <>
-            {menyKomponenter.map((organisasjon) => (
+            {menyKomponenter.map(organisasjon => (
                 <Underenhetsvelger
                     key={organisasjon.JuridiskEnhet.OrganizationNumber}
                     juridiskEnhetMedUnderenheter={organisasjon}
                     history={history}
                     valgtOrganisasjon={valgtOrganisasjon}
+                    erApen={erApen}
                     setErApen={setErApen}
                     juridiskEnhetTrykketPaa={juridiskEnhetTrykketPaa}
                     setJuridiskEnhetTrykketPaa={setJuridiskEnhetTrykketPaa}
                     hover={hover}
                     setHover={setHover}
+                    erSok={erSok}
                 />
             ))}
         </>

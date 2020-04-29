@@ -7,7 +7,6 @@ import {
 } from '../Organisasjon';
 import { byggSokeresultat } from './byggSokeresultat';
 import DefaultMeny from './MenyValg/DefaultMeny';
-import MenyFraSokeresultat from './MenyValg/Underenhetsvelger/MenyFraSokeresultat/MenyFraSokeresultat';
 import Sokefelt from './Sokefelt/Sokefelt';
 import useOrganisasjon from './useOrganisasjon';
 import MenyKnapp from './Menyknapp/Menyknapp';
@@ -67,11 +66,14 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                         onClick={() => {
                             setErApen(!erApen);
                             const valgtUnderenhet = document.getElementById('valgtunderenhet');
-                            if (valgtUnderenhet && erApen) {
+                            if (valgtUnderenhet && erApen && soketekst.length === 0) {
                                 valgtUnderenhet.scrollIntoView({
                                     behavior: 'smooth',
                                     block: 'start'
                                 });
+                            }
+                            if (!erApen) {
+                                setSoketekst('');
                             }
                         }}
                         className="virksomhetsvelger__button"
@@ -97,22 +99,18 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                             id="virksomhetsvelger__dropdown">
                             <div className="virksomhetsvelger__meny">
                                 <Sokefelt soketekst={soketekst} onChange={brukSoketekst} />
-                                {soketekst.length === 0 ? (
-                                    <DefaultMeny
-                                        menyKomponenter={organisasjonstre}
-                                        erApen={erApen}
-                                        setErApen={setErApen}
-                                        history={history}
-                                        valgtOrganisasjon={valgtOrganisasjon}
-                                    />
-                                ) : (
-                                    <MenyFraSokeresultat
-                                        ListeMedObjektFraSok={listeMedOrganisasjonerFraSok}
-                                        valgtOrganisasjon={valgtOrganisasjon}
-                                        history={history}
-                                        setErApen={setErApen}
-                                    />
-                                )}
+                                <DefaultMeny
+                                    menyKomponenter={
+                                        soketekst.length === 0
+                                            ? organisasjonstre
+                                            : listeMedOrganisasjonerFraSok
+                                    }
+                                    erApen={erApen}
+                                    setErApen={setErApen}
+                                    history={history}
+                                    valgtOrganisasjon={valgtOrganisasjon}
+                                    erSok={soketekst !== ''}
+                                />
                             </div>
                         </div>
                     )}

@@ -23,7 +23,9 @@ export async function byggOrganisasjonstre(
     });
 
     const underenheterUtenJuridiskEnhet = organisasjoner.filter((org) => {
-        return !underenheterMedJuridiskEnhet.includes(org) && erGyldigUnderenhet(org.OrganizationForm);
+        return (
+            !underenheterMedJuridiskEnhet.includes(org) && erGyldigUnderenhet(org.OrganizationForm)
+        );
     });
     const finnJuridiskeEnheter = async (underEnheterUtenJuridisk: Organisasjon[]) => {
         const juridiskeEnheterUtenTilgang: Organisasjon[] = await hentAlleJuridiskeEnheter(
@@ -54,7 +56,8 @@ const settSammenJuridiskEnhetMedUnderenheter = (
             );
             const resultat = {
                 JuridiskEnhet: juridiskEnhet,
-                Underenheter: tilhorendeUnderenheter
+                Underenheter: tilhorendeUnderenheter,
+                SokeresultatKunUnderenhet: false
             };
             return resultat;
         }

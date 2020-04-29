@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { NedChevron, OppChevron } from 'nav-frontend-chevron';
 import { Normaltekst } from 'nav-frontend-typografi';
 import Organisasjonsbeskrivelse from '../../../Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
@@ -10,45 +10,66 @@ interface Props {
     setVisUnderenheter: (bool: boolean) => void;
     valgtOrganisasjon: Organisasjon;
     setJuridiskEnhetTrykketPaa: (enhet: string) => void;
-    hover: boolean;
     setHover: (bool: boolean) => void;
+    erSok: boolean;
 }
 
 const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
-    const juridiskEnhet = props.juridiskEnhetMedUnderenheter.JuridiskEnhet;
+    const {juridiskEnhetMedUnderenheter, visUnderenheter, setVisUnderenheter, valgtOrganisasjon, setJuridiskEnhetTrykketPaa, setHover, erSok } = props;
+    const juridiskEnhet = juridiskEnhetMedUnderenheter.JuridiskEnhet;
+    const underenheter = juridiskEnhetMedUnderenheter.Underenheter;
     const Chevron = props.visUnderenheter ? OppChevron : NedChevron;
+    const erValgtOrganisasjon = valgtOrganisasjon.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber;
+
     const valgtunderenhet =
-        props.valgtOrganisasjon.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber
+        valgtOrganisasjon.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber
             ? ' - 1 valgt'
             : '';
-    const label = `${props.visUnderenheter ? 'Skjul' : 'Vis'} ${
-        props.juridiskEnhetMedUnderenheter.Underenheter.length
-    } underenheter${valgtunderenhet}`;
+    const tekstDefault =  underenheter.length === 1 ? 'virksomhet' : 'virksomheter';
+    const labelDefault = `${visUnderenheter ? 'Skjul' : 'Vis'} ${
+        underenheter.length
+    } ${tekstDefault}${valgtunderenhet}`;
+
+    const tekstSok = juridiskEnhetMedUnderenheter.SokeresultatKunUnderenhet ? 'treff' : tekstDefault;
+    const labelSok = `${underenheter.length} ${tekstSok}`;
+
+    const label = erSok ? labelSok : labelDefault;
 
     return (
         <button
             onClick={() => {
-                if (!props.visUnderenheter) {
-                    props.setJuridiskEnhetTrykketPaa(juridiskEnhet.OrganizationNumber);
+                if (!visUnderenheter) {
+                    setJuridiskEnhetTrykketPaa(juridiskEnhet.OrganizationNumber);
                 }
-                props.setVisUnderenheter(!props.visUnderenheter);
+                setVisUnderenheter(!props.visUnderenheter);
+                /*
+                const scrolltil = erValgtOrganisasjon
+                    ? document.querySelector('#valgjuridiskenhet')
+                    : document.querySelector('.underenhetsvelger__button.juridiskenhet--apen + ul')
+                ;
+                if (scrolltil) {
+                    scrolltil.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+                */
             }}
             onMouseOver={() => {
-                props.setHover(true);
+                setHover(true);
             }}
-            onMouseLeave={() => props.setHover(false)}
-            className="underenhetsvelger__button"
+            onMouseLeave={() => setHover(false)}
+            className={`underenhetsvelger__button ${visUnderenheter && !erValgtOrganisasjon ? 'juridiskenhet--apen' : ''}`}
             id={
-                props.valgtOrganisasjon.ParentOrganizationNumber ===
-                juridiskEnhet.OrganizationNumber
+                erValgtOrganisasjon
                     ? 'valgtjuridiskenhet'
                     : ''
             }
             aria-label={`Underenhetvelger for ${juridiskEnhet.Name} organisasjonsnummer ${juridiskEnhet.OrganizationNumber}`}
-            aria-pressed={props.visUnderenheter}
+            aria-pressed={visUnderenheter}
             aria-haspopup="true"
-            aria-controls={`underenhetvelger${juridiskEnhet.OrganizationNumber}`}
-            aria-expanded={props.visUnderenheter}
+            aria-controls={`underenhetvelger ${juridiskEnhet.OrganizationNumber}`}
+            aria-expanded={visUnderenheter}
         >
             <Organisasjonsbeskrivelse
                 erJuridiskEnhet
