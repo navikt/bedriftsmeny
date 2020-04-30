@@ -1,8 +1,8 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Innholdstittel } from 'nav-frontend-typografi';
 import Virksomhetsvelger from './Virksomhetsvelger/Virksomhetsvelger';
-import { Organisasjon, JuridiskEnhetMedUnderEnheterArray } from './Organisasjon';
-import './bedriftsmeny.less';
+import { Organisasjon, JuridiskEnhetMedUnderEnheterArray } from './organisasjon';
+import './Bedriftsmeny.less';
 import { History } from 'history';
 import { byggOrganisasjonstre } from './byggOrganisasjonsTre';
 

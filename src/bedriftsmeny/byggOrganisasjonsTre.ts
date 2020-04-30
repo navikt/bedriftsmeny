@@ -1,4 +1,4 @@
-import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from './Organisasjon';
+import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from './organisasjon';
 import { hentAlleJuridiskeEnheter } from './hentAlleJuridiskeEnheter';
 
 const gyldigeUnderenheter = ['BEDR', 'AAFY'];

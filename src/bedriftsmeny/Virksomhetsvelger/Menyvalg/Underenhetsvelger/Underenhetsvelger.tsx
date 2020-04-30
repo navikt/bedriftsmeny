@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { History } from 'history';
-import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../../Organisasjon';
+import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../../organisasjon';
 import Underenhet from './Underenhet/Underenhet';
 import UnderenhetsVelgerMenyButton from './UnderenhetsVelgerMenyButton/UnderenhetsVelgerMenyButton';
 import './Underenhetsvelger.less';
@@ -22,27 +22,40 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
     history,
     juridiskEnhetMedUnderenheter,
     valgtOrganisasjon,
-    setErApen,
     juridiskEnhetTrykketPaa,
     setJuridiskEnhetTrykketPaa,
     hover,
     setHover,
     erSok,
-    erApen
+    erApen,
+    setErApen,
 }) => {
     const [visUnderenheter, setVisUnderenheter] = useState(false);
     const juridiskEnhet = juridiskEnhetMedUnderenheter.JuridiskEnhet;
 
     useEffect(() => {
         setVisUnderenheter(false);
-        const erValgt =
+        const erValgt: boolean =
             valgtOrganisasjon.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber;
+        const bleTrykketPaaSist: boolean = juridiskEnhet.OrganizationNumber === juridiskEnhetTrykketPaa;
+
+        if (!erApen) setJuridiskEnhetTrykketPaa('');
+
         if (
-            (erValgt && !erSok) ||
+            (erValgt && juridiskEnhetTrykketPaa === '' && !erSok) ||
+            (erValgt && juridiskEnhet.OrganizationNumber === juridiskEnhetTrykketPaa && !erSok) ||
             (erSok && juridiskEnhetMedUnderenheter.SokeresultatKunUnderenhet) ||
-            juridiskEnhet.OrganizationNumber === juridiskEnhetTrykketPaa
+            bleTrykketPaaSist
         ) {
             setVisUnderenheter(true);
+            const openPanel = document.querySelector('.underenhetsvelger__button.juridiskenhet--apen');
+            if (openPanel && !erSok) {
+                setTimeout(() => {
+                    openPanel.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }, 800);
+            }
         }
     }, [juridiskEnhetMedUnderenheter, valgtOrganisasjon, juridiskEnhetTrykketPaa, erApen]);
 

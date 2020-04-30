@@ -1,4 +1,4 @@
-import { ListeMedJuridiskeEnheter, Organisasjon, tomAltinnOrganisasjon } from './Organisasjon';
+import { ListeMedJuridiskeEnheter, Organisasjon, tomAltinnOrganisasjon } from './organisasjon';
 
 export async function hentAlleJuridiskeEnheter(
     listeMedJuridiskeOrgnr: string[]

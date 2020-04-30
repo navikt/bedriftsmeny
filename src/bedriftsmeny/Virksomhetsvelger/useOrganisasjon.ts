@@ -1,5 +1,5 @@
 import { History } from 'history';
-import { Organisasjon, JuridiskEnhetMedUnderEnheterArray } from '../Organisasjon';
+import { Organisasjon, JuridiskEnhetMedUnderEnheterArray } from '../organisasjon';
 import { useState, useEffect, useMemo } from 'react';
 import { settOrgnummerIUrl, hentUnderenheter } from './utils';
 

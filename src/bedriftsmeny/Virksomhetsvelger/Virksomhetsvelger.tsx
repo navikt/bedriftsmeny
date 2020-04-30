@@ -4,9 +4,9 @@ import {
     JuridiskEnhetMedUnderEnheterArray,
     Organisasjon,
     tomAltinnOrganisasjon
-} from '../Organisasjon';
+} from '../organisasjon';
 import { byggSokeresultat } from './byggSokeresultat';
-import DefaultMeny from './MenyValg/DefaultMeny';
+import Menyvalg from './Menyvalg/Menyvalg';
 import Sokefelt from './Sokefelt/Sokefelt';
 import useOrganisasjon from './useOrganisasjon';
 import MenyKnapp from './Menyknapp/Menyknapp';
@@ -99,7 +99,7 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                             id="virksomhetsvelger__dropdown">
                             <div className="virksomhetsvelger__meny">
                                 <Sokefelt soketekst={soketekst} onChange={brukSoketekst} />
-                                <DefaultMeny
+                                <Menyvalg
                                     menyKomponenter={
                                         soketekst.length === 0
                                             ? organisasjonstre

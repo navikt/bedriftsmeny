@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import { Router } from 'react-router-dom';
 import { createBrowserHistory, History } from 'history';
 
-import { Organisasjon } from './bedriftsmeny/Organisasjon';
+import { Organisasjon } from './bedriftsmeny/organisasjon';
 import Bedriftsmeny from './bedriftsmeny/Bedriftsmeny';
 import { MOCK_ORGANISASJONER } from './mock/organisasjoner';
 import './index.less';

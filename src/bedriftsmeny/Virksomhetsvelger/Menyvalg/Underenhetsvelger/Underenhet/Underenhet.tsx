@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { History } from 'history';
 import Organisasjonsbeskrivelse from '../../../Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
-import { Organisasjon } from '../../../../Organisasjon';
+import { Organisasjon } from '../../../../organisasjon';
 import { settOrgnummerIUrl } from '../../../utils';
 import './Underenhet.less';
 

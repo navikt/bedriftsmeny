@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
-import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../Organisasjon';
+import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../organisasjon';
 import { History } from 'history';
 import Underenhetsvelger from './Underenhetsvelger/Underenhetsvelger';
 
@@ -12,7 +12,7 @@ interface Props {
     erSok: boolean;
 }
 
-const DefaultMeny: FunctionComponent<Props> = (props) => {
+const Menyvalg: FunctionComponent<Props> = (props) => {
     const { menyKomponenter = [], history, valgtOrganisasjon, setErApen, erSok, erApen } = props;
     const [juridiskEnhetTrykketPaa, setJuridiskEnhetTrykketPaa] = useState<string>('');
     const [hover, setHover] = useState(false);
@@ -38,4 +38,4 @@ const DefaultMeny: FunctionComponent<Props> = (props) => {
     );
 };
 
-export default DefaultMeny;
+export default Menyvalg;

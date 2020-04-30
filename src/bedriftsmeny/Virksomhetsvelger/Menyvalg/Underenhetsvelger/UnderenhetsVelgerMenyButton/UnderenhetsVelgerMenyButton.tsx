@@ -1,8 +1,8 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent } from 'react';
 import { NedChevron, OppChevron } from 'nav-frontend-chevron';
 import { Normaltekst } from 'nav-frontend-typografi';
 import Organisasjonsbeskrivelse from '../../../Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
-import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../../../Organisasjon';
+import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../../../organisasjon';
 
 interface Props {
     juridiskEnhetMedUnderenheter: JuridiskEnhetMedUnderEnheterArray;
@@ -32,7 +32,6 @@ const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
 
     const tekstSok = juridiskEnhetMedUnderenheter.SokeresultatKunUnderenhet ? 'treff' : tekstDefault;
     const labelSok = `${underenheter.length} ${tekstSok}`;
-
     const label = erSok ? labelSok : labelDefault;
 
     return (
@@ -42,24 +41,12 @@ const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
                     setJuridiskEnhetTrykketPaa(juridiskEnhet.OrganizationNumber);
                 }
                 setVisUnderenheter(!props.visUnderenheter);
-                /*
-                const scrolltil = erValgtOrganisasjon
-                    ? document.querySelector('#valgjuridiskenhet')
-                    : document.querySelector('.underenhetsvelger__button.juridiskenhet--apen + ul')
-                ;
-                if (scrolltil) {
-                    scrolltil.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-                */
             }}
             onMouseOver={() => {
                 setHover(true);
             }}
             onMouseLeave={() => setHover(false)}
-            className={`underenhetsvelger__button ${visUnderenheter && !erValgtOrganisasjon ? 'juridiskenhet--apen' : ''}`}
+            className={`underenhetsvelger__button ${visUnderenheter ? 'juridiskenhet--apen' : 'juridiskenhet--lukket'}`}
             id={
                 erValgtOrganisasjon
                     ? 'valgtjuridiskenhet'
