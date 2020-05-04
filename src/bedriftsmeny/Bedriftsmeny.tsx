@@ -39,7 +39,7 @@ const Bedriftsmeny: FunctionComponent<EgneProps> = (props) => {
     const visVirksomhetsvelger = organisasjonstre && organisasjonstre.length > 0;
 
     return (
-        <nav className="bedriftsmeny">
+        <div className="bedriftsmeny">
             <div className="bedriftsmeny__inner">
                 <Innholdstittel className="bedriftsmeny__tittel">{sidetittel}</Innholdstittel>
                 {visVirksomhetsvelger && (
@@ -50,7 +50,7 @@ const Bedriftsmeny: FunctionComponent<EgneProps> = (props) => {
                     />
                 )}
             </div>
-        </nav>
+        </div>
     );
 };
 

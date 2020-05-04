@@ -59,7 +59,7 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
     };
 
     return (
-        <div className="virksomhetsvelger">
+        <nav className="virksomhetsvelger" aria-label="Velg virksomhet">
             <div ref={bedriftvelgernode} className="virksomhetsvelger__wrapper">
                 {valgtOrganisasjon && valgtOrganisasjon !== tomAltinnOrganisasjon && (
                     <MenyKnapp
@@ -97,7 +97,7 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                     )}
                 </>
             </div>
-        </div>
+        </nav>
     );
 };
 

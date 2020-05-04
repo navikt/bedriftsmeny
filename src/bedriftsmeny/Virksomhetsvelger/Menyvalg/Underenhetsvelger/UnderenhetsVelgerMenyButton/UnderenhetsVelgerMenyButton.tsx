@@ -52,7 +52,7 @@ const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
                     ? 'valgtjuridiskenhet'
                     : ''
             }
-            aria-label={`Underenhetvelger for ${juridiskEnhet.Name} organisasjonsnummer ${juridiskEnhet.OrganizationNumber}`}
+            aria-label={`Velg underenheter for juridisk enhet ${juridiskEnhet.Name}`}
             aria-pressed={visUnderenheter}
             aria-haspopup="true"
             aria-controls={`underenhetvelger ${juridiskEnhet.OrganizationNumber}`}

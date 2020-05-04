@@ -76,7 +76,8 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
                 }`}
                 id={`underenhetvelger${juridiskEnhet.OrganizationNumber}`}
                 role="menu"
-                aria-label={`Velg underenhet til ${juridiskEnhet.Name}`}>
+                aria-label={`Underenheter til ${juridiskEnhet.Name}`}
+            >
                 {juridiskEnhetMedUnderenheter.Underenheter.map((organisasjon: Organisasjon) => (
                     <Underenhet
                         key={organisasjon.OrganizationNumber}
