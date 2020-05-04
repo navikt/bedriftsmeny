@@ -63,7 +63,7 @@ const Underenhet: FunctionComponent<Props> = ({
                     ? 'valgtunderenhet'
                     : ''
             }`}
-            id={erValgtEnhet ? 'valgtunderenhet' : 'underenhet'}
+            id={erValgtEnhet ? 'valgtunderenhet' : ''}
             key={underEnhet.OrganizationNumber}
             tabIndex={0}>
             <Organisasjonsbeskrivelse

@@ -25,6 +25,7 @@ const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
         valgtOrganisasjon.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber
             ? ' - 1 valgt'
             : '';
+
     const tekstDefault =  underenheter.length === 1 ? 'virksomhet' : 'virksomheter';
     const labelDefault = `${visUnderenheter ? 'Skjul' : 'Vis'} ${
         underenheter.length
@@ -52,7 +53,7 @@ const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
                     ? 'valgtjuridiskenhet'
                     : ''
             }
-            aria-label={`Velg underenheter for juridisk enhet ${juridiskEnhet.Name}`}
+            aria-label={`Velg underenheter for ${juridiskEnhet.Name} ${label}`}
             aria-pressed={visUnderenheter}
             aria-haspopup="true"
             aria-controls={`underenhetvelger ${juridiskEnhet.OrganizationNumber}`}

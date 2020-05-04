@@ -43,7 +43,7 @@ const MenyKnapp = ({
             }}
             className="virksomhetsvelger__button"
             id="virksomhetsvelger__button"
-            aria-label="Virksomhetsvelger"
+            aria-label={`Virksomhetsvelger. Valgt virksomhet er ${navn}`}
             aria-pressed={erApen}
             aria-haspopup="true"
             aria-controls="virksomhetsvelger__dropdown"

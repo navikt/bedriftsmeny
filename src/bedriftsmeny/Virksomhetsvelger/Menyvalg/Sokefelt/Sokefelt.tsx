@@ -15,6 +15,7 @@ const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange }) => (
             className="sokefelt__felt"
             type="search"
             label=""
+            aria-label="Søk etter virksomhet"
             value={soketekst}
             onChange={(e) => onChange(e.target.value)}
             placeholder="Søk"
