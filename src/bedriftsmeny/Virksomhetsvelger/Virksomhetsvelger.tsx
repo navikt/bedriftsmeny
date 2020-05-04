@@ -5,10 +5,10 @@ import {
     Organisasjon,
     tomAltinnOrganisasjon
 } from '../organisasjon';
-import { byggSokeresultat } from './byggSokeresultat';
+import { byggSokeresultat } from './utils/byggSokeresultat';
 import Menyvalg from './Menyvalg/Menyvalg';
-import Sokefelt from './Sokefelt/Sokefelt';
-import useOrganisasjon from './useOrganisasjon';
+import Sokefelt from './Menyvalg/Sokefelt/Sokefelt';
+import useOrganisasjon from './utils/useOrganisasjon';
 import MenyKnapp from './Menyknapp/Menyknapp';
 import './Virksomhetsvelger.less';
 
@@ -62,33 +62,14 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
         <div className="virksomhetsvelger">
             <div ref={bedriftvelgernode} className="virksomhetsvelger__wrapper">
                 {valgtOrganisasjon && valgtOrganisasjon !== tomAltinnOrganisasjon && (
-                    <button
-                        onClick={() => {
-                            setErApen(!erApen);
-                            const valgtUnderenhet = document.getElementById('valgtunderenhet');
-                            if (valgtUnderenhet && erApen && soketekst.length === 0) {
-                                valgtUnderenhet.scrollIntoView({
-                                    behavior: 'smooth',
-                                    block: 'start'
-                                });
-                            }
-                            if (!erApen) {
-                                setSoketekst('');
-                            }
-                        }}
-                        className="virksomhetsvelger__button"
-                        id="virksomhetsvelger__button"
-                        aria-label="Virksomhetsvelger"
-                        aria-pressed={erApen}
-                        aria-haspopup="true"
-                        aria-controls="virksomhetsvelger__dropdown"
-                        aria-expanded={erApen}>
-                        <MenyKnapp
-                            navn={valgtOrganisasjon.Name}
-                            orgnummer={valgtOrganisasjon.OrganizationNumber}
-                            erApen={erApen}
-                        />
-                    </button>
+                    <MenyKnapp
+                        navn={valgtOrganisasjon.Name}
+                        orgnummer={valgtOrganisasjon.OrganizationNumber}
+                        erApen={erApen}
+                        setErApen={setErApen}
+                        soketekst={soketekst}
+                        setSoketekst={setSoketekst}
+                    />
                 )}
                 <>
                     {valgtOrganisasjon !== undefined && (

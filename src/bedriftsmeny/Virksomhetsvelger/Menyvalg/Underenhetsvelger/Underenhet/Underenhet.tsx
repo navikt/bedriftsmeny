@@ -1,8 +1,8 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { History } from 'history';
-import Organisasjonsbeskrivelse from '../../../Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
+import Organisasjonsbeskrivelse from '../Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
 import { Organisasjon } from '../../../../organisasjon';
-import { settOrgnummerIUrl } from '../../../utils';
+import { settOrgnummerIUrl } from '../../../utils/utils';
 import './Underenhet.less';
 
 interface Props {

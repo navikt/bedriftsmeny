@@ -1,5 +1,5 @@
 import fuzzysort from 'fuzzysort';
-import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../organisasjon';
+import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../organisasjon';
 import { hentUnderenheter } from './utils';
 
 const fuzzysortConfigUnderenheter = {
