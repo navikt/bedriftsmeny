@@ -34,13 +34,15 @@
         "lodash.throttle": "^4.1.1",
         "postcss-loader": "^3.0.0",
         "postcss-prefix-selector": "^1.7.2",
-        "react-motion": "^0.5.2"
+        "react-motion": "^0.5.2",
+        "whatwg-fetch": "^3.0.0"
     },
     "devDependencies": {
         "@babel/cli": "^7.7.0",
         "@babel/core": "^7.7.2",
         "@babel/plugin-proposal-class-properties": "^7.7.0",
         "@babel/plugin-proposal-object-rest-spread": "^7.6.2",
+        "@babel/plugin-transform-arrow-functions": "^7.8.3",
         "@babel/preset-env": "^7.7.1",
         "@babel/preset-react": "^7.7.0",
         "@babel/preset-typescript": "^7.7.2",
@@ -71,6 +73,7 @@
         "react": "^16.11.0",
         "react-dom": "^16.11.0",
         "react-router-dom": "^5.1.2",
+        "regenerator-runtime": "^0.13.5",
         "typescript": "^3.7.2",
         "webpack": "^4.41.2",
         "webpack-cli": "^3.3.10"
@@ -87,8 +90,18 @@
         "nav-frontend-typografi-style": "^1.0.14",
         "react": "^16.9.0"
     },
-    "browserslist": [
-        "> 1% in NO",
-        "not ie 11"
-    ]
+    "browserslist": {
+        "production": [
+            "> 1% in NO",
+            "not dead",
+            "not op_mini all",
+            "ie 11"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version",
+            "ie 11"
+        ]
+    }
 }

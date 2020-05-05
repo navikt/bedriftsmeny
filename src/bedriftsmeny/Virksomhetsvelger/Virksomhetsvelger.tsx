@@ -74,24 +74,26 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                 <>
                     {valgtOrganisasjon !== undefined && (
                         <div
-                            className={`virksomhetsvelger__dropdownwrapper--${
+                            className={`virksomhetsvelger__dropdown--${
                                 erApen ? 'apen' : 'lukket'
                             }`}
                             id="virksomhetsvelger__dropdown">
-                            <div className="virksomhetsvelger__meny">
-                                <Sokefelt soketekst={soketekst} onChange={brukSoketekst} />
-                                <Menyvalg
-                                    menyKomponenter={
-                                        soketekst.length === 0
-                                            ? organisasjonstre
-                                            : listeMedOrganisasjonerFraSok
-                                    }
-                                    erApen={erApen}
-                                    setErApen={setErApen}
-                                    history={history}
-                                    valgtOrganisasjon={valgtOrganisasjon}
-                                    erSok={soketekst !== ''}
-                                />
+                            <div className="dropdownmeny-elementer-wrapper">
+                                <div className="dropdownmeny-elementer">
+                                    <Sokefelt soketekst={soketekst} onChange={brukSoketekst} />
+                                    <Menyvalg
+                                        menyKomponenter={
+                                            soketekst.length === 0
+                                                ? organisasjonstre
+                                                : listeMedOrganisasjonerFraSok
+                                        }
+                                        erApen={erApen}
+                                        setErApen={setErApen}
+                                        history={history}
+                                        valgtOrganisasjon={valgtOrganisasjon}
+                                        erSok={soketekst !== ''}
+                                    />
+                                </div>
                             </div>
                         </div>
                     )}

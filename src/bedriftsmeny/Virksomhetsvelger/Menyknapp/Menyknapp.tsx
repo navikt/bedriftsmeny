@@ -41,7 +41,7 @@ const MenyKnapp = ({
                     setSoketekst('');
                 }
             }}
-            className="virksomhetsvelger__button"
+            className="menyknapp"
             id="virksomhetsvelger__button"
             aria-label={`Virksomhetsvelger. Valgt virksomhet er ${navn}`}
             aria-pressed={erApen}
@@ -49,13 +49,13 @@ const MenyKnapp = ({
             aria-controls="virksomhetsvelger__dropdown"
             aria-expanded={erApen}
         >
-            <div className="menyknapp">
-                <UnderenhetIkon classname="menyknapp__ikon" />
-                <div className="menyknapp__beskrivelse">
-                    <Navn className="menyknapp__navn">{navn}</Navn>
+            <div className="menyknapp__innhold">
+                <UnderenhetIkon classname="menyknapp-ikon" />
+                <div className="menyknapp-beskrivelse">
+                    <Navn className="menyknapp-navn">{navn}</Navn>
                     org. nr. {orgnummer}
                 </div>
-                <Chevron className="menyknapp__chevron" />
+                <Chevron className="menyknapp-chevron" />
             </div>
         </button>
     );

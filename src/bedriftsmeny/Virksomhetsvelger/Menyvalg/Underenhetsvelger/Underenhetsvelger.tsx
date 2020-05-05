@@ -54,7 +54,7 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
                     openPanel.scrollIntoView({
                         behavior: 'smooth'
                     });
-                }, 600);
+                }, 700);
             }
         }
     }, [juridiskEnhetMedUnderenheter, valgtOrganisasjon, juridiskEnhetTrykketPaa, erApen]);
