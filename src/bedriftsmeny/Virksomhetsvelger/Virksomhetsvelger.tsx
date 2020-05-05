@@ -1,5 +1,4 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Undertittel } from 'nav-frontend-typografi';
 import { Button, Menu, Wrapper } from 'react-aria-menubutton';
 import { History } from 'history';
 
@@ -11,8 +10,7 @@ import {
 } from '../Organisasjon';
 import { settOrgnummerIUrl } from './utils';
 import DefaultMeny from './MenyValg/DefaultMeny';
-import MenyFraSokeresultat from './MenyValg/MenyFraSokeresultat';
-import Organisasjonsbeskrivelse from './Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
+import MenyFraSokeresultat from './MenyValg/Underenhetsvelger/MenyFraSokeresultat/MenyFraSokeresultat';
 import Sokefelt from './Sokefelt/Sokefelt';
 import useOrganisasjon from './useOrganisasjon';
 import './Virksomhetsvelger.less';
