@@ -1,31 +1,70 @@
+@import '../../../../node_modules/nav-frontend-core/less/_variabler';
+
 .menyknapp {
-  display: flex;
-  overflow: hidden;
-  justify-content: space-between;
-  padding:1rem;
-  width: 18rem;
+    background-color: white;
+    border-radius: 2px;
+    border: 2px solid #78706a;
+    padding: 0.5rem 0.7rem 0.5rem 1rem;
+    width: 18rem;
+    cursor: pointer;
 
-  &__ikon {
-    display: flex;
-    justify-content: center;
-    margin-right: 1rem;
-    flex-shrink: 0;
-    margin-top: 0.2rem;
-  }
+    @media (min-width: @screen-sm-min) {
+        width: 20rem;
+    }
 
-  &__beskrivelse {
-    overflow: hidden;
-    text-align: left;
-  }
+    &:hover {
+        background-color: @navBla;
+    }
 
-  &__navn {
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-  }
+    &:active {
+        background-color: @navBlaDarken40;
+    }
 
-  &__chevron {
-    margin-top: 0.7rem;
-    margin-left: 1rem;
-  }
+    &:active,
+    &:hover {
+        color: white;
+
+        svg g {
+            stroke: white;
+        }
+    }
+
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px @fokusFarge;
+    }
+
+    &__innhold {
+        display: flex;
+        position: relative;
+
+        .menyknapp-ikon {
+            display: flex;
+            justify-content: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
+            margin-top: 0.2rem;
+        }
+
+        .menyknapp-beskrivelse {
+            overflow: hidden;
+            text-align: left;
+            width: 12rem;
+            @media (min-width: @screen-sm-min) {
+                width: 14.5rem;
+            }
+
+            .menyknapp-navn {
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+        }
+
+        .menyknapp-chevron {
+            position: absolute;
+            right: 0;
+            margin-top: 0.7rem;
+        }
+    }
 }

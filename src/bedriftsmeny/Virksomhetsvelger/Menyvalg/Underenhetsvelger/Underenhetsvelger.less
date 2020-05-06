@@ -1,0 +1,93 @@
+@import '../../../../../node_modules/nav-frontend-core/less/_variabler';
+
+.underenhetsvelger {
+    position: relative;
+    background-color: white;
+
+    ul {
+        background-color: white;
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+
+    #valgtjuridiskenhet {
+        svg g {
+            stroke: white;
+            fill: @navMorkGra;
+        }
+
+        &:hover {
+            svg g {
+                fill: none;
+            }
+        }
+    }
+
+    &__button {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        padding: 1rem;
+        position: relative;
+        height: 6rem;
+        border: none;
+        border-top: 1px solid #979797;
+        background-color: white;
+        cursor: pointer;
+
+        &:focus {
+            box-shadow: inset 0 0 0 3px @fokusFarge;
+            outline: none;
+        }
+
+        &:hover {
+            color: white;
+            background-color: @navBla;
+
+            svg g {
+                stroke: white;
+            }
+        }
+
+        &__chevron {
+            position: absolute;
+            right: 1rem;
+            bottom: 2rem;
+        }
+
+        &__label {
+            position: absolute;
+            bottom: 0.5rem;
+            left: 3.5rem;
+        }
+    }
+
+    &__menyvalg-wrapper {
+        &--lukket {
+            visibility: hidden;
+            max-height: 0;
+            opacity: 0;
+            transition: all 0.4s linear;
+
+            .underenhet {
+                max-height: 0;
+                padding: 0 0.5rem 0 2.4rem;
+                transition: max-height 0.4s, padding 0.4s;
+            }
+        }
+
+        &--apen {
+            visibility: visible;
+            max-height: 50rem;
+            opacity: 1;
+            transition: all 0.8s linear;
+
+            .underenhet {
+                max-height: 50rem;
+                padding: 0.5rem 0.5rem 0.5rem 2.4rem;
+                transition: max-height 0.8s, padding 0.3s;
+            }
+        }
+    }
+}
