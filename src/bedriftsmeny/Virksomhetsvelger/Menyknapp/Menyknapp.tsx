@@ -10,7 +10,6 @@ interface Props {
     brukOverskrift?: boolean;
     erApen: boolean;
     setErApen: (bool: boolean) => void;
-    soketekst: string;
     setSoketekst: (soketekst: string) => void;
 }
 
