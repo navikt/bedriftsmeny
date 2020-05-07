@@ -35,10 +35,8 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
 
     useEffect(() => {
         setVisUnderenheter(false);
-        const erValgt: boolean =
-            valgtOrganisasjon.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber;
-        const bleTrykketPaaSist: boolean =
-            juridiskEnhet.OrganizationNumber === juridiskEnhetTrykketPaa;
+        const erValgt: boolean = valgtOrganisasjon.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber;
+        const bleTrykketPaaSist: boolean = juridiskEnhet.OrganizationNumber === juridiskEnhetTrykketPaa;
 
         if (!erApen) setJuridiskEnhetTrykketPaa('');
 
@@ -57,8 +55,7 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
                 if (valgtenhet && scrollcontainer && topPos > 0 && !erSok) {
                     scrollcontainer.scrollTop = topPos;
                 }
-            }, 300);
-
+            }, 100);
         }
     }, [juridiskEnhetMedUnderenheter, valgtOrganisasjon, juridiskEnhetTrykketPaa, erApen, visUnderenheter]);
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Undertittel, Element } from 'nav-frontend-typografi';
 import { NedChevron, OppChevron } from 'nav-frontend-chevron';
-import UnderenhetIkon from '../MenyValg/Underenhetsvelger/Organisasjonsbeskrivelse/UnderenhetIkon';
+import UnderenhetIkon from '../Menyvalg/Underenhetsvelger/Organisasjonsbeskrivelse/UnderenhetIkon';
 import './Menyknapp.less';
 
 interface Props {
