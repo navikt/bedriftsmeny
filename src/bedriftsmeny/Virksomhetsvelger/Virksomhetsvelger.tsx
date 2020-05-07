@@ -67,7 +67,6 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                         orgnummer={valgtOrganisasjon.OrganizationNumber}
                         erApen={erApen}
                         setErApen={setErApen}
-                        soketekst={soketekst}
                         setSoketekst={setSoketekst}
                     />
                 )}

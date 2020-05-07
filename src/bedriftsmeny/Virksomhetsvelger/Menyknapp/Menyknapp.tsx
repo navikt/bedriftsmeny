@@ -10,7 +10,6 @@ interface Props {
     brukOverskrift?: boolean;
     erApen: boolean;
     setErApen: (bool: boolean) => void;
-    soketekst: string;
     setSoketekst: (soketekst: string) => void;
 }
 
@@ -20,7 +19,6 @@ const MenyKnapp = ({
     brukOverskrift,
     erApen,
     setErApen,
-    soketekst,
     setSoketekst
 }: Props) => {
     const Navn = brukOverskrift ? Undertittel : Element;
@@ -30,13 +28,6 @@ const MenyKnapp = ({
         <button
             onClick={() => {
                 setErApen(!erApen);
-                const valgtUnderenhet = document.getElementById('valgtunderenhet');
-                if (valgtUnderenhet && erApen && soketekst.length === 0) {
-                    valgtUnderenhet.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
                 if (!erApen) {
                     setSoketekst('');
                 }

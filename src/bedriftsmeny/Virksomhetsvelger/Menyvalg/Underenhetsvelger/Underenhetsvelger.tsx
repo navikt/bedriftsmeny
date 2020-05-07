@@ -28,44 +28,45 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
     setHover,
     erSok,
     erApen,
-    setErApen,
+    setErApen
 }) => {
     const [visUnderenheter, setVisUnderenheter] = useState(false);
     const juridiskEnhet = juridiskEnhetMedUnderenheter.JuridiskEnhet;
 
     useEffect(() => {
         setVisUnderenheter(false);
-        const erValgt: boolean =
-            valgtOrganisasjon.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber;
+        const erValgt: boolean = valgtOrganisasjon.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber;
         const bleTrykketPaaSist: boolean = juridiskEnhet.OrganizationNumber === juridiskEnhetTrykketPaa;
 
         if (!erApen) setJuridiskEnhetTrykketPaa('');
 
         if (
             (erValgt && juridiskEnhetTrykketPaa === '' && !erSok) ||
-            (erValgt && juridiskEnhet.OrganizationNumber === juridiskEnhetTrykketPaa && !erSok) ||
+            (erValgt && bleTrykketPaaSist && !erSok) ||
             (erSok && juridiskEnhetMedUnderenheter.SokeresultatKunUnderenhet) ||
             bleTrykketPaaSist
         ) {
             setVisUnderenheter(true);
-            const openPanel = document.querySelector('.underenhetsvelger__button.juridiskenhet--apen');
-            if (openPanel && !erSok) {
-                setTimeout(() => {
-                    openPanel.scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }, 300);
-            }
+            const scrollcontainer = document.querySelector('.dropdownmeny-elementer');
+            const valgtenhet = document.getElementById('underenhet-apen');
+            const topPos = valgtenhet ? valgtenhet.offsetTop : 0;
+
+            setTimeout(() => {
+                if (valgtenhet && scrollcontainer && topPos > 0 && !erSok) {
+                    scrollcontainer.scrollTop = topPos;
+                }
+            }, 100);
         }
-    }, [juridiskEnhetMedUnderenheter, valgtOrganisasjon, juridiskEnhetTrykketPaa, erApen]);
+    }, [juridiskEnhetMedUnderenheter, valgtOrganisasjon, juridiskEnhetTrykketPaa, erApen, visUnderenheter]);
 
     return (
-        <div className="underenhetsvelger">
+        <div className="underenhetsvelger" id={visUnderenheter ? 'underenhet-apen' : ''}>
             <UnderenhetsVelgerMenyButton
                 visUnderenheter={visUnderenheter}
                 juridiskEnhetMedUnderenheter={juridiskEnhetMedUnderenheter}
                 valgtOrganisasjon={valgtOrganisasjon}
                 setVisUnderenheter={setVisUnderenheter}
+                juridiskEnhetTrykketPaa={juridiskEnhetTrykketPaa}
                 setJuridiskEnhetTrykketPaa={setJuridiskEnhetTrykketPaa}
                 setHover={setHover}
                 erSok={erSok}
@@ -76,8 +77,7 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
                 }`}
                 id={`underenhetvelger${juridiskEnhet.OrganizationNumber}`}
                 role="menu"
-                aria-label={`Underenheter til ${juridiskEnhet.Name}`}
-            >
+                aria-label={`Underenheter til ${juridiskEnhet.Name}`}>
                 {juridiskEnhetMedUnderenheter.Underenheter.map((organisasjon: Organisasjon) => (
                     <Underenhet
                         key={organisasjon.OrganizationNumber}
