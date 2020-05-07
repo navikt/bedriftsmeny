@@ -1,7 +1,7 @@
 import React from 'react';
 import { Undertittel, Element } from 'nav-frontend-typografi';
 import { NedChevron, OppChevron } from 'nav-frontend-chevron';
-import UnderenhetIkon from '../Menyvalg/Underenhetsvelger/Organisasjonsbeskrivelse/UnderenhetIkon';
+import UnderenhetIkon from '../MenyValg/Underenhetsvelger/Organisasjonsbeskrivelse/UnderenhetIkon';
 import './Menyknapp.less';
 
 interface Props {
@@ -20,7 +20,6 @@ const MenyKnapp = ({
     brukOverskrift,
     erApen,
     setErApen,
-    soketekst,
     setSoketekst
 }: Props) => {
     const Navn = brukOverskrift ? Undertittel : Element;
@@ -30,13 +29,6 @@ const MenyKnapp = ({
         <button
             onClick={() => {
                 setErApen(!erApen);
-                const valgtUnderenhet = document.getElementById('valgtunderenhet');
-                if (valgtUnderenhet && erApen && soketekst.length === 0) {
-                    valgtUnderenhet.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
                 if (!erApen) {
                     setSoketekst('');
                 }
