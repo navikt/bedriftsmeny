@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { NedChevron, OppChevron } from 'nav-frontend-chevron';
 import { Normaltekst } from 'nav-frontend-typografi';
 import Organisasjonsbeskrivelse from '../Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
@@ -19,7 +19,6 @@ const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
     const {juridiskEnhetMedUnderenheter, visUnderenheter, setVisUnderenheter, valgtOrganisasjon, juridiskEnhetTrykketPaa, setJuridiskEnhetTrykketPaa, setHover, erSok } = props;
     const juridiskEnhet = juridiskEnhetMedUnderenheter.JuridiskEnhet;
     const underenheter = juridiskEnhetMedUnderenheter.Underenheter;
-    const Chevron = props.visUnderenheter ? OppChevron : NedChevron;
     const erValgtOrganisasjon = valgtOrganisasjon.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber;
 
     const valgtunderenhet =
@@ -35,6 +34,14 @@ const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
     const tekstSok = juridiskEnhetMedUnderenheter.SokeresultatKunUnderenhet ? 'treff' : tekstDefault;
     const labelSok = `${underenheter.length} ${tekstSok}`;
     const label = erSok ? labelSok : labelDefault;
+
+    const [oppChevron, setOppChevron] = useState(false);
+
+    useEffect(() => {
+        setOppChevron(false);
+        if (visUnderenheter) setOppChevron(true);
+
+    }, [visUnderenheter]);
 
     return (
         <button
@@ -69,7 +76,11 @@ const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
             />
             <Normaltekst className="underenhetsvelger__button__label">{label}</Normaltekst>
             <div className="underenhetsvelger__button__chevron">
-                <Chevron />
+                {oppChevron ? (
+                    <OppChevron />
+                ) : (
+                    <NedChevron />
+                )}
             </div>
         </button>
     );

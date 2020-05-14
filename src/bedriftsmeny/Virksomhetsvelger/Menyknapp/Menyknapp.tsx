@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Undertittel, Element } from 'nav-frontend-typografi';
 import { NedChevron, OppChevron } from 'nav-frontend-chevron';
 import UnderenhetIkon from '../Menyvalg/Underenhetsvelger/Organisasjonsbeskrivelse/UnderenhetIkon';
@@ -13,16 +13,15 @@ interface Props {
     setSoketekst: (soketekst: string) => void;
 }
 
-const MenyKnapp = ({
-    navn,
-    orgnummer,
-    brukOverskrift,
-    erApen,
-    setErApen,
-    setSoketekst
-}: Props) => {
+const MenyKnapp = ({ navn, orgnummer, brukOverskrift, erApen, setErApen, setSoketekst }: Props) => {
     const Navn = brukOverskrift ? Undertittel : Element;
-    const Chevron = erApen ? OppChevron : NedChevron;
+    const [oppChevron, setOppChevron] = useState(false);
+
+    useEffect(() => {
+        setOppChevron(false);
+        if (erApen) setOppChevron(true);
+
+    }, [erApen]);
 
     return (
         <button
@@ -38,15 +37,18 @@ const MenyKnapp = ({
             aria-pressed={erApen}
             aria-haspopup="true"
             aria-controls="virksomhetsvelger__dropdown"
-            aria-expanded={erApen}
-        >
+            aria-expanded={erApen}>
             <div className="menyknapp__innhold">
                 <UnderenhetIkon classname="menyknapp-ikon" />
                 <div className="menyknapp-beskrivelse">
                     <Navn className="menyknapp-navn">{navn}</Navn>
                     org. nr. {orgnummer}
                 </div>
-                <Chevron className="menyknapp-chevron" />
+                {oppChevron ? (
+                    <OppChevron className="menyknapp-chevron" />
+                ) : (
+                    <NedChevron className="menyknapp-chevron" />
+                )}
             </div>
         </button>
     );
