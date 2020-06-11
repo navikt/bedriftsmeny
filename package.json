@@ -76,7 +76,8 @@
         "regenerator-runtime": "^0.13.5",
         "typescript": "^3.7.2",
         "webpack": "^4.41.2",
-        "webpack-cli": "^3.3.10"
+        "webpack-cli": "^3.3.10",
+        "amplitude-js": "^6.2.0"
     },
     "peerDependencies": {
         "nav-frontend-chevron": "^1.0.10",
@@ -88,7 +89,8 @@
         "nav-frontend-skjema-style": "^1.0.43",
         "nav-frontend-typografi": "^2.0.13",
         "nav-frontend-typografi-style": "^1.0.14",
-        "react": "^16.9.0"
+        "react": "^16.9.0",
+        "amplitude-js": "^6.2.0"
     },
     "browserslist": {
         "production": [
