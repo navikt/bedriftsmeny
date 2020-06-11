@@ -11,6 +11,7 @@ import Sokefelt from './Menyvalg/Sokefelt/Sokefelt';
 import useOrganisasjon from './utils/useOrganisasjon';
 import MenyKnapp from './Menyknapp/Menyknapp';
 import './Virksomhetsvelger.less';
+import { sendEvent } from '../../amplitude/amplitude';
 
 export interface VirksomhetsvelgerProps {
     organisasjonstre?: JuridiskEnhetMedUnderEnheterArray[];
@@ -32,6 +33,7 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
     useEffect(() => {
         setErApen(false);
         if (valgtOrganisasjon) {
+            sendEvent('virksomhetsvelger', 'bytt-bedrift');
             onOrganisasjonChange(valgtOrganisasjon);
         }
     }, [valgtOrganisasjon]);

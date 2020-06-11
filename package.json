@@ -46,11 +46,13 @@
         "@babel/preset-env": "^7.7.1",
         "@babel/preset-react": "^7.7.0",
         "@babel/preset-typescript": "^7.7.2",
+        "@types/amplitude-js": "^5.11.0",
         "@types/history": "^4.7.3",
         "@types/react": "^16.9.11",
         "@types/react-collapse": "^4.0.2",
         "@types/react-dom": "^16.9.4",
         "@types/react-router-dom": "^5.1.2",
+        "amplitude-js": "^6.2.0",
         "babel-loader": "^8.0.6",
         "core-js": "^3.4.0",
         "css-loader": "^3.2.0",
@@ -76,8 +78,7 @@
         "regenerator-runtime": "^0.13.5",
         "typescript": "^3.7.2",
         "webpack": "^4.41.2",
-        "webpack-cli": "^3.3.10",
-        "amplitude-js": "^6.2.0"
+        "webpack-cli": "^3.3.10"
     },
     "peerDependencies": {
         "nav-frontend-chevron": "^1.0.10",
