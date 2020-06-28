@@ -1,5 +1,6 @@
-import React from 'react';
-import { Undertittel, Element } from 'nav-frontend-typografi';
+import React, { useEffect, useState } from 'react';
+import { Undertittel, Element, Normaltekst } from 'nav-frontend-typografi';
+import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 import JuridiskEnhetIkon from './JuridiskEnhetIkon';
 import UnderenhetIkon from './UnderenhetIkon';
 import './Organisasjonsbeskrivelse.less';
@@ -14,13 +15,88 @@ interface Props {
 const Organisasjonsbeskrivelse = ({ navn, orgnummer, erJuridiskEnhet, brukOverskrift }: Props) => {
     const Navn = brukOverskrift ? Undertittel : Element;
     const Ikon = erJuridiskEnhet ? JuridiskEnhetIkon : UnderenhetIkon;
+    const [anker, setAnker] = useState<any>();
+    const [skalVisePopover, setSkalVisePopover] = useState(false);
+    // const max = 30;
+
+    useEffect(() => {
+        /* if (navn.length > max) {
+            setSkalVisePopover(true);
+        } */
+        const id = `organisasjonsbeskrivelse${orgnummer}`;
+        const abc = document.getElementById(id) as HTMLElement;
+        console.log('abc:', abc);
+
+        // @ts-ignore
+        setAnker(abc);
+        console.log('anker', anker);
+        /* if (anker != undefined) {
+
+            console.log('anker pos', anker.getBoundingClientRect());
+            const navn = anker.firstChild as HTMLElement;
+            console.log('navn', navn);
+            console.log('navn offset:', navn.offsetWidth);
+        } */
+    }, [orgnummer]);
+
+    /*
+    const skalvise = (e: any) => {
+
+        setAnker(e.currentTarget);
+
+        if (anker) {
+            console.log('anker', anker);
+            console.log('anker pos', anker.getBoundingClientRect());
+
+            const navn = anker.firstChild as HTMLElement;
+            console.log('navn', navn);
+            if (navn && navn.offsetWidth > maxBreddeAvKolonne) {
+                setSkalVisePopover(true);
+            }
+        }
+    }; */
 
     return (
         <div className="organisasjonsbeskrivelse">
             <Ikon classname="organisasjonsbeskrivelse__ikon" />
-            <div className="organisasjonsbeskrivelse__beskrivelse">
-                <Navn className="organisasjonsbeskrivelse__navn">{navn}</Navn>
-                org. nr. {orgnummer}
+            <div
+                id={`organisasjonsbeskrivelse${orgnummer}`}
+                className="organisasjonsbeskrivelse__beskrivelse"
+                onMouseOver={(e: any) => {
+                    const navn = e.currentTarget.firstChild as HTMLElement;
+                    if (navn.offsetWidth > 295) {
+                        setSkalVisePopover(true);
+                    }
+                    console.log('e.currentTarger', e.currentTarget);
+                    // setAnker(e.currentTarget);
+                }}
+                onMouseOut={() => {
+                    // setAnker(undefined);
+                    setTimeout(() => {
+                        setSkalVisePopover(false);
+                    }, 800);
+
+                }}
+            >
+                <Navn
+                    className="organisasjonsbeskrivelse__navn"
+                >
+                    {navn}
+                </Navn>
+                <Normaltekst>org. nr. {orgnummer}</Normaltekst>
+                {skalVisePopover && anker && (
+                    <Popover
+                        ankerEl={anker}
+                        orientering={PopoverOrientering.UnderVenstre}
+                        avstandTilAnker={2}
+                        utenPil>
+                        <Normaltekst
+                            className="organisasjonsbeskrivelse_popover-tekst"
+                            style={{ padding: '0.3rem', color: '#000000', fontSize: '16px' }}>
+                            {navn}
+                        </Normaltekst>
+                    </Popover>
+                )}
             </div>
         </div>
     );

@@ -53,7 +53,7 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
 
             setTimeout(() => {
                 if (valgtenhet && scrollcontainer && topPos > 0 && !erSok) {
-                    scrollcontainer.scrollTop = topPos;
+                    scrollcontainer.scrollTop = topPos - 72;
                 }
             }, 100);
         }
