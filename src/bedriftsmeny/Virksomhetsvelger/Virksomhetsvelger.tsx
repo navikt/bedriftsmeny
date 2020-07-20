@@ -78,8 +78,8 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                             }`}
                             id="virksomhetsvelger__dropdown">
                             <div className="dropdownmeny-elementer-wrapper">
+                                <Sokefelt soketekst={soketekst} onChange={brukSoketekst} />
                                 <div className="dropdownmeny-elementer">
-                                    <Sokefelt soketekst={soketekst} onChange={brukSoketekst} />
                                     <Menyvalg
                                         menyKomponenter={
                                             soketekst.length === 0
