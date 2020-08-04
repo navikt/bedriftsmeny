@@ -10,26 +10,36 @@ interface Props {
     orgnummer: string;
     erJuridiskEnhet?: boolean;
     brukOverskrift?: boolean;
+    erApen?: boolean;
 }
 
-const Organisasjonsbeskrivelse = ({ navn, orgnummer, erJuridiskEnhet, brukOverskrift }: Props) => {
+const Organisasjonsbeskrivelse = ({ navn, orgnummer, erJuridiskEnhet, brukOverskrift, erApen }: Props) => {
     const Navn = brukOverskrift ? Undertittel : Element;
     const Ikon = erJuridiskEnhet ? JuridiskEnhetIkon : UnderenhetIkon;
-    const [anker, setAnker] = useState<any>();
+    const [anker, setAnker] = useState<HTMLElement | undefined>();
     const [skalVisePopover, setSkalVisePopover] = useState(false);
+    const [hover, setHover] = useState(false);
     // const max = 30;
 
     useEffect(() => {
         /* if (navn.length > max) {
             setSkalVisePopover(true);
         } */
-        const id = `organisasjonsbeskrivelse${orgnummer}`;
-        const abc = document.getElementById(id) as HTMLElement;
-        console.log('abc:', abc);
-
-        // @ts-ignore
-        setAnker(abc);
         console.log('anker', anker);
+        const id = `organisasjonsbeskrivelse${orgnummer}`;
+        console.log('id:', id);
+        console.log('erApen:', erApen);
+        if (erApen === true) {
+            const abc = document.getElementById(id) as HTMLElement;
+            console.log('anker rect:', abc!!.getBoundingClientRect());
+            console.log('abc:', abc);
+
+            // @ts-ignore
+            setAnker(abc);
+            console.log('anker', anker);
+            // console.log('anker on rect:', anker!!.getBoundingClientRect());
+        } else setAnker(undefined)
+
         /* if (anker != undefined) {
 
             console.log('anker pos', anker.getBoundingClientRect());
@@ -37,7 +47,7 @@ const Organisasjonsbeskrivelse = ({ navn, orgnummer, erJuridiskEnhet, brukOversk
             console.log('navn', navn);
             console.log('navn offset:', navn.offsetWidth);
         } */
-    }, [orgnummer]);
+    }, [orgnummer, erApen, hover]);
 
     /*
     const skalvise = (e: any) => {
@@ -63,14 +73,19 @@ const Organisasjonsbeskrivelse = ({ navn, orgnummer, erJuridiskEnhet, brukOversk
                 id={`organisasjonsbeskrivelse${orgnummer}`}
                 className="organisasjonsbeskrivelse__beskrivelse"
                 onMouseOver={(e: any) => {
+
                     const navn = e.currentTarget.firstChild as HTMLElement;
                     if (navn.offsetWidth > 295) {
                         setSkalVisePopover(true);
                     }
                     console.log('e.currentTarger', e.currentTarget);
+                    console.log('anker on hover:', anker);
+                    console.log('anker rect:', anker!!.getBoundingClientRect());
                     // setAnker(e.currentTarget);
+                    setHover(true);
                 }}
                 onMouseOut={() => {
+                    setHover(false);
                     // setAnker(undefined);
                     setTimeout(() => {
                         setSkalVisePopover(false);
@@ -84,7 +99,7 @@ const Organisasjonsbeskrivelse = ({ navn, orgnummer, erJuridiskEnhet, brukOversk
                     {navn}
                 </Navn>
                 <Normaltekst>org. nr. {orgnummer}</Normaltekst>
-                {skalVisePopover && anker && (
+                {skalVisePopover && anker && hover && erApen && (
                     <Popover
                         ankerEl={anker}
                         orientering={PopoverOrientering.UnderVenstre}

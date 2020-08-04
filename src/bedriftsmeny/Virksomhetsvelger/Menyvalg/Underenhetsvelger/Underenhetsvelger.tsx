@@ -70,6 +70,7 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
                 setJuridiskEnhetTrykketPaa={setJuridiskEnhetTrykketPaa}
                 setHover={setHover}
                 erSok={erSok}
+                erApen={erApen}
             />
             <ul
                 className={`underenhetsvelger__menyvalg-wrapper--${
