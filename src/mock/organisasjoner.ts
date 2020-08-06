@@ -122,7 +122,7 @@ export const MOCK_ORGANISASJONER: Organisasjon[] = [
         Status: 'Active'
     },
     {
-        Name: 'SØR-HIDLE OG STRAUMGJERDE VELDIG LANGT OG ENDA LENGRE',
+        Name: 'SØR-HIDLE OG STRAUMGJERDE OG SØNNER OG DØTRE',
         Type: 'Enterprise',
         ParentOrganizationNumber: '',
         OrganizationNumber: '910167200',
@@ -162,7 +162,7 @@ export const MOCK_ORGANISASJONER: Organisasjon[] = [
         Status: 'Active'
     },
     {
-        Name: 'VESTBY OG LOEN OG LAAANGT ETTERNAVN REVISJON',
+        Name: 'VESTBY OG LOEN OG ALEKSANDERSEN REVISJON',
         Type: 'Business',
         OrganizationNumber: '910989642',
         ParentOrganizationNumber: '910820834',

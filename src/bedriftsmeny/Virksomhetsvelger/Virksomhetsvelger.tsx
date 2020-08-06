@@ -77,8 +77,8 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                                 erApen ? 'apen' : 'lukket'
                             }`}
                             id="virksomhetsvelger__dropdown">
+                            <Sokefelt soketekst={soketekst} onChange={brukSoketekst} />
                             <div className="dropdownmeny-elementer-wrapper">
-                                <Sokefelt soketekst={soketekst} onChange={brukSoketekst} />
                                 <div className="dropdownmeny-elementer">
                                     <Menyvalg
                                         menyKomponenter={

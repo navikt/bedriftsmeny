@@ -52,8 +52,8 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
             const topPos = valgtenhet ? valgtenhet.offsetTop : 0;
 
             setTimeout(() => {
-                if (valgtenhet && scrollcontainer && topPos > 0 && !erSok) {
-                    scrollcontainer.scrollTop = topPos - 72;
+                if (valgtenhet && scrollcontainer && !erSok) {
+                    scrollcontainer.scrollTop = topPos;
                 }
             }, 100);
         }
@@ -70,7 +70,6 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
                 setJuridiskEnhetTrykketPaa={setJuridiskEnhetTrykketPaa}
                 setHover={setHover}
                 erSok={erSok}
-                erApen={erApen}
             />
             <ul
                 className={`underenhetsvelger__menyvalg-wrapper--${

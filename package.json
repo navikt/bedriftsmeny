@@ -32,8 +32,6 @@
         "classnames": "^2.2.6",
         "fuzzysort": "^1.1.4",
         "lodash.throttle": "^4.1.1",
-        "nav-frontend-popover": "0.0.25",
-        "nav-frontend-popover-style": "0.0.5",
         "postcss-loader": "^3.0.0",
         "postcss-prefix-selector": "^1.7.2",
         "prop-types": "^15.7.2",

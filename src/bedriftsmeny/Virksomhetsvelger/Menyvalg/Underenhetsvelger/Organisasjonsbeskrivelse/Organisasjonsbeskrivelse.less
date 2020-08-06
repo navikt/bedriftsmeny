@@ -1,25 +1,17 @@
 @import '../../../../../../node_modules/nav-frontend-core/less/_variabler';
 
 .organisasjonsbeskrivelse {
-    width: 345px;
     display: flex;
     align-items: center;
-    // overflow: hidden;
-    position: relative;
+    width: 16rem;
 
-    /* &__tooltip {
-        position: absolute;
-        padding: 4px;
-        top: 44px;
-        left: 50px;
-        background-color: @navLysBlaLighten80;
-        border: 2px solid @navLysBlaDarken40;
-        border-radius: 4px;
-        color: @navMorkGra;
-        overflow: visible;
-        // max-width: 400px;
-        z-index: 20;
-    } */
+    @media (min-width: 375px) {
+        width: 18.5rem;
+    }
+
+    @media (min-width: @screen-sm-min) {
+        width: 22rem;
+    }
 
     &__ikon {
         height: 2rem;
@@ -32,14 +24,11 @@
     }
 
     &__beskrivelse {
-        // width: 21rem;
         overflow: hidden;
         text-align: left;
-        // position: relative;
     }
 
     &__navn {
-        // width: 18rem;
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;

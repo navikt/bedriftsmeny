@@ -13,11 +13,10 @@ interface Props {
     setJuridiskEnhetTrykketPaa: (enhet: string) => void;
     setHover: (bool: boolean) => void;
     erSok: boolean;
-    erApen: boolean;
 }
 
 const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
-    const {juridiskEnhetMedUnderenheter, visUnderenheter, setVisUnderenheter, valgtOrganisasjon, juridiskEnhetTrykketPaa, setJuridiskEnhetTrykketPaa, setHover, erSok, erApen } = props;
+    const {juridiskEnhetMedUnderenheter, visUnderenheter, setVisUnderenheter, valgtOrganisasjon, juridiskEnhetTrykketPaa, setJuridiskEnhetTrykketPaa, setHover, erSok } = props;
     const juridiskEnhet = juridiskEnhetMedUnderenheter.JuridiskEnhet;
     const underenheter = juridiskEnhetMedUnderenheter.Underenheter;
     const erValgtOrganisasjon = valgtOrganisasjon.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber;
@@ -74,7 +73,6 @@ const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
                 erJuridiskEnhet
                 navn={juridiskEnhet.Name}
                 orgnummer={juridiskEnhet.OrganizationNumber}
-                erApen={erApen}
             />
             <Normaltekst className="underenhetsvelger__button__label">{label}</Normaltekst>
             <div className="underenhetsvelger__button__chevron">
