@@ -52,7 +52,7 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
             const topPos = valgtenhet ? valgtenhet.offsetTop : 0;
 
             setTimeout(() => {
-                if (valgtenhet && scrollcontainer && topPos > 0 && !erSok) {
+                if (valgtenhet && scrollcontainer && !erSok) {
                     scrollcontainer.scrollTop = topPos;
                 }
             }, 100);

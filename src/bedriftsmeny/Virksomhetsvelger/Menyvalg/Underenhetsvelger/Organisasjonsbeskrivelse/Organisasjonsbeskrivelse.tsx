@@ -19,7 +19,7 @@ const Organisasjonsbeskrivelse = ({ navn, orgnummer, erJuridiskEnhet, brukOversk
         <div className="organisasjonsbeskrivelse">
             <Ikon classname="organisasjonsbeskrivelse__ikon" />
             <div className="organisasjonsbeskrivelse__beskrivelse">
-                <Navn className="organisasjonsbeskrivelse__navn">{navn}</Navn>
+                <Navn className="organisasjonsbeskrivelse__navn" title={navn.length > 26 ? navn : ''}>{navn}</Navn>
                 org. nr. {orgnummer}
             </div>
         </div>
