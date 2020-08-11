@@ -3,9 +3,6 @@
 
 .virksomhetsvelger {
     z-index: 10;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
 
     &__wrapper {
         display: flex;
@@ -14,102 +11,88 @@
         position: relative;
     }
 
-    &__dropdownwrapper {
+    &__dropdown {
+        &--lukket,
         &--apen {
-            display: flex;
-            flex-direction: column;
+            width: 18rem;
             background-color: white;
             outline: none;
-            border: solid 1px #78706a;
+            border: solid 2px #194d62;
+            border-radius: 4px;
             position: absolute;
-            top: 0;
-            transform: translateY(6.5rem);
+            top: 5.5rem;
 
-            .pilOpp();
+            .dropdownmeny-elementer-wrapper {
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+                position: relative;
+            }
+
+            .dropdownmeny-elementer {
+                display: flex;
+                flex-direction: column;
+                overflow-y: scroll;
+                overflow-x: hidden;
+                width: 100%;
+                padding: 0;
+
+                &:focus {
+                    outline: none;
+                }
+            }
         }
 
         &--lukket {
-            display: none;
-        }
-    }
+            visibility: hidden;
+            max-height: 0;
+            opacity: 0;
+            transition: all 0.4s ease-in-out;
 
-    &__meny {
-        max-height: 25rem;
-        overflow: scroll;
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        padding: 1.5rem 1rem;
-
-        &:focus {
-            outline: none;
-        }
-
-    }
-
-    &__button {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 3.75rem;
-        background-color: white;
-        border-radius: 4px;
-        border: 2px solid @navMorkGra;
-
-        .organisasjonsbeskrivelse {
-            width: 100%;
-            margin: 0 1rem;
-        }
-
-        &:hover {
-            background-color: @navBla;
-        }
-
-        &:active {
-            background-color: @navBlaDarken40;
-        }
-
-        &:active,
-        &:hover {
-            color: white;
-
-            svg g {
-                stroke: white;
+            .dropdownmeny-elementer {
+                max-height: 0;
+                transition: max-height 0.4s ease-in-out;
             }
         }
 
-        &:focus {
-            outline: none;
-            box-shadow: 0 0 0 3px @fokusFarge;
+        &--apen {
+            padding-right: 1px;
+            visibility: visible;
+            max-height: 25rem;
+            opacity: 1;
+            transition: max-height 0.6s linear;
+            .pilOpp();
+
+            .dropdownmeny-elementer {
+                max-height: 20rem;
+                transition: max-height 0.6s linear;
+            }
         }
     }
 
-    .juridisk-enhet:not(:first-child) {
-        margin-top: 0.5rem;
+    @media (min-width: 23rem) {
+        &__dropdown--apen {
+            width: 21rem;
+        }
     }
 
     @media (min-width: 28rem) {
-        width: unset;
-
-        &__dropdownwrapper {
+        &__dropdown {
             &--apen {
                 width: 26rem;
-                border-left-width: 1px;
-                border-right-width: 1px;
-                top: -0.7rem;
-            }
-
-            &--lukket {
-                display: none;
             }
         }
     }
 
     @media (min-width: @screen-sm-min) {
-
-        &__dropdownwrapper {
+        &__dropdown {
             &--apen {
                 right: 0;
+                max-height: 35rem;
+
+                .dropdownmeny-elementer {
+                    max-height: 30rem;
+                }
             }
         }
     }

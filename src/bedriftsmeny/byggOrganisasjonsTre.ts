@@ -1,4 +1,4 @@
-import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from './Organisasjon';
+import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from './organisasjon';
 import { hentAlleJuridiskeEnheter } from './hentAlleJuridiskeEnheter';
 
 const gyldigeUnderenheter = ['BEDR', 'AAFY'];
@@ -13,24 +13,30 @@ export async function byggOrganisasjonstre(
     const juridiskeEnheter = organisasjoner.filter(function(organisasjon: Organisasjon) {
         return organisasjon.Type === 'Enterprise' || organisasjon.OrganizationForm === 'FLI';
     });
+
     const underenheter = organisasjoner.filter(
         (organisasjon) =>
             erGyldigUnderenhet(organisasjon.OrganizationForm) && organisasjon.OrganizationNumber
     );
+
     const jurisikeEnheterOrgnr = juridiskeEnheter.map((jurorg) => jurorg.OrganizationNumber);
     const underenheterMedJuridiskEnhet = organisasjoner.filter((org) => {
         return jurisikeEnheterOrgnr.includes(org.ParentOrganizationNumber);
     });
 
     const underenheterUtenJuridiskEnhet = organisasjoner.filter((org) => {
-        return !underenheterMedJuridiskEnhet.includes(org) && erGyldigUnderenhet(org.OrganizationForm);
+        return (
+            !underenheterMedJuridiskEnhet.includes(org) && erGyldigUnderenhet(org.OrganizationForm)
+        );
     });
+
     const finnJuridiskeEnheter = async (underEnheterUtenJuridisk: Organisasjon[]) => {
         const juridiskeEnheterUtenTilgang: Organisasjon[] = await hentAlleJuridiskeEnheter(
             underenheterUtenJuridiskEnhet.map((org) => org.ParentOrganizationNumber)
         );
         return juridiskeEnheterUtenTilgang;
     };
+
     if (underenheterUtenJuridiskEnhet.length > 0) {
         await finnJuridiskeEnheter(underenheterUtenJuridiskEnhet).then(
             (juridiskeEnheterUtenTilgang) => {
@@ -38,6 +44,7 @@ export async function byggOrganisasjonstre(
             }
         );
     }
+
     const orgtre = settSammenJuridiskEnhetMedUnderenheter(juridiskeEnheter, underenheter);
     return orgtre.sort((a, b) => a.JuridiskEnhet.Name.localeCompare(b.JuridiskEnhet.Name));
 }
@@ -54,7 +61,8 @@ const settSammenJuridiskEnhetMedUnderenheter = (
             );
             const resultat = {
                 JuridiskEnhet: juridiskEnhet,
-                Underenheter: tilhorendeUnderenheter
+                Underenheter: tilhorendeUnderenheter,
+                SokeresultatKunUnderenhet: false
             };
             return resultat;
         }

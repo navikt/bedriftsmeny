@@ -10,6 +10,7 @@ export interface Organisasjon {
 export interface JuridiskEnhetMedUnderEnheterArray {
     JuridiskEnhet: Organisasjon;
     Underenheter: Array<Organisasjon>;
+    SokeresultatKunUnderenhet?: boolean;
 }
 
 export const tomAltinnOrganisasjon: Organisasjon = {

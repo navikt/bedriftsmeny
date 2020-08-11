@@ -1,10 +1,10 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Innholdstittel } from 'nav-frontend-typografi';
-import Virksomhetsvelger from './Virksomhetsvelger/Virksomhetsvelger';
-import { Organisasjon, JuridiskEnhetMedUnderEnheterArray } from './Organisasjon';
-import './bedriftsmeny.less';
 import { History } from 'history';
+import { Innholdstittel } from 'nav-frontend-typografi';
+import { Organisasjon, JuridiskEnhetMedUnderEnheterArray } from './organisasjon';
 import { byggOrganisasjonstre } from './byggOrganisasjonsTre';
+import Virksomhetsvelger from './Virksomhetsvelger/Virksomhetsvelger';
+import './Bedriftsmeny.less';
 
 interface EgneProps {
     sidetittel?: string;
@@ -39,7 +39,7 @@ const Bedriftsmeny: FunctionComponent<EgneProps> = (props) => {
     const visVirksomhetsvelger = organisasjonstre && organisasjonstre.length > 0;
 
     return (
-        <nav className="bedriftsmeny">
+        <div className="bedriftsmeny">
             <div className="bedriftsmeny__inner">
                 <Innholdstittel className="bedriftsmeny__tittel">{sidetittel}</Innholdstittel>
                 {visVirksomhetsvelger && (
@@ -50,7 +50,7 @@ const Bedriftsmeny: FunctionComponent<EgneProps> = (props) => {
                     />
                 )}
             </div>
-        </nav>
+        </div>
     );
 };
 

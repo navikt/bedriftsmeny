@@ -1,7 +1,17 @@
+@import '../../../../../../node_modules/nav-frontend-core/less/_variabler';
+
 .organisasjonsbeskrivelse {
     display: flex;
     align-items: center;
-    overflow: hidden;
+    width: 16rem;
+
+    @media (min-width: 375px) {
+        width: 18.5rem;
+    }
+
+    @media (min-width: @screen-sm-min) {
+        width: 22rem;
+    }
 
     &__ikon {
         height: 2rem;

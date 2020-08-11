@@ -1,9 +1,12 @@
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 import React, { useState, useEffect } from 'react';
 import { render } from 'react-dom';
 import { Router } from 'react-router-dom';
 import { createBrowserHistory, History } from 'history';
-
-import { Organisasjon } from './bedriftsmeny/Organisasjon';
+import 'whatwg-fetch';
+import { Normaltekst } from 'nav-frontend-typografi';
+import { Organisasjon } from './bedriftsmeny/organisasjon';
 import Bedriftsmeny from './bedriftsmeny/Bedriftsmeny';
 import { MOCK_ORGANISASJONER } from './mock/organisasjoner';
 import './index.less';
@@ -33,21 +36,21 @@ const App = () => {
                     onOrganisasjonChange={onOrganisasjonChange}
                     history={history}
                 />
-                <main>
-                    <p>
+                <section className="eksempelapp__innhold" role="main">
+                    <Normaltekst>
                         Her ser du et eksempel på bruk av bedriftsmenyen. Hvis du endrer
                         organisasjon vil organisasjonsnummer i adressefeltet også endres
                         tilsvarende.
-                    </p>
+                    </Normaltekst>
                     {valgtOrganisasjon && (
                         <>
-                            <p>
+                            <Normaltekst>
                                 <em>Heisann, du har valgt en organisasjon!</em>
-                            </p>
+                            </Normaltekst>
                             <code>{JSON.stringify(valgtOrganisasjon, null, 4)}</code>
                         </>
                     )}
-                </main>
+                </section>
             </div>
         </Router>
     );

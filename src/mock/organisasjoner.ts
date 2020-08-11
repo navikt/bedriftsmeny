@@ -1,4 +1,4 @@
-import { Organisasjon} from '../bedriftsmeny/Organisasjon';
+import { Organisasjon} from '../bedriftsmeny/organisasjon';
 
 export const MOCK_ORGANISASJONER: Organisasjon[] = [
     {
@@ -122,7 +122,7 @@ export const MOCK_ORGANISASJONER: Organisasjon[] = [
         Status: 'Active'
     },
     {
-        Name: 'SØR-HIDLE OG STRAUMGJERDE',
+        Name: 'SØR-HIDLE OG STRAUMGJERDE OG SØNNER OG DØTRE',
         Type: 'Enterprise',
         ParentOrganizationNumber: '',
         OrganizationNumber: '910167200',
@@ -154,7 +154,7 @@ export const MOCK_ORGANISASJONER: Organisasjon[] = [
         Status: 'Active'
     },
     {
-        Name: 'VALESTRANDSFOSSEN OG SØRLI REVISJON',
+        Name: 'VALESTRANDSFOSSEN OG SØRLI OG SØNN REVISJON',
         Type: 'Business',
         OrganizationNumber: '810989602',
         ParentOrganizationNumber: '910820834',
@@ -162,7 +162,7 @@ export const MOCK_ORGANISASJONER: Organisasjon[] = [
         Status: 'Active'
     },
     {
-        Name: 'VESTBY OG LOEN REVISJON',
+        Name: 'VESTBY OG LOEN OG ALEKSANDERSEN REVISJON',
         Type: 'Business',
         OrganizationNumber: '910989642',
         ParentOrganizationNumber: '910820834',
