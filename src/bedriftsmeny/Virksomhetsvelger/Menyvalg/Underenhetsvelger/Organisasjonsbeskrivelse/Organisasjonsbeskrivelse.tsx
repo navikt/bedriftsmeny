@@ -1,5 +1,5 @@
 import React from 'react';
-import { Undertittel, Element } from 'nav-frontend-typografi';
+import { Undertittel, Element, Normaltekst } from 'nav-frontend-typografi';
 import JuridiskEnhetIkon from './JuridiskEnhetIkon';
 import UnderenhetIkon from './UnderenhetIkon';
 import './Organisasjonsbeskrivelse.less';
@@ -20,7 +20,7 @@ const Organisasjonsbeskrivelse = ({ navn, orgnummer, erJuridiskEnhet, brukOversk
             <Ikon classname="organisasjonsbeskrivelse__ikon" />
             <div className="organisasjonsbeskrivelse__beskrivelse">
                 <Navn className="organisasjonsbeskrivelse__navn" title={navn.length > 26 ? navn : ''}>{navn}</Navn>
-                org. nr. {orgnummer}
+                <Normaltekst aria-label={`Orgnummer: ${orgnummer}`}>org. nr. {orgnummer}</Normaltekst>
             </div>
         </div>
     );

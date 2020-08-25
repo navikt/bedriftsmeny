@@ -10,9 +10,9 @@ interface Props {
 }
 
 const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange }) => (
-    <div className="sokefelt">
+    <div className="bedriftsmeny-sokefelt">
         <Input
-            className="sokefelt__felt"
+            className="bedriftsmeny-sokefelt__felt"
             type="search"
             label=""
             aria-label="Søk etter virksomhet"
@@ -20,11 +20,11 @@ const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange }) => (
             onChange={(e) => onChange(e.target.value)}
             placeholder="Søk"
         />
-        <div className="sokefelt__ikon">
+        <div className="bedriftsmeny-sokefelt__ikon">
             {soketekst.length === 0 ? (
                 <Forstørrelsesglass />
             ) : (
-                <Kryss className="sokefelt__ikon--klikkbart" onClick={() => onChange('')} />
+                <Kryss className="bedriftsmeny-sokefelt__ikon--klikkbart" onClick={() => onChange('')} />
             )}
         </div>
     </div>
