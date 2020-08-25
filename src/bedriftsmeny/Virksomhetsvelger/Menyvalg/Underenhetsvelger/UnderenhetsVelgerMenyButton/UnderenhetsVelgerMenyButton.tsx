@@ -9,14 +9,14 @@ interface Props {
     visUnderenheter: boolean;
     setVisUnderenheter: (bool: boolean) => void;
     valgtOrganisasjon: Organisasjon;
-    juridiskEnhetTrykketPaa: string;
     setJuridiskEnhetTrykketPaa: (enhet: string) => void;
     setHover: (bool: boolean) => void;
     erSok: boolean;
+    erApen: boolean;
 }
 
 const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
-    const {juridiskEnhetMedUnderenheter, visUnderenheter, setVisUnderenheter, valgtOrganisasjon, juridiskEnhetTrykketPaa, setJuridiskEnhetTrykketPaa, setHover, erSok } = props;
+    const {juridiskEnhetMedUnderenheter, visUnderenheter, setVisUnderenheter, valgtOrganisasjon, setJuridiskEnhetTrykketPaa, setHover, erSok, erApen } = props;
     const juridiskEnhet = juridiskEnhetMedUnderenheter.JuridiskEnhet;
     const underenheter = juridiskEnhetMedUnderenheter.Underenheter;
     const erValgtOrganisasjon = valgtOrganisasjon.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber;
@@ -45,6 +45,7 @@ const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
 
     return (
         <button
+            tabIndex={erApen ? 0 : -1}
             onClick={() => {
                 if (visUnderenheter) {
                     setJuridiskEnhetTrykketPaa('ikkevis');

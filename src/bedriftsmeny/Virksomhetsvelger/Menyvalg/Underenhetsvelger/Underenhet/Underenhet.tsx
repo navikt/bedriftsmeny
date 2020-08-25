@@ -12,6 +12,7 @@ interface Props {
     setErApen: (bool: boolean) => void;
     hover: boolean;
     setHover: (bool: boolean) => void;
+    erApen: boolean;
 }
 
 const Underenhet: FunctionComponent<Props> = ({
@@ -20,7 +21,8 @@ const Underenhet: FunctionComponent<Props> = ({
     history,
     setErApen,
     hover,
-    setHover
+    setHover,
+    erApen
 }) => {
     const [erValgtEnhet, setErValgtEnhet] = useState(false);
 
@@ -65,7 +67,7 @@ const Underenhet: FunctionComponent<Props> = ({
             }`}
             id={erValgtEnhet ? 'valgtunderenhet' : ''}
             key={underEnhet.OrganizationNumber}
-            tabIndex={0}>
+            tabIndex={erApen ? 0 : -1}>
             <Organisasjonsbeskrivelse
                 navn={underEnhet.Name}
                 orgnummer={underEnhet.OrganizationNumber}

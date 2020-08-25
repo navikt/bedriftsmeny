@@ -66,10 +66,10 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
                 juridiskEnhetMedUnderenheter={juridiskEnhetMedUnderenheter}
                 valgtOrganisasjon={valgtOrganisasjon}
                 setVisUnderenheter={setVisUnderenheter}
-                juridiskEnhetTrykketPaa={juridiskEnhetTrykketPaa}
                 setJuridiskEnhetTrykketPaa={setJuridiskEnhetTrykketPaa}
                 setHover={setHover}
                 erSok={erSok}
+                erApen={erApen}
             />
             <ul
                 className={`underenhetsvelger__menyvalg-wrapper--${
@@ -77,7 +77,8 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
                 }`}
                 id={`underenhetvelger${juridiskEnhet.OrganizationNumber}`}
                 role="menu"
-                aria-label={`Underenheter til ${juridiskEnhet.Name}`}>
+                aria-label={`Underenheter til ${juridiskEnhet.Name}`}
+            >
                 {juridiskEnhetMedUnderenheter.Underenheter.map((organisasjon: Organisasjon) => (
                     <Underenhet
                         key={organisasjon.OrganizationNumber}
@@ -87,6 +88,7 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
                         setErApen={setErApen}
                         hover={hover}
                         setHover={setHover}
+                        erApen={erApen}
                     />
                 ))}
             </ul>
