@@ -36,7 +36,8 @@ const Bedriftsmeny: FunctionComponent<EgneProps> = (props) => {
         }
     }, [props.organisasjoner]);
 
-    const visVirksomhetsvelger = organisasjonstre && organisasjonstre.length > 0;
+    const visVirksomhetsvelger = organisasjonstre && organisasjonstre.length > 0
+        && props.organisasjoner && props.organisasjoner?.length>0;
 
     return (
         <div className="bedriftsmeny">
