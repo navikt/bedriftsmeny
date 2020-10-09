@@ -1,12 +1,14 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { forwardRef, FunctionComponent, RefObject, useEffect, useState } from 'react';
 import { History } from 'history';
 import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../../organisasjon';
 import Underenhet from './Underenhet/Underenhet';
 import UnderenhetsVelgerMenyButton from './UnderenhetsVelgerMenyButton/UnderenhetsVelgerMenyButton';
+import { useRoveFocus } from '../../useRoveFocus';
 import './Underenhetsvelger.less';
 
 interface Props {
     history: History;
+    menyKomponenter?: JuridiskEnhetMedUnderEnheterArray[];
     juridiskEnhetMedUnderenheter: JuridiskEnhetMedUnderEnheterArray;
     valgtOrganisasjon: Organisasjon;
     setErApen: (bool: boolean) => void;
@@ -16,29 +18,47 @@ interface Props {
     setHover: (bool: boolean) => void;
     erSok: boolean;
     erApen: boolean;
+    index: number;
+    ref: () => HTMLDivElement|null;
 }
 
-const Underenhetsvelger: FunctionComponent<Props> = ({
+const Underenhetsvelger = ({
     history,
     juridiskEnhetMedUnderenheter,
     valgtOrganisasjon,
+    menyKomponenter,
     juridiskEnhetTrykketPaa,
     setJuridiskEnhetTrykketPaa,
     hover,
     setHover,
     erSok,
     erApen,
-    setErApen
-}) => {
+    setErApen,
+    index,
+    ref
+}: Props) => {
+    const dropdownref = ref();
     const [visUnderenheter, setVisUnderenheter] = useState(false);
     const juridiskEnhet = juridiskEnhetMedUnderenheter.JuridiskEnhet;
+    const [antallUnderenheter, setAntallUnderenheter] = useState(1);
+    const [currentFocusJuridiskEnhet, setFocusJuridiskEnhet, trykketHoyrePilIndex, setTrykketHoyrepilIndex, trykketHoyrePil, setTrykketHoyrepil, focusUnderenhet, setFocusUnderenhet, trykketNedIndex, setTrykketNed] = useRoveFocus(dropdownref, antallUnderenheter, menyKomponenter);
 
     useEffect(() => {
         setVisUnderenheter(false);
-        const erValgt: boolean = valgtOrganisasjon.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber;
-        const bleTrykketPaaSist: boolean = juridiskEnhet.OrganizationNumber === juridiskEnhetTrykketPaa;
 
-        if (!erApen) setJuridiskEnhetTrykketPaa('');
+        const erValgt: boolean = valgtOrganisasjon.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber;
+        // @ts-ignore
+        const bleTrykketPaaSist: boolean = juridiskEnhet.OrganizationNumber === juridiskEnhetTrykketPaa || (trykketHoyrePilIndex === index && trykketHoyrePil);
+        //  || juridiskEnhet.OrganizationNumber === menyKomponenter[0].JuridiskEnhet?.OrganizationNumber
+
+        if (!erApen) {
+            setJuridiskEnhetTrykketPaa('');
+            setFocusJuridiskEnhet(-1);
+            setTrykketHoyrepilIndex(-1);
+            setTrykketHoyrepil(false);
+            setFocusUnderenhet(0);
+            setTrykketNed(-1);
+        }
 
         if (
             (erValgt && juridiskEnhetTrykketPaa === '' && !erSok) ||
@@ -46,7 +66,10 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
             (erSok && juridiskEnhetMedUnderenheter.SokeresultatKunUnderenhet) ||
             bleTrykketPaaSist
         ) {
+            setAntallUnderenheter(juridiskEnhetMedUnderenheter.Underenheter.length);
             setVisUnderenheter(true);
+            // setCurrentFocusUnderenhet(0);
+
             const scrollcontainer = document.querySelector('.dropdownmeny-elementer');
             const valgtenhet = document.getElementById('underenhet-apen');
             const topPos = valgtenhet ? valgtenhet.offsetTop : 0;
@@ -57,10 +80,14 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
                 }
             }, 100);
         }
-    }, [juridiskEnhetMedUnderenheter, valgtOrganisasjon, juridiskEnhetTrykketPaa, erApen, visUnderenheter]);
+    }, [juridiskEnhetMedUnderenheter, valgtOrganisasjon, index, juridiskEnhetTrykketPaa, erApen, visUnderenheter, trykketHoyrePil, trykketHoyrePilIndex]);
 
     return (
-        <div className="underenhetsvelger" id={visUnderenheter ? 'underenhet-apen' : ''}>
+        <li
+            className="underenhetsvelger"
+            id={visUnderenheter ? 'underenhet-apen' : ''}
+            tabIndex={-1}
+        >
             <UnderenhetsVelgerMenyButton
                 visUnderenheter={visUnderenheter}
                 juridiskEnhetMedUnderenheter={juridiskEnhetMedUnderenheter}
@@ -70,6 +97,13 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
                 setHover={setHover}
                 erSok={erSok}
                 erApen={erApen}
+                index={index}
+                focus={currentFocusJuridiskEnhet === index && trykketNedIndex !== -1}
+                setFocus={setFocusJuridiskEnhet}
+                setTrykketHoyrepilIndex={setTrykketHoyrepilIndex}
+                setTrykketHoyrepil={setTrykketHoyrepil}
+                setTrykketNed={setTrykketNed}
+                setFocusUnderenhet={setFocusUnderenhet}
             />
             <ul
                 className={`underenhetsvelger__menyvalg-wrapper--${
@@ -79,7 +113,7 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
                 role="menu"
                 aria-label={`Underenheter til ${juridiskEnhet.Name}`}
             >
-                {juridiskEnhetMedUnderenheter.Underenheter.map((organisasjon: Organisasjon) => (
+                {juridiskEnhetMedUnderenheter.Underenheter.map((organisasjon: Organisasjon, index2: number) => (
                     <Underenhet
                         key={organisasjon.OrganizationNumber}
                         underEnhet={organisasjon}
@@ -89,10 +123,13 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
                         hover={hover}
                         setHover={setHover}
                         erApen={erApen}
+                        index={index2}
+                        focus={focusUnderenhet === index2 && trykketNedIndex === index}
+                        setFocus={setFocusUnderenhet}
                     />
                 ))}
             </ul>
-        </div>
+        </li>
     );
 };
 

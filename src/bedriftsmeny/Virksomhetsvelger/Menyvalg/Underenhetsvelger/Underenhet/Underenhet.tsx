@@ -1,7 +1,7 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react';
 import { History } from 'history';
 import Organisasjonsbeskrivelse from '../Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
-import { Organisasjon } from '../../../../organisasjon';
+import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../../../organisasjon';
 import { settOrgnummerIUrl } from '../../../utils/utils';
 import './Underenhet.less';
 
@@ -13,6 +13,9 @@ interface Props {
     hover: boolean;
     setHover: (bool: boolean) => void;
     erApen: boolean;
+    index: number;
+    focus: boolean;
+    setFocus: (num: number) => void;
 }
 
 const Underenhet: FunctionComponent<Props> = ({
@@ -22,7 +25,10 @@ const Underenhet: FunctionComponent<Props> = ({
     setErApen,
     hover,
     setHover,
-    erApen
+    erApen,
+    index,
+    focus,
+    setFocus
 }) => {
     const [erValgtEnhet, setErValgtEnhet] = useState(false);
 
@@ -32,17 +38,30 @@ const Underenhet: FunctionComponent<Props> = ({
         setHover(false);
     };
 
+    /* const handleSelect = useCallback(() => {
+        console.log(`${Underenhet}`);
+        setFocus(index);
+    }, [underEnhet, index, setFocus]); */
+
+    const ref = useRef(null);
+
     useEffect(() => {
         setErValgtEnhet(false);
         if (valgtOrganisasjon.OrganizationNumber === underEnhet.OrganizationNumber) {
             setErValgtEnhet(true);
         }
-    }, [valgtOrganisasjon, underEnhet]);
+        if (focus) {
+            // @ts-ignore
+            ref.current && ref.current.focus();
+        }
+    }, [valgtOrganisasjon, underEnhet, focus]);
 
     return (
         <li
+            tabIndex={focus ? 0 : -1}
+            ref={ref}
             onClick={() => onUnderenhetSelect(underEnhet.OrganizationNumber)}
-            onKeyPress={(e) => {
+            onKeyDown={(e) => {
                 if (e.key === 'Enter') {
                     onUnderenhetSelect(underEnhet.OrganizationNumber);
                 }
@@ -67,7 +86,7 @@ const Underenhet: FunctionComponent<Props> = ({
             }`}
             id={erValgtEnhet ? 'valgtunderenhet' : ''}
             key={underEnhet.OrganizationNumber}
-            tabIndex={erApen ? 0 : -1}>
+        >
             <Organisasjonsbeskrivelse
                 navn={underEnhet.Name}
                 orgnummer={underEnhet.OrganizationNumber}

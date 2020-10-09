@@ -20,6 +20,7 @@ export interface VirksomhetsvelgerProps {
 
 const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => {
     const bedriftvelgernode = useRef<HTMLDivElement>(null);
+    const dropdownnode = useRef<HTMLDivElement>(null);
     const { organisasjonstre, onOrganisasjonChange, history } = props;
     const [erApen, setErApen] = useState(false);
     const [soketekst, setSoketekst] = useState('');
@@ -43,6 +44,10 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
             return;
         }
         setErApen(false);
+    };
+
+    const getDropdownref = (): HTMLDivElement|null => {
+        return dropdownnode.current;
     };
 
     useEffect(() => {
@@ -76,10 +81,18 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                             className={`virksomhetsvelger__dropdown--${
                                 erApen ? 'apen' : 'lukket'
                             }`}
-                            id="virksomhetsvelger__dropdown">
+                            id="virksomhetsvelger__dropdown"
+                        >
                             <Sokefelt soketekst={soketekst} onChange={brukSoketekst} />
-                            <div className="dropdownmeny-elementer-wrapper">
-                                <div className="dropdownmeny-elementer">
+                            <div className="dropdownmeny-elementer-wrapper" ref={dropdownnode}>
+                                <ul
+                                    className="dropdownmeny-elementer"
+                                    tabIndex={erApen ? 0 : -1}
+                                    aria-live="polite"
+                                    aria-label={`Liste med ${soketekst.length === 0
+                                        ? organisasjonstre!.length
+                                        : listeMedOrganisasjonerFraSok!.length} juridiske enheter` }
+                                >
                                     <Menyvalg
                                         menyKomponenter={
                                             soketekst.length === 0
@@ -91,8 +104,9 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                                         history={history}
                                         valgtOrganisasjon={valgtOrganisasjon}
                                         erSok={soketekst !== ''}
+                                        ref={getDropdownref}
                                     />
-                                </div>
+                                </ul>
                             </div>
                         </div>
                     )}

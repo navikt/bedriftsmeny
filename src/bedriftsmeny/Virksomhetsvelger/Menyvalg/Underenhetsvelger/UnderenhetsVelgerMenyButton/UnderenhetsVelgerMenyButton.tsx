@@ -1,10 +1,11 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { Dispatch, FunctionComponent, useCallback, useEffect, useRef, useState } from 'react';
 import { NedChevron, OppChevron } from 'nav-frontend-chevron';
 import { Normaltekst } from 'nav-frontend-typografi';
 import Organisasjonsbeskrivelse from '../Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
 import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../../../organisasjon';
 
 interface Props {
+    menyKomponenter?: JuridiskEnhetMedUnderEnheterArray[];
     juridiskEnhetMedUnderenheter: JuridiskEnhetMedUnderEnheterArray;
     visUnderenheter: boolean;
     setVisUnderenheter: (bool: boolean) => void;
@@ -13,10 +14,17 @@ interface Props {
     setHover: (bool: boolean) => void;
     erSok: boolean;
     erApen: boolean;
+    index: number;
+    focus: boolean;
+    setFocus: (num: number) => void;
+    setTrykketHoyrepilIndex: (num: number) => void;
+    setTrykketHoyrepil: (bool: boolean) => void;
+    setTrykketNed: (num: number) => void;
+    setFocusUnderenhet: (num: number) => void;
 }
 
 const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
-    const {juridiskEnhetMedUnderenheter, visUnderenheter, setVisUnderenheter, valgtOrganisasjon, setJuridiskEnhetTrykketPaa, setHover, erSok, erApen } = props;
+    const {juridiskEnhetMedUnderenheter, visUnderenheter, setVisUnderenheter, valgtOrganisasjon, setJuridiskEnhetTrykketPaa, setTrykketHoyrepilIndex, setTrykketHoyrepil, setTrykketNed, setHover, erSok, index, focus, setFocus, erApen, setFocusUnderenhet } = props;
     const juridiskEnhet = juridiskEnhetMedUnderenheter.JuridiskEnhet;
     const underenheter = juridiskEnhetMedUnderenheter.Underenheter;
     const erValgtOrganisasjon = valgtOrganisasjon.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber;
@@ -37,20 +45,34 @@ const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
 
     const [oppChevron, setOppChevron] = useState(false);
 
+    const ref = useRef(null);
+
     useEffect(() => {
         setOppChevron(false);
         if (visUnderenheter) setOppChevron(true);
 
-    }, [visUnderenheter]);
+        if (focus) {
+            // @ts-ignore
+            ref.current && ref.current.focus();
+        }
+
+    }, [visUnderenheter, focus]);
 
     return (
         <button
-            tabIndex={erApen ? 0 : -1}
+            tabIndex={focus && erApen ? 0 : -1}
+            ref={ref}
             onClick={() => {
                 if (visUnderenheter) {
                     setJuridiskEnhetTrykketPaa('ikkevis');
+                    setTrykketHoyrepilIndex(-1);
+                    setTrykketHoyrepil(false);
+                    // setFocus(index);
+                    setTrykketNed(-1);
+                    setFocusUnderenhet(0);
                 } else {
                     setJuridiskEnhetTrykketPaa(juridiskEnhet.OrganizationNumber);
+                    // setFocus(index)
                 }
                 setVisUnderenheter(!props.visUnderenheter);
             }}
@@ -58,7 +80,7 @@ const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
                 setHover(true);
             }}
             onMouseLeave={() => setHover(false)}
-            className={`underenhetsvelger__button ${visUnderenheter ? 'juridiskenhet--apen' : 'juridiskenhet--lukket'}`}
+            className={`underenhetsvelger__button ${visUnderenheter ? 'juridiskenhet--apen' : 'juridiskenhet--lukket'} ${props.index === 0 ? 'juridiskenhet--first' : ''}`}
             id={
                 erValgtOrganisasjon
                     ? 'valgtjuridiskenhet'

@@ -16,10 +16,16 @@ interface Props {
 const MenyKnapp = ({ navn, orgnummer, brukOverskrift, erApen, setErApen, setSoketekst }: Props) => {
     const Navn = brukOverskrift ? Undertittel : Element;
     const [oppChevron, setOppChevron] = useState(false);
+    const sokefelt = document.getElementById('bedriftsmeny-sokefelt');
 
     useEffect(() => {
         setOppChevron(false);
-        if (erApen) setOppChevron(true);
+        if (erApen) {
+            setOppChevron(true);
+            if (sokefelt) {
+                sokefelt.focus();
+            }
+        }
 
     }, [erApen]);
 
