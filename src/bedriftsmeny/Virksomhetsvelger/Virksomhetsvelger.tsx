@@ -104,7 +104,7 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                                         history={history}
                                         valgtOrganisasjon={valgtOrganisasjon}
                                         erSok={soketekst !== ''}
-                                        ref={getDropdownref}
+                                        dropdownref={getDropdownref}
                                     />
                                 </ul>
                             </div>

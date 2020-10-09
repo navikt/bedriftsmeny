@@ -1,7 +1,7 @@
 import { useCallback, useState, useEffect } from 'react';
 import { JuridiskEnhetMedUnderEnheterArray } from '../organisasjon';
 
-export const useRoveFocus = (dropdownref: HTMLDivElement|null, antallUnderenheter: number, menyKomponenter?: JuridiskEnhetMedUnderEnheterArray[]): [number, (n: number) => void, number, (n: number) => void, boolean, (bool: boolean) => void, number, (n: number) => void, number, (n: number) => void] => {
+export const useRoveFocus = (dropdownnode: HTMLDivElement|null, antallUnderenheter: number, menyKomponenter?: JuridiskEnhetMedUnderEnheterArray[]): [number, (n: number) => void, number, (n: number) => void, boolean, (bool: boolean) => void, number, (n: number) => void, number, (n: number) => void] => {
     const size = menyKomponenter ? menyKomponenter.length : 0;
 
     const [currentFocusJuridiskEnhet, setCurrentFocusJuridiskEnhet] = useState<number>(-1);
@@ -20,7 +20,9 @@ export const useRoveFocus = (dropdownref: HTMLDivElement|null, antallUnderenhete
     const handleKeyDown = useCallback(
         (e) => {
             // @ts-ignore
-            if (ref && !ref.contains(e.target as HTMLElement)) {
+            console.log('useRoveFocus dropdownnode', dropdownnode);
+            if (dropdownnode && !dropdownnode.contains(e.target as HTMLElement)) {
+                console.log('dropdownnode contains');
                 return;
             }
             if (e.keyCode === 40) { // Down arrow
@@ -100,7 +102,7 @@ export const useRoveFocus = (dropdownref: HTMLDivElement|null, antallUnderenhete
                 }
             }
         },
-        [size, antallUnderenheter, dropdownref, currentFocusJuridiskEnhet, setCurrentFocusJuridiskEnhet, trykketHoyrepilIndex, setTrykketHoyrepilIndex, trykketHoyrepil, setTrykketHoyrepil, currentFocusUnderenhet, setFocusUnderenhet, trykketNedpilIndex, setTrykketNedpilIndex]
+        [size, antallUnderenheter, dropdownnode, currentFocusJuridiskEnhet, setCurrentFocusJuridiskEnhet, trykketHoyrepilIndex, setTrykketHoyrepilIndex, trykketHoyrepil, setTrykketHoyrepil, currentFocusUnderenhet, setFocusUnderenhet, trykketNedpilIndex, setTrykketNedpilIndex]
     );
 
     useEffect(() => {

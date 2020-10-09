@@ -19,7 +19,7 @@ interface Props {
     erSok: boolean;
     erApen: boolean;
     index: number;
-    ref: () => HTMLDivElement|null;
+    dropdownref: () => HTMLDivElement|null;
 }
 
 const Underenhetsvelger = ({
@@ -35,16 +35,17 @@ const Underenhetsvelger = ({
     erApen,
     setErApen,
     index,
-    ref
+    dropdownref
 }: Props) => {
-    const dropdownref = ref();
+    const dropdownnode = dropdownref();
     const [visUnderenheter, setVisUnderenheter] = useState(false);
     const juridiskEnhet = juridiskEnhetMedUnderenheter.JuridiskEnhet;
     const [antallUnderenheter, setAntallUnderenheter] = useState(1);
-    const [currentFocusJuridiskEnhet, setFocusJuridiskEnhet, trykketHoyrePilIndex, setTrykketHoyrepilIndex, trykketHoyrePil, setTrykketHoyrepil, focusUnderenhet, setFocusUnderenhet, trykketNedIndex, setTrykketNed] = useRoveFocus(dropdownref, antallUnderenheter, menyKomponenter);
+    const [currentFocusJuridiskEnhet, setFocusJuridiskEnhet, trykketHoyrePilIndex, setTrykketHoyrepilIndex, trykketHoyrePil, setTrykketHoyrepil, focusUnderenhet, setFocusUnderenhet, trykketNedIndex, setTrykketNed] = useRoveFocus(dropdownnode, antallUnderenheter, menyKomponenter);
 
     useEffect(() => {
         setVisUnderenheter(false);
+        console.log(dropdownnode);
 
         const erValgt: boolean = valgtOrganisasjon.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber;
         // @ts-ignore

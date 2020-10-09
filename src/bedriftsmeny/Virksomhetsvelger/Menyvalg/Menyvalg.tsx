@@ -11,11 +11,11 @@ interface Props {
     history: History;
     valgtOrganisasjon: Organisasjon;
     erSok: boolean;
-    ref: () => HTMLDivElement|null;
+    dropdownref: () => HTMLDivElement|null;
 }
 
 const Menyvalg = (props: Props) => {
-    const { menyKomponenter = [], history, valgtOrganisasjon, setErApen, erSok, erApen, ref } = props;
+    const { menyKomponenter = [], history, valgtOrganisasjon, setErApen, erSok, erApen, dropdownref } = props;
     const [juridiskEnhetTrykketPaa, setJuridiskEnhetTrykketPaa] = useState<string>('');
     const [hover, setHover] = useState(false);
 
@@ -36,7 +36,7 @@ const Menyvalg = (props: Props) => {
                     hover={hover}
                     setHover={setHover}
                     erSok={erSok}
-                    ref={ref}
+                    dropdownref={dropdownref}
 
                 />
             ))
