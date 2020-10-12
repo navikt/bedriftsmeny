@@ -40,21 +40,18 @@ const Underenhetsvelger = ({
     const dropdownnode = dropdownref();
     const [visUnderenheter, setVisUnderenheter] = useState(false);
     const juridiskEnhet = juridiskEnhetMedUnderenheter.JuridiskEnhet;
-    const [antallUnderenheter, setAntallUnderenheter] = useState(1);
+    const [antallUnderenheter, setAntallUnderenheter] = useState(0);
     const [currentFocusJuridiskEnhet, setFocusJuridiskEnhet, trykketHoyrePilIndex, setTrykketHoyrepilIndex, trykketHoyrePil, setTrykketHoyrepil, focusUnderenhet, setFocusUnderenhet, trykketNedIndex, setTrykketNed] = useRoveFocus(dropdownnode, antallUnderenheter, menyKomponenter);
-
+    // || (valgtOrganisasjon.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber && juridiskEnhetTrykketPaa === '')
     useEffect(() => {
         setVisUnderenheter(false);
-        console.log(dropdownnode);
-
         const erValgt: boolean = valgtOrganisasjon.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber;
         // @ts-ignore
         const bleTrykketPaaSist: boolean = juridiskEnhet.OrganizationNumber === juridiskEnhetTrykketPaa || (trykketHoyrePilIndex === index && trykketHoyrePil);
-        //  || juridiskEnhet.OrganizationNumber === menyKomponenter[0].JuridiskEnhet?.OrganizationNumber
 
         if (!erApen) {
             setJuridiskEnhetTrykketPaa('');
-            setFocusJuridiskEnhet(-1);
+            setFocusJuridiskEnhet(0);
             setTrykketHoyrepilIndex(-1);
             setTrykketHoyrepil(false);
             setFocusUnderenhet(0);
@@ -81,7 +78,7 @@ const Underenhetsvelger = ({
                 }
             }, 100);
         }
-    }, [juridiskEnhetMedUnderenheter, valgtOrganisasjon, index, juridiskEnhetTrykketPaa, erApen, visUnderenheter, trykketHoyrePil, trykketHoyrePilIndex]);
+    }, [juridiskEnhetMedUnderenheter, valgtOrganisasjon, index, juridiskEnhetTrykketPaa, erApen, visUnderenheter, trykketHoyrePil, trykketHoyrePilIndex, trykketNedIndex]);
 
     return (
         <li
@@ -99,7 +96,7 @@ const Underenhetsvelger = ({
                 erSok={erSok}
                 erApen={erApen}
                 index={index}
-                focus={currentFocusJuridiskEnhet === index && trykketNedIndex !== -1}
+                focus={currentFocusJuridiskEnhet === index && trykketNedIndex === -1}
                 setFocus={setFocusJuridiskEnhet}
                 setTrykketHoyrepilIndex={setTrykketHoyrepilIndex}
                 setTrykketHoyrepil={setTrykketHoyrepil}

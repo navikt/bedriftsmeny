@@ -15,21 +15,16 @@ const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange }) => {
     const handleKeydown: { (e: KeyboardEvent): void } = (e: KeyboardEvent) => {
         const forsteVirksomhet = document.querySelector('.juridiskenhet--first') as HTMLElement;
         const menyknapp = document.querySelector('#virksomhetsvelger__button') as HTMLElement;
-        console.log('keydown');
         const node = sokefeltref.current;
         // @ts-ignore
         if (node && node.contains(e.target as HTMLElement)) {
             if (e.key === 'ArrowDown') {
-                console.log('arrowDown');
                 if (forsteVirksomhet) {
-                    console.log('forste', forsteVirksomhet);
                     forsteVirksomhet.focus();
                 }
             }
             if (e.key === 'ArrowUp') {
-                console.log('arrowUp');
                 if (forsteVirksomhet) {
-                    console.log('forste', forsteVirksomhet);
                     menyknapp.focus();
                 }
             }
