@@ -72,8 +72,7 @@ const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrgan
                 id="bedriftsmeny-sokefelt"
                 type="search"
                 label=""
-                // @ts-ignore
-                aria-live = {arialabelTekst}
+                aria-live = {"assertive"}
                 aria-label={arialabelTekst}
                 value={soketekst}
                 onChange={(e) => onChangeMedAriaKontroll(e.target.value)}
