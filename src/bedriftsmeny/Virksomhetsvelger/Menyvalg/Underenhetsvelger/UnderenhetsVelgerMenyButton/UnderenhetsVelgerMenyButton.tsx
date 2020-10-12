@@ -72,7 +72,10 @@ const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
                     setFocusUnderenhet(0);
                 } else {
                     setJuridiskEnhetTrykketPaa(juridiskEnhet.OrganizationNumber);
-                    // setFocus(index)
+                    setTrykketHoyrepilIndex(index);
+                    setTrykketHoyrepil(true);
+                    setTrykketNed(index)
+                    setFocus(index)
                 }
                 setVisUnderenheter(!props.visUnderenheter);
             }}

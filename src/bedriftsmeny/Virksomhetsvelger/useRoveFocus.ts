@@ -67,7 +67,6 @@ export const useRoveFocus = (dropdownnode: HTMLDivElement|null, antallUnderenhet
                         if (currentFocusUnderenhet === 0) {
                             console.log('fokus er på første underenhet, og skal da sette fokus på juridisk enhet. currentFocusUnderenhet === 0');
                             setTrykketNedpilIndex(-1);
-                            setFocusUnderenhet(0);
                         } else {
                             console.log('fokus er på underenhet, ikke første. currentFocusUnderenhet !== 0');
                             // sett fokus på forrige underenhet
@@ -79,35 +78,59 @@ export const useRoveFocus = (dropdownnode: HTMLDivElement|null, antallUnderenhet
 
                         setFocusUnderenhet(0);
                         // sett fokus på forrige juridisk enhet
-                        setCurrentFocusJuridiskEnhet(currentFocusJuridiskEnhet - 1);
+                        if (currentFocusJuridiskEnhet === 0) {
+                            console.log('fokus er på første juridisk enhet');
+                            sokefelt?.focus();
+                        } else {
+                            console.log('sett fokus på forrige juridiske enhet');
+                            setCurrentFocusJuridiskEnhet(currentFocusJuridiskEnhet - 1);
+                        }
 
                     } else {
-                        // fokus er på juridisk enhet som ikke er åpen eller er åpen, men ikke nedpil trykket
+                        // fokus er på juridisk enhet som ikke er åpen
                         if (currentFocusJuridiskEnhet === 0) {
                             console.log('fokus er på første juridisk enhet');
                             setFocusUnderenhet(0);
+                            setTrykketHoyreIndex(-1);
+                            setTrykketHoyre(false);
                             sokefelt?.focus();
                         } else {
-                            console.log('sett fokus på forrige juridisk enhet');
+                            console.log('sett fokus på forrige juridiske enhet');
                             setCurrentFocusJuridiskEnhet(currentFocusJuridiskEnhet - 1);
                         }
                     }
+
                 } else if (e.keyCode === 39) { // Right arrow
                     e.preventDefault();
                     console.log('Høyrepil trykket. Skal sette status TRYKKET, slik at underenhetene vises');
-                    setTrykketHoyre(true);
-                    setTrykketHoyreIndex(currentFocusJuridiskEnhet);
+                    if (trykketHoyrepilIndex === -1 && !trykketHoyrepil && trykketNedpilIndex === -1) {
+                        setTrykketHoyre(true);
+                        setTrykketHoyreIndex(currentFocusJuridiskEnhet);
+                    }
+
+                } else if (e.keyCode === 37) { // Left arrow
+                    e.preventDefault();
+
+                    if (trykketHoyrepilIndex === currentFocusJuridiskEnhet && trykketHoyrepil && trykketNedpilIndex === -1) {
+                        console.log('Venstepiltrykket. Jjuridisk enhet er åpen. Fokus er på juridisk enhet. Sett trykketHøyre=false');
+                        setTrykketHoyre(false);
+                        setTrykketHoyreIndex(-1);
+                        setTrykketNedIndex(-1);
+
+                    }
                 } else if (e.keyCode === 13) { // Enter
                     // e.preventDefault();
-                    if (trykketHoyrepilIndex === currentFocusJuridiskEnhet && trykketHoyrepil) { // trykket høyre/fokus er på underenhet
-                        if (currentFocusUnderenhet === 0) {
-                            console.log('Enter trykker og høyrepil trykket. Første underenhet, og skal da sette fokus på juridisk enhet.');
-                                setFocusUnderenhet(0);
-                        } else {
-                            console.log('Enter trykker og høyrepil er ikke trykket. Ikke første underenhet, og skal da sette fokus på forrige underenenhet.');
-                            setFocusUnderenhet(currentFocusUnderenhet - 1);
-                        }
-                    }
+
+                    /* if (trykketHoyrepilIndex === currentFocusJuridiskEnhet && trykketHoyrepil && trykketNedpilIndex === -1) {
+                        console.log('trykket Enter/juridisk enhet er åpen. Fokus er på juridisk enhet. Sett trykketHøyre=false');
+                        setTrykketHoyre(false);
+                        setTrykketHoyreIndex(-1);
+
+                    } else if (trykketHoyrepilIndex === -1 && !trykketHoyrepil && trykketNedpilIndex === -1) {
+                        console.log('trykket Enter/juridisk enhet er IKKE åpen. Fokus er på juridisk enhet. Sett trykketHøyre=true');
+                        setTrykketHoyre(true);
+                        setTrykketHoyreIndex(currentFocusJuridiskEnhet);
+                    } */
                 }
             } else return;
         },
