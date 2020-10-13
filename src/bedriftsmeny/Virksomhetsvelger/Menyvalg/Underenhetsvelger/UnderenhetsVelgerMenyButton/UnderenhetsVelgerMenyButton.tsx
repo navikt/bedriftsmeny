@@ -50,8 +50,8 @@ const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
     useEffect(() => {
         setOppChevron(false);
         if (visUnderenheter) setOppChevron(true);
-
-        if (focus) {
+        //det er denne linja som setter fokus bort fra søkefeltet !erSok fikser det
+        if (focus && !erSok) {
             // @ts-ignore
             ref.current && ref.current.focus();
         }
