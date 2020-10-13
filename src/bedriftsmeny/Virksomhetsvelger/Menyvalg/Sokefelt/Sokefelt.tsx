@@ -45,6 +45,12 @@ const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrgan
         }
     };
 
+    const onChangeForAriaDelay = (verdi: string) => {
+        setTimeout(function(){
+            onChange(verdi)
+        }, 1);
+    }
+
     useEffect(() => {
         document.addEventListener('keydown', handleKeydown, false);
         return () => {
@@ -57,15 +63,14 @@ const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrgan
     return (
         <div className="bedriftsmeny-sokefelt" ref={sokefeltref}>
             <Input
-               // aria-describedby = {arialabelTekst}
                 className="bedriftsmeny-sokefelt__felt"
                 id="bedriftsmeny-sokefelt"
                 type="search"
                 label=""
-                aria-live = {"assertive"}
+                aria-live = {"polite"}
                 aria-label={arialabelTekst}
                 value={soketekst}
-                onChange={(e) => onChange(e.target.value)}
+                onChange={(e) => onChangeForAriaDelay(e.target.value)}
                 placeholder="Søk"
                 tabIndex={-1}
             />
