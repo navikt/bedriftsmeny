@@ -32,7 +32,6 @@ const MenyKnapp = ({ navn, orgnummer, brukOverskrift, erApen, setErApen, setSoke
     return (
         <button
             onClick={() => {
-                console.log("onclick");
                 setErApen(!erApen);
                 if (!erApen) {
                     setSoketekst('');

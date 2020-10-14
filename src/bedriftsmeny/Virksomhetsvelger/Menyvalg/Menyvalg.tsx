@@ -79,14 +79,19 @@ const Menyvalg: FunctionComponent<Props> = (props) => {
                 }
             }
         if (keyPressKey === 'ArrowUp') {
+            let indeksAvNåværendeOrganisasjon = finnIndeksIUtpakketListe( organisasjonIFokus.OrganizationNumber,utpakketMenyKomponenter)
+            const erForsteElement = indeksAvNåværendeOrganisasjon === 0;
+            if (erForsteElement) {
+                return
+            }
             if (erApen || !erJuridiskEnhet) {
-                const indeksAvNåværendeOrganisasjon = finnIndeksIUtpakketListe( organisasjonIFokus.OrganizationNumber,utpakketMenyKomponenter,)
+
                 // @ts-ignore
                 nesteOrganisasjon = utpakketMenyKomponenter[indeksAvNåværendeOrganisasjon - 1]
                 console.log("forsøker hoppe til nærmeste for indeks ", indeksAvNåværendeOrganisasjon)
             } else {
                 console.log("forsøker hoppe til langt fram")
-                const indeksAvNåværendeOrganisasjon = finnIndeksIMenyKomponenter(organisasjonIFokus.OrganizationNumber, menyKomponenter)
+                indeksAvNåværendeOrganisasjon = finnIndeksIMenyKomponenter(organisasjonIFokus.OrganizationNumber, menyKomponenter)
                 nesteOrganisasjon = menyKomponenter[indeksAvNåværendeOrganisasjon - 1].JuridiskEnhet
             }
 
