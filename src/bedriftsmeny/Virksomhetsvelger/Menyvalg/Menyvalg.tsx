@@ -18,7 +18,7 @@ const Menyvalg: FunctionComponent<Props> = (props) => {
     const [hover, setHover] = useState(false);
 
     return (
-        <>
+        <div id = {"virksomhetsvelger-id"}>
             {menyKomponenter.map(organisasjon => (
                 <Underenhetsvelger
                     key={organisasjon.JuridiskEnhet.OrganizationNumber}
@@ -34,7 +34,7 @@ const Menyvalg: FunctionComponent<Props> = (props) => {
                     erSok={erSok}
                 />
             ))}
-        </>
+        </div>
     );
 };
 
