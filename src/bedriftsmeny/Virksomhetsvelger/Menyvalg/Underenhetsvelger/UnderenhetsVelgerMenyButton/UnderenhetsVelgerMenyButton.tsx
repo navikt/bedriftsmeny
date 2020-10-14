@@ -59,11 +59,12 @@ const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
             }}
             //lurer på disse statene !!! OPS OPS
             onKeyDown={ (e) => {
-                if (e.key === 'ArrowLeft') {
-                    setJuridiskEnhetTrykketPaa('');
-                    setVisUnderenheter(true);
-                }
                 if (e.key === 'ArrowRight') {
+                    setJuridiskEnhetTrykketPaa(juridiskEnhet.OrganizationNumber);
+                    setVisUnderenheter(true);
+
+                }
+                if (e.key === 'ArrowLeft') {
                     setJuridiskEnhetTrykketPaa('ikkevis');
                     setVisUnderenheter(false);
                 }
