@@ -1,5 +1,10 @@
 import React, { FunctionComponent, useState } from 'react';
-import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../organisasjon';
+import {
+    JuridiskEnhetMedUnderEnheterArray,
+    Organisasjon,
+    tomAltinnOrganisasjon,
+    tomEnhetsregOrg
+} from '../../organisasjon';
 import { History } from 'history';
 import Underenhetsvelger from './Underenhetsvelger/Underenhetsvelger';
 
@@ -24,28 +29,80 @@ const Menyvalg: FunctionComponent<Props> = (props) => {
         enhet.Underenheter.forEach((underenhet => utpakketMenyKomponenter.push(underenhet)))
     })
 
-    const setNyOrganisasjonIFokus = (keyPressKey: string) => {
-        const indeksAvNåværendeOrganisasjon =
-            utpakketMenyKomponenter.findIndex(organisasjon => organisasjon.OrganizationNumber === organisasjonIFokus.OrganizationNumber);
-        if (keyPressKey === 'ArrowDown') {
-            const nesteOrganisasjon = utpakketMenyKomponenter[indeksAvNåværendeOrganisasjon+1]
-            setOrganisasjonIFokus(nesteOrganisasjon)
-            const prefiksOrganisasjonsId = nesteOrganisasjon.Type === 'Enterprise' ? 'enhet' : 'underenhet'
-            const idNesteelement = prefiksOrganisasjonsId + '-' + nesteOrganisasjon.OrganizationNumber;
-            const nesteElement = document.getElementById(idNesteelement);
-            nesteElement && nesteElement.focus();
-        }
-        if (keyPressKey === 'ArrowUp') {
-            const forrigeOrganisasjon = utpakketMenyKomponenter[indeksAvNåværendeOrganisasjon-1]
-            setOrganisasjonIFokus(forrigeOrganisasjon)
-            const prefiksOrganisasjonsId = forrigeOrganisasjon.Type === 'Enterprise' ? 'enhet' : 'underenhet'
-            const idForrigeelement = prefiksOrganisasjonsId + '-' + forrigeOrganisasjon.OrganizationNumber;
-            const forrigeElement = document.getElementById(idForrigeelement);
-            forrigeElement && forrigeElement.focus();
-        }
-
-
+    const finnIndeksIMenyKomponenter = (enhetsOrganisasjonsnummer: string, array: JuridiskEnhetMedUnderEnheterArray[]) =>  {
+        console.log("prøver å finne indeks ikke-valgt juridisk enhet")
+        const indeksTilEnhet =
+            array.map(organisasjon => organisasjon.JuridiskEnhet.OrganizationNumber).indexOf(enhetsOrganisasjonsnummer);
+        console.log("indeks", indeksTilEnhet, enhetsOrganisasjonsnummer)
+        return indeksTilEnhet;
     }
+
+    const finnIndeksIUtpakketListe = (organisasjonsnummer: string, array: Organisasjon[]) =>  {
+        console.log("prøvwr å finne indeks")
+        const indeksTilEnhet =
+            array.map(organisasjon => organisasjon.OrganizationNumber).indexOf(organisasjonsnummer);
+        console.log("indeks", indeksTilEnhet, organisasjonsnummer)
+        return indeksTilEnhet;
+    }
+
+    const setNyOrganisasjonIFokus = (keyPressKey: string, erValgtJuridiskEnhet?: boolean) => {
+        let fantFokuset = false;
+        const erJuridiskEnhet = organisasjonIFokus.Type === 'Enterprise' || organisasjonIFokus.OrganizationForm === 'FLI'
+        let nesteOrganisasjon = tomAltinnOrganisasjon;
+            if (keyPressKey === 'ArrowDown') {
+                console.log("down")
+                if (erValgtJuridiskEnhet || !erJuridiskEnhet) {
+                    const indeksAvNåværendeOrganisasjon = finnIndeksIUtpakketListe( organisasjonIFokus.OrganizationNumber,utpakketMenyKomponenter,)
+                    // @ts-ignore
+                    nesteOrganisasjon = utpakketMenyKomponenter[indeksAvNåværendeOrganisasjon + 1]
+                    console.log("forsøker hoppe til nærmeste for indeks ", indeksAvNåværendeOrganisasjon)
+                } else {
+                    console.log("forsøker hoppe til langt fram")
+                    const indeksAvNåværendeOrganisasjon = finnIndeksIMenyKomponenter(organisasjonIFokus.OrganizationNumber, menyKomponenter)
+                    nesteOrganisasjon = menyKomponenter[indeksAvNåværendeOrganisasjon + 1].JuridiskEnhet
+                }
+            }
+        if (keyPressKey === 'ArrowUp') {
+            if (erValgtJuridiskEnhet || !erJuridiskEnhet) {
+                const indeksAvNåværendeOrganisasjon = finnIndeksIUtpakketListe( organisasjonIFokus.OrganizationNumber,utpakketMenyKomponenter,)
+                // @ts-ignore
+                nesteOrganisasjon = utpakketMenyKomponenter[indeksAvNåværendeOrganisasjon - 1]
+                console.log("forsøker hoppe til nærmeste for indeks ", indeksAvNåværendeOrganisasjon)
+            } else {
+                console.log("forsøker hoppe til langt fram")
+                const indeksAvNåværendeOrganisasjon = finnIndeksIMenyKomponenter(organisasjonIFokus.OrganizationNumber, menyKomponenter)
+                nesteOrganisasjon = menyKomponenter[indeksAvNåværendeOrganisasjon - 1].JuridiskEnhet
+            }
+
+        }
+        const prefiksOrganisasjonsId = erJuridiskEnhet ? 'enhet' : 'underenhet'
+        const idNesteelement = prefiksOrganisasjonsId + '-' + nesteOrganisasjon.OrganizationNumber;
+        const nesteElement = document.getElementById(idNesteelement);
+        if (nesteElement) {
+           nesteElement.focus();
+           fantFokuset = true;
+        }
+        else {
+            const nesteOrganisasjonErJuridiskEnhet = nesteOrganisasjon.Type === 'Enterprise' ||nesteOrganisasjon.OrganizationForm === 'FLI'
+            if (nesteOrganisasjonErJuridiskEnhet) {
+                const elementValgtEnhet = document.getElementById('valgtjuridiskenhet')
+                if (elementValgtEnhet) {
+                    elementValgtEnhet.focus()
+                    fantFokuset = true;
+                }
+            }
+            else {
+                const elementValgtEnhet = document.getElementById('valgtunderenhet')
+                if (elementValgtEnhet) {
+                    elementValgtEnhet.focus()
+                    fantFokuset = true;
+                }
+            }
+        }
+        setOrganisasjonIFokus(nesteOrganisasjon!!)
+        console.log(fantFokuset)
+    }
+
 
     return (
         <div id = {"virksomhetsvelger-id"}>

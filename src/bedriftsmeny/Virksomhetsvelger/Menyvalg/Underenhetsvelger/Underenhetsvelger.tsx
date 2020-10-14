@@ -16,7 +16,7 @@ interface Props {
     setHover: (bool: boolean) => void;
     erSok: boolean;
     erApen: boolean;
-    setNyOrganisasjonIFokus: (KeypressKey: string) => void;
+    setNyOrganisasjonIFokus: (KeypressKey: string, erValgtJuridisk?: boolean) => void;
 }
 
 const Underenhetsvelger: FunctionComponent<Props> = ({

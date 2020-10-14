@@ -13,7 +13,7 @@ interface Props {
     setHover: (bool: boolean) => void;
     erSok: boolean;
     erApen: boolean;
-    setNyOrganisasjonIFokus: (KeypressKey: string) => void;
+    setNyOrganisasjonIFokus: (KeypressKey: string, erJuridiskEnhetValgt: boolean) => void;
 }
 
 const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
@@ -41,7 +41,6 @@ const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
     useEffect(() => {
         setOppChevron(false);
         if (visUnderenheter) setOppChevron(true);
-
     }, [visUnderenheter]);
 
     return (
@@ -57,6 +56,11 @@ const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
             }}
             onMouseOver={() => {
                 setHover(true);
+            }}
+            onKeyDown={ (e) => {
+                console.log("funksjon kalles fra juridisk enhet")
+                setNyOrganisasjonIFokus(e.key, erApen)
+
             }}
             onMouseLeave={() => setHover(false)}
             className={`underenhetsvelger__button ${visUnderenheter ? 'juridiskenhet--apen' : 'juridiskenhet--lukket'}`}

@@ -19,13 +19,20 @@ const MenyKnapp = ({ navn, orgnummer, brukOverskrift, erApen, setErApen, setSoke
 
     useEffect(() => {
         setOppChevron(false);
-        if (erApen) setOppChevron(true);
+        if (erApen)  {
+            const sokefeltElement = document.getElementById("bedriftsmeny-sokefelt")
+            console.log("sokefelt elem ", sokefeltElement)
+            sokefeltElement && sokefeltElement.focus();
+            setOppChevron(true);
+
+        }
 
     }, [erApen]);
 
     return (
         <button
             onClick={() => {
+                console.log("onclick");
                 setErApen(!erApen);
                 if (!erApen) {
                     setSoketekst('');

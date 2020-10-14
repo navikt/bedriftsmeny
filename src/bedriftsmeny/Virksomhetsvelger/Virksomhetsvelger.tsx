@@ -58,6 +58,18 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
         setlisteMedOrganisasjonerFraSok(byggSokeresultat(organisasjonstre, soketekst));
     };
 
+    const menyKomponenter= soketekst.length === 0 ?
+        organisasjonstre
+        : listeMedOrganisasjonerFraSok
+
+    let forsteJuridiskEnhet: Organisasjon = tomAltinnOrganisasjon;
+    if (valgtOrganisasjon !== tomAltinnOrganisasjon) {
+        forsteJuridiskEnhet = soketekst.length === 0 ?
+            organisasjonstre!![0].JuridiskEnhet
+            : listeMedOrganisasjonerFraSok!![0].JuridiskEnhet;
+
+    }
+
     return (
         <nav className="virksomhetsvelger" aria-label="Velg virksomhet">
             <div ref={bedriftvelgernode} className="virksomhetsvelger__wrapper">
@@ -77,15 +89,14 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                                 erApen ? 'apen' : 'lukket'
                             }`}
                             id="virksomhetsvelger__dropdown">
-                            <Sokefelt soketekst={soketekst} onChange={brukSoketekst} />
+                            <Sokefelt
+                                forsteJuridiskeEnhet ={forsteJuridiskEnhet}
+                                soketekst={soketekst}
+                                onChange={brukSoketekst} />
                             <div className="dropdownmeny-elementer-wrapper">
                                 <div className="dropdownmeny-elementer">
                                     <Menyvalg
-                                        menyKomponenter={
-                                            soketekst.length === 0
-                                                ? organisasjonstre
-                                                : listeMedOrganisasjonerFraSok
-                                        }
+                                        menyKomponenter={menyKomponenter}
                                         erApen={erApen}
                                         setErApen={setErApen}
                                         history={history}
