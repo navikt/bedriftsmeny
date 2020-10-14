@@ -15,7 +15,7 @@ const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, forsteJuridis
 
     const settFokusPaForsteEnhet = (keyCodeKey: string) => {
         if (keyCodeKey === 'ArrowDown') {
-            let enhetElement = document.getElementById("enhet-"+forsteJuridiskeEnhet.OrganizationNumber)
+            let enhetElement = document.getElementById("organisasjons-id-"+forsteJuridiskeEnhet.OrganizationNumber)
             if (enhetElement) {
                 enhetElement.focus()
             }

@@ -59,15 +59,14 @@ const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
             }}
             onKeyDown={ (e) => {
                 console.log("funksjon kalles fra juridisk enhet")
-                setNyOrganisasjonIFokus(e.key, erApen)
-
+                setNyOrganisasjonIFokus(e.key, visUnderenheter)
             }}
             onMouseLeave={() => setHover(false)}
             className={`underenhetsvelger__button ${visUnderenheter ? 'juridiskenhet--apen' : 'juridiskenhet--lukket'}`}
             id={
                 erValgtOrganisasjon
                     ? 'valgtjuridiskenhet'
-                    : 'enhet-' + juridiskEnhetMedUnderenheter.JuridiskEnhet.OrganizationNumber
+                    : 'organisasjons-id-' + juridiskEnhetMedUnderenheter.JuridiskEnhet.OrganizationNumber
             }
             aria-label={`Velg underenheter for ${juridiskEnhet.Name} ${label}`}
             aria-pressed={visUnderenheter}
