@@ -41,41 +41,14 @@ const Underenhet: FunctionComponent<Props> = ({
         }
     }, [valgtOrganisasjon, underEnhet]);
 
-    const fireDownArrow = () => {
-        const elementRef = document.getElementById("virksomhetsvelger-id");
-        console.log("event kallt")
-        const e = new KeyboardEvent("keydown", {bubbles : true, cancelable : true, key : "Tab", shiftKey : false, view: window});
-        if (elementRef) {
-            console.log("dispatched")
-            elementRef.dispatchEvent(e)
-            setHarTrykket(1)
-        }
-    }
-
-    window.onkeydown = function(event: KeyboardEvent) {
-        console.log(event.key)
-    };
 
     return (
         <li
             onClick={() => onUnderenhetSelect(underEnhet.OrganizationNumber)}
             onKeyDown={(e) => {
-                if (harTrykket<1) {
-                    fireDownArrow()
-                }
-                /*e.stopPropagation()
                 if (e.key === 'Enter') {
                     onUnderenhetSelect(underEnhet.OrganizationNumber);
                 }
-                console.log("ikke stoppet")
-
-                if (e.key === "a") {
-                    fireDownArrow()
-
-                }
-
-                 */
-
             }}
             onMouseOver={() => {
                 if (!erValgtEnhet) {
