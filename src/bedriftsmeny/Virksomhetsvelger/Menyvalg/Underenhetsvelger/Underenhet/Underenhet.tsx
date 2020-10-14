@@ -13,6 +13,7 @@ interface Props {
     hover: boolean;
     setHover: (bool: boolean) => void;
     erApen: boolean;
+    setNyOrganisasjonIFokus: (KeypressKey: string) => void;
 }
 
 const Underenhet: FunctionComponent<Props> = ({
@@ -22,10 +23,10 @@ const Underenhet: FunctionComponent<Props> = ({
     setErApen,
     hover,
     setHover,
-    erApen
+    erApen,
+    setNyOrganisasjonIFokus
 }) => {
     const [erValgtEnhet, setErValgtEnhet] = useState(false);
-    const [harTrykket, setHarTrykket] = useState(0)
 
     const onUnderenhetSelect = (value: string) => {
         settOrgnummerIUrl(value, history);
@@ -49,6 +50,9 @@ const Underenhet: FunctionComponent<Props> = ({
                 if (e.key === 'Enter') {
                     onUnderenhetSelect(underEnhet.OrganizationNumber);
                 }
+                else {
+                    setNyOrganisasjonIFokus(e.key)
+                }
             }}
             onMouseOver={() => {
                 if (!erValgtEnhet) {
@@ -68,7 +72,7 @@ const Underenhet: FunctionComponent<Props> = ({
                     ? 'valgtunderenhet'
                     : ''
             }`}
-            id={erValgtEnhet ? 'valgtunderenhet' : ''}
+            id={erValgtEnhet ? 'valgtunderenhet' : 'underenhet-'+underEnhet.OrganizationNumber}
             key={underEnhet.OrganizationNumber}
             tabIndex={erApen ? 0 : -1}>
             <Organisasjonsbeskrivelse

@@ -16,6 +16,7 @@ interface Props {
     setHover: (bool: boolean) => void;
     erSok: boolean;
     erApen: boolean;
+    setNyOrganisasjonIFokus: (KeypressKey: string) => void;
 }
 
 const Underenhetsvelger: FunctionComponent<Props> = ({
@@ -28,7 +29,8 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
     setHover,
     erSok,
     erApen,
-    setErApen
+    setErApen,
+    setNyOrganisasjonIFokus
 }) => {
     const [visUnderenheter, setVisUnderenheter] = useState(false);
     const juridiskEnhet = juridiskEnhetMedUnderenheter.JuridiskEnhet;
@@ -70,6 +72,7 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
                 setHover={setHover}
                 erSok={erSok}
                 erApen={erApen}
+                setNyOrganisasjonIFokus = {setNyOrganisasjonIFokus}
             />
             <ul
                 className={`underenhetsvelger__menyvalg-wrapper--${
@@ -89,6 +92,7 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
                         hover={hover}
                         setHover={setHover}
                         erApen={erApen}
+                        setNyOrganisasjonIFokus = {setNyOrganisasjonIFokus}
                     />
                 ))}
             </ul>

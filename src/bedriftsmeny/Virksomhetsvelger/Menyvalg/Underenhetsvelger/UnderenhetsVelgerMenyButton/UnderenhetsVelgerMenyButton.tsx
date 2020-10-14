@@ -13,10 +13,11 @@ interface Props {
     setHover: (bool: boolean) => void;
     erSok: boolean;
     erApen: boolean;
+    setNyOrganisasjonIFokus: (KeypressKey: string) => void;
 }
 
 const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
-    const {juridiskEnhetMedUnderenheter, visUnderenheter, setVisUnderenheter, valgtOrganisasjon, setJuridiskEnhetTrykketPaa, setHover, erSok, erApen } = props;
+    const {juridiskEnhetMedUnderenheter, visUnderenheter, setVisUnderenheter, valgtOrganisasjon, setJuridiskEnhetTrykketPaa, setHover, erSok, erApen, setNyOrganisasjonIFokus } = props;
     const juridiskEnhet = juridiskEnhetMedUnderenheter.JuridiskEnhet;
     const underenheter = juridiskEnhetMedUnderenheter.Underenheter;
     const erValgtOrganisasjon = valgtOrganisasjon.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber;
@@ -62,7 +63,7 @@ const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
             id={
                 erValgtOrganisasjon
                     ? 'valgtjuridiskenhet'
-                    : ''
+                    : 'enhet-' + juridiskEnhetMedUnderenheter.JuridiskEnhet.OrganizationNumber
             }
             aria-label={`Velg underenheter for ${juridiskEnhet.Name} ${label}`}
             aria-pressed={visUnderenheter}
