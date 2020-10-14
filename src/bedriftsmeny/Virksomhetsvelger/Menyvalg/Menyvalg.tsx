@@ -46,6 +46,9 @@ const Menyvalg: FunctionComponent<Props> = (props) => {
     }
 
     const setNyOrganisasjonIFokus = (keyPressKey: string, erApen: boolean) => {
+        if (keyPressKey !== 'ArrowDown' && keyPressKey !== 'ArrowUp') {
+            return
+        }
         let fantFokuset = false;
         const erJuridiskEnhet = organisasjonIFokus.Type === 'Enterprise' || organisasjonIFokus.OrganizationForm === 'FLI'
         let nesteOrganisasjon = tomAltinnOrganisasjon;
@@ -62,9 +65,17 @@ const Menyvalg: FunctionComponent<Props> = (props) => {
                 }
             }
         if (keyPressKey === 'ArrowUp') {
+            if (erApen || !erJuridiskEnhet) {
                 const indeksAvNåværendeOrganisasjon = finnIndeksIUtpakketListe( organisasjonIFokus.OrganizationNumber,utpakketMenyKomponenter,)
                 // @ts-ignore
                 nesteOrganisasjon = utpakketMenyKomponenter[indeksAvNåværendeOrganisasjon - 1]
+                console.log("forsøker hoppe til nærmeste for indeks ", indeksAvNåværendeOrganisasjon)
+            } else {
+                console.log("forsøker hoppe til langt fram")
+                const indeksAvNåværendeOrganisasjon = finnIndeksIMenyKomponenter(organisasjonIFokus.OrganizationNumber, menyKomponenter)
+                nesteOrganisasjon = menyKomponenter[indeksAvNåværendeOrganisasjon - 1].JuridiskEnhet
+            }
+
         }
         const idNesteelement = 'organisasjons-id-'+nesteOrganisasjon.OrganizationNumber;
         console.log("id til neste element: " +idNesteelement)
@@ -89,11 +100,14 @@ const Menyvalg: FunctionComponent<Props> = (props) => {
                     fantFokuset = true;
                 }
             }
+            if (fantFokuset) {
+                setOrganisasjonIFokus(nesteOrganisasjon)
+            }
         }
-        setOrganisasjonIFokus(nesteOrganisasjon!!)
-        console.log(fantFokuset)
+        if (fantFokuset) {
+            setOrganisasjonIFokus(nesteOrganisasjon)
+        }
     }
-
 
     return (
         <div id = {"virksomhetsvelger-id"}>
