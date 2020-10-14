@@ -45,6 +45,17 @@ const Menyvalg: FunctionComponent<Props> = (props) => {
         return indeksTilEnhet;
     }
 
+    const sjekkOmNederstPåLista = (erApenJuridiskEnhet: boolean, erJuridiskEnhet: boolean, organisasjon: Organisasjon) => {
+        if (!erJuridiskEnhet) {
+            const indeksTilOrganisasjon = finnIndeksIUtpakketListe(organisasjon.OrganizationNumber, utpakketMenyKomponenter);
+            return indeksTilOrganisasjon === utpakketMenyKomponenter.length-1;
+        }
+        if (!erApenJuridiskEnhet) {
+            const indeksTilOrganisasjon = finnIndeksIMenyKomponenter(organisasjon.OrganizationNumber, menyKomponenter);
+            return indeksTilOrganisasjon === menyKomponenter.length-1;
+        }
+    }
+
     const setNyOrganisasjonIFokus = (keyPressKey: string, erApen: boolean) => {
         if (keyPressKey !== 'ArrowDown' && keyPressKey !== 'ArrowUp') {
             return
@@ -53,7 +64,10 @@ const Menyvalg: FunctionComponent<Props> = (props) => {
         const erJuridiskEnhet = organisasjonIFokus.Type === 'Enterprise' || organisasjonIFokus.OrganizationForm === 'FLI'
         let nesteOrganisasjon = tomAltinnOrganisasjon;
             if (keyPressKey === 'ArrowDown') {
-                if (erApen || !erJuridiskEnhet) {
+                if (sjekkOmNederstPåLista(erApen,erJuridiskEnhet,organisasjonIFokus,)) {
+                    nesteOrganisasjon = utpakketMenyKomponenter[0]
+                }
+                else if (erApen || !erJuridiskEnhet) {
                     const indeksAvNåværendeOrganisasjon = finnIndeksIUtpakketListe( organisasjonIFokus.OrganizationNumber,utpakketMenyKomponenter,)
                     // @ts-ignore
                     nesteOrganisasjon = utpakketMenyKomponenter[indeksAvNåværendeOrganisasjon + 1]
@@ -102,6 +116,7 @@ const Menyvalg: FunctionComponent<Props> = (props) => {
             }
             if (fantFokuset) {
                 setOrganisasjonIFokus(nesteOrganisasjon)
+                return
             }
         }
         if (fantFokuset) {
