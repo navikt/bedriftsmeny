@@ -72,9 +72,6 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
 
         }
     }
-
-    console.log(erApen);
-
     return (
         <nav className="virksomhetsvelger" aria-label="Velg virksomhet">
             <div ref={bedriftvelgernode} className="virksomhetsvelger__wrapper">
@@ -97,6 +94,7 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                             <Sokefelt
                                 forsteJuridiskeEnhet ={forsteJuridiskEnhet}
                                 soketekst={soketekst}
+                                treffPåOrganisasjoner={listeMedOrganisasjonerFraSok}
                                 onChange={brukSoketekst} />
                             <div className="dropdownmeny-elementer-wrapper">
                                 <div className="dropdownmeny-elementer">

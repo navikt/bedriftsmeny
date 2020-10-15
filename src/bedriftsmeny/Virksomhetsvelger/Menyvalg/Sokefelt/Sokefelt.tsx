@@ -1,17 +1,36 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Input } from 'nav-frontend-skjema';
 import Forstørrelsesglass from './Forstørrelsesglass';
 import Kryss from './Kryss';
 import './Sokefelt.less';
-import { Organisasjon } from '../../../organisasjon';
+import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../../organisasjon';
 
 interface Props {
     soketekst: string;
     onChange: (soketekst: string) => void;
     forsteJuridiskeEnhet: string;
+    treffPåOrganisasjoner?: JuridiskEnhetMedUnderEnheterArray[];
 }
 
-const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, forsteJuridiskeEnhet }) => {
+const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, forsteJuridiskeEnhet,treffPåOrganisasjoner }) => {
+    const [arialabelTekst, setArialabelTekst] = useState("Søk etter virksomhet")
+    //const arialabelTekst = treffPåOrganisasjoner ? "Søk etter virksomhet" : "Søk etter virksomhet, ingen treff"
+
+    useEffect(() => {
+        if (!treffPåOrganisasjoner?.length && soketekst.length>0) {
+            setArialabelTekst("Ingen treff for dette søkeordet")
+        }
+        else if (treffPåOrganisasjoner && treffPåOrganisasjoner?.length > 0 ||soketekst.length === 0) {
+            setArialabelTekst("")
+        }
+    }, [soketekst, treffPåOrganisasjoner]);
+
+    const onChangeForAriaDelay = (verdi: string) => {
+        setTimeout(function(){
+            onChange(verdi)
+        }, 1);
+    }
+
     const settFokusPaForsteEnhet = (keyCodeKey: string) => {
         if (keyCodeKey === 'ArrowDown') {
             let enhetElement = document.getElementById("organisasjons-id-"+forsteJuridiskeEnhet)
@@ -32,9 +51,10 @@ const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, forsteJuridis
             className="bedriftsmeny-sokefelt__felt"
             type="search"
             label=""
-            aria-label="Søk etter virksomhet"
+            aria-live = {"polite"}
+            aria-label={arialabelTekst}
             value={soketekst}
-            onChange={(e) => onChange(e.target.value)}
+            onChange={(e) => onChangeForAriaDelay(e.target.value)}
             placeholder="Søk"
             onKeyDown={ (e) => {
                 settFokusPaForsteEnhet(e.key)
