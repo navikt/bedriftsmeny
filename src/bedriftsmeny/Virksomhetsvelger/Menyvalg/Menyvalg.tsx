@@ -26,9 +26,10 @@ const Menyvalg: FunctionComponent<Props> = (props) => {
 
     useEffect(() => {
         if (erApen) {
-
+            const valgtOrganisasjonEnhetIndeks = finnIndeksIMenyKomponenter(valgtOrganisasjon.ParentOrganizationNumber, menyKomponenter)
+            setOrganisasjonIFokus(menyKomponenter[valgtOrganisasjonEnhetIndeks].JuridiskEnhet);
         }
-    }, [erApen, valgtOrganisasjon]);
+    }, [erApen, valgtOrganisasjon, menyKomponenter]);
 
     const utpakketMenyKomponenter: Organisasjon[] = [];
     menyKomponenter.forEach((enhet: JuridiskEnhetMedUnderEnheterArray) => {
