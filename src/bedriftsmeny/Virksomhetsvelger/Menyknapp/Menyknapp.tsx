@@ -3,6 +3,7 @@ import { Undertittel, Element } from 'nav-frontend-typografi';
 import { NedChevron, OppChevron } from 'nav-frontend-chevron';
 import UnderenhetIkon from '../Menyvalg/Underenhetsvelger/Organisasjonsbeskrivelse/UnderenhetIkon';
 import './Menyknapp.less';
+import { setfokusPaSokefelt } from '../Menyvalg/pilnavigerinsfunksjoner';
 
 interface Props {
     navn: string;
@@ -20,11 +21,8 @@ const MenyKnapp = ({ navn, orgnummer, brukOverskrift, erApen, setErApen, setSoke
     useEffect(() => {
         setOppChevron(false);
         if (erApen)  {
-            const sokefeltElement = document.getElementById("bedriftsmeny-sokefelt")
-            console.log("sokefelt elem ", sokefeltElement)
-            sokefeltElement && sokefeltElement.focus();
+            setfokusPaSokefelt()
             setOppChevron(true);
-
         }
 
     }, [erApen]);

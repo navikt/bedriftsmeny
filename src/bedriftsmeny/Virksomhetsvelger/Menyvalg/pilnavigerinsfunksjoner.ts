@@ -27,3 +27,9 @@ export const sjekkOmNederstPåLista = (
         return indeksTilOrganisasjon === menyKomponenter.length-1;
     }
 }
+
+export const setfokusPaSokefelt = () => {
+    const sokefeltElement = document.getElementById("bedriftsmeny-sokefelt")
+    console.log("sokefelt elem ", sokefeltElement)
+    sokefeltElement && sokefeltElement.focus();
+}

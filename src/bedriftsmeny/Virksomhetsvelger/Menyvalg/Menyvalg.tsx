@@ -2,12 +2,16 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import {
     JuridiskEnhetMedUnderEnheterArray,
     Organisasjon,
-    tomAltinnOrganisasjon,
-    tomEnhetsregOrg
+    tomAltinnOrganisasjon
 } from '../../organisasjon';
 import { History } from 'history';
 import Underenhetsvelger from './Underenhetsvelger/Underenhetsvelger';
-import { finnIndeksIMenyKomponenter, finnIndeksIUtpakketListe, sjekkOmNederstPåLista } from './pilnavigerinsfunksjoner';
+import {
+    finnIndeksIMenyKomponenter,
+    finnIndeksIUtpakketListe,
+    setfokusPaSokefelt,
+    sjekkOmNederstPåLista
+} from './pilnavigerinsfunksjoner';
 
 interface Props {
     menyKomponenter?: JuridiskEnhetMedUnderEnheterArray[];
@@ -25,9 +29,12 @@ const Menyvalg: FunctionComponent<Props> = (props) => {
     const [organisasjonIFokus, setOrganisasjonIFokus] = useState(menyKomponenter[0].JuridiskEnhet);
 
     useEffect(() => {
-        if (erApen) {
+        if (erApen && !erSok) {
             const valgtOrganisasjonEnhetIndeks = finnIndeksIMenyKomponenter(valgtOrganisasjon.ParentOrganizationNumber, menyKomponenter)
             setOrganisasjonIFokus(menyKomponenter[valgtOrganisasjonEnhetIndeks].JuridiskEnhet);
+        }
+        if (erApen && erSok) {
+            setOrganisasjonIFokus(menyKomponenter[0].JuridiskEnhet);
         }
     }, [erApen, valgtOrganisasjon, menyKomponenter]);
 
@@ -60,6 +67,7 @@ const Menyvalg: FunctionComponent<Props> = (props) => {
             let indeksAvNåværendeOrganisasjon = finnIndeksIUtpakketListe( organisasjonIFokus.OrganizationNumber,utpakketMenyKomponenter)
             const erForsteElement = indeksAvNåværendeOrganisasjon === 0;
             if (erForsteElement) {
+                setfokusPaSokefelt()
                 return
             }
             if (erApen || !erJuridiskEnhet) {

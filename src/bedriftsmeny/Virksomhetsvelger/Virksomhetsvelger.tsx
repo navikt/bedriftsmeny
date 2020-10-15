@@ -63,11 +63,13 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
         : listeMedOrganisasjonerFraSok
 
     let forsteJuridiskEnhet = ''
-    if (valgtOrganisasjon && valgtOrganisasjon !== tomAltinnOrganisasjon) {
-        forsteJuridiskEnhet = soketekst.length === 0 ?
-            valgtOrganisasjon?.OrganizationNumber
-            : listeMedOrganisasjonerFraSok!![0].JuridiskEnhet.OrganizationNumber;
+    if (valgtOrganisasjon && valgtOrganisasjon !== tomAltinnOrganisasjon && menyKomponenter) {
+        if (menyKomponenter.length>0) {
+            forsteJuridiskEnhet = soketekst.length === 0 ?
+                valgtOrganisasjon?.ParentOrganizationNumber
+                : menyKomponenter[0].JuridiskEnhet.OrganizationNumber
 
+        }
     }
 
     return (
@@ -95,14 +97,14 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                                 onChange={brukSoketekst} />
                             <div className="dropdownmeny-elementer-wrapper">
                                 <div className="dropdownmeny-elementer">
-                                    <Menyvalg
+                                    { menyKomponenter && menyKomponenter?.length> 0 && <Menyvalg
                                         menyKomponenter={menyKomponenter}
                                         erApen={erApen}
                                         setErApen={setErApen}
                                         history={history}
                                         valgtOrganisasjon={valgtOrganisasjon}
                                         erSok={soketekst !== ''}
-                                    />
+                                    />}
                                 </div>
                             </div>
                         </div>
