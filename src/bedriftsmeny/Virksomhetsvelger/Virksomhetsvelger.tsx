@@ -11,7 +11,6 @@ import Sokefelt from './Menyvalg/Sokefelt/Sokefelt';
 import useOrganisasjon from './utils/useOrganisasjon';
 import MenyKnapp from './Menyknapp/Menyknapp';
 import './Virksomhetsvelger.less';
-import { setfokusPaSokefelt } from './Menyvalg/pilnavigerinsfunksjoner';
 
 export interface VirksomhetsvelgerProps {
     organisasjonstre?: JuridiskEnhetMedUnderEnheterArray[];
@@ -27,6 +26,7 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
     const [listeMedOrganisasjonerFraSok, setlisteMedOrganisasjonerFraSok] = useState(
         organisasjonstre
     );
+    const [organisasjonIFokus, setOrganisasjonIFokus] = useState(tomAltinnOrganisasjon);
 
     const { valgtOrganisasjon } = useOrganisasjon(organisasjonstre, history);
 
@@ -63,10 +63,10 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
         organisasjonstre
         : listeMedOrganisasjonerFraSok
 
-    let forsteJuridiskEnhet = ''
+    let forsteJuridiskEnhetILista = ''
     if (valgtOrganisasjon && valgtOrganisasjon !== tomAltinnOrganisasjon && menyKomponenter) {
         if (menyKomponenter.length>0) {
-            forsteJuridiskEnhet = soketekst.length === 0 ?
+            forsteJuridiskEnhetILista = soketekst.length === 0 ?
                 valgtOrganisasjon?.ParentOrganizationNumber
                 : menyKomponenter[0].JuridiskEnhet.OrganizationNumber
 
@@ -92,13 +92,17 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                             }`}
                             id="virksomhetsvelger__dropdown">
                             <Sokefelt
-                                forsteJuridiskeEnhet ={forsteJuridiskEnhet}
+                                organisasjonIFokus={organisasjonIFokus}
+                                juridiskEnhetTilValgtOrganisasjon ={forsteJuridiskEnhetILista}
+                                menyKomponenter = {menyKomponenter}
                                 soketekst={soketekst}
                                 treffPåOrganisasjoner={listeMedOrganisasjonerFraSok}
                                 onChange={brukSoketekst} />
                             <div className="dropdownmeny-elementer-wrapper">
                                 <div className="dropdownmeny-elementer">
                                     { menyKomponenter && menyKomponenter?.length> 0 && <Menyvalg
+                                        organisasjonIFokus={organisasjonIFokus}
+                                        setOrganisasjonIFokus={setOrganisasjonIFokus}
                                         menyKomponenter={menyKomponenter}
                                         erApen={erApen}
                                         setErApen={setErApen}

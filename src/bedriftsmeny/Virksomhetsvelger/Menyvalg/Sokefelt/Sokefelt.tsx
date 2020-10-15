@@ -9,12 +9,14 @@ interface Props {
     soketekst: string;
     onChange: (soketekst: string) => void;
     forsteJuridiskeEnhet: string;
+    juridiskEnhetTilValgtOrganisasjon: string;
+    organisasjonIFokus: Organisasjon;
+    menyKomponenter: JuridiskEnhetMedUnderEnheterArray[] | null;
     treffPåOrganisasjoner?: JuridiskEnhetMedUnderEnheterArray[];
 }
 
-const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, forsteJuridiskeEnhet,treffPåOrganisasjoner }) => {
+const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrganisasjoner, organisasjonIFokus,juridiskEnhetTilValgtOrganisasjon, menyKomponenter }) => {
     const [arialabelTekst, setArialabelTekst] = useState("Søk etter virksomhet")
-    //const arialabelTekst = treffPåOrganisasjoner ? "Søk etter virksomhet" : "Søk etter virksomhet, ingen treff"
 
     useEffect(() => {
         if (!treffPåOrganisasjoner?.length && soketekst.length>0) {
@@ -33,7 +35,14 @@ const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, forsteJuridis
 
     const settFokusPaForsteEnhet = (keyCodeKey: string) => {
         if (keyCodeKey === 'ArrowDown') {
-            let enhetElement = document.getElementById("organisasjons-id-"+forsteJuridiskeEnhet)
+            //i dette caset blar man opp til søkefeltet og tilbake i menyen, og havner da øverst i lista
+            if (menyKomponenter && organisasjonIFokus.OrganizationNumber === menyKomponenter[0].JuridiskEnhet.OrganizationNumber) {
+                let enhetElement = document.getElementById("organisasjons-id-"+organisasjonIFokus.OrganizationNumber)
+                enhetElement && console.log("fant id")
+                enhetElement && enhetElement.focus();
+                return;
+            }
+            let enhetElement = document.getElementById("organisasjons-id-"+juridiskEnhetTilValgtOrganisasjon)
             if (enhetElement) {
                 enhetElement.focus()
             }

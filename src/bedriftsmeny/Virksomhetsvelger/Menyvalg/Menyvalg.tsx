@@ -15,19 +15,20 @@ import {
 } from './pilnavigerinsfunksjoner';
 
 interface Props {
+    valgtOrganisasjon: Organisasjon;
     menyKomponenter?: JuridiskEnhetMedUnderEnheterArray[];
     erApen: boolean;
     setErApen: (bool: boolean) => void;
-    history: History;
-    valgtOrganisasjon: Organisasjon;
     erSok: boolean;
+    organisasjonIFokus: Organisasjon;
+    setOrganisasjonIFokus: (organisasjon: Organisasjon) => void;
+    history: History;
 }
 
 const Menyvalg: FunctionComponent<Props> = (props) => {
-    const { menyKomponenter = [], history, valgtOrganisasjon, setErApen, erSok, erApen } = props;
+    const { menyKomponenter = [], history, valgtOrganisasjon, setErApen, erSok, erApen, organisasjonIFokus, setOrganisasjonIFokus } = props;
     const [juridiskEnhetTrykketPaa, setJuridiskEnhetTrykketPaa] = useState<string>('');
     const [hover, setHover] = useState(false);
-    const [organisasjonIFokus, setOrganisasjonIFokus] = useState(menyKomponenter[0].JuridiskEnhet);
 
     useEffect(() => {
         if (erApen && !erSok) {
@@ -38,6 +39,10 @@ const Menyvalg: FunctionComponent<Props> = (props) => {
             setOrganisasjonIFokus(menyKomponenter[0].JuridiskEnhet);
         }
     }, [erApen, valgtOrganisasjon, menyKomponenter]);
+
+    useEffect(() => {
+        setOrganisasjonIFokus(menyKomponenter[0].JuridiskEnhet)
+    }, []);
 
     useEffect(() => {
         const navarendeTabIndex = erApen ? 0 : -1
