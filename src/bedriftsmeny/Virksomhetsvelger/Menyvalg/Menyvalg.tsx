@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import {
     JuridiskEnhetMedUnderEnheterArray,
     Organisasjon,
@@ -7,6 +7,7 @@ import {
 } from '../../organisasjon';
 import { History } from 'history';
 import Underenhetsvelger from './Underenhetsvelger/Underenhetsvelger';
+import { finnIndeksIMenyKomponenter, finnIndeksIUtpakketListe, sjekkOmNederstPåLista } from './pilnavigerinsfunksjoner';
 
 interface Props {
     menyKomponenter?: JuridiskEnhetMedUnderEnheterArray[];
@@ -19,42 +20,21 @@ interface Props {
 
 const Menyvalg: FunctionComponent<Props> = (props) => {
     const { menyKomponenter = [], history, valgtOrganisasjon, setErApen, erSok, erApen } = props;
-    const [juridiskEnhetTrykketPaa, setJuridiskEnhetTrykketPaa] = useState<string>('');
+    const [juridiskEnhetTrykketPaa, setJuridiskEnhetTrykketPaa] = useState<string>(valgtOrganisasjon.ParentOrganizationNumber);
     const [hover, setHover] = useState(false);
     const [organisasjonIFokus, setOrganisasjonIFokus] = useState(menyKomponenter[0].JuridiskEnhet);
+
+    useEffect(() => {
+        if (erApen) {
+
+        }
+    }, [erApen, valgtOrganisasjon]);
 
     const utpakketMenyKomponenter: Organisasjon[] = [];
     menyKomponenter.forEach((enhet: JuridiskEnhetMedUnderEnheterArray) => {
         utpakketMenyKomponenter.push(enhet.JuridiskEnhet);
         enhet.Underenheter.forEach((underenhet => utpakketMenyKomponenter.push(underenhet)))
     })
-
-    const finnIndeksIMenyKomponenter = (enhetsOrganisasjonsnummer: string, array: JuridiskEnhetMedUnderEnheterArray[]) =>  {
-        console.log("prøver å finne indeks ikke-valgt juridisk enhet")
-        const indeksTilEnhet =
-            array.map(organisasjon => organisasjon.JuridiskEnhet.OrganizationNumber).indexOf(enhetsOrganisasjonsnummer);
-        console.log("indeks", indeksTilEnhet, enhetsOrganisasjonsnummer)
-        return indeksTilEnhet;
-    }
-
-    const finnIndeksIUtpakketListe = (organisasjonsnummer: string, array: Organisasjon[]) =>  {
-        console.log("prøvwr å finne indeks")
-        const indeksTilEnhet =
-            array.map(organisasjon => organisasjon.OrganizationNumber).indexOf(organisasjonsnummer);
-        console.log("indeks", indeksTilEnhet, organisasjonsnummer)
-        return indeksTilEnhet;
-    }
-
-    const sjekkOmNederstPåLista = (erApenJuridiskEnhet: boolean, erJuridiskEnhet: boolean, organisasjon: Organisasjon) => {
-        if (!erJuridiskEnhet) {
-            const indeksTilOrganisasjon = finnIndeksIUtpakketListe(organisasjon.OrganizationNumber, utpakketMenyKomponenter);
-            return indeksTilOrganisasjon === utpakketMenyKomponenter.length-1;
-        }
-        if (!erApenJuridiskEnhet) {
-            const indeksTilOrganisasjon = finnIndeksIMenyKomponenter(organisasjon.OrganizationNumber, menyKomponenter);
-            return indeksTilOrganisasjon === menyKomponenter.length-1;
-        }
-    }
 
     const setNyOrganisasjonIFokus = (keyPressKey: string, erApen: boolean) => {
         if (keyPressKey !== 'ArrowDown' && keyPressKey !== 'ArrowUp') {
@@ -64,16 +44,13 @@ const Menyvalg: FunctionComponent<Props> = (props) => {
         const erJuridiskEnhet = organisasjonIFokus.Type === 'Enterprise' || organisasjonIFokus.OrganizationForm === 'FLI'
         let nesteOrganisasjon = tomAltinnOrganisasjon;
             if (keyPressKey === 'ArrowDown') {
-                if (sjekkOmNederstPåLista(erApen,erJuridiskEnhet,organisasjonIFokus,)) {
+                if (sjekkOmNederstPåLista(erApen,erJuridiskEnhet,organisasjonIFokus, menyKomponenter, utpakketMenyKomponenter)) {
                     nesteOrganisasjon = utpakketMenyKomponenter[0]
                 }
                 else if (erApen || !erJuridiskEnhet) {
                     const indeksAvNåværendeOrganisasjon = finnIndeksIUtpakketListe( organisasjonIFokus.OrganizationNumber,utpakketMenyKomponenter,)
-                    // @ts-ignore
                     nesteOrganisasjon = utpakketMenyKomponenter[indeksAvNåværendeOrganisasjon + 1]
-                    console.log("forrige fokus var: " + organisasjonIFokus.Name, erJuridiskEnhet, erApen)
                 } else {
-                    console.log("forsøker hoppe til langt fram")
                     const indeksAvNåværendeOrganisasjon = finnIndeksIMenyKomponenter(organisasjonIFokus.OrganizationNumber, menyKomponenter)
                     nesteOrganisasjon = menyKomponenter[indeksAvNåværendeOrganisasjon + 1].JuridiskEnhet
                 }
@@ -88,9 +65,7 @@ const Menyvalg: FunctionComponent<Props> = (props) => {
 
                 // @ts-ignore
                 nesteOrganisasjon = utpakketMenyKomponenter[indeksAvNåværendeOrganisasjon - 1]
-                console.log("forsøker hoppe til nærmeste for indeks ", indeksAvNåværendeOrganisasjon)
             } else {
-                console.log("forsøker hoppe til langt fram")
                 indeksAvNåværendeOrganisasjon = finnIndeksIMenyKomponenter(organisasjonIFokus.OrganizationNumber, menyKomponenter)
                 nesteOrganisasjon = menyKomponenter[indeksAvNåværendeOrganisasjon - 1].JuridiskEnhet
             }

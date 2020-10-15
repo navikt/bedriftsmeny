@@ -62,11 +62,11 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
         organisasjonstre
         : listeMedOrganisasjonerFraSok
 
-    let forsteJuridiskEnhet: Organisasjon = tomAltinnOrganisasjon;
-    if (valgtOrganisasjon !== tomAltinnOrganisasjon) {
+    let forsteJuridiskEnhet = ''
+    if (valgtOrganisasjon && valgtOrganisasjon !== tomAltinnOrganisasjon) {
         forsteJuridiskEnhet = soketekst.length === 0 ?
-            organisasjonstre!![0].JuridiskEnhet
-            : listeMedOrganisasjonerFraSok!![0].JuridiskEnhet;
+            valgtOrganisasjon?.OrganizationNumber
+            : listeMedOrganisasjonerFraSok!![0].JuridiskEnhet.OrganizationNumber;
 
     }
 

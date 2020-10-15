@@ -8,14 +8,13 @@ import { Organisasjon } from '../../../organisasjon';
 interface Props {
     soketekst: string;
     onChange: (soketekst: string) => void;
-    forsteJuridiskeEnhet: Organisasjon;
+    forsteJuridiskeEnhet: string;
 }
 
 const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, forsteJuridiskeEnhet }) => {
-
     const settFokusPaForsteEnhet = (keyCodeKey: string) => {
         if (keyCodeKey === 'ArrowDown') {
-            let enhetElement = document.getElementById("organisasjons-id-"+forsteJuridiskeEnhet.OrganizationNumber)
+            let enhetElement = document.getElementById("organisasjons-id-"+forsteJuridiskeEnhet)
             if (enhetElement) {
                 enhetElement.focus()
             }
