@@ -1,4 +1,4 @@
-import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../organisasjon';
+import { JuridiskEnhetMedUnderEnheterArray, ListeMedJuridiskeEnheter, Organisasjon } from '../../organisasjon';
 
 export const finnIndeksIMenyKomponenter = (enhetsOrganisasjonsnummer: string, array: JuridiskEnhetMedUnderEnheterArray[]) =>  {
     const indeksTilEnhet =
@@ -28,8 +28,32 @@ export const sjekkOmNederstPåLista = (
     }
 }
 
+export const endreTabIndexAlleOrganisasjonerOgSokefelt = (menyKomponenter: JuridiskEnhetMedUnderEnheterArray[], tabIndex: number) => {
+    endreTabIndeksGittId("bedriftsmeny-sokefelt", tabIndex)
+    endreTabIndeksGittId('valgtjuridiskenhet', tabIndex)
+    endreTabIndeksGittId('valgtunderenhet', tabIndex)
+    menyKomponenter.forEach((juridiskEnhetMedUnderenheter) => {
+        endreTabIndeksGittId('organisasjons-id-'+juridiskEnhetMedUnderenheter.JuridiskEnhet.OrganizationNumber, tabIndex);
+        juridiskEnhetMedUnderenheter.Underenheter.forEach(underenhet => endreTabIndeksGittId('organisasjons-id-'+underenhet.OrganizationNumber, tabIndex))
+    })
+    console.log("endrer indekser til", tabIndex)
+}
+
+export const endreTabIndeksGittId = (idString: string, tabIndex: number) => {
+    const element = document.getElementById(idString);
+    if (element) {
+        element.tabIndex = tabIndex
+    }
+}
+
 export const setfokusPaSokefelt = () => {
     const sokefeltElement = document.getElementById("bedriftsmeny-sokefelt")
-    console.log("sokefelt elem ", sokefeltElement)
     sokefeltElement && sokefeltElement.focus();
+}
+
+export const setfokusPaMenyKnapp = () => {
+    console.log("prøver sette fokus på hovedknapp")
+    const hovedknapp = document.getElementById("virksomhetsvelger__button")
+    hovedknapp && console.log("fant knapp");
+    hovedknapp && hovedknapp.focus();
 }

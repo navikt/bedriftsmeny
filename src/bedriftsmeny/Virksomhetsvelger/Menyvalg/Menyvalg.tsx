@@ -7,6 +7,7 @@ import {
 import { History } from 'history';
 import Underenhetsvelger from './Underenhetsvelger/Underenhetsvelger';
 import {
+    endreTabIndexAlleOrganisasjonerOgSokefelt,
     finnIndeksIMenyKomponenter,
     finnIndeksIUtpakketListe,
     setfokusPaSokefelt,
@@ -24,7 +25,7 @@ interface Props {
 
 const Menyvalg: FunctionComponent<Props> = (props) => {
     const { menyKomponenter = [], history, valgtOrganisasjon, setErApen, erSok, erApen } = props;
-    const [juridiskEnhetTrykketPaa, setJuridiskEnhetTrykketPaa] = useState<string>(valgtOrganisasjon.ParentOrganizationNumber);
+    const [juridiskEnhetTrykketPaa, setJuridiskEnhetTrykketPaa] = useState<string>('');
     const [hover, setHover] = useState(false);
     const [organisasjonIFokus, setOrganisasjonIFokus] = useState(menyKomponenter[0].JuridiskEnhet);
 
@@ -37,6 +38,11 @@ const Menyvalg: FunctionComponent<Props> = (props) => {
             setOrganisasjonIFokus(menyKomponenter[0].JuridiskEnhet);
         }
     }, [erApen, valgtOrganisasjon, menyKomponenter]);
+
+    useEffect(() => {
+        const navarendeTabIndex = erApen ? 0 : -1
+        endreTabIndexAlleOrganisasjonerOgSokefelt(menyKomponenter,navarendeTabIndex)
+    }, [erApen, menyKomponenter]);
 
     const utpakketMenyKomponenter: Organisasjon[] = [];
     menyKomponenter.forEach((enhet: JuridiskEnhetMedUnderEnheterArray) => {

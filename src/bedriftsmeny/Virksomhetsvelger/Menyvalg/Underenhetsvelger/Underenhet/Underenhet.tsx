@@ -4,6 +4,7 @@ import Organisasjonsbeskrivelse from '../Organisasjonsbeskrivelse/Organisasjonsb
 import { Organisasjon } from '../../../../organisasjon';
 import { settOrgnummerIUrl } from '../../../utils/utils';
 import './Underenhet.less';
+import { setfokusPaMenyKnapp } from '../../pilnavigerinsfunksjoner';
 
 interface Props {
     underEnhet: Organisasjon;
@@ -34,6 +35,11 @@ const Underenhet: FunctionComponent<Props> = ({
         setHover(false);
     };
 
+    useEffect(() => {
+        if (!erApen) {
+            setfokusPaMenyKnapp();
+        }
+    }, [erApen]);
 
     useEffect(() => {
         setErValgtEnhet(false);
@@ -45,10 +51,15 @@ const Underenhet: FunctionComponent<Props> = ({
 
     return (
         <li
-            onClick={() => onUnderenhetSelect(underEnhet.OrganizationNumber)}
+            onClick={() => {
+                onUnderenhetSelect(underEnhet.OrganizationNumber);
+            }
+            }
             onKeyDown={(e) => {
                 if (e.key === 'Enter') {
-                    onUnderenhetSelect(underEnhet.OrganizationNumber);
+                    console.log("enter trykka på")
+                    onUnderenhetSelect(underEnhet.OrganizationNumber)
+                    return;
                 }
                 else {
                     setNyOrganisasjonIFokus(e.key,false)

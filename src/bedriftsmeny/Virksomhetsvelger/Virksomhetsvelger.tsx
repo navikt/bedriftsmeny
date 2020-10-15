@@ -11,6 +11,7 @@ import Sokefelt from './Menyvalg/Sokefelt/Sokefelt';
 import useOrganisasjon from './utils/useOrganisasjon';
 import MenyKnapp from './Menyknapp/Menyknapp';
 import './Virksomhetsvelger.less';
+import { setfokusPaSokefelt } from './Menyvalg/pilnavigerinsfunksjoner';
 
 export interface VirksomhetsvelgerProps {
     organisasjonstre?: JuridiskEnhetMedUnderEnheterArray[];
@@ -71,6 +72,8 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
 
         }
     }
+
+    console.log(erApen);
 
     return (
         <nav className="virksomhetsvelger" aria-label="Velg virksomhet">
