@@ -38,7 +38,6 @@ const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrgan
             //i dette caset blar man opp til søkefeltet og tilbake i menyen, og havner da øverst i lista
             if (menyKomponenter && organisasjonIFokus.OrganizationNumber === menyKomponenter[0].JuridiskEnhet.OrganizationNumber) {
                 let enhetElement = document.getElementById("organisasjons-id-"+organisasjonIFokus.OrganizationNumber)
-                enhetElement && console.log("fant id")
                 enhetElement && enhetElement.focus();
                 return;
             }

@@ -9,7 +9,7 @@ import Underenhetsvelger from './Underenhetsvelger/Underenhetsvelger';
 import {
     endreTabIndexAlleOrganisasjonerOgSokefelt,
     finnIndeksIMenyKomponenter,
-    finnIndeksIUtpakketListe,
+    finnIndeksIUtpakketListe, finnOrganisasjonsSomskalHaFokus,
     setfokusPaSokefelt,
     sjekkOmNederstPåLista
 } from './pilnavigerinsfunksjoner';
@@ -28,22 +28,20 @@ interface Props {
 const Menyvalg: FunctionComponent<Props> = (props) => {
     const { menyKomponenter = [], history, valgtOrganisasjon, setErApen, erSok, erApen, organisasjonIFokus, setOrganisasjonIFokus } = props;
     const [juridiskEnhetTrykketPaa, setJuridiskEnhetTrykketPaa] = useState<string>('');
-    const [forrigeOrganisasjonIFokus, setForrigeOrganisasjonIFokus] = useState(tomAltinnOrganisasjon);
     const [hover, setHover] = useState(false);
 
     useEffect(() => {
-        if (erApen) {
             if (!erSok) {
                 const valgtOrganisasjonEnhetIndeks = finnIndeksIMenyKomponenter(valgtOrganisasjon.ParentOrganizationNumber, menyKomponenter)
                 setOrganisasjonIFokus(menyKomponenter[valgtOrganisasjonEnhetIndeks].JuridiskEnhet);
+                setJuridiskEnhetTrykketPaa(menyKomponenter[valgtOrganisasjonEnhetIndeks].JuridiskEnhet.OrganizationNumber)
             }
             else {
                 setOrganisasjonIFokus(menyKomponenter[0].JuridiskEnhet);
+                setErApen(true);
             }
             setfokusPaSokefelt();
-        }
-
-    }, [erApen, valgtOrganisasjon, menyKomponenter]);
+    }, [erSok,valgtOrganisasjon, erApen]);
 
     useEffect(() => {
         setOrganisasjonIFokus(menyKomponenter[0].JuridiskEnhet)
@@ -54,79 +52,25 @@ const Menyvalg: FunctionComponent<Props> = (props) => {
         endreTabIndexAlleOrganisasjonerOgSokefelt(menyKomponenter,navarendeTabIndex)
     }, [erApen, menyKomponenter]);
 
-    const utpakketMenyKomponenter: Organisasjon[] = [];
-    menyKomponenter.forEach((enhet: JuridiskEnhetMedUnderEnheterArray) => {
-        utpakketMenyKomponenter.push(enhet.JuridiskEnhet);
-        enhet.Underenheter.forEach((underenhet => utpakketMenyKomponenter.push(underenhet)))
-    })
-
-    const setNyOrganisasjonIFokus = (keyPressKey: string, erApen: boolean) => {
-        setForrigeOrganisasjonIFokus(organisasjonIFokus);
-        console.log("juridisk enhet er åpen: ",erApen)
-        if (keyPressKey !== 'ArrowDown' && keyPressKey !== 'ArrowUp') {
-            return
-        }
-        let fantFokuset = false;
-        const erJuridiskEnhet = organisasjonIFokus.Type === 'Enterprise' || organisasjonIFokus.OrganizationForm === 'FLI'
-        erJuridiskEnhet && console.log("juridisk enhet er åpen: ",erApen)
-        let nesteOrganisasjon = tomAltinnOrganisasjon;
-            if (keyPressKey === 'ArrowDown') {
-                if (sjekkOmNederstPåLista(erApen,erJuridiskEnhet,organisasjonIFokus, menyKomponenter, utpakketMenyKomponenter)) {
-                    nesteOrganisasjon = utpakketMenyKomponenter[0]
-                }
-                else if (erApen || !erJuridiskEnhet) {
-                    const indeksAvNåværendeOrganisasjon = finnIndeksIUtpakketListe( organisasjonIFokus.OrganizationNumber,utpakketMenyKomponenter,)
-                    nesteOrganisasjon = utpakketMenyKomponenter[indeksAvNåværendeOrganisasjon + 1]
-                } else {
-                    const indeksAvNåværendeOrganisasjon = finnIndeksIMenyKomponenter(organisasjonIFokus.OrganizationNumber, menyKomponenter)
-                    nesteOrganisasjon = menyKomponenter[indeksAvNåværendeOrganisasjon + 1].JuridiskEnhet
-                }
+    const setNyOrganisasjonIFokus = (keypressKey: string, erApen: boolean) => {
+        const organisasjonsSomSkalFåFokus =
+            finnOrganisasjonsSomskalHaFokus(organisasjonIFokus,keypressKey, erApen,menyKomponenter,juridiskEnhetTrykketPaa);
+        let organisasjonIFokusId = ''
+        if (organisasjonsSomSkalFåFokus) {
+            setOrganisasjonIFokus(organisasjonsSomSkalFåFokus);
+            if (organisasjonsSomSkalFåFokus.OrganizationNumber === valgtOrganisasjon.OrganizationNumber) {
+                organisasjonIFokusId = 'valgtunderenhet';
             }
-        if (keyPressKey === 'ArrowUp') {
-            let indeksAvNåværendeOrganisasjon = finnIndeksIUtpakketListe( organisasjonIFokus.OrganizationNumber,utpakketMenyKomponenter)
-            const erForsteElement = indeksAvNåværendeOrganisasjon === 0;
-            if (erForsteElement) {
-                setfokusPaSokefelt()
-                return
-            }
-            if (erApen || !erJuridiskEnhet ||forrigeOrganisasjonIFokus.OrganizationForm === 'BEDR') {
-                nesteOrganisasjon = utpakketMenyKomponenter[indeksAvNåværendeOrganisasjon - 1]
-            } else {
-                indeksAvNåværendeOrganisasjon = finnIndeksIMenyKomponenter(organisasjonIFokus.OrganizationNumber, menyKomponenter)
-                nesteOrganisasjon = menyKomponenter[indeksAvNåværendeOrganisasjon - 1].JuridiskEnhet
-            }
-
-        }
-        const idNesteelement = 'organisasjons-id-'+nesteOrganisasjon.OrganizationNumber;
-        const nesteElement = document.getElementById(idNesteelement);
-        if (nesteElement) {
-           nesteElement.focus();
-           fantFokuset = true;
-        }
-        else {
-            const nesteOrganisasjonErJuridiskEnhet = nesteOrganisasjon.Type === 'Enterprise' || nesteOrganisasjon.OrganizationForm === 'FLI'
-            if (nesteOrganisasjonErJuridiskEnhet) {
-                const elementValgtEnhet = document.getElementById('valgtjuridiskenhet')
-                if (elementValgtEnhet) {
-                    elementValgtEnhet.focus()
-                    fantFokuset = true;
-                }
+            else if (organisasjonsSomSkalFåFokus.OrganizationNumber === valgtOrganisasjon.ParentOrganizationNumber) {
+                organisasjonIFokusId = 'valgtjuridiskenhet'
             }
             else {
-                const elementValgtEnhet = document.getElementById('valgtunderenhet')
-                if (elementValgtEnhet) {
-                    elementValgtEnhet.focus()
-                    fantFokuset = true;
-                }
+                organisasjonIFokusId = 'organisasjons-id-' + organisasjonsSomSkalFåFokus.OrganizationNumber;
             }
-            if (fantFokuset) {
-                setOrganisasjonIFokus(nesteOrganisasjon)
-                return
-            }
+            const organisasjonsElement = document.getElementById(organisasjonIFokusId);
+            organisasjonsElement && organisasjonsElement.focus();
         }
-        if (fantFokuset) {
-            setOrganisasjonIFokus(nesteOrganisasjon)
-        }
+
     }
 
     return (

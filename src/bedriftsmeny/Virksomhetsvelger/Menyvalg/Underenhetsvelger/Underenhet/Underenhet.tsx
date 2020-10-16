@@ -48,7 +48,6 @@ const Underenhet: FunctionComponent<Props> = ({
         }
     }, [valgtOrganisasjon, underEnhet]);
 
-
     return (
         <li
             onClick={() => {
