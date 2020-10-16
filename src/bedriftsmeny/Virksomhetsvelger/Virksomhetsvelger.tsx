@@ -11,6 +11,7 @@ import Sokefelt from './Menyvalg/Sokefelt/Sokefelt';
 import useOrganisasjon from './utils/useOrganisasjon';
 import MenyKnapp from './Menyknapp/Menyknapp';
 import './Virksomhetsvelger.less';
+import { setfokusPaMenyKnapp } from './Menyvalg/pilnavigerinsfunksjoner';
 
 export interface VirksomhetsvelgerProps {
     organisasjonstre?: JuridiskEnhetMedUnderEnheterArray[];
@@ -47,8 +48,13 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
     };
 
     useEffect(() => {
-        document.addEventListener('click', handleOutsideClick, false);
+        if (!erApen) {
+            setfokusPaMenyKnapp();
+        }
+    }, [erApen]);
 
+    useEffect(() => {
+        document.addEventListener('click', handleOutsideClick, false);
         return () => {
             window.removeEventListener('click', handleOutsideClick, false);
         };

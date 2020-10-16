@@ -18,18 +18,11 @@ const MenyKnapp = ({ navn, orgnummer, brukOverskrift, erApen, setErApen, setSoke
     const Navn = brukOverskrift ? Undertittel : Element;
     const [oppChevron, setOppChevron] = useState(false);
 
-    const OnDownPress = () => {
-        if (erApen) {
-            setfokusPaSokefelt();
-        }
-    }
-
     useEffect(() => {
         setOppChevron(false);
         if (erApen)  {
             setOppChevron(true);
         }
-
     }, [erApen]);
 
     return (
@@ -42,8 +35,10 @@ const MenyKnapp = ({ navn, orgnummer, brukOverskrift, erApen, setErApen, setSoke
             }}
             onKeyDown={ (e) => {
                 if (e.key === 'ArrowDown') {
-                    setfokusPaSokefelt();
-                    setSoketekst('');
+                    if (erApen) {
+                        setfokusPaSokefelt();
+                        setSoketekst('');
+                    }
                 }
             }}
             className="menyknapp"

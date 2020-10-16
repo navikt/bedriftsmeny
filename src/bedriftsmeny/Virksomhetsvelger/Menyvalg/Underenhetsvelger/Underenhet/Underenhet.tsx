@@ -36,12 +36,6 @@ const Underenhet: FunctionComponent<Props> = ({
     };
 
     useEffect(() => {
-        if (!erApen) {
-            setfokusPaMenyKnapp();
-        }
-    }, [erApen]);
-
-    useEffect(() => {
         setErValgtEnhet(false);
         if (valgtOrganisasjon.OrganizationNumber === underEnhet.OrganizationNumber) {
             setErValgtEnhet(true);
