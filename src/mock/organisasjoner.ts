@@ -168,14 +168,6 @@ export const MOCK_ORGANISASJONER: Organisasjon[] = [
         ParentOrganizationNumber: '910820834',
         OrganizationForm: 'BEDR',
         Status: 'Active'
-    },
-    {
-        Name: 'DIGITAL JUNKIES AS ',
-        Type: 'Business',
-        OrganizationNumber: '922658986',
-        ParentOrganizationNumber: '822565212',
-        OrganizationForm: 'BEDR',
-        Status: 'Active'
     }
     ]
 ;

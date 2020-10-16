@@ -4,14 +4,14 @@ import Forstørrelsesglass from './Forstørrelsesglass';
 import Kryss from './Kryss';
 import './Sokefelt.less';
 import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../../organisasjon';
+import { setfokusPaMenyKnapp } from '../pilnavigerinsfunksjoner';
 
 interface Props {
     soketekst: string;
     onChange: (soketekst: string) => void;
-    forsteJuridiskeEnhet: string;
     juridiskEnhetTilValgtOrganisasjon: string;
     organisasjonIFokus: Organisasjon;
-    menyKomponenter: JuridiskEnhetMedUnderEnheterArray[] | null;
+    menyKomponenter: JuridiskEnhetMedUnderEnheterArray[] | undefined;
     treffPåOrganisasjoner?: JuridiskEnhetMedUnderEnheterArray[];
 }
 
@@ -50,6 +50,9 @@ const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrgan
                 enhetElement = document.getElementById('valgtjuridiskenhet')
                 enhetElement && enhetElement.focus()
             }
+        }
+        if (keyCodeKey === 'ArrowUp') {
+            setfokusPaMenyKnapp();
         }
     }
 

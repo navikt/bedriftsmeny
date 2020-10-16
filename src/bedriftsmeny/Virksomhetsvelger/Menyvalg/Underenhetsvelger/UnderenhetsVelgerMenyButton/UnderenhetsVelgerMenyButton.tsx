@@ -57,18 +57,12 @@ const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
             onMouseOver={() => {
                 setHover(true);
             }}
-            //lurer på disse statene !!! OPS OPS
             onKeyDown={ (e) => {
                 if (e.key === 'ArrowRight') {
                     setJuridiskEnhetTrykketPaa(juridiskEnhet.OrganizationNumber);
                     setVisUnderenheter(true);
-
                 }
                 if (e.key === 'ArrowLeft') {
-                    setJuridiskEnhetTrykketPaa('ikkevis');
-                    setVisUnderenheter(false);
-                }
-                if (e.key === 'ArrowUp') {
                     setJuridiskEnhetTrykketPaa('ikkevis');
                     setVisUnderenheter(false);
                 }

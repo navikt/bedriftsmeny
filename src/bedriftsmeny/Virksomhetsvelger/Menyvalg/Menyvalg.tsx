@@ -28,16 +28,21 @@ interface Props {
 const Menyvalg: FunctionComponent<Props> = (props) => {
     const { menyKomponenter = [], history, valgtOrganisasjon, setErApen, erSok, erApen, organisasjonIFokus, setOrganisasjonIFokus } = props;
     const [juridiskEnhetTrykketPaa, setJuridiskEnhetTrykketPaa] = useState<string>('');
+    const [forrigeOrganisasjonIFokus, setForrigeOrganisasjonIFokus] = useState(tomAltinnOrganisasjon);
     const [hover, setHover] = useState(false);
 
     useEffect(() => {
-        if (erApen && !erSok) {
-            const valgtOrganisasjonEnhetIndeks = finnIndeksIMenyKomponenter(valgtOrganisasjon.ParentOrganizationNumber, menyKomponenter)
-            setOrganisasjonIFokus(menyKomponenter[valgtOrganisasjonEnhetIndeks].JuridiskEnhet);
+        if (erApen) {
+            if (!erSok) {
+                const valgtOrganisasjonEnhetIndeks = finnIndeksIMenyKomponenter(valgtOrganisasjon.ParentOrganizationNumber, menyKomponenter)
+                setOrganisasjonIFokus(menyKomponenter[valgtOrganisasjonEnhetIndeks].JuridiskEnhet);
+            }
+            else {
+                setOrganisasjonIFokus(menyKomponenter[0].JuridiskEnhet);
+            }
+            setfokusPaSokefelt();
         }
-        if (erApen && erSok) {
-            setOrganisasjonIFokus(menyKomponenter[0].JuridiskEnhet);
-        }
+
     }, [erApen, valgtOrganisasjon, menyKomponenter]);
 
     useEffect(() => {
@@ -56,11 +61,14 @@ const Menyvalg: FunctionComponent<Props> = (props) => {
     })
 
     const setNyOrganisasjonIFokus = (keyPressKey: string, erApen: boolean) => {
+        setForrigeOrganisasjonIFokus(organisasjonIFokus);
+        console.log("juridisk enhet er åpen: ",erApen)
         if (keyPressKey !== 'ArrowDown' && keyPressKey !== 'ArrowUp') {
             return
         }
         let fantFokuset = false;
         const erJuridiskEnhet = organisasjonIFokus.Type === 'Enterprise' || organisasjonIFokus.OrganizationForm === 'FLI'
+        erJuridiskEnhet && console.log("juridisk enhet er åpen: ",erApen)
         let nesteOrganisasjon = tomAltinnOrganisasjon;
             if (keyPressKey === 'ArrowDown') {
                 if (sjekkOmNederstPåLista(erApen,erJuridiskEnhet,organisasjonIFokus, menyKomponenter, utpakketMenyKomponenter)) {
@@ -81,9 +89,7 @@ const Menyvalg: FunctionComponent<Props> = (props) => {
                 setfokusPaSokefelt()
                 return
             }
-            if (erApen || !erJuridiskEnhet) {
-
-                // @ts-ignore
+            if (erApen || !erJuridiskEnhet ||forrigeOrganisasjonIFokus.OrganizationForm === 'BEDR') {
                 nesteOrganisasjon = utpakketMenyKomponenter[indeksAvNåværendeOrganisasjon - 1]
             } else {
                 indeksAvNåværendeOrganisasjon = finnIndeksIMenyKomponenter(organisasjonIFokus.OrganizationNumber, menyKomponenter)
@@ -92,7 +98,6 @@ const Menyvalg: FunctionComponent<Props> = (props) => {
 
         }
         const idNesteelement = 'organisasjons-id-'+nesteOrganisasjon.OrganizationNumber;
-        console.log("id til neste element: " +idNesteelement)
         const nesteElement = document.getElementById(idNesteelement);
         if (nesteElement) {
            nesteElement.focus();

@@ -36,7 +36,6 @@ export const endreTabIndexAlleOrganisasjonerOgSokefelt = (menyKomponenter: Jurid
         endreTabIndeksGittId('organisasjons-id-'+juridiskEnhetMedUnderenheter.JuridiskEnhet.OrganizationNumber, tabIndex);
         juridiskEnhetMedUnderenheter.Underenheter.forEach(underenhet => endreTabIndeksGittId('organisasjons-id-'+underenhet.OrganizationNumber, tabIndex))
     })
-    console.log("endrer indekser til", tabIndex)
 }
 
 export const endreTabIndeksGittId = (idString: string, tabIndex: number) => {
@@ -52,8 +51,6 @@ export const setfokusPaSokefelt = () => {
 }
 
 export const setfokusPaMenyKnapp = () => {
-    console.log("prøver sette fokus på hovedknapp")
     const hovedknapp = document.getElementById("virksomhetsvelger__button")
-    hovedknapp && console.log("fant knapp");
     hovedknapp && hovedknapp.focus();
 }
