@@ -57,7 +57,6 @@ const Underenhet: FunctionComponent<Props> = ({
             }
             onKeyDown={(e) => {
                 if (e.key === 'Enter') {
-                    console.log("enter trykka på")
                     onUnderenhetSelect(underEnhet.OrganizationNumber)
                     return;
                 }

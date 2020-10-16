@@ -73,7 +73,13 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
         }
     }
     return (
-        <nav className="virksomhetsvelger" aria-label="Velg virksomhet">
+        <nav className="virksomhetsvelger" aria-label="Velg virksomhet"
+             onKeyDown={ (event) => {
+                 if (event.key === 'Escape') {
+                     setErApen(false);
+                 }
+             }
+        }>
             <div ref={bedriftvelgernode} className="virksomhetsvelger__wrapper">
                 {valgtOrganisasjon && valgtOrganisasjon !== tomAltinnOrganisasjon && (
                     <MenyKnapp
