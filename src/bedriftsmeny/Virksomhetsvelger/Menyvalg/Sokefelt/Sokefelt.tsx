@@ -19,17 +19,24 @@ const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrgan
     const [arialabelTekst, setArialabelTekst] = useState("Søk etter virksomhet")
 
     useEffect(() => {
-        if (!treffPåOrganisasjoner?.length && soketekst.length>0) {
+        const underenheter: Organisasjon[] = [] ;
+        treffPåOrganisasjoner?.forEach((juridiskEnhet) => underenheter.push.apply(underenheter, juridiskEnhet.Underenheter))
+
+        if (soketekst.length === 0) {
+            setArialabelTekst("Søk etter underenheter")
+        }
+        else if (treffPåOrganisasjoner?.length === 0) {
             setArialabelTekst("Ingen treff for dette søkeordet")
         }
-        else if (treffPåOrganisasjoner && treffPåOrganisasjoner?.length > 0 ||soketekst.length === 0) {
-            setArialabelTekst("")
+        else if (treffPåOrganisasjoner) {
+            setArialabelTekst(underenheter.length + " treff på underenheter")
         }
     }, [soketekst, treffPåOrganisasjoner]);
 
     const onChangeForAriaDelay = (verdi: string) => {
-        setTimeout(function(){
-            onChange(verdi)
+
+    setTimeout(function(){
+        onChange(verdi)
         }, 1);
     }
 
