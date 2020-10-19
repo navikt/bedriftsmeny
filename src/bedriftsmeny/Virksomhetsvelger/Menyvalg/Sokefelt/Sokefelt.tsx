@@ -4,7 +4,7 @@ import Forstørrelsesglass from './Forstørrelsesglass';
 import Kryss from './Kryss';
 import './Sokefelt.less';
 import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../../organisasjon';
-import { setfokusPaMenyKnapp } from '../pilnavigerinsfunksjoner';
+import { erPilNavigasjon, setfokusPaMenyKnapp } from '../pilnavigerinsfunksjoner';
 
 interface Props {
     soketekst: string;
@@ -38,11 +38,11 @@ const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrgan
             setfokusPaMenyKnapp()
         }
         if (key === 'ArrowDown') {
-            settFokusPaForsteEnhet(key)
+            settFokusPaForsteEnhet()
         }
     }
 
-    const settFokusPaForsteEnhet = (keyCodeKey: string) => {
+    const settFokusPaForsteEnhet = () => {
         if (menyKomponenter) {
             const blarOppTilSøkefeltOgNedTilMeny =
                 organisasjonIFokus.OrganizationNumber === menyKomponenter[0].JuridiskEnhet.OrganizationNumber;
@@ -57,7 +57,6 @@ const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrgan
                 elementID && elementID.focus();
             }
         }
-
     }
 
     return (
@@ -72,7 +71,13 @@ const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrgan
             value={soketekst}
             onChange={(e) => onChangeForAriaDelay(e.target.value)}
             placeholder="Søk"
-            onKeyDown={ (e) => onKeyDown(e.key)}
+            onKeyDown={ (e) => {
+                if (erPilNavigasjon(e.key)) {
+                    e.preventDefault()
+                    e.stopPropagation()
+                }
+                onKeyDown(e.key)
+            }}
         />
         <div className="bedriftsmeny-sokefelt__ikon">
             {soketekst.length === 0 ? (

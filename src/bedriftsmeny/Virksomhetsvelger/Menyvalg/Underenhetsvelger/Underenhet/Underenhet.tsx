@@ -4,7 +4,7 @@ import Organisasjonsbeskrivelse from '../Organisasjonsbeskrivelse/Organisasjonsb
 import { Organisasjon } from '../../../../organisasjon';
 import { settOrgnummerIUrl } from '../../../utils/utils';
 import './Underenhet.less';
-import { setfokusPaMenyKnapp } from '../../pilnavigerinsfunksjoner';
+import { erPilNavigasjon, setfokusPaMenyKnapp } from '../../pilnavigerinsfunksjoner';
 
 interface Props {
     underEnhet: Organisasjon;
@@ -64,7 +64,14 @@ const Underenhet: FunctionComponent<Props> = ({
                 onUnderenhetSelect(underEnhet.OrganizationNumber);
             }
             }
-            onKeyDown={(e) => onKeyDown(e.key)}
+            onKeyDown={(e) => {
+                if (erPilNavigasjon(e.key)) {
+                    e.preventDefault()
+                    e.stopPropagation()
+                }
+                onKeyDown(e.key)
+            }
+              }
             onMouseOver={() => {
                 if (!erValgtEnhet) {
                     setHover(true);

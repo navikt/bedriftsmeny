@@ -3,7 +3,7 @@ import { Undertittel, Element } from 'nav-frontend-typografi';
 import { NedChevron, OppChevron } from 'nav-frontend-chevron';
 import UnderenhetIkon from '../Menyvalg/Underenhetsvelger/Organisasjonsbeskrivelse/UnderenhetIkon';
 import './Menyknapp.less';
-import { setfokusPaSokefelt } from '../Menyvalg/pilnavigerinsfunksjoner';
+import { erPilNavigasjon, setfokusPaSokefelt } from '../Menyvalg/pilnavigerinsfunksjoner';
 
 interface Props {
     navn: string;
@@ -43,8 +43,14 @@ const MenyKnapp = ({ navn, orgnummer, brukOverskrift, erApen, setErApen, setSoke
                 setErApen(!erApen);
                 setSoketekst('');
             }}
-            onKeyDown={ (e) =>
-                onKeyPress(e.key, e.shiftKey)}
+            onKeyDown={ (e) => {
+                if (erPilNavigasjon(e.key)) {
+                    e.preventDefault()
+                    e.stopPropagation()
+                }
+                onKeyPress(e.key, e.shiftKey)
+            }
+            }
             className="menyknapp"
             id="virksomhetsvelger__button"
             aria-label={`Virksomhetsvelger. Valgt virksomhet er ${navn}`}

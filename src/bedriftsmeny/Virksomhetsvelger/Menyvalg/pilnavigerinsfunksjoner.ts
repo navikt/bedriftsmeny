@@ -118,3 +118,8 @@ export const setfokusPaMenyKnapp = () => {
     const hovedknapp = document.getElementById("virksomhetsvelger__button")
     hovedknapp && hovedknapp.focus();
 }
+
+export const erPilNavigasjon = (key: string) => {
+    const erPIL = key === 'ArrowUp'|| key === 'ArrowDown' ||key === 'ArrowLeft' || key === 'ArrowRight'
+    return erPIL;
+}

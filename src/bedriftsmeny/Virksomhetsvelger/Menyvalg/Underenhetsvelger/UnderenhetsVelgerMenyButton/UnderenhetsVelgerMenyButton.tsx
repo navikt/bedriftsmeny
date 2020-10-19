@@ -3,6 +3,7 @@ import { NedChevron, OppChevron } from 'nav-frontend-chevron';
 import { Normaltekst } from 'nav-frontend-typografi';
 import Organisasjonsbeskrivelse from '../Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
 import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../../../organisasjon';
+import { erPilNavigasjon } from '../../pilnavigerinsfunksjoner';
 
 interface Props {
     juridiskEnhetMedUnderenheter: JuridiskEnhetMedUnderEnheterArray;
@@ -76,7 +77,13 @@ const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
             onMouseOver={() => {
                 setHover(true);
             }}
-            onKeyDown={ (e) => OnKeyDown(e.key)}
+            onKeyDown={ (e) => {
+                if (erPilNavigasjon(e.key)) {
+                    e.preventDefault()
+                    e.stopPropagation()
+                }
+                OnKeyDown(e.key)
+            }}
             onMouseLeave={() => setHover(false)}
             className={`underenhetsvelger__button ${visUnderenheter ? 'juridiskenhet--apen' : 'juridiskenhet--lukket'}`}
             id={
