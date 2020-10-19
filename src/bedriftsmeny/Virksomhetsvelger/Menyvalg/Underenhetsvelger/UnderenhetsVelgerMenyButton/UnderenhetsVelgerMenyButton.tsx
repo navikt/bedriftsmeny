@@ -13,11 +13,13 @@ interface Props {
     setHover: (bool: boolean) => void;
     erSok: boolean;
     erApen: boolean;
-    setNyOrganisasjonIFokus: (KeypressKey: string, erJuridiskEnhetValgt: boolean) => void;
+    setNyOrganisasjonIFokus: (KeypressKey: string, erJuridiskEnhetSomViserUnderenheter: boolean) => void;
+    lukkMenyOnTabPaNedersteElement: (organisasjonsnummer: string, erJuridiskEnhetSomViserUnderenheter: boolean) => void;
 }
 
 const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
-    const {juridiskEnhetMedUnderenheter, visUnderenheter, setVisUnderenheter, valgtOrganisasjon, setJuridiskEnhetTrykketPaa, setHover, erSok, erApen, setNyOrganisasjonIFokus } = props;
+    const {juridiskEnhetMedUnderenheter, visUnderenheter, setVisUnderenheter, valgtOrganisasjon,
+        setJuridiskEnhetTrykketPaa, setHover, erSok, erApen, setNyOrganisasjonIFokus, lukkMenyOnTabPaNedersteElement } = props;
     const juridiskEnhet = juridiskEnhetMedUnderenheter.JuridiskEnhet;
     const underenheter = juridiskEnhetMedUnderenheter.Underenheter;
     const erValgtOrganisasjon = valgtOrganisasjon.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber;
@@ -65,6 +67,9 @@ const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
                 if (e.key === 'ArrowLeft') {
                     setJuridiskEnhetTrykketPaa('ikkevis');
                     setVisUnderenheter(false);
+                }
+                if (e.key === 'Tab') {
+                    lukkMenyOnTabPaNedersteElement(juridiskEnhet.OrganizationNumber, visUnderenheter)
                 }
                 setNyOrganisasjonIFokus(e.key, visUnderenheter)
             }}

@@ -16,7 +16,8 @@ interface Props {
     setHover: (bool: boolean) => void;
     erSok: boolean;
     erApen: boolean;
-    setNyOrganisasjonIFokus: (KeypressKey: string, erApen: boolean) => void;
+    setNyOrganisasjonIFokus: (KeypressKey: string, erJuridiskEnhetSomViserUnderenheter: boolean) => void;
+    lukkMenyOnTabPaNedersteElement: (organisasjonsnummer: string, erJuridiskEnhetSomViserUnderenheter: boolean) => void;
 }
 
 const Underenhetsvelger: FunctionComponent<Props> = ({
@@ -30,7 +31,8 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
     erSok,
     erApen,
     setErApen,
-    setNyOrganisasjonIFokus
+    setNyOrganisasjonIFokus,
+    lukkMenyOnTabPaNedersteElement
 }) => {
     const [visUnderenheter, setVisUnderenheter] = useState(false);
     const juridiskEnhet = juridiskEnhetMedUnderenheter.JuridiskEnhet;
@@ -73,6 +75,7 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
                 erSok={erSok}
                 erApen={erApen}
                 setNyOrganisasjonIFokus = {setNyOrganisasjonIFokus}
+                lukkMenyOnTabPaNedersteElement={lukkMenyOnTabPaNedersteElement}
             />
             <ul
                 className={`underenhetsvelger__menyvalg-wrapper--${
@@ -93,6 +96,7 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
                         setHover={setHover}
                         erApen={erApen}
                         setNyOrganisasjonIFokus = {setNyOrganisasjonIFokus}
+                        lukkMenyOnTabPaNedersteElement={lukkMenyOnTabPaNedersteElement}
                     />
                 ))}
             </ul>

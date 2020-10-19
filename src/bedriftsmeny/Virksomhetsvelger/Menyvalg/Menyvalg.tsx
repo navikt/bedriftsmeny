@@ -1,17 +1,15 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import {
     JuridiskEnhetMedUnderEnheterArray,
-    Organisasjon,
-    tomAltinnOrganisasjon
+    Organisasjon
 } from '../../organisasjon';
 import { History } from 'history';
 import Underenhetsvelger from './Underenhetsvelger/Underenhetsvelger';
 import {
     endreTabIndexAlleOrganisasjonerOgSokefelt,
     finnIndeksIMenyKomponenter,
-    finnIndeksIUtpakketListe, finnOrganisasjonsSomskalHaFokus,
+    finnOrganisasjonsSomskalHaFokus,
     setfokusPaSokefelt,
-    sjekkOmNederstPåLista
 } from './pilnavigerinsfunksjoner';
 
 interface Props {
@@ -52,9 +50,9 @@ const Menyvalg: FunctionComponent<Props> = (props) => {
         endreTabIndexAlleOrganisasjonerOgSokefelt(menyKomponenter,navarendeTabIndex)
     }, [erApen, menyKomponenter]);
 
-    const setNyOrganisasjonIFokus = (keypressKey: string, erApen: boolean) => {
+    const setNyOrganisasjonIFokus = (keypressKey: string, erJuridiskEnhetSomViserUnderenheter: boolean) => {
         const organisasjonsSomSkalFåFokus =
-            finnOrganisasjonsSomskalHaFokus(organisasjonIFokus,keypressKey, erApen,menyKomponenter,juridiskEnhetTrykketPaa);
+            finnOrganisasjonsSomskalHaFokus(organisasjonIFokus,keypressKey, erJuridiskEnhetSomViserUnderenheter,menyKomponenter,juridiskEnhetTrykketPaa);
         let organisasjonIFokusId = ''
         if (organisasjonsSomSkalFåFokus) {
             setOrganisasjonIFokus(organisasjonsSomSkalFåFokus);
@@ -70,7 +68,16 @@ const Menyvalg: FunctionComponent<Props> = (props) => {
             const organisasjonsElement = document.getElementById(organisasjonIFokusId);
             organisasjonsElement && organisasjonsElement.focus();
         }
+    }
 
+    const lukkMenyOnTabPaNedersteElement = (organisasjonsnummer: string, erJuridiskEnhetSomViserUnderenheter: boolean) => {
+        const nedersteElement = menyKomponenter[menyKomponenter.length -1];
+        const erNedersteJuridiskeEnhet = nedersteElement.JuridiskEnhet.OrganizationNumber === organisasjonsnummer;
+        const nedersteUnderenhet = nedersteElement.Underenheter[nedersteElement.Underenheter.length-1];
+        const erNedersteUnderenhet = nedersteUnderenhet.OrganizationNumber === organisasjonsnummer;
+        if ((erNedersteJuridiskeEnhet && !erJuridiskEnhetSomViserUnderenheter) || erNedersteUnderenhet) {
+            setErApen(false);
+        }
     }
 
     return (
@@ -78,6 +85,7 @@ const Menyvalg: FunctionComponent<Props> = (props) => {
             {menyKomponenter.map(organisasjon => (
                 <Underenhetsvelger
                     setNyOrganisasjonIFokus = {setNyOrganisasjonIFokus}
+                    lukkMenyOnTabPaNedersteElement = {lukkMenyOnTabPaNedersteElement}
                     key={organisasjon.JuridiskEnhet.OrganizationNumber}
                     juridiskEnhetMedUnderenheter={organisasjon}
                     history={history}

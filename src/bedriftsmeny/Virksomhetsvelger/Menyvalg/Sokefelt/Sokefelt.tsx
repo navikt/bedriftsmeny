@@ -35,10 +35,10 @@ const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrgan
 
     const settFokusPaForsteEnhet = (keyCodeKey: string) => {
         if (menyKomponenter && keyCodeKey === 'ArrowDown') {
-            const blarOppTilSøkefeltFraMenyOgOpp =
+            const blarOppTilSøkefeltOgNedTilMeny =
                 organisasjonIFokus.OrganizationNumber === menyKomponenter[0].JuridiskEnhet.OrganizationNumber;
             const valgtJuridiskEnhetErFørsteILista = juridiskEnhetTilValgtOrganisasjon === menyKomponenter[0].JuridiskEnhet.OrganizationNumber;
-            const skalBlaTilFørsteElementIMenyKomponenter = blarOppTilSøkefeltFraMenyOgOpp && !valgtJuridiskEnhetErFørsteILista;
+            const skalBlaTilFørsteElementIMenyKomponenter = blarOppTilSøkefeltOgNedTilMeny && !valgtJuridiskEnhetErFørsteILista;
             if (skalBlaTilFørsteElementIMenyKomponenter) {
                 const elementID = document.getElementById('organisasjons-id-'+menyKomponenter[0].JuridiskEnhet.OrganizationNumber);
                 elementID && elementID.focus();
