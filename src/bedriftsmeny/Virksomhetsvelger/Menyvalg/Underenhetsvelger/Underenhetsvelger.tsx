@@ -18,6 +18,7 @@ interface Props {
     erApen: boolean;
     setNyOrganisasjonIFokus: (KeypressKey: string, erJuridiskEnhetSomViserUnderenheter: boolean) => void;
     lukkMenyOnTabPaNedersteElement: (organisasjonsnummer: string, erJuridiskEnhetSomViserUnderenheter: boolean) => void;
+    setOrganisasjonIFokus: (organisasjon: Organisasjon) => void;
 }
 
 const Underenhetsvelger: FunctionComponent<Props> = ({
@@ -32,6 +33,7 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
     erApen,
     setErApen,
     setNyOrganisasjonIFokus,
+    setOrganisasjonIFokus,
     lukkMenyOnTabPaNedersteElement
 }) => {
     const [visUnderenheter, setVisUnderenheter] = useState(false);
@@ -63,6 +65,17 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
         }
     }, [juridiskEnhetMedUnderenheter, valgtOrganisasjon, juridiskEnhetTrykketPaa, erApen, visUnderenheter]);
 
+    const lukkUnderenhetsvelgerOgFokuserPåEnhet = (underenhet: Organisasjon) => {
+        const erUnderenhetAvValgtEnhet = underenhet.ParentOrganizationNumber === valgtOrganisasjon.ParentOrganizationNumber;
+        const juridiskEnhetElementId = erUnderenhetAvValgtEnhet ? 'valgtjuridiskenhet' : 'organisasjons-id-' + underenhet.ParentOrganizationNumber;
+        const juridiskEnhetElement = document.getElementById(juridiskEnhetElementId);
+        if (juridiskEnhetElement) {
+            juridiskEnhetElement && juridiskEnhetElement.click()
+            juridiskEnhetElement && juridiskEnhetElement.focus()
+            setOrganisasjonIFokus(juridiskEnhet)
+        }
+    }
+
     return (
         <div className="underenhetsvelger" id={visUnderenheter ? 'underenhet-apen' : ''}>
             <UnderenhetsVelgerMenyButton
@@ -87,6 +100,7 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
             >
                 {juridiskEnhetMedUnderenheter.Underenheter.map((organisasjon: Organisasjon) => (
                     <Underenhet
+                        lukkUnderenhetsvelgerOgFokuserPåEnhet={lukkUnderenhetsvelgerOgFokuserPåEnhet}
                         key={organisasjon.OrganizationNumber}
                         underEnhet={organisasjon}
                         valgtOrganisasjon={valgtOrganisasjon}

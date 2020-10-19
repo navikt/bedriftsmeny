@@ -84,6 +84,7 @@ const Menyvalg: FunctionComponent<Props> = (props) => {
         <div id = {"virksomhetsvelger-id"}>
             {menyKomponenter.map(organisasjon => (
                 <Underenhetsvelger
+                    setOrganisasjonIFokus={setOrganisasjonIFokus}
                     setNyOrganisasjonIFokus = {setNyOrganisasjonIFokus}
                     lukkMenyOnTabPaNedersteElement = {lukkMenyOnTabPaNedersteElement}
                     key={organisasjon.JuridiskEnhet.OrganizationNumber}

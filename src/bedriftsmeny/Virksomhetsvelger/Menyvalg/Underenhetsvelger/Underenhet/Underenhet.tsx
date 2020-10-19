@@ -16,6 +16,7 @@ interface Props {
     erApen: boolean;
     setNyOrganisasjonIFokus: (KeypressKey: string, erJuridiskEnhetSomViserUnderenheter: boolean) => void;
     lukkMenyOnTabPaNedersteElement: (organisasjonsnummer: string, erJuridiskEnhetSomViserUnderenheter: boolean) => void;
+    lukkUnderenhetsvelgerOgFokuserPåEnhet: (underenhet: Organisasjon) => void;
 }
 
 const Underenhet: FunctionComponent<Props> = ({
@@ -27,7 +28,8 @@ const Underenhet: FunctionComponent<Props> = ({
     setHover,
     erApen,
     setNyOrganisasjonIFokus,
-    lukkMenyOnTabPaNedersteElement
+    lukkUnderenhetsvelgerOgFokuserPåEnhet,
+    lukkMenyOnTabPaNedersteElement,
 
 }) => {
     const [erValgtEnhet, setErValgtEnhet] = useState(false);
@@ -55,6 +57,9 @@ const Underenhet: FunctionComponent<Props> = ({
         }
         if (key === 'ArrowUp' || key === 'ArrowDown') {
             setNyOrganisasjonIFokus(key, false)
+        }
+        if (key === 'ArrowLeft') {
+            lukkUnderenhetsvelgerOgFokuserPåEnhet(underEnhet)
         }
     }
 
