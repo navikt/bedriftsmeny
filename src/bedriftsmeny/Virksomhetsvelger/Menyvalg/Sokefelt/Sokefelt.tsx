@@ -33,8 +33,17 @@ const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrgan
         }, 1);
     }
 
+    const onKeyDown = (key: string) => {
+        if (key === 'ArrowUp') {
+            setfokusPaMenyKnapp()
+        }
+        if (key === 'ArrowDown') {
+            settFokusPaForsteEnhet(key)
+        }
+    }
+
     const settFokusPaForsteEnhet = (keyCodeKey: string) => {
-        if (menyKomponenter && keyCodeKey === 'ArrowDown') {
+        if (menyKomponenter) {
             const blarOppTilSøkefeltOgNedTilMeny =
                 organisasjonIFokus.OrganizationNumber === menyKomponenter[0].JuridiskEnhet.OrganizationNumber;
             const valgtJuridiskEnhetErFørsteILista = juridiskEnhetTilValgtOrganisasjon === menyKomponenter[0].JuridiskEnhet.OrganizationNumber;
@@ -48,9 +57,7 @@ const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrgan
                 elementID && elementID.focus();
             }
         }
-        if (keyCodeKey === 'ArrowUp') {
-            setfokusPaMenyKnapp();
-        }
+
     }
 
     return (
@@ -65,10 +72,7 @@ const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrgan
             value={soketekst}
             onChange={(e) => onChangeForAriaDelay(e.target.value)}
             placeholder="Søk"
-            onKeyDown={ (e) => {
-                settFokusPaForsteEnhet(e.key)
-
-            }}
+            onKeyDown={ (e) => onKeyDown(e.key)}
         />
         <div className="bedriftsmeny-sokefelt__ikon">
             {soketekst.length === 0 ? (

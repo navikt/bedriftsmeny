@@ -64,9 +64,7 @@ const Underenhet: FunctionComponent<Props> = ({
                 onUnderenhetSelect(underEnhet.OrganizationNumber);
             }
             }
-            onKeyDown={(e) => {
-                onKeyDown(e.key)
-            }}
+            onKeyDown={(e) => onKeyDown(e.key)}
             onMouseOver={() => {
                 if (!erValgtEnhet) {
                     setHover(true);

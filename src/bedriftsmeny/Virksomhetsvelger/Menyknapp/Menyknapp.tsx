@@ -25,6 +25,18 @@ const MenyKnapp = ({ navn, orgnummer, brukOverskrift, erApen, setErApen, setSoke
         }
     }, [erApen]);
 
+    const onKeyPress = (key: string, skift: boolean) => {
+        if (key === 'ArrowDown') {
+            if (erApen) {
+                setfokusPaSokefelt();
+                setSoketekst('');
+            }
+        }
+        if (key === 'Tab' && skift) {
+            setErApen(false);
+        }
+    }
+
     return (
         <button
             onClick={() => {
@@ -34,12 +46,7 @@ const MenyKnapp = ({ navn, orgnummer, brukOverskrift, erApen, setErApen, setSoke
                 }
             }}
             onKeyDown={ (e) => {
-                if (e.key === 'ArrowDown') {
-                    if (erApen) {
-                        setfokusPaSokefelt();
-                        setSoketekst('');
-                    }
-                }
+                onKeyPress(e.key, e.shiftKey)
             }}
             className="menyknapp"
             id="virksomhetsvelger__button"
