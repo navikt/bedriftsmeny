@@ -41,13 +41,10 @@ const MenyKnapp = ({ navn, orgnummer, brukOverskrift, erApen, setErApen, setSoke
         <button
             onClick={() => {
                 setErApen(!erApen);
-                if (!erApen) {
-                    setSoketekst('');
-                }
+                setSoketekst('');
             }}
-            onKeyDown={ (e) => {
-                onKeyPress(e.key, e.shiftKey)
-            }}
+            onKeyDown={ (e) =>
+                onKeyPress(e.key, e.shiftKey)}
             className="menyknapp"
             id="virksomhetsvelger__button"
             aria-label={`Virksomhetsvelger. Valgt virksomhet er ${navn}`}
