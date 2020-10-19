@@ -42,16 +42,7 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
     useEffect(() => {
         setVisUnderenheter(false);
         const erValgt: boolean = valgtOrganisasjon.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber;
-        const bleTrykketPaaSist: boolean = juridiskEnhet.OrganizationNumber === juridiskEnhetTrykketPaa;
-
-        if (!erApen) setJuridiskEnhetTrykketPaa('');
-
-        if (
-            (erValgt && juridiskEnhetTrykketPaa === '' && !erSok) ||
-            (erValgt && bleTrykketPaaSist && !erSok) ||
-            (erSok && juridiskEnhetMedUnderenheter.SokeresultatKunUnderenhet) ||
-            bleTrykketPaaSist
-        ) {
+        if (erValgt || (erSok && juridiskEnhetMedUnderenheter.SokeresultatKunUnderenhet)) {
             setVisUnderenheter(true);
             const scrollcontainer = document.querySelector('.dropdownmeny-elementer');
             const valgtenhet = document.getElementById('underenhet-apen');
@@ -63,7 +54,7 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
                 }
             }, 100);
         }
-    }, [juridiskEnhetMedUnderenheter, valgtOrganisasjon, juridiskEnhetTrykketPaa, erApen, visUnderenheter]);
+    }, [juridiskEnhetMedUnderenheter, valgtOrganisasjon, erApen]);
 
     const lukkUnderenhetsvelgerOgFokuserPåEnhet = (underenhet: Organisasjon) => {
         const erUnderenhetAvValgtEnhet = underenhet.ParentOrganizationNumber === valgtOrganisasjon.ParentOrganizationNumber;
