@@ -54,7 +54,7 @@ const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrgan
             const blarOppTilSøkefeltOgNedTilMeny =
                 organisasjonIFokus.OrganizationNumber === menyKomponenter[0].JuridiskEnhet.OrganizationNumber;
             const valgtJuridiskEnhetErFørsteILista = juridiskEnhetTilValgtOrganisasjon === menyKomponenter[0].JuridiskEnhet.OrganizationNumber;
-            const skalBlaTilFørsteElementIMenyKomponenter = blarOppTilSøkefeltOgNedTilMeny && !valgtJuridiskEnhetErFørsteILista;
+            const skalBlaTilFørsteElementIMenyKomponenter = (blarOppTilSøkefeltOgNedTilMeny && !valgtJuridiskEnhetErFørsteILista) || soketekst.length>0 ;
             if (skalBlaTilFørsteElementIMenyKomponenter) {
                 const elementID = document.getElementById('organisasjons-id-'+menyKomponenter[0].JuridiskEnhet.OrganizationNumber);
                 elementID && elementID.focus();
