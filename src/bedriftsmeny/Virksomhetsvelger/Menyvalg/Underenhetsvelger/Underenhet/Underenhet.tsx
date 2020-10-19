@@ -45,6 +45,19 @@ const Underenhet: FunctionComponent<Props> = ({
         }
     }, [valgtOrganisasjon, underEnhet]);
 
+    const onKeyDown = (key: string) => {
+        if (key === 'Enter') {
+            onUnderenhetSelect(underEnhet.OrganizationNumber)
+            return;
+        }
+        if (key === 'Tab') {
+            lukkMenyOnTabPaNedersteElement(underEnhet.OrganizationNumber, false)
+        }
+        if (key === 'ArrowUp' || key === 'ArrowDown') {
+            setNyOrganisasjonIFokus(key, false)
+        }
+    }
+
     return (
         <li
             onClick={() => {
@@ -52,16 +65,7 @@ const Underenhet: FunctionComponent<Props> = ({
             }
             }
             onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                    onUnderenhetSelect(underEnhet.OrganizationNumber)
-                    return;
-                }
-                if (e.key === 'Tab') {
-                    lukkMenyOnTabPaNedersteElement(underEnhet.OrganizationNumber, false)
-                }
-                else {
-                    setNyOrganisasjonIFokus(e.key,false)
-                }
+                onKeyDown(e.key)
             }}
             onMouseOver={() => {
                 if (!erValgtEnhet) {

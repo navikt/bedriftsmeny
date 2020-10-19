@@ -45,6 +45,23 @@ const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
         if (visUnderenheter) setOppChevron(true);
     }, [visUnderenheter]);
 
+    const OnKeyDown = (key: string) => {
+        if (key === 'ArrowRight') {
+            setJuridiskEnhetTrykketPaa(juridiskEnhet.OrganizationNumber);
+            setVisUnderenheter(true);
+        }
+        if (key === 'ArrowLeft') {
+            setJuridiskEnhetTrykketPaa('ikkevis');
+            setVisUnderenheter(false);
+        }
+        if (key === 'Tab') {
+            lukkMenyOnTabPaNedersteElement(juridiskEnhet.OrganizationNumber, visUnderenheter)
+        }
+        if (key === 'ArrowUp' || key === 'ArrowDown') {
+            setNyOrganisasjonIFokus(key, visUnderenheter)
+        }
+    }
+
     return (
         <button
             tabIndex={erApen ? 0 : -1}
@@ -59,20 +76,7 @@ const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
             onMouseOver={() => {
                 setHover(true);
             }}
-            onKeyDown={ (e) => {
-                if (e.key === 'ArrowRight') {
-                    setJuridiskEnhetTrykketPaa(juridiskEnhet.OrganizationNumber);
-                    setVisUnderenheter(true);
-                }
-                if (e.key === 'ArrowLeft') {
-                    setJuridiskEnhetTrykketPaa('ikkevis');
-                    setVisUnderenheter(false);
-                }
-                if (e.key === 'Tab') {
-                    lukkMenyOnTabPaNedersteElement(juridiskEnhet.OrganizationNumber, visUnderenheter)
-                }
-                setNyOrganisasjonIFokus(e.key, visUnderenheter)
-            }}
+            onKeyDown={ (e) => OnKeyDown(e.key)}
             onMouseLeave={() => setHover(false)}
             className={`underenhetsvelger__button ${visUnderenheter ? 'juridiskenhet--apen' : 'juridiskenhet--lukket'}`}
             id={

@@ -10,9 +10,6 @@ export const finnOrganisasjonsSomskalHaFokus = (
     erApen: boolean,
     menyKomponenter: JuridiskEnhetMedUnderEnheterArray[],
     juridiskenhetTrykketPa: string): Organisasjon|null => {
-    if (keyPressKey !== 'ArrowDown' && keyPressKey !== 'ArrowUp') {
-        return null
-    }
     const flatOrganisasjonsliste = pakkUtOrganisasjonstre(menyKomponenter);
     const erJuridiskEnhet = organisasjonIFokus.Type === 'Enterprise' || organisasjonIFokus.OrganizationForm === 'FLI'
     let nesteOrganisasjon = tomAltinnOrganisasjon;
