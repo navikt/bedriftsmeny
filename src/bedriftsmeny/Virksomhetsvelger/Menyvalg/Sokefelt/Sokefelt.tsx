@@ -34,20 +34,18 @@ const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrgan
     }
 
     const settFokusPaForsteEnhet = (keyCodeKey: string) => {
-        if (keyCodeKey === 'ArrowDown') {
-            //i dette caset blar man opp til søkefeltet og tilbake i menyen, og havner da øverst i lista
-            if (menyKomponenter && organisasjonIFokus.OrganizationNumber === menyKomponenter[0].JuridiskEnhet.OrganizationNumber) {
-                let enhetElement = document.getElementById("organisasjons-id-"+organisasjonIFokus.OrganizationNumber)
-                enhetElement && enhetElement.focus();
-                return;
+        if (menyKomponenter && keyCodeKey === 'ArrowDown') {
+            const blarOppTilSøkefeltFraMenyOgOpp =
+                organisasjonIFokus.OrganizationNumber === menyKomponenter[0].JuridiskEnhet.OrganizationNumber;
+            const valgtJuridiskEnhetErFørsteILista = juridiskEnhetTilValgtOrganisasjon === menyKomponenter[0].JuridiskEnhet.OrganizationNumber;
+            const skalBlaTilFørsteElementIMenyKomponenter = blarOppTilSøkefeltFraMenyOgOpp && !valgtJuridiskEnhetErFørsteILista;
+            if (skalBlaTilFørsteElementIMenyKomponenter) {
+                const elementID = document.getElementById('organisasjons-id-'+menyKomponenter[0].JuridiskEnhet.OrganizationNumber);
+                elementID && elementID.focus();
             }
-            let enhetElement = document.getElementById("organisasjons-id-"+juridiskEnhetTilValgtOrganisasjon)
-            if (enhetElement) {
-                enhetElement.focus()
-            }
-        else {
-                enhetElement = document.getElementById('valgtjuridiskenhet')
-                enhetElement && enhetElement.focus()
+            else {
+                const elementID = document.getElementById('valgtjuridiskenhet');
+                elementID && elementID.focus();
             }
         }
         if (keyCodeKey === 'ArrowUp') {
