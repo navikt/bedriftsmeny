@@ -105,6 +105,7 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                 <>
                     {valgtOrganisasjon !== undefined && (
                         <div
+                            role={"toolbar"}
                             className={`virksomhetsvelger__dropdown--${
                                 erApen ? 'apen' : 'lukket'
                             }`}
