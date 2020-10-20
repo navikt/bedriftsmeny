@@ -106,12 +106,12 @@ export const endreTabIndeksGittId = (idString: string, tabIndex: number) => {
 
 export const setfokusPaSokefelt = () => {
     const sokefeltElement = document.getElementById("bedriftsmeny-sokefelt")
-    sokefeltElement && sokefeltElement.focus();
+    sokefeltElement?.focus();
 }
 
 export const setfokusPaMenyKnapp = () => {
     const hovedknapp = document.getElementById("virksomhetsvelger__button")
-    hovedknapp && hovedknapp.focus();
+    hovedknapp?.focus();
 }
 
 export const erPilNavigasjon = (key: string) => {

@@ -54,7 +54,7 @@ const Underenhet: FunctionComponent<Props> = ({
             const idTilUnderEnhet = underEnhet.OrganizationNumber === valgtOrganisasjon.OrganizationNumber ?
                 'valgtunderenhet' : 'organisasjons-id-'+underEnhet.OrganizationNumber;
             const element = document.getElementById(idTilUnderEnhet)
-            element && element.focus();
+            element?.focus();
         }
     }, [valgtOrganisasjon, underEnhet, organisasjonIFokus]);
 

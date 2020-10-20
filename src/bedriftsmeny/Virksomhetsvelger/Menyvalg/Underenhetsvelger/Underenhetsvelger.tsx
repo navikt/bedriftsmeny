@@ -89,7 +89,7 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
                 }
             }
             const element = document.getElementById(idTilJuridiskEnhet);
-            element && element.focus()
+            element?.focus()
         }
     }, [forrigeOrganisasjonIFokus,organisasjonIFokus]);
 
@@ -98,8 +98,8 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
         const juridiskEnhetElementId = erUnderenhetAvValgtEnhet ? 'valgtjuridiskenhet' : 'organisasjons-id-' + underenhet.ParentOrganizationNumber;
         const juridiskEnhetElement = document.getElementById(juridiskEnhetElementId);
         if (juridiskEnhetElement) {
-            juridiskEnhetElement && juridiskEnhetElement.click()
-            juridiskEnhetElement && juridiskEnhetElement.focus()
+            juridiskEnhetElement?.click();
+            juridiskEnhetElement?.focus();
             setOrganisasjonIFokus(juridiskEnhet)
         }
     }

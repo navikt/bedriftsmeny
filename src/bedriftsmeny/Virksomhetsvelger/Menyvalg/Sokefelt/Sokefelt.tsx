@@ -22,7 +22,6 @@ const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrgan
     useEffect(() => {
         const underenheter: Organisasjon[] = [] ;
         treffPåOrganisasjoner?.forEach((juridiskEnhet) => underenheter.push.apply(underenheter, juridiskEnhet.Underenheter))
-
         if (soketekst.length === 0) {
             setArialabelTekst("Søk etter underenheter")
         }
@@ -34,9 +33,10 @@ const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrgan
         }
     }, [soketekst, treffPåOrganisasjoner]);
 
-    const onChangeForAriaDelay = (verdi: string) => {
 
-    setTimeout(function(){
+    //forhindrer nettleseren safari i å hoppe over "ingen treff for dette søkeordet"
+    const onChangeForAriaDelay = (verdi: string) => {
+        setTimeout(function(){
         onChange(verdi)
         }, 1);
     }
@@ -74,6 +74,7 @@ const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrgan
             label=""
             aria-live = {"polite"}
             aria-label={arialabelTekst}
+            aria-haspopup={false}
             value={soketekst}
             onChange={(e) => onChangeForAriaDelay(e.target.value)}
             placeholder="Søk"
