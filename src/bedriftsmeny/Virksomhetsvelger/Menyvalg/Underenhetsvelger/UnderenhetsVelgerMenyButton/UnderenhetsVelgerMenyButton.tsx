@@ -47,7 +47,6 @@ const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
     }, [visUnderenheter]);
 
     const OnKeyDown = (key: string) => {
-        console.log("on key down med ", juridiskEnhet.Name, visUnderenheter)
         if (key === 'ArrowRight') {
             setJuridiskEnhetTrykketPaa(juridiskEnhet.OrganizationNumber);
             setVisUnderenheter(true);

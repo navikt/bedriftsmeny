@@ -1,7 +1,7 @@
 import React, { FunctionComponent, SyntheticEvent, useEffect, useRef, useState } from 'react';
 import { History } from 'history';
 import Organisasjonsbeskrivelse from '../Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
-import { Organisasjon } from '../../../../organisasjon';
+import { Organisasjon, tomAltinnOrganisasjon } from '../../../../organisasjon';
 import { settOrgnummerIUrl } from '../../../utils/utils';
 import './Underenhet.less';
 import { erPilNavigasjon, setfokusPaMenyKnapp } from '../../pilnavigerinsfunksjoner';
@@ -9,6 +9,7 @@ import { erPilNavigasjon, setfokusPaMenyKnapp } from '../../pilnavigerinsfunksjo
 interface Props {
     underEnhet: Organisasjon;
     valgtOrganisasjon: Organisasjon;
+    organisasjonIFokus: Organisasjon;
     history: History;
     setErApen: (bool: boolean) => void;
     hover: boolean;
@@ -22,6 +23,7 @@ interface Props {
 const Underenhet: FunctionComponent<Props> = ({
     underEnhet,
     valgtOrganisasjon,
+    organisasjonIFokus,
     history,
     setErApen,
     hover,
@@ -46,6 +48,15 @@ const Underenhet: FunctionComponent<Props> = ({
             setErValgtEnhet(true);
         }
     }, [valgtOrganisasjon, underEnhet]);
+
+    useEffect(() => {
+        if (organisasjonIFokus.OrganizationNumber === underEnhet.OrganizationNumber) {
+            const idTilUnderEnhet = underEnhet.OrganizationNumber === valgtOrganisasjon.OrganizationNumber ?
+                'valgtunderenhet' : 'organisasjons-id-'+underEnhet.OrganizationNumber;
+            const element = document.getElementById(idTilUnderEnhet)
+            element && element.focus();
+        }
+    }, [valgtOrganisasjon, underEnhet, organisasjonIFokus]);
 
     const onKeyDown = (key: string) => {
         if (key === 'Enter') {

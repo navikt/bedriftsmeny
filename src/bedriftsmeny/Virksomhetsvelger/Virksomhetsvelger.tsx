@@ -11,7 +11,7 @@ import Sokefelt from './Menyvalg/Sokefelt/Sokefelt';
 import useOrganisasjon from './utils/useOrganisasjon';
 import MenyKnapp from './Menyknapp/Menyknapp';
 import './Virksomhetsvelger.less';
-import { setfokusPaMenyKnapp } from './Menyvalg/pilnavigerinsfunksjoner';
+import { setfokusPaMenyKnapp, setfokusPaSokefelt } from './Menyvalg/pilnavigerinsfunksjoner';
 import { Normaltekst } from 'nav-frontend-typografi';
 
 export interface VirksomhetsvelgerProps {
@@ -29,6 +29,7 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
         organisasjonstre
     );
     const [organisasjonIFokus, setOrganisasjonIFokus] = useState(tomAltinnOrganisasjon);
+    const [forrigeOrganisasjonIFokus, setForrigeOrganisasjonIFokus] = useState(tomAltinnOrganisasjon);
 
     const { valgtOrganisasjon } = useOrganisasjon(organisasjonstre, history);
 
@@ -51,6 +52,10 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
     useEffect(() => {
         if (!erApen) {
             setfokusPaMenyKnapp();
+            setOrganisasjonIFokus(tomAltinnOrganisasjon);
+        }
+        else {
+            setfokusPaSokefelt();
         }
     }, [erApen]);
 
@@ -70,13 +75,13 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
         organisasjonstre
         : listeMedOrganisasjonerFraSok
 
-    let forsteJuridiskEnhetILista = ''
+    let forsteJuridiskEnhetILista = tomAltinnOrganisasjon
     if (valgtOrganisasjon && valgtOrganisasjon !== tomAltinnOrganisasjon && menyKomponenter) {
         if (menyKomponenter.length>0) {
             forsteJuridiskEnhetILista = soketekst.length === 0 ?
-                valgtOrganisasjon?.ParentOrganizationNumber
-                : menyKomponenter[0].JuridiskEnhet.OrganizationNumber
-
+                menyKomponenter.
+                find(juridiskenhet => juridiskenhet.JuridiskEnhet.OrganizationNumber === valgtOrganisasjon.ParentOrganizationNumber)!!.JuridiskEnhet!!
+                : menyKomponenter[0].JuridiskEnhet
         }
     }
     return (
@@ -105,7 +110,8 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                             }`}
                             id="virksomhetsvelger__dropdown">
                             <Sokefelt
-                                organisasjonIFokus={organisasjonIFokus}
+                                setOrganisasjonIFokus={setOrganisasjonIFokus}
+                                forrigeOrganisasjonIFokus={forrigeOrganisasjonIFokus}
                                 juridiskEnhetTilValgtOrganisasjon ={forsteJuridiskEnhetILista}
                                 menyKomponenter = {menyKomponenter}
                                 soketekst={soketekst}
@@ -117,6 +123,8 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                                         <Menyvalg
                                         organisasjonIFokus={organisasjonIFokus}
                                         setOrganisasjonIFokus={setOrganisasjonIFokus}
+                                        forrigeOrganisasjonIFokus={forrigeOrganisasjonIFokus}
+                                        setForrigeOrganisasjonIFokus={setForrigeOrganisasjonIFokus}
                                         menyKomponenter={menyKomponenter}
                                         erApen={erApen}
                                         setErApen={setErApen}

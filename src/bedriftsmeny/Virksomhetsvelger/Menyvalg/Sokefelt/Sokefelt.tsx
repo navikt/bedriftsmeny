@@ -9,13 +9,14 @@ import { erPilNavigasjon, setfokusPaMenyKnapp } from '../pilnavigerinsfunksjoner
 interface Props {
     soketekst: string;
     onChange: (soketekst: string) => void;
-    juridiskEnhetTilValgtOrganisasjon: string;
-    organisasjonIFokus: Organisasjon;
+    juridiskEnhetTilValgtOrganisasjon: Organisasjon;
+    forrigeOrganisasjonIFokus: Organisasjon;
+    setOrganisasjonIFokus: (organisasjon: Organisasjon) => void;
     menyKomponenter: JuridiskEnhetMedUnderEnheterArray[] | undefined;
     treffPåOrganisasjoner?: JuridiskEnhetMedUnderEnheterArray[];
 }
 
-const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrganisasjoner, organisasjonIFokus,juridiskEnhetTilValgtOrganisasjon, menyKomponenter }) => {
+const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrganisasjoner, forrigeOrganisasjonIFokus,juridiskEnhetTilValgtOrganisasjon, menyKomponenter, setOrganisasjonIFokus }) => {
     const [arialabelTekst, setArialabelTekst] = useState("Søk etter virksomhet")
 
     useEffect(() => {
@@ -52,16 +53,14 @@ const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrgan
     const settFokusPaForsteEnhet = () => {
         if (menyKomponenter) {
             const blarOppTilSøkefeltOgNedTilMeny =
-                organisasjonIFokus.OrganizationNumber === menyKomponenter[0].JuridiskEnhet.OrganizationNumber;
-            const valgtJuridiskEnhetErFørsteILista = juridiskEnhetTilValgtOrganisasjon === menyKomponenter[0].JuridiskEnhet.OrganizationNumber;
+                forrigeOrganisasjonIFokus.OrganizationNumber === menyKomponenter[0].JuridiskEnhet.OrganizationNumber;
+            const valgtJuridiskEnhetErFørsteILista = juridiskEnhetTilValgtOrganisasjon.OrganizationNumber === menyKomponenter[0].JuridiskEnhet.OrganizationNumber;
             const skalBlaTilFørsteElementIMenyKomponenter = (blarOppTilSøkefeltOgNedTilMeny && !valgtJuridiskEnhetErFørsteILista) || soketekst.length>0 ;
             if (skalBlaTilFørsteElementIMenyKomponenter) {
-                const elementID = document.getElementById('organisasjons-id-'+menyKomponenter[0].JuridiskEnhet.OrganizationNumber);
-                elementID && elementID.focus();
+                setOrganisasjonIFokus(menyKomponenter[0].JuridiskEnhet)
             }
             else {
-                const elementID = document.getElementById('valgtjuridiskenhet');
-                elementID && elementID.focus();
+                setOrganisasjonIFokus(juridiskEnhetTilValgtOrganisasjon)
             }
         }
     }

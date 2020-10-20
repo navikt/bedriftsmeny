@@ -1,14 +1,12 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import {
     JuridiskEnhetMedUnderEnheterArray,
-    Organisasjon
+    Organisasjon, tomAltinnOrganisasjon
 } from '../../organisasjon';
 import { History } from 'history';
 import Underenhetsvelger from './Underenhetsvelger/Underenhetsvelger';
 import {
     endreTabIndexAlleOrganisasjonerOgSokefelt,
-    finnIndeksIMenyKomponenter,
-    finnOrganisasjonsSomskalHaFokus,
     setfokusPaSokefelt,
 } from './pilnavigerinsfunksjoner';
 
@@ -19,56 +17,22 @@ interface Props {
     setErApen: (bool: boolean) => void;
     erSok: boolean;
     organisasjonIFokus: Organisasjon;
+    forrigeOrganisasjonIFokus: Organisasjon;
     setOrganisasjonIFokus: (organisasjon: Organisasjon) => void;
+    setForrigeOrganisasjonIFokus: (organisasjon: Organisasjon) => void;
     history: History;
 }
 
 const Menyvalg: FunctionComponent<Props> = (props) => {
-    const { menyKomponenter = [], history, valgtOrganisasjon, setErApen, erSok, erApen, organisasjonIFokus, setOrganisasjonIFokus } = props;
+    const { menyKomponenter = [], history, valgtOrganisasjon, setErApen, erSok, erApen, organisasjonIFokus, setOrganisasjonIFokus,
+        forrigeOrganisasjonIFokus, setForrigeOrganisasjonIFokus } = props;
     const [juridiskEnhetTrykketPaa, setJuridiskEnhetTrykketPaa] = useState<string>('');
     const [hover, setHover] = useState(false);
-
-    useEffect(() => {
-            if (!erSok) {
-                const valgtOrganisasjonEnhetIndeks = finnIndeksIMenyKomponenter(valgtOrganisasjon.ParentOrganizationNumber, menyKomponenter)
-                setOrganisasjonIFokus(menyKomponenter[valgtOrganisasjonEnhetIndeks].JuridiskEnhet);
-                setJuridiskEnhetTrykketPaa(menyKomponenter[valgtOrganisasjonEnhetIndeks].JuridiskEnhet.OrganizationNumber)
-            }
-            else {
-                setOrganisasjonIFokus(menyKomponenter[0].JuridiskEnhet);
-                setErApen(true);
-            }
-            setfokusPaSokefelt();
-    }, [erSok,valgtOrganisasjon, erApen]);
-
-    useEffect(() => {
-        setOrganisasjonIFokus(menyKomponenter[0].JuridiskEnhet)
-    }, []);
 
     useEffect(() => {
         const navarendeTabIndex = erApen ? 0 : -1
         endreTabIndexAlleOrganisasjonerOgSokefelt(menyKomponenter,navarendeTabIndex)
     }, [erApen, menyKomponenter]);
-
-    const setNyOrganisasjonIFokus = (keypressKey: string, erJuridiskEnhetSomViserUnderenheter: boolean) => {
-        const organisasjonsSomSkalFåFokus =
-            finnOrganisasjonsSomskalHaFokus(organisasjonIFokus,keypressKey, erJuridiskEnhetSomViserUnderenheter,menyKomponenter,juridiskEnhetTrykketPaa);
-        let organisasjonIFokusId = ''
-        if (organisasjonsSomSkalFåFokus) {
-            setOrganisasjonIFokus(organisasjonsSomSkalFåFokus);
-            if (organisasjonsSomSkalFåFokus.OrganizationNumber === valgtOrganisasjon.OrganizationNumber) {
-                organisasjonIFokusId = 'valgtunderenhet';
-            }
-            else if (organisasjonsSomSkalFåFokus.OrganizationNumber === valgtOrganisasjon.ParentOrganizationNumber) {
-                organisasjonIFokusId = 'valgtjuridiskenhet'
-            }
-            else {
-                organisasjonIFokusId = 'organisasjons-id-' + organisasjonsSomSkalFåFokus.OrganizationNumber;
-            }
-            const organisasjonsElement = document.getElementById(organisasjonIFokusId);
-            organisasjonsElement && organisasjonsElement.focus();
-        }
-    }
 
     const lukkMenyOnTabPaNedersteElement = (organisasjonsnummer: string, erJuridiskEnhetSomViserUnderenheter: boolean) => {
         const nedersteElement = menyKomponenter[menyKomponenter.length -1];
@@ -84,8 +48,11 @@ const Menyvalg: FunctionComponent<Props> = (props) => {
         <div id = {"virksomhetsvelger-id"}>
             {menyKomponenter.map(organisasjon => (
                 <Underenhetsvelger
+                    menyKomponenter={menyKomponenter}
                     setOrganisasjonIFokus={setOrganisasjonIFokus}
-                    setNyOrganisasjonIFokus = {setNyOrganisasjonIFokus}
+                    setForrigeOrganisasjonIFokus={setForrigeOrganisasjonIFokus}
+                    organisasjonIFokus={organisasjonIFokus}
+                    forrigeOrganisasjonIFokus={forrigeOrganisasjonIFokus}
                     lukkMenyOnTabPaNedersteElement = {lukkMenyOnTabPaNedersteElement}
                     key={organisasjon.JuridiskEnhet.OrganizationNumber}
                     juridiskEnhetMedUnderenheter={organisasjon}
