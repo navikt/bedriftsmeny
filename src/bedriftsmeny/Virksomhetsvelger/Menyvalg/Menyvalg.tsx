@@ -26,7 +26,6 @@ interface Props {
 const Menyvalg: FunctionComponent<Props> = (props) => {
     const { menyKomponenter = [], history, valgtOrganisasjon, setErApen, erSok, erApen, organisasjonIFokus, setOrganisasjonIFokus,
         forrigeOrganisasjonIFokus, setForrigeOrganisasjonIFokus } = props;
-    const [juridiskEnhetTrykketPaa, setJuridiskEnhetTrykketPaa] = useState<string>('');
     const [hover, setHover] = useState(false);
 
     useEffect(() => {
@@ -60,8 +59,6 @@ const Menyvalg: FunctionComponent<Props> = (props) => {
                     valgtOrganisasjon={valgtOrganisasjon}
                     erApen={erApen}
                     setErApen={setErApen}
-                    juridiskEnhetTrykketPaa={juridiskEnhetTrykketPaa}
-                    setJuridiskEnhetTrykketPaa={setJuridiskEnhetTrykketPaa}
                     hover={hover}
                     setHover={setHover}
                     erSok={erSok}

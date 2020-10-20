@@ -8,8 +8,8 @@ export const finnOrganisasjonsSomskalHaFokus = (
     organisasjonIFokus: Organisasjon,
     keyPressKey: string,
     erApen: boolean,
-    menyKomponenter: JuridiskEnhetMedUnderEnheterArray[],
-    juridiskenhetTrykketPa: string): Organisasjon|null => {
+    menyKomponenter: JuridiskEnhetMedUnderEnheterArray[]
+    ): Organisasjon|null => {
     const flatOrganisasjonsliste = pakkUtOrganisasjonstre(menyKomponenter);
     const erJuridiskEnhet = organisasjonIFokus.Type === 'Enterprise' || organisasjonIFokus.OrganizationForm === 'FLI'
     let nesteOrganisasjon = tomAltinnOrganisasjon;
@@ -40,12 +40,7 @@ export const finnOrganisasjonsSomskalHaFokus = (
         }
         if (keyPressKey === 'ArrowUp') {
             const juridiskEnhetOver = menyKomponenter[indeksTilOrganisasjonOrganisasjonstre - 1].JuridiskEnhet
-            const juridiskEnhetOverErApen = juridiskEnhetOver.OrganizationNumber === juridiskenhetTrykketPa;
-            if (juridiskEnhetOverErApen) {
-                nesteOrganisasjon = flatOrganisasjonsliste[indeksTilOrganisasjonIFlatListe - 1]
-            } else {
-                nesteOrganisasjon = juridiskEnhetOver
-            }
+            nesteOrganisasjon = juridiskEnhetOver
         }
     }
     return nesteOrganisasjon;

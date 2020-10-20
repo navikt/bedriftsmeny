@@ -12,8 +12,6 @@ interface Props {
     juridiskEnhetMedUnderenheter: JuridiskEnhetMedUnderEnheterArray;
     valgtOrganisasjon: Organisasjon;
     setErApen: (bool: boolean) => void;
-    juridiskEnhetTrykketPaa: string;
-    setJuridiskEnhetTrykketPaa: (juridiskenhet: string) => void;
     hover: boolean;
     setHover: (bool: boolean) => void;
     erSok: boolean;
@@ -30,8 +28,6 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
     history,
     juridiskEnhetMedUnderenheter,
     valgtOrganisasjon,
-    juridiskEnhetTrykketPaa,
-    setJuridiskEnhetTrykketPaa,
     hover,
     setHover,
     erSok,
@@ -48,7 +44,8 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
 
     const setNyOrganisasjonIFokus = (keypressKey: string, erJuridiskEnhetSomViserUnderenheter: boolean) => {
         const organisasjonsSomSkalFåFokus =
-            finnOrganisasjonsSomskalHaFokus(organisasjonIFokus,keypressKey, erJuridiskEnhetSomViserUnderenheter,menyKomponenter,juridiskEnhetTrykketPaa);
+            finnOrganisasjonsSomskalHaFokus(organisasjonIFokus,keypressKey, erJuridiskEnhetSomViserUnderenheter,menyKomponenter);
+        console.log("skal sette fokus på ", organisasjonsSomSkalFåFokus )
         if (organisasjonsSomSkalFåFokus) {
             setOrganisasjonIFokus(organisasjonsSomSkalFåFokus);
         }
@@ -74,6 +71,7 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
             }, 100);
         }
     }, [juridiskEnhetMedUnderenheter, valgtOrganisasjon, erApen]);
+
 
     useEffect(() => {
         const skalSettesIFokus = organisasjonIFokus.OrganizationNumber === juridiskEnhet.OrganizationNumber;
@@ -114,7 +112,6 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
                 juridiskEnhetMedUnderenheter={juridiskEnhetMedUnderenheter}
                 valgtOrganisasjon={valgtOrganisasjon}
                 setVisUnderenheter={setVisUnderenheter}
-                setJuridiskEnhetTrykketPaa={setJuridiskEnhetTrykketPaa}
                 setHover={setHover}
                 erSok={erSok}
                 erApen={erApen}

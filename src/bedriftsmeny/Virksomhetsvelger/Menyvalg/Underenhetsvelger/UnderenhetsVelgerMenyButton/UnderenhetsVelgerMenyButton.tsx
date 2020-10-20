@@ -10,7 +10,6 @@ interface Props {
     visUnderenheter: boolean;
     setVisUnderenheter: (bool: boolean) => void;
     valgtOrganisasjon: Organisasjon;
-    setJuridiskEnhetTrykketPaa: (enhet: string) => void;
     setHover: (bool: boolean) => void;
     erSok: boolean;
     erApen: boolean;
@@ -20,7 +19,7 @@ interface Props {
 
 const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
     const {juridiskEnhetMedUnderenheter, visUnderenheter, setVisUnderenheter, valgtOrganisasjon,
-        setJuridiskEnhetTrykketPaa, setHover, erSok, erApen, setNyOrganisasjonIFokus, lukkMenyOnTabPaNedersteElement } = props;
+        setHover, erSok, erApen, setNyOrganisasjonIFokus, lukkMenyOnTabPaNedersteElement } = props;
     const juridiskEnhet = juridiskEnhetMedUnderenheter.JuridiskEnhet;
     const underenheter = juridiskEnhetMedUnderenheter.Underenheter;
     const erValgtOrganisasjon = valgtOrganisasjon.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber;
@@ -48,11 +47,9 @@ const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
 
     const OnKeyDown = (key: string) => {
         if (key === 'ArrowRight') {
-            setJuridiskEnhetTrykketPaa(juridiskEnhet.OrganizationNumber);
             setVisUnderenheter(true);
         }
         if (key === 'ArrowLeft') {
-            setJuridiskEnhetTrykketPaa('ikkevis');
             setVisUnderenheter(false);
         }
         if (key === 'Tab') {
@@ -67,11 +64,6 @@ const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
         <button
             tabIndex={erApen ? 0 : -1}
             onClick={() => {
-                if (visUnderenheter) {
-                    setJuridiskEnhetTrykketPaa('ikkevis');
-                } else {
-                    setJuridiskEnhetTrykketPaa(juridiskEnhet.OrganizationNumber);
-                }
                 setVisUnderenheter(!props.visUnderenheter);
             }}
             onMouseOver={() => {
