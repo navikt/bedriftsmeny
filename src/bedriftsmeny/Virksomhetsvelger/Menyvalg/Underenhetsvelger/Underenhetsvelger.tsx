@@ -45,7 +45,6 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
     const setNyOrganisasjonIFokus = (keypressKey: string, erJuridiskEnhetSomViserUnderenheter: boolean) => {
         const organisasjonsSomSkalFåFokus =
             finnOrganisasjonsSomskalHaFokus(organisasjonIFokus,keypressKey, erJuridiskEnhetSomViserUnderenheter,menyKomponenter);
-        console.log("skal sette fokus på ", organisasjonsSomSkalFåFokus )
         if (organisasjonsSomSkalFåFokus) {
             setOrganisasjonIFokus(organisasjonsSomSkalFåFokus);
         }
