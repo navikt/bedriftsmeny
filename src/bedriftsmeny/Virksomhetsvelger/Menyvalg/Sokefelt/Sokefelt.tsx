@@ -79,11 +79,11 @@ const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrgan
             onChange={(e) => onChangeForAriaDelay(e.target.value)}
             placeholder="Søk"
             onKeyDown={ (e) => {
+                onKeyDown(e.key)
                 if (erPilNavigasjon(e.key)) {
                     e.preventDefault()
                     e.stopPropagation()
                 }
-                onKeyDown(e.key)
             }}
         />
         <div className="bedriftsmeny-sokefelt__ikon">

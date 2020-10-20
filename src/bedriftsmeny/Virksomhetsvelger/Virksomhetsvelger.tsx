@@ -49,6 +49,16 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
         setErApen(false);
     };
 
+    const handleOutsidePress: { (event: KeyboardEvent): void } = (e: KeyboardEvent) => {
+        const bediftsmenyInnhold = document.getElementById("virksomhetsvelger__dropdown")
+        if (bediftsmenyInnhold?.contains(document.activeElement)){
+            return
+        }
+        setErApen(false)
+    };
+
+
+
     useEffect(() => {
         if (!erApen) {
             setfokusPaMenyKnapp();
@@ -64,6 +74,10 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
         return () => {
             window.removeEventListener('click', handleOutsideClick, false);
         };
+    }, []);
+
+    useEffect(() => {
+        document.addEventListener('keydown', handleOutsidePress, false);
     }, []);
 
     const brukSoketekst = (soketekst: string) => {

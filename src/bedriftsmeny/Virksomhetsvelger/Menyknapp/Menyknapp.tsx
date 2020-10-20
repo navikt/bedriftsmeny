@@ -40,8 +40,8 @@ const MenyKnapp = ({ navn, orgnummer, brukOverskrift, erApen, setErApen, setSoke
     return (
         <button
             onClick={() => {
-                setErApen(!erApen);
                 setSoketekst('');
+                setErApen(!erApen)
             }}
             onKeyDown={ (e) => {
                 if (erPilNavigasjon(e.key)) {
