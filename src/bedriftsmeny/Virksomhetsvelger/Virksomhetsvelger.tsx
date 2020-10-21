@@ -50,14 +50,12 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
     };
 
     const handleOutsidePress: { (event: KeyboardEvent): void } = (e: KeyboardEvent) => {
-        const bediftsmenyInnhold = document.getElementById("virksomhetsvelger__dropdown")
+        const bediftsmenyInnhold = bedriftvelgernode.current;
         if (bediftsmenyInnhold?.contains(document.activeElement)){
             return
         }
         setErApen(false)
     };
-
-
 
     useEffect(() => {
         if (!erApen) {
