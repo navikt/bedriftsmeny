@@ -42,10 +42,10 @@ const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrgan
     }
 
     const onKeyDown = (key: string) => {
-        if (key === 'ArrowUp') {
+        if (key === 'ArrowUp' || key === 'Up') {
             setfokusPaMenyKnapp()
         }
-        if (key === 'ArrowDown') {
+        if (key === 'ArrowDown' || key === 'Down') {
             settFokusPaForsteEnhet()
         }
     }

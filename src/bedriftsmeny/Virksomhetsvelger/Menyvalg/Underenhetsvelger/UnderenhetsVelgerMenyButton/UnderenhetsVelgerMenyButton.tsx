@@ -46,16 +46,16 @@ const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
     }, [visUnderenheter]);
 
     const OnKeyDown = (key: string) => {
-        if (key === 'ArrowRight') {
+        if (key === 'ArrowRight' || key === 'Right') {
             setVisUnderenheter(true);
         }
-        if (key === 'ArrowLeft') {
+        if (key === 'ArrowLeft' || key === 'Left') {
             setVisUnderenheter(false);
         }
         if (key === 'Tab') {
             lukkMenyOnTabPaNedersteElement(juridiskEnhet.OrganizationNumber, visUnderenheter)
         }
-        if (key === 'ArrowUp' || key === 'ArrowDown') {
+        if (key === 'ArrowUp' || key === 'ArrowDown' || key === 'Up' || key === 'Down' ) {
             setNyOrganisasjonIFokus(key, visUnderenheter)
         }
     }

@@ -26,7 +26,7 @@ const MenyKnapp = ({ navn, orgnummer, brukOverskrift, erApen, setErApen, setSoke
     }, [erApen]);
 
     const onKeyPress = (key: string, skift: boolean) => {
-        if (key === 'ArrowDown') {
+        if (key === 'ArrowDown' || key === 'Down') {
             if (erApen) {
                 setfokusPaSokefelt();
                 setSoketekst('');

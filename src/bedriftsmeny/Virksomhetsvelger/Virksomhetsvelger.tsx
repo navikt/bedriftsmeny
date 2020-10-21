@@ -99,7 +99,7 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
     return (
         <nav className="virksomhetsvelger" aria-label="Velg virksomhet"
              onKeyDown={ (event) => {
-                 if (event.key === 'Escape') {
+                 if (event.key === 'Escape' || event.key === 'Esc') {
                      setErApen(false);
                  }
              }

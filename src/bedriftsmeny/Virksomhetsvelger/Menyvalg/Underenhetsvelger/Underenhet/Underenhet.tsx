@@ -66,10 +66,10 @@ const Underenhet: FunctionComponent<Props> = ({
         if (key === 'Tab') {
             lukkMenyOnTabPaNedersteElement(underEnhet.OrganizationNumber, false)
         }
-        if (key === 'ArrowUp' || key === 'ArrowDown') {
+        if (key === 'ArrowUp' || key === 'ArrowDown' || key === 'Up' || key === 'Down') {
             setNyOrganisasjonIFokus(key, false)
         }
-        if (key === 'ArrowLeft') {
+        if (key === 'ArrowLeft' || key ==='Left') {
             lukkUnderenhetsvelgerOgFokuserPåEnhet(underEnhet)
         }
     }

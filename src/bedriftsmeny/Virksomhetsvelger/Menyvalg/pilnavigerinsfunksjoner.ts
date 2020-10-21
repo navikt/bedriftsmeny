@@ -17,28 +17,28 @@ export const finnOrganisasjonsSomskalHaFokus = (
         nesteOrganisasjon = flatOrganisasjonsliste[0];
         return nesteOrganisasjon;
     }
-    if (sjekkOmOverstPaLista(organisasjonIFokus, flatOrganisasjonsliste) && keyPressKey === 'ArrowUp') {
+    if (sjekkOmOverstPaLista(organisasjonIFokus, flatOrganisasjonsliste) && (keyPressKey === 'ArrowUp' || keyPressKey === 'Up')) {
         setfokusPaSokefelt();
         return null;
     }
     const indeksTilOrganisasjonIFlatListe = finnIndeksIUtpakketListe(organisasjonIFokus.OrganizationNumber, flatOrganisasjonsliste);
     if (!erJuridiskEnhet) {
-        if (keyPressKey === 'ArrowDown') {
+        if (keyPressKey === 'ArrowDown' || keyPressKey === 'Down') {
             nesteOrganisasjon = flatOrganisasjonsliste[indeksTilOrganisasjonIFlatListe + 1];
         }
-        if (keyPressKey === 'ArrowUp') {
+        if (keyPressKey === 'ArrowUp' || keyPressKey === 'Up') {
             nesteOrganisasjon = flatOrganisasjonsliste[indeksTilOrganisasjonIFlatListe - 1];
         }
     } else {
         const indeksTilOrganisasjonOrganisasjonstre = finnIndeksIMenyKomponenter(organisasjonIFokus.OrganizationNumber, menyKomponenter);
-        if (keyPressKey === 'ArrowDown') {
+        if (keyPressKey === 'ArrowDown' || keyPressKey === 'Down') {
             if (erApen) {
                 nesteOrganisasjon = flatOrganisasjonsliste[indeksTilOrganisasjonIFlatListe + 1]
             } else {
                 nesteOrganisasjon = menyKomponenter[indeksTilOrganisasjonOrganisasjonstre + 1].JuridiskEnhet;
             }
         }
-        if (keyPressKey === 'ArrowUp') {
+        if (keyPressKey === 'ArrowUp' || keyPressKey === 'Up') {
             const juridiskEnhetOver = menyKomponenter[indeksTilOrganisasjonOrganisasjonstre - 1].JuridiskEnhet
             nesteOrganisasjon = juridiskEnhetOver
         }
@@ -115,6 +115,7 @@ export const setfokusPaMenyKnapp = () => {
 }
 
 export const erPilNavigasjon = (key: string) => {
-    const erPIL = key === 'ArrowUp'|| key === 'ArrowDown' ||key === 'ArrowLeft' || key === 'ArrowRight'
-    return erPIL;
+    const erPIL = key === 'ArrowUp'|| key === 'ArrowDown' ||key === 'ArrowLeft' || key === 'ArrowRight';
+    const erPilInternetExplorer = key === 'Up'|| key === 'Down' ||key === 'Left' || key === 'Right'
+    return erPIL || erPilInternetExplorer;
 }
