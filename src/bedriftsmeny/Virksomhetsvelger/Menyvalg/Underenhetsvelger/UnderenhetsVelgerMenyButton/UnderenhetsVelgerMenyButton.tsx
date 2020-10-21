@@ -3,20 +3,23 @@ import { NedChevron, OppChevron } from 'nav-frontend-chevron';
 import { Normaltekst } from 'nav-frontend-typografi';
 import Organisasjonsbeskrivelse from '../Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
 import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../../../organisasjon';
+import { erPilNavigasjon } from '../../pilnavigerinsfunksjoner';
 
 interface Props {
     juridiskEnhetMedUnderenheter: JuridiskEnhetMedUnderEnheterArray;
     visUnderenheter: boolean;
     setVisUnderenheter: (bool: boolean) => void;
     valgtOrganisasjon: Organisasjon;
-    setJuridiskEnhetTrykketPaa: (enhet: string) => void;
     setHover: (bool: boolean) => void;
     erSok: boolean;
     erApen: boolean;
+    setNyOrganisasjonIFokus: (KeypressKey: string, erJuridiskEnhetSomViserUnderenheter: boolean) => void;
+    lukkMenyOnTabPaNedersteElement: (organisasjonsnummer: string, erJuridiskEnhetSomViserUnderenheter: boolean) => void;
 }
 
 const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
-    const {juridiskEnhetMedUnderenheter, visUnderenheter, setVisUnderenheter, valgtOrganisasjon, setJuridiskEnhetTrykketPaa, setHover, erSok, erApen } = props;
+    const {juridiskEnhetMedUnderenheter, visUnderenheter, setVisUnderenheter, valgtOrganisasjon,
+        setHover, erSok, erApen, setNyOrganisasjonIFokus, lukkMenyOnTabPaNedersteElement } = props;
     const juridiskEnhet = juridiskEnhetMedUnderenheter.JuridiskEnhet;
     const underenheter = juridiskEnhetMedUnderenheter.Underenheter;
     const erValgtOrganisasjon = valgtOrganisasjon.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber;
@@ -40,29 +43,45 @@ const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
     useEffect(() => {
         setOppChevron(false);
         if (visUnderenheter) setOppChevron(true);
-
     }, [visUnderenheter]);
+
+    const OnKeyDown = (key: string) => {
+        if (key === 'ArrowRight' || key === 'Right') {
+            setVisUnderenheter(true);
+        }
+        if (key === 'ArrowLeft' || key === 'Left') {
+            setVisUnderenheter(false);
+        }
+        if (key === 'Tab') {
+            lukkMenyOnTabPaNedersteElement(juridiskEnhet.OrganizationNumber, visUnderenheter)
+        }
+        if (key === 'ArrowUp' || key === 'ArrowDown' || key === 'Up' || key === 'Down' ) {
+            setNyOrganisasjonIFokus(key, visUnderenheter)
+        }
+    }
 
     return (
         <button
             tabIndex={erApen ? 0 : -1}
             onClick={() => {
-                if (visUnderenheter) {
-                    setJuridiskEnhetTrykketPaa('ikkevis');
-                } else {
-                    setJuridiskEnhetTrykketPaa(juridiskEnhet.OrganizationNumber);
-                }
                 setVisUnderenheter(!props.visUnderenheter);
             }}
             onMouseOver={() => {
                 setHover(true);
+            }}
+            onKeyDown={ (e) => {
+                if (erPilNavigasjon(e.key)) {
+                    e.preventDefault()
+                    e.stopPropagation()
+                }
+                OnKeyDown(e.key)
             }}
             onMouseLeave={() => setHover(false)}
             className={`underenhetsvelger__button ${visUnderenheter ? 'juridiskenhet--apen' : 'juridiskenhet--lukket'}`}
             id={
                 erValgtOrganisasjon
                     ? 'valgtjuridiskenhet'
-                    : ''
+                    : 'organisasjons-id-' + juridiskEnhetMedUnderenheter.JuridiskEnhet.OrganizationNumber
             }
             aria-label={`Velg underenheter for ${juridiskEnhet.Name} ${label}`}
             aria-pressed={visUnderenheter}

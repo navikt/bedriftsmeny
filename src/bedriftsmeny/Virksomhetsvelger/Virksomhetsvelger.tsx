@@ -11,6 +11,8 @@ import Sokefelt from './Menyvalg/Sokefelt/Sokefelt';
 import useOrganisasjon from './utils/useOrganisasjon';
 import MenyKnapp from './Menyknapp/Menyknapp';
 import './Virksomhetsvelger.less';
+import { setfokusPaMenyKnapp, setfokusPaSokefelt } from './Menyvalg/pilnavigerinsfunksjoner';
+import { Normaltekst } from 'nav-frontend-typografi';
 
 export interface VirksomhetsvelgerProps {
     organisasjonstre?: JuridiskEnhetMedUnderEnheterArray[];
@@ -26,6 +28,8 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
     const [listeMedOrganisasjonerFraSok, setlisteMedOrganisasjonerFraSok] = useState(
         organisasjonstre
     );
+    const [organisasjonIFokus, setOrganisasjonIFokus] = useState(tomAltinnOrganisasjon);
+    const [forrigeOrganisasjonIFokus, setForrigeOrganisasjonIFokus] = useState(tomAltinnOrganisasjon);
 
     const { valgtOrganisasjon } = useOrganisasjon(organisasjonstre, history);
 
@@ -45,12 +49,33 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
         setErApen(false);
     };
 
+    const handleOutsidePress: { (event: KeyboardEvent): void } = (e: KeyboardEvent) => {
+        const bediftsmenyInnhold = bedriftvelgernode.current;
+        if (bediftsmenyInnhold?.contains(document.activeElement)){
+            return
+        }
+        setErApen(false)
+    };
+
+    useEffect(() => {
+        if (!erApen) {
+            setfokusPaMenyKnapp();
+            setOrganisasjonIFokus(tomAltinnOrganisasjon);
+        }
+        else {
+            setfokusPaSokefelt();
+        }
+    }, [erApen]);
+
     useEffect(() => {
         document.addEventListener('click', handleOutsideClick, false);
-
         return () => {
             window.removeEventListener('click', handleOutsideClick, false);
         };
+    }, []);
+
+    useEffect(() => {
+        document.addEventListener('keydown', handleOutsidePress, false);
     }, []);
 
     const brukSoketekst = (soketekst: string) => {
@@ -58,8 +83,27 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
         setlisteMedOrganisasjonerFraSok(byggSokeresultat(organisasjonstre, soketekst));
     };
 
+    const menyKomponenter= soketekst.length === 0 ?
+        organisasjonstre
+        : listeMedOrganisasjonerFraSok
+
+    let forsteJuridiskEnhetILista = tomAltinnOrganisasjon
+    if (valgtOrganisasjon && valgtOrganisasjon !== tomAltinnOrganisasjon && menyKomponenter) {
+        if (menyKomponenter.length>0) {
+            forsteJuridiskEnhetILista = soketekst.length === 0 ?
+                menyKomponenter.
+                find(juridiskenhet => juridiskenhet.JuridiskEnhet.OrganizationNumber === valgtOrganisasjon.ParentOrganizationNumber)!!.JuridiskEnhet!!
+                : menyKomponenter[0].JuridiskEnhet
+        }
+    }
     return (
-        <nav className="virksomhetsvelger" aria-label="Velg virksomhet">
+        <nav className="virksomhetsvelger" aria-label="Velg virksomhet"
+             onKeyDown={ (event) => {
+                 if (event.key === 'Escape' || event.key === 'Esc') {
+                     setErApen(false);
+                 }
+             }
+        }>
             <div ref={bedriftvelgernode} className="virksomhetsvelger__wrapper">
                 {valgtOrganisasjon && valgtOrganisasjon !== tomAltinnOrganisasjon && (
                     <MenyKnapp
@@ -73,25 +117,38 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                 <>
                     {valgtOrganisasjon !== undefined && (
                         <div
+                            role={"toolbar"}
                             className={`virksomhetsvelger__dropdown--${
                                 erApen ? 'apen' : 'lukket'
                             }`}
                             id="virksomhetsvelger__dropdown">
-                            <Sokefelt soketekst={soketekst} onChange={brukSoketekst} />
+                            <Sokefelt
+                                setOrganisasjonIFokus={setOrganisasjonIFokus}
+                                forrigeOrganisasjonIFokus={forrigeOrganisasjonIFokus}
+                                juridiskEnhetTilValgtOrganisasjon ={forsteJuridiskEnhetILista}
+                                menyKomponenter = {menyKomponenter}
+                                soketekst={soketekst}
+                                treffPåOrganisasjoner={listeMedOrganisasjonerFraSok}
+                                onChange={brukSoketekst} />
                             <div className="dropdownmeny-elementer-wrapper">
                                 <div className="dropdownmeny-elementer">
-                                    <Menyvalg
-                                        menyKomponenter={
-                                            soketekst.length === 0
-                                                ? organisasjonstre
-                                                : listeMedOrganisasjonerFraSok
-                                        }
+                                    { menyKomponenter && menyKomponenter?.length> 0 ?
+                                        <Menyvalg
+                                        organisasjonIFokus={organisasjonIFokus}
+                                        setOrganisasjonIFokus={setOrganisasjonIFokus}
+                                        forrigeOrganisasjonIFokus={forrigeOrganisasjonIFokus}
+                                        setForrigeOrganisasjonIFokus={setForrigeOrganisasjonIFokus}
+                                        menyKomponenter={menyKomponenter}
                                         erApen={erApen}
                                         setErApen={setErApen}
                                         history={history}
                                         valgtOrganisasjon={valgtOrganisasjon}
                                         erSok={soketekst !== ''}
                                     />
+                                    :
+                                        <Normaltekst className={'virksomhetsvelger__ingen-treff'}> Ingen treff </Normaltekst>
+                                    }
+
                                 </div>
                             </div>
                         </div>
