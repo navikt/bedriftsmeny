@@ -133,6 +133,8 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                                 soketekst={soketekst}
                                 treffPåOrganisasjoner={listeMedOrganisasjonerFraSok}
                                 onChange={brukSoketekst}
+                                setErApen={setErApen}
+                                valgtOrganisasjon={valgtOrganisasjon}
                                 history={history}  
                             />
 

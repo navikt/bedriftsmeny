@@ -18,9 +18,11 @@ interface Props {
     menyKomponenter: JuridiskEnhetMedUnderEnheterArray[] | undefined;
     treffPåOrganisasjoner?: JuridiskEnhetMedUnderEnheterArray[];
     history: History;
+    setErApen: (apen: boolean) => void;
+    valgtOrganisasjon: Organisasjon;
 }
 
-const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrganisasjoner, forrigeOrganisasjonIFokus,juridiskEnhetTilValgtOrganisasjon, menyKomponenter, setOrganisasjonIFokus, history }) => {
+const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrganisasjoner, forrigeOrganisasjonIFokus,juridiskEnhetTilValgtOrganisasjon, menyKomponenter, setOrganisasjonIFokus, history, setErApen, valgtOrganisasjon  }) => {
     const [arialabelTekst, setArialabelTekst] = useState("Søk etter virksomhet")
 
     useEffect(() => {
@@ -51,9 +53,15 @@ const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrgan
 
     const onEnter = () => {
         if (soketekst.length>0 && menyKomponenter) {
-            const kunTreffPåEnUnderenhet = menyKomponenter?.length === 1 && menyKomponenter[0].Underenheter.length === 1;
-            if (kunTreffPåEnUnderenhet && menyKomponenter) {
-                settOrgnummerIUrl(menyKomponenter[0].Underenheter[0].OrganizationNumber, history);
+            const kunTreffPåEnUnderenhet = menyKomponenter.length === 1 && menyKomponenter[0].Underenheter.length === 1;
+            if (kunTreffPåEnUnderenhet) {
+                const underenhet = menyKomponenter[0].Underenheter[0];
+                if (underenhet.OrganizationNumber !== valgtOrganisasjon.OrganizationNumber) {
+                    settOrgnummerIUrl(menyKomponenter[0].Underenheter[0].OrganizationNumber, history);
+                }
+                else {
+                    setErApen(false);
+                }
             }
             else {
                 setOrganisasjonIFokus(menyKomponenter[0].JuridiskEnhet);
