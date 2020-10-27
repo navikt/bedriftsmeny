@@ -77,6 +77,10 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
         document.addEventListener('keydown', handleOutsidePress, false);
     }, []);
 
+    useEffect(() => {
+        setErApen(false)        
+    }, [valgtOrganisasjon]);
+
     const brukSoketekst = (soketekst: string) => {
         setSoketekst(soketekst);
         setlisteMedOrganisasjonerFraSok(byggSokeresultat(organisasjonstre, soketekst));
@@ -128,7 +132,10 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                                 menyKomponenter = {menyKomponenter}
                                 soketekst={soketekst}
                                 treffPåOrganisasjoner={listeMedOrganisasjonerFraSok}
-                                onChange={brukSoketekst} />
+                                onChange={brukSoketekst}
+                                history={history}  
+                            />
+
                             <div className="dropdownmeny-elementer-wrapper">
                                 <div className="dropdownmeny-elementer">
                                     {menyKomponenter && menyKomponenter?.length > 0 &&

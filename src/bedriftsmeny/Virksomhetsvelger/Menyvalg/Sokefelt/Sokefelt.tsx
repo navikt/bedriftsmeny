@@ -6,6 +6,8 @@ import './Sokefelt.less';
 import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../../organisasjon';
 import { erPilNavigasjon, setfokusPaMenyKnapp } from '../pilnavigerinsfunksjoner';
 import { Normaltekst } from 'nav-frontend-typografi';
+import { settOrgnummerIUrl } from '../../utils/utils';
+import { History } from 'history';
 
 interface Props {
     soketekst: string;
@@ -15,9 +17,10 @@ interface Props {
     setOrganisasjonIFokus: (organisasjon: Organisasjon) => void;
     menyKomponenter: JuridiskEnhetMedUnderEnheterArray[] | undefined;
     treffPåOrganisasjoner?: JuridiskEnhetMedUnderEnheterArray[];
+    history: History;
 }
 
-const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrganisasjoner, forrigeOrganisasjonIFokus,juridiskEnhetTilValgtOrganisasjon, menyKomponenter, setOrganisasjonIFokus }) => {
+const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrganisasjoner, forrigeOrganisasjonIFokus,juridiskEnhetTilValgtOrganisasjon, menyKomponenter, setOrganisasjonIFokus, history }) => {
     const [arialabelTekst, setArialabelTekst] = useState("Søk etter virksomhet")
 
     useEffect(() => {
@@ -50,7 +53,7 @@ const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrgan
         if (soketekst.length>0 && menyKomponenter) {
             const kunTreffPåEnUnderenhet = menyKomponenter?.length === 1 && menyKomponenter[0].Underenheter.length === 1;
             if (kunTreffPåEnUnderenhet && menyKomponenter) {
-                setOrganisasjonIFokus(menyKomponenter[0].Underenheter[0])
+                settOrgnummerIUrl(menyKomponenter[0].Underenheter[0].OrganizationNumber, history);
             }
             else {
                 setOrganisasjonIFokus(menyKomponenter[0].JuridiskEnhet);
