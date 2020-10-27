@@ -53,7 +53,10 @@ const MenyKnapp = ({ navn, orgnummer, brukOverskrift, erApen, setErApen, setSoke
             }
             className="menyknapp"
             id="virksomhetsvelger__button"
-            aria-label={`Virksomhetsvelger. Valgt virksomhet er ${navn}`}
+            aria-label={
+                `Virksomhetsvelger. Valgt virksomhet er ${navn}, Trykk enter for å ${
+                    erApen? 'lukke' : 'åpne'} denne menyen`
+            }
             aria-pressed={erApen}
             aria-haspopup="true"
             aria-controls="virksomhetsvelger__dropdown"
