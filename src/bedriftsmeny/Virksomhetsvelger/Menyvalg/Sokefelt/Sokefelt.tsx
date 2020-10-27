@@ -5,6 +5,7 @@ import Kryss from './Kryss';
 import './Sokefelt.less';
 import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../../organisasjon';
 import { erPilNavigasjon, setfokusPaMenyKnapp } from '../pilnavigerinsfunksjoner';
+import { Normaltekst } from 'nav-frontend-typografi';
 
 interface Props {
     soketekst: string;
@@ -34,11 +35,26 @@ const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrgan
     }, [soketekst, treffPåOrganisasjoner]);
 
     const onKeyDown = (key: string) => {
+        if (key === 'Enter') {
+            onEnter()
+        }
         if (key === 'ArrowUp' || key === 'Up') {
             setfokusPaMenyKnapp()
         }
         if (key === 'ArrowDown' || key === 'Down') {
             settFokusPaForsteEnhet()
+        }
+    }
+
+    const onEnter = () => {
+        if (soketekst.length>0 && menyKomponenter) {
+            const kunTreffPåEnUnderenhet = menyKomponenter?.length === 1 && menyKomponenter[0].Underenheter.length === 1;
+            if (kunTreffPåEnUnderenhet && menyKomponenter) {
+                setOrganisasjonIFokus(menyKomponenter[0].Underenheter[0])
+            }
+            else {
+                setOrganisasjonIFokus(menyKomponenter[0].JuridiskEnhet);
+            }
         }
     }
 
@@ -77,7 +93,7 @@ const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrgan
                 }
             }}
         />
-        <div aria-live="assertive">{arialabelTekst}</div>
+        <Normaltekst className={"bedriftsmeny-sokefelt__skjult-aria-live-sokeresultat"} aria-live="assertive">{arialabelTekst}</Normaltekst>
         <div className="bedriftsmeny-sokefelt__ikon">
             {soketekst.length === 0 ? (
                 <Forstørrelsesglass />
