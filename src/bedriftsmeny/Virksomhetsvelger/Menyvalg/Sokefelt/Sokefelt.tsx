@@ -28,15 +28,15 @@ const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrgan
     useEffect(() => {
         const underenheter: Organisasjon[] = [];
         treffPåOrganisasjoner?.forEach((juridiskEnhet) => underenheter.push.apply(underenheter, juridiskEnhet.Underenheter))
-            if (soketekst.length === 0) {
-                setArialabelTekst(`Søk etter underenheter`)
-            }
-            else if (treffPåOrganisasjoner?.length === 0) {
-                setArialabelTekst(`Ingen treff for \"${soketekst}\"`)
-            }
-            else if (treffPåOrganisasjoner) {
-                setArialabelTekst(`${underenheter.length} treff for \"${soketekst}\"` )
-            }
+        if (soketekst.length === 0) {
+            setArialabelTekst(`Søk etter underenheter`)
+        }
+        else if (treffPåOrganisasjoner?.length === 0) {
+            setArialabelTekst(`Ingen treff for \"${soketekst}\"`)
+        }
+        else if (treffPåOrganisasjoner) {
+            setArialabelTekst(`${underenheter.length} treff for \"${soketekst}\"` )
+        }
     }, [soketekst, treffPåOrganisasjoner]);
 
     const onKeyDown = (key: string) => {
@@ -97,7 +97,11 @@ const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrgan
             onChange={(e) => onChange(e.target.value)}
             placeholder="Søk"
             onKeyDown={ (e) => {
-                onKeyDown(e.key)
+                if (erPilNavigasjon(e.key) || e.key === 'Enter') {
+                    onKeyDown(e.key)
+                    e.preventDefault()
+                    e.stopPropagation()
+                }
                 if (erPilNavigasjon(e.key)) {
                     e.preventDefault()
                     e.stopPropagation()
