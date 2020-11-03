@@ -29,7 +29,7 @@ const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrgan
         const underenheter: Organisasjon[] = [];
         treffPåOrganisasjoner?.forEach((juridiskEnhet) => underenheter.push.apply(underenheter, juridiskEnhet.Underenheter))
         if (soketekst.length === 0) {
-            setArialabelTekst(`Søk etter underenheter`)
+            setArialabelTekst(`Søk etter virksomhet`)
         }
         else if (treffPåOrganisasjoner?.length === 0) {
             setArialabelTekst(`Ingen treff for \"${soketekst}\"`)
@@ -99,10 +99,6 @@ const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrgan
             onKeyDown={ (e) => {
                 if (erPilNavigasjon(e.key) || e.key === 'Enter') {
                     onKeyDown(e.key)
-                    e.preventDefault()
-                    e.stopPropagation()
-                }
-                if (erPilNavigasjon(e.key)) {
                     e.preventDefault()
                     e.stopPropagation()
                 }
