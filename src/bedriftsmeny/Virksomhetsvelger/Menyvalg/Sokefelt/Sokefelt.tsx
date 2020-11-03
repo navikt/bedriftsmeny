@@ -23,19 +23,19 @@ interface Props {
 }
 
 const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrganisasjoner, forrigeOrganisasjonIFokus,juridiskEnhetTilValgtOrganisasjon, menyKomponenter, setOrganisasjonIFokus, history, setErApen, valgtOrganisasjon  }) => {
-    const [arialabelTekst, setArialabelTekst] = useState("Søk etter virksomhet")
+    const [ariaTekst, setTekst] = useState("Søk etter virksomhet")
 
     useEffect(() => {
         const underenheter: Organisasjon[] = [];
         treffPåOrganisasjoner?.forEach((juridiskEnhet) => underenheter.push.apply(underenheter, juridiskEnhet.Underenheter))
         if (soketekst.length === 0) {
-            setArialabelTekst(`Søk etter virksomhet`)
+            setTekst("")
         }
         else if (treffPåOrganisasjoner?.length === 0) {
-            setArialabelTekst(`Ingen treff for \"${soketekst}\"`)
+            setTekst(`Ingen treff for \"${soketekst}\"`)
         }
         else if (treffPåOrganisasjoner) {
-            setArialabelTekst(`${underenheter.length} treff for \"${soketekst}\"` )
+            setTekst(`${underenheter.length} treff for \"${soketekst}\"` )
         }
     }, [soketekst, treffPåOrganisasjoner]);
 
@@ -104,7 +104,7 @@ const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrgan
                 }
             }}
         />
-        <Normaltekst className={"bedriftsmeny-sokefelt__skjult-aria-live-sokeresultat"} aria-live="assertive">{arialabelTekst}</Normaltekst>
+        <Normaltekst className={"bedriftsmeny-sokefelt__skjult-aria-live-sokeresultat"} aria-live="assertive">{ariaTekst}</Normaltekst>
         <div className="bedriftsmeny-sokefelt__ikon">
             {soketekst.length === 0 ? (
                 <Forstørrelsesglass />
