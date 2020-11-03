@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Undertittel, Element } from 'nav-frontend-typografi';
+import { Undertittel, Element, Normaltekst } from 'nav-frontend-typografi';
 import { NedChevron, OppChevron } from 'nav-frontend-chevron';
 import UnderenhetIkon from '../Menyvalg/Underenhetsvelger/Organisasjonsbeskrivelse/UnderenhetIkon';
 import './Menyknapp.less';
@@ -63,10 +63,10 @@ const MenyKnapp = ({ navn, orgnummer, brukOverskrift, erApen, setErApen, setSoke
             aria-expanded={erApen}>
             <div className="menyknapp__innhold">
                 <UnderenhetIkon classname="menyknapp-ikon" />
-                <div className="menyknapp-beskrivelse">
+                <Normaltekst className="menyknapp-beskrivelse">
                     <Navn className="menyknapp-navn">{navn}</Navn>
                     org. nr. {orgnummer}
-                </div>
+                </Normaltekst>
                 {oppChevron ? (
                     <OppChevron className="menyknapp-chevron" />
                 ) : (
