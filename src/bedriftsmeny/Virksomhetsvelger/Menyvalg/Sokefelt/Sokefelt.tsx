@@ -29,13 +29,13 @@ const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrgan
         const underenheter: Organisasjon[] = [];
         treffPåOrganisasjoner?.forEach((juridiskEnhet) => underenheter.push.apply(underenheter, juridiskEnhet.Underenheter))
             if (soketekst.length === 0) {
-                setArialabelTekst("Søk etter underenheter")
+                setArialabelTekst(`Søk etter underenheter`)
             }
             else if (treffPåOrganisasjoner?.length === 0) {
-                setArialabelTekst("Ingen treff på underenhet "+soketekst)
+                setArialabelTekst(`Ingen treff for \"${soketekst}\"`)
             }
             else if (treffPåOrganisasjoner) {
-                setArialabelTekst("Fant " + underenheter.length + " treff for " + soketekst  )
+                setArialabelTekst(`${underenheter.length} treff for \"${soketekst}\"` )
             }
     }, [soketekst, treffPåOrganisasjoner]);
 
