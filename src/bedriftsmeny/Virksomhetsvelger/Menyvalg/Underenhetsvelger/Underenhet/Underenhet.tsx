@@ -11,7 +11,6 @@ interface Props {
     valgtOrganisasjon: Organisasjon;
     organisasjonIFokus: Organisasjon;
     history: History;
-    setErApen: (bool: boolean) => void;
     hover: boolean;
     setHover: (bool: boolean) => void;
     erApen: boolean;
@@ -25,7 +24,6 @@ const Underenhet: FunctionComponent<Props> = ({
     valgtOrganisasjon,
     organisasjonIFokus,
     history,
-    setErApen,
     hover,
     setHover,
     erApen,
@@ -38,7 +36,6 @@ const Underenhet: FunctionComponent<Props> = ({
 
     const onUnderenhetSelect = (value: string) => {
         settOrgnummerIUrl(value, history);
-        setErApen(false);
         setHover(false);
     };
 

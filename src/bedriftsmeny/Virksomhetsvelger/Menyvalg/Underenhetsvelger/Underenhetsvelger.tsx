@@ -11,7 +11,6 @@ interface Props {
     history: History;
     juridiskEnhetMedUnderenheter: JuridiskEnhetMedUnderEnheterArray;
     valgtOrganisasjon: Organisasjon;
-    setErApen: (bool: boolean) => void;
     hover: boolean;
     setHover: (bool: boolean) => void;
     erSok: boolean;
@@ -32,7 +31,6 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
     setHover,
     erSok,
     erApen,
-    setErApen,
     setForrigeOrganisasjonIFokus,
     setOrganisasjonIFokus,
     organisasjonIFokus,
@@ -132,7 +130,6 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
                         underEnhet={organisasjon}
                         valgtOrganisasjon={valgtOrganisasjon}
                         history={history}
-                        setErApen={setErApen}
                         hover={hover}
                         setHover={setHover}
                         erApen={erApen}

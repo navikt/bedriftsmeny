@@ -12,7 +12,6 @@ import useOrganisasjon from './utils/useOrganisasjon';
 import MenyKnapp from './Menyknapp/Menyknapp';
 import './Virksomhetsvelger.less';
 import { setfokusPaMenyKnapp, setfokusPaSokefelt } from './Menyvalg/pilnavigerinsfunksjoner';
-import { Normaltekst } from 'nav-frontend-typografi';
 
 export interface VirksomhetsvelgerProps {
     organisasjonstre?: JuridiskEnhetMedUnderEnheterArray[];
@@ -78,6 +77,10 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
         document.addEventListener('keydown', handleOutsidePress, false);
     }, []);
 
+    useEffect(() => {
+        setErApen(false)        
+    }, [valgtOrganisasjon]);
+
     const brukSoketekst = (soketekst: string) => {
         setSoketekst(soketekst);
         setlisteMedOrganisasjonerFraSok(byggSokeresultat(organisasjonstre, soketekst));
@@ -129,11 +132,16 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                                 menyKomponenter = {menyKomponenter}
                                 soketekst={soketekst}
                                 treffPåOrganisasjoner={listeMedOrganisasjonerFraSok}
-                                onChange={brukSoketekst} />
+                                onChange={brukSoketekst}
+                                setErApen={setErApen}
+                                valgtOrganisasjon={valgtOrganisasjon}
+                                history={history}  
+                            />
+
                             <div className="dropdownmeny-elementer-wrapper">
                                 <div className="dropdownmeny-elementer">
-                                    { menyKomponenter && menyKomponenter?.length> 0 ?
-                                        <Menyvalg
+                                    {menyKomponenter && menyKomponenter?.length > 0 &&
+                                    <Menyvalg
                                         organisasjonIFokus={organisasjonIFokus}
                                         setOrganisasjonIFokus={setOrganisasjonIFokus}
                                         forrigeOrganisasjonIFokus={forrigeOrganisasjonIFokus}
@@ -145,10 +153,7 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                                         valgtOrganisasjon={valgtOrganisasjon}
                                         erSok={soketekst !== ''}
                                     />
-                                    :
-                                        <Normaltekst className={'virksomhetsvelger__ingen-treff'}> Ingen treff </Normaltekst>
                                     }
-
                                 </div>
                             </div>
                         </div>

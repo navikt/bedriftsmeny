@@ -5,6 +5,9 @@ import Kryss from './Kryss';
 import './Sokefelt.less';
 import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../../organisasjon';
 import { erPilNavigasjon, setfokusPaMenyKnapp } from '../pilnavigerinsfunksjoner';
+import { Normaltekst } from 'nav-frontend-typografi';
+import { settOrgnummerIUrl } from '../../utils/utils';
+import { History } from 'history';
 
 interface Props {
     soketekst: string;
@@ -14,39 +17,55 @@ interface Props {
     setOrganisasjonIFokus: (organisasjon: Organisasjon) => void;
     menyKomponenter: JuridiskEnhetMedUnderEnheterArray[] | undefined;
     treffPåOrganisasjoner?: JuridiskEnhetMedUnderEnheterArray[];
+    history: History;
+    setErApen: (apen: boolean) => void;
+    valgtOrganisasjon: Organisasjon;
 }
 
-const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrganisasjoner, forrigeOrganisasjonIFokus,juridiskEnhetTilValgtOrganisasjon, menyKomponenter, setOrganisasjonIFokus }) => {
-    const [arialabelTekst, setArialabelTekst] = useState("Søk etter virksomhet")
+const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrganisasjoner, forrigeOrganisasjonIFokus,juridiskEnhetTilValgtOrganisasjon, menyKomponenter, setOrganisasjonIFokus, history, setErApen, valgtOrganisasjon  }) => {
+    const [ariaTekst, setTekst] = useState("Søk etter virksomhet")
 
     useEffect(() => {
-        const underenheter: Organisasjon[] = [] ;
+        const underenheter: Organisasjon[] = [];
         treffPåOrganisasjoner?.forEach((juridiskEnhet) => underenheter.push.apply(underenheter, juridiskEnhet.Underenheter))
         if (soketekst.length === 0) {
-            setArialabelTekst("Søk etter underenheter")
+            setTekst("")
         }
         else if (treffPåOrganisasjoner?.length === 0) {
-            setArialabelTekst("Ingen treff for dette søkeordet")
+            setTekst(`Ingen treff for \"${soketekst}\"`)
         }
         else if (treffPåOrganisasjoner) {
-            setArialabelTekst(underenheter.length + " treff på underenheter")
+            setTekst(`${underenheter.length} treff for \"${soketekst}\"` )
         }
     }, [soketekst, treffPåOrganisasjoner]);
 
-
-    //forhindrer nettleseren safari i å hoppe over "ingen treff for dette søkeordet"
-    const onChangeForAriaDelay = (verdi: string) => {
-        setTimeout(function(){
-        onChange(verdi)
-        }, 1);
-    }
-
     const onKeyDown = (key: string) => {
+        if (key === 'Enter') {
+            onEnter()
+        }
         if (key === 'ArrowUp' || key === 'Up') {
             setfokusPaMenyKnapp()
         }
         if (key === 'ArrowDown' || key === 'Down') {
             settFokusPaForsteEnhet()
+        }
+    }
+
+    const onEnter = () => {
+        if (soketekst.length>0 && menyKomponenter) {
+            const kunTreffPåEnUnderenhet = menyKomponenter.length === 1 && menyKomponenter[0].Underenheter.length === 1;
+            if (kunTreffPåEnUnderenhet) {
+                const underenhet = menyKomponenter[0].Underenheter[0];
+                if (underenhet.OrganizationNumber !== valgtOrganisasjon.OrganizationNumber) {
+                    settOrgnummerIUrl(menyKomponenter[0].Underenheter[0].OrganizationNumber, history);
+                }
+                else {
+                    setErApen(false);
+                }
+            }
+            else {
+                setOrganisasjonIFokus(menyKomponenter[0].JuridiskEnhet);
+            }
         }
     }
 
@@ -72,20 +91,20 @@ const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrgan
             className="bedriftsmeny-sokefelt__felt"
             type="search"
             label=""
-            aria-live = {"polite"}
-            aria-label={arialabelTekst}
+            aria-label={"Søk"}
             aria-haspopup={false}
             value={soketekst}
-            onChange={(e) => onChangeForAriaDelay(e.target.value)}
+            onChange={(e) => onChange(e.target.value)}
             placeholder="Søk"
             onKeyDown={ (e) => {
-                onKeyDown(e.key)
-                if (erPilNavigasjon(e.key)) {
+                if (erPilNavigasjon(e.key) || e.key === 'Enter') {
+                    onKeyDown(e.key)
                     e.preventDefault()
                     e.stopPropagation()
                 }
             }}
         />
+        <Normaltekst className={"bedriftsmeny-sokefelt__skjult-aria-live-sokeresultat"} aria-live="assertive">{ariaTekst}</Normaltekst>
         <div className="bedriftsmeny-sokefelt__ikon">
             {soketekst.length === 0 ? (
                 <Forstørrelsesglass />

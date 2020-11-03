@@ -58,7 +58,6 @@ const Menyvalg: FunctionComponent<Props> = (props) => {
                     history={history}
                     valgtOrganisasjon={valgtOrganisasjon}
                     erApen={erApen}
-                    setErApen={setErApen}
                     hover={hover}
                     setHover={setHover}
                     erSok={erSok}

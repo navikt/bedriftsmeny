@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Undertittel, Element } from 'nav-frontend-typografi';
+import { Undertittel, Element, Normaltekst } from 'nav-frontend-typografi';
 import { NedChevron, OppChevron } from 'nav-frontend-chevron';
 import UnderenhetIkon from '../Menyvalg/Underenhetsvelger/Organisasjonsbeskrivelse/UnderenhetIkon';
 import './Menyknapp.less';
@@ -53,17 +53,20 @@ const MenyKnapp = ({ navn, orgnummer, brukOverskrift, erApen, setErApen, setSoke
             }
             className="menyknapp"
             id="virksomhetsvelger__button"
-            aria-label={`Virksomhetsvelger. Valgt virksomhet er ${navn}`}
+            aria-label={
+                `Virksomhetsvelger. Valgt virksomhet er ${navn}, Trykk enter for å ${
+                    erApen? 'lukke' : 'åpne'} denne menyen`
+            }
             aria-pressed={erApen}
             aria-haspopup="true"
             aria-controls="virksomhetsvelger__dropdown"
             aria-expanded={erApen}>
             <div className="menyknapp__innhold">
                 <UnderenhetIkon classname="menyknapp-ikon" />
-                <div className="menyknapp-beskrivelse">
+                <Normaltekst className="menyknapp-beskrivelse">
                     <Navn className="menyknapp-navn">{navn}</Navn>
                     org. nr. {orgnummer}
-                </div>
+                </Normaltekst>
                 {oppChevron ? (
                     <OppChevron className="menyknapp-chevron" />
                 ) : (
