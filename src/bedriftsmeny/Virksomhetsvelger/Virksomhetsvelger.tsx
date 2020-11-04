@@ -77,10 +77,6 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
         document.addEventListener('keydown', handleOutsidePress, false);
     }, []);
 
-    useEffect(() => {
-        setErApen(false)        
-    }, [valgtOrganisasjon]);
-
     const brukSoketekst = (soketekst: string) => {
         setSoketekst(soketekst);
         setlisteMedOrganisasjonerFraSok(byggSokeresultat(organisasjonstre, soketekst));

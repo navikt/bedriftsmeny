@@ -13,6 +13,7 @@ interface Props {
     valgtOrganisasjon: Organisasjon;
     hover: boolean;
     setHover: (bool: boolean) => void;
+    setErApen: (bool: boolean) => void;
     erSok: boolean;
     erApen: boolean;
     lukkMenyOnTabPaNedersteElement: (organisasjonsnummer: string, erJuridiskEnhetSomViserUnderenheter: boolean) => void;
@@ -30,6 +31,7 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
     hover,
     setHover,
     erSok,
+    setErApen,
     erApen,
     setForrigeOrganisasjonIFokus,
     setOrganisasjonIFokus,
@@ -125,6 +127,7 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
             >
                 {juridiskEnhetMedUnderenheter.Underenheter.map((organisasjon: Organisasjon) => (
                     <Underenhet
+                        setErApen={setErApen}
                         lukkUnderenhetsvelgerOgFokuserPåEnhet={lukkUnderenhetsvelgerOgFokuserPåEnhet}
                         key={organisasjon.OrganizationNumber}
                         underEnhet={organisasjon}

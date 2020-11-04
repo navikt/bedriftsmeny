@@ -14,6 +14,7 @@ interface Props {
     hover: boolean;
     setHover: (bool: boolean) => void;
     erApen: boolean;
+    setErApen: (bool: boolean) => void;
     setNyOrganisasjonIFokus: (KeypressKey: string, erJuridiskEnhetSomViserUnderenheter: boolean) => void;
     lukkMenyOnTabPaNedersteElement: (organisasjonsnummer: string, erJuridiskEnhetSomViserUnderenheter: boolean) => void;
     lukkUnderenhetsvelgerOgFokuserPåEnhet: (underenhet: Organisasjon) => void;
@@ -26,6 +27,7 @@ const Underenhet: FunctionComponent<Props> = ({
     history,
     hover,
     setHover,
+    setErApen,
     erApen,
     setNyOrganisasjonIFokus,
     lukkUnderenhetsvelgerOgFokuserPåEnhet,
@@ -35,6 +37,7 @@ const Underenhet: FunctionComponent<Props> = ({
     const [erValgtEnhet, setErValgtEnhet] = useState(false);
 
     const onUnderenhetSelect = (value: string) => {
+        setErApen(false);
         settOrgnummerIUrl(value, history);
         setHover(false);
     };

@@ -18,10 +18,12 @@ const Organisasjonsbeskrivelse = ({ navn, orgnummer, erJuridiskEnhet, brukOversk
     return (
         <div className="organisasjonsbeskrivelse">
             <Ikon classname="organisasjonsbeskrivelse__ikon" />
-            <Normaltekst className="organisasjonsbeskrivelse__beskrivelse">
-                <Navn className="organisasjonsbeskrivelse__navn" title={navn.length > 26 ? navn : ''}>{navn}</Navn>
+            <div className="organisasjonsbeskrivelse__beskrivelse">
+                <Navn className="organisasjonsbeskrivelse__navn" title={navn.length > 26 ? navn : ''}>
+                   {navn}
+                </Navn>
                 <Normaltekst aria-label={`Orgnummer: ${orgnummer}`}>org. nr. {orgnummer}</Normaltekst>
-            </Normaltekst>
+            </div>
         </div>
     );
 };

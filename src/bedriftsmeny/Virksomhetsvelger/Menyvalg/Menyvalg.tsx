@@ -50,6 +50,7 @@ const Menyvalg: FunctionComponent<Props> = (props) => {
                     menyKomponenter={menyKomponenter}
                     setOrganisasjonIFokus={setOrganisasjonIFokus}
                     setForrigeOrganisasjonIFokus={setForrigeOrganisasjonIFokus}
+                    setErApen={setErApen}
                     organisasjonIFokus={organisasjonIFokus}
                     forrigeOrganisasjonIFokus={forrigeOrganisasjonIFokus}
                     lukkMenyOnTabPaNedersteElement = {lukkMenyOnTabPaNedersteElement}

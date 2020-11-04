@@ -63,10 +63,10 @@ const MenyKnapp = ({ navn, orgnummer, brukOverskrift, erApen, setErApen, setSoke
             aria-expanded={erApen}>
             <div className="menyknapp__innhold">
                 <UnderenhetIkon classname="menyknapp-ikon" />
-                <Normaltekst className="menyknapp-beskrivelse">
+                <div className="menyknapp-beskrivelse">
                     <Navn className="menyknapp-navn">{navn}</Navn>
-                    org. nr. {orgnummer}
-                </Normaltekst>
+                    <Normaltekst>org. nr. {orgnummer}</Normaltekst>
+                </div>
                 {oppChevron ? (
                     <OppChevron className="menyknapp-chevron" />
                 ) : (
