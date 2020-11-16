@@ -1,13 +1,13 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
+import { History } from 'history';
 import { Input } from 'nav-frontend-skjema';
+import { Normaltekst } from 'nav-frontend-typografi';
+import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../../organisasjon';
 import Forstørrelsesglass from './Forstørrelsesglass';
 import Kryss from './Kryss';
-import './Sokefelt.less';
-import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../../organisasjon';
 import { erPilNavigasjon, setfokusPaMenyKnapp } from '../pilnavigerinsfunksjoner';
-import { Normaltekst } from 'nav-frontend-typografi';
 import { settOrgnummerIUrl } from '../../utils/utils';
-import { History } from 'history';
+import './Sokefelt.less';
 
 interface Props {
     soketekst: string;
@@ -22,98 +22,123 @@ interface Props {
     valgtOrganisasjon: Organisasjon;
 }
 
-const Sokefelt: FunctionComponent<Props> = ({ soketekst, onChange, treffPåOrganisasjoner, forrigeOrganisasjonIFokus,juridiskEnhetTilValgtOrganisasjon, menyKomponenter, setOrganisasjonIFokus, history, setErApen, valgtOrganisasjon  }) => {
-    const [ariaTekst, setTekst] = useState("Søk etter virksomhet")
+const Sokefelt: FunctionComponent<Props> = ({
+    soketekst,
+    onChange,
+    treffPåOrganisasjoner,
+    forrigeOrganisasjonIFokus,
+    juridiskEnhetTilValgtOrganisasjon,
+    menyKomponenter,
+    setOrganisasjonIFokus,
+    history,
+    setErApen,
+    valgtOrganisasjon
+}) => {
+    const [ariaTekst, setTekst] = useState('Søk etter virksomhet');
 
     useEffect(() => {
         const underenheter: Organisasjon[] = [];
-        treffPåOrganisasjoner?.forEach((juridiskEnhet) => underenheter.push.apply(underenheter, juridiskEnhet.Underenheter))
+        treffPåOrganisasjoner?.forEach((juridiskEnhet) =>
+            underenheter.push.apply(underenheter, juridiskEnhet.Underenheter)
+        );
         if (soketekst.length === 0) {
-            setTekst("")
-        }
-        else if (treffPåOrganisasjoner?.length === 0) {
-            setTekst(`Ingen treff for \"${soketekst}\"`)
-        }
-        else if (treffPåOrganisasjoner) {
-            setTekst(`${underenheter.length} treff for \"${soketekst}\"` )
+            setTekst('');
+        } else if (treffPåOrganisasjoner?.length === 0) {
+            setTekst(`Ingen treff for \"${soketekst}\"`);
+        } else if (treffPåOrganisasjoner) {
+            setTekst(`${underenheter.length} treff for \"${soketekst}\"`);
         }
     }, [soketekst, treffPåOrganisasjoner]);
 
     const onKeyDown = (key: string) => {
         if (key === 'Enter') {
-            onEnter()
+            onEnter();
         }
         if (key === 'ArrowUp' || key === 'Up') {
-            setfokusPaMenyKnapp()
+            setfokusPaMenyKnapp();
         }
         if (key === 'ArrowDown' || key === 'Down') {
-            settFokusPaForsteEnhet()
+            settFokusPaForsteEnhet();
         }
-    }
+    };
 
     const onEnter = () => {
-        if (soketekst.length>0 && menyKomponenter) {
-            const kunTreffPåEnUnderenhet = menyKomponenter.length === 1 && menyKomponenter[0].Underenheter.length === 1;
+        if (soketekst.length > 0 && treffPåOrganisasjoner && treffPåOrganisasjoner?.length > 0 && menyKomponenter) {
+            const kunTreffPåEnUnderenhet =
+                menyKomponenter.length === 1 && menyKomponenter[0].Underenheter.length === 1;
             if (kunTreffPåEnUnderenhet) {
                 const underenhet = menyKomponenter[0].Underenheter[0];
                 if (underenhet.OrganizationNumber !== valgtOrganisasjon.OrganizationNumber) {
-                    settOrgnummerIUrl(menyKomponenter[0].Underenheter[0].OrganizationNumber, history);
-                }
-                else {
+                    settOrgnummerIUrl(
+                        menyKomponenter[0].Underenheter[0].OrganizationNumber,
+                        history
+                    );
+                } else {
                     setErApen(false);
                 }
-            }
-            else {
+            } else {
                 setOrganisasjonIFokus(menyKomponenter[0].JuridiskEnhet);
             }
         }
-    }
+    };
 
     const settFokusPaForsteEnhet = () => {
-        if (menyKomponenter) {
+        if (menyKomponenter && ((treffPåOrganisasjoner && treffPåOrganisasjoner?.length > 0) || soketekst.length === 0)) {
             const blarOppTilSøkefeltOgNedTilMeny =
-                forrigeOrganisasjonIFokus.OrganizationNumber === menyKomponenter[0].JuridiskEnhet.OrganizationNumber;
-            const valgtJuridiskEnhetErFørsteILista = juridiskEnhetTilValgtOrganisasjon.OrganizationNumber === menyKomponenter[0].JuridiskEnhet.OrganizationNumber;
-            const skalBlaTilFørsteElementIMenyKomponenter = (blarOppTilSøkefeltOgNedTilMeny && !valgtJuridiskEnhetErFørsteILista) || soketekst.length>0 ;
+                forrigeOrganisasjonIFokus.OrganizationNumber ===
+                menyKomponenter[0].JuridiskEnhet.OrganizationNumber;
+            const valgtJuridiskEnhetErFørsteILista =
+                juridiskEnhetTilValgtOrganisasjon.OrganizationNumber ===
+                menyKomponenter[0].JuridiskEnhet.OrganizationNumber;
+            const skalBlaTilFørsteElementIMenyKomponenter =
+                (blarOppTilSøkefeltOgNedTilMeny && !valgtJuridiskEnhetErFørsteILista) ||
+                soketekst.length > 0;
+
             if (skalBlaTilFørsteElementIMenyKomponenter) {
-                setOrganisasjonIFokus(menyKomponenter[0].JuridiskEnhet)
-            }
-            else {
-                setOrganisasjonIFokus(juridiskEnhetTilValgtOrganisasjon)
+                setOrganisasjonIFokus(menyKomponenter[0].JuridiskEnhet);
+            } else {
+                setOrganisasjonIFokus(juridiskEnhetTilValgtOrganisasjon);
             }
         }
-    }
+    };
 
     return (
-    <div className="bedriftsmeny-sokefelt">
-        <Input
-            id = {"bedriftsmeny-sokefelt"}
-            className="bedriftsmeny-sokefelt__felt"
-            type="search"
-            label=""
-            aria-label={"Søk"}
-            aria-haspopup={false}
-            value={soketekst}
-            onChange={(e) => onChange(e.target.value)}
-            placeholder="Søk"
-            onKeyDown={ (e) => {
-                if (erPilNavigasjon(e.key) || e.key === 'Enter') {
-                    onKeyDown(e.key)
-                    e.preventDefault()
-                    e.stopPropagation()
-                }
-            }}
-        />
-        <Normaltekst className={"bedriftsmeny-sokefelt__skjult-aria-live-sokeresultat"} aria-live="assertive">{ariaTekst}</Normaltekst>
-        <div className="bedriftsmeny-sokefelt__ikon">
-            {soketekst.length === 0 ? (
-                <Forstørrelsesglass />
-            ) : (
-                <Kryss className="bedriftsmeny-sokefelt__ikon--klikkbart" onClick={() => onChange('')} />
-            )}
+        <div className="bedriftsmeny-sokefelt">
+            <Input
+                id="bedriftsmeny-sokefelt"
+                className="bedriftsmeny-sokefelt__felt"
+                type="search"
+                label=""
+                aria-label={'Søk'}
+                aria-haspopup={false}
+                value={soketekst}
+                onChange={(e) => onChange(e.target.value)}
+                placeholder="Søk"
+                onKeyDown={(e) => {
+                    if (erPilNavigasjon(e.key) || e.key === 'Enter') {
+                        onKeyDown(e.key);
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
+                }}
+            />
+            <Normaltekst
+                className={'bedriftsmeny-sokefelt__skjult-aria-live-sokeresultat'}
+                aria-live="assertive">
+                {ariaTekst}
+            </Normaltekst>
+            <div className="bedriftsmeny-sokefelt__ikon">
+                {soketekst.length === 0 ? (
+                    <Forstørrelsesglass />
+                ) : (
+                    <Kryss
+                        className="bedriftsmeny-sokefelt__ikon--klikkbart"
+                        onClick={() => onChange('')}
+                    />
+                )}
+            </div>
         </div>
-    </div>
-);
-}
+    );
+};
 
 export default Sokefelt;
