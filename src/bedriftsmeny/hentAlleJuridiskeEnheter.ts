@@ -17,26 +17,45 @@ export async function hentAlleJuridiskeEnheter(
             url += ',' + orgnr;
         }
     });
-    let respons = await fetch(url);
-    if (respons.ok && distinkteJuridiskeEnhetsnr.length > 0) {
-        const distinkteJuridiskeEnheterFraEreg: ListeMedJuridiskeEnheter = await respons.json();
-        if (
-            distinkteJuridiskeEnheterFraEreg._embedded &&
-            distinkteJuridiskeEnheterFraEreg._embedded.enheter.length > 0
-        ) {
-            const distinkteJuridiskeEnheter: Organisasjon[] = distinkteJuridiskeEnheterFraEreg._embedded.enheter.map(
-                (orgFraEereg) => {
-                    const jurOrg: Organisasjon = {
-                        ...tomAltinnOrganisasjon,
-                        Name: orgFraEereg.navn,
-                        OrganizationNumber: orgFraEereg.organisasjonsnummer,
-                        Type: 'Business'
-                    };
-                    return jurOrg;
-                }
-            );
-            return distinkteJuridiskeEnheter;
+    if (!window.location.href.includes('localhost')) {
+        let respons = await fetch(url);
+        if (respons.ok && distinkteJuridiskeEnhetsnr.length > 0) {
+            const distinkteJuridiskeEnheterFraEreg: ListeMedJuridiskeEnheter = await respons.json();
+            if (
+                distinkteJuridiskeEnheterFraEreg._embedded &&
+                distinkteJuridiskeEnheterFraEreg._embedded.enheter.length > 0
+            ) {
+                const distinkteJuridiskeEnheter: Organisasjon[] = distinkteJuridiskeEnheterFraEreg._embedded.enheter.map(
+                    (orgFraEereg) => {
+                        const jurOrg: Organisasjon = {
+                            ...tomAltinnOrganisasjon,
+                            Name: orgFraEereg.navn,
+                            OrganizationNumber: orgFraEereg.organisasjonsnummer,
+                            Type: 'Business'
+                        };
+                        return jurOrg;
+                    }
+                );
+                return distinkteJuridiskeEnheter;
+            }
         }
     }
+    else {
+        return lagListeMedMockedeJuridiskeEnheter(listeMedJuridiskeOrgnr)
+    }
     return [];
+}
+
+const lagListeMedMockedeJuridiskeEnheter = (listeMedJuridiskeOrgnr: string[]) => {
+    return listeMedJuridiskeOrgnr.map(
+        (orgNr) => {
+            const jurOrg: Organisasjon = {
+                ...tomAltinnOrganisasjon,
+                Name: 'MOCK ORGANISASJON',
+                OrganizationNumber: orgNr,
+                Type: 'Business'
+            };
+            return jurOrg;
+        }
+    );
 }
