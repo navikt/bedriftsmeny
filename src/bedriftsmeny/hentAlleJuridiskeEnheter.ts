@@ -39,8 +39,7 @@ export async function hentAlleJuridiskeEnheter(
                 return distinkteJuridiskeEnheter;
             }
         }
-    }
-    else {
+    } else {
         return lagListeMedMockedeJuridiskeEnheter(listeMedJuridiskeOrgnr)
     }
     return [];
