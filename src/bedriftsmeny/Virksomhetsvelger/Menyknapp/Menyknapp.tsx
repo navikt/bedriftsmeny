@@ -16,14 +16,6 @@ interface Props {
 
 const MenyKnapp = ({ navn, orgnummer, brukOverskrift, erApen, setErApen, setSoketekst }: Props) => {
     const Navn = brukOverskrift ? Undertittel : Element;
-    const [oppChevron, setOppChevron] = useState(false);
-
-    useEffect(() => {
-        setOppChevron(false);
-        if (erApen)  {
-            setOppChevron(true);
-        }
-    }, [erApen]);
 
     const onKeyPress = (key: string, skift: boolean) => {
         if (key === 'ArrowDown' || key === 'Down') {
@@ -35,28 +27,26 @@ const MenyKnapp = ({ navn, orgnummer, brukOverskrift, erApen, setErApen, setSoke
         if (key === 'Tab' && skift) {
             setErApen(false);
         }
-    }
+    };
 
     return (
         <button
             onClick={() => {
                 setSoketekst('');
-                setErApen(!erApen)
+                setErApen(!erApen);
             }}
-            onKeyDown={ (e) => {
+            onKeyDown={(e) => {
                 if (erPilNavigasjon(e.key)) {
-                    e.preventDefault()
-                    e.stopPropagation()
+                    e.preventDefault();
+                    e.stopPropagation();
                 }
-                onKeyPress(e.key, e.shiftKey)
-            }
-            }
+                onKeyPress(e.key, e.shiftKey);
+            }}
             className="menyknapp"
             id="virksomhetsvelger__button"
-            aria-label={
-                `Virksomhetsvelger. Valgt virksomhet er ${navn}, Trykk enter for å ${
-                    erApen? 'lukke' : 'åpne'} denne menyen`
-            }
+            aria-label={`Virksomhetsvelger. Valgt virksomhet er ${navn}, Trykk enter for å ${
+                erApen ? 'lukke' : 'åpne'
+            } denne menyen`}
             aria-pressed={erApen}
             aria-haspopup="true"
             aria-controls="virksomhetsvelger__dropdown"
@@ -67,11 +57,7 @@ const MenyKnapp = ({ navn, orgnummer, brukOverskrift, erApen, setErApen, setSoke
                     <Navn className="menyknapp-navn">{navn}</Navn>
                     <Normaltekst>org. nr. {orgnummer}</Normaltekst>
                 </div>
-                {oppChevron ? (
-                    <OppChevron className="menyknapp-chevron" />
-                ) : (
-                    <NedChevron className="menyknapp-chevron" />
-                )}
+                <NedChevron className={`menyknapp__chevron${erApen ? '--ned' : '--opp'}`} />
             </div>
         </button>
     );

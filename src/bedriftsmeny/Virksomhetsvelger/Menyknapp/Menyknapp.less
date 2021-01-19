@@ -2,11 +2,11 @@
 
 .menyknapp {
     background-color: white;
-    border-radius: 2px;
     border: 2px solid #78706a;
     padding: 0.5rem 0.7rem 0.5rem 1rem;
     width: 18rem;
     cursor: pointer;
+    border-radius: 4px;
 
     @media (min-width: @screen-sm-min) {
         width: 20rem;
@@ -60,11 +60,18 @@
                 overflow: hidden;
             }
         }
+    }
 
-        .menyknapp-chevron {
+    &__chevron {
+        &--ned,
+        &--opp {
+            transition: 0.6s ease;
             position: absolute;
             right: 0;
             margin-top: 0.7rem;
+        }
+        &--ned {
+            transform: rotateX(-180deg);
         }
     }
 }
