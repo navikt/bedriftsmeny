@@ -91,7 +91,7 @@
         &__dropdown {
             &--lukket,
             &--apen {
-                width: 21rem;
+                width: 26rem;
             }
         }
     }
@@ -100,13 +100,14 @@
         &__dropdown {
             &--lukket,
             &--apen {
-                width: 26rem;
                 right: 0;
-                max-height: 35rem;
             }
         }
         .dropdownmeny-elementer {
             max-height: 30rem;
+            &.medSokeTekst {
+                max-height: calc(30rem - 40px);
+            }
         }
     }
 }

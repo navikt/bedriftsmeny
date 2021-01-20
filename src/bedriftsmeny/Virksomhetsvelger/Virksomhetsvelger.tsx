@@ -138,7 +138,10 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                             />
 
                             <div className="dropdownmeny-elementer-wrapper">
-                                <div className="dropdownmeny-elementer">
+                                <div
+                                    className={`dropdownmeny-elementer ${
+                                        !!soketekst ? 'medSokeTekst' : ''
+                                    }`}>
                                     {menyKomponenter && menyKomponenter?.length > 0 && (
                                         <Menyvalg
                                             organisasjonIFokus={organisasjonIFokus}
@@ -152,7 +155,7 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                                             setErApen={setErApen}
                                             history={history}
                                             valgtOrganisasjon={valgtOrganisasjon}
-                                            erSok={soketekst !== ''}
+                                            erSok={!!soketekst}
                                         />
                                     )}
                                 </div>
