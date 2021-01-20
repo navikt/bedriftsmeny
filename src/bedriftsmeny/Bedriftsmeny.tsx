@@ -49,8 +49,7 @@ const Bedriftsmeny: FunctionComponent<EgneProps> = (props) => {
             <div className="bedriftsmeny__inner">
                 <Innholdstittel
                     className="bedriftsmeny__tittel"
-                    role="heading"
-                    aria-label={sidetittel}>
+                    aria-label="Innholdstittel for applikasjon">
                     {sidetittel}
                 </Innholdstittel>
                 {visVirksomhetsvelger && (
