@@ -15,8 +15,14 @@ interface Props {
     setHover: (bool: boolean) => void;
     erApen: boolean;
     setErApen: (bool: boolean) => void;
-    setNyOrganisasjonIFokus: (KeypressKey: string, erJuridiskEnhetSomViserUnderenheter: boolean) => void;
-    lukkMenyOnTabPaNedersteElement: (organisasjonsnummer: string, erJuridiskEnhetSomViserUnderenheter: boolean) => void;
+    setNyOrganisasjonIFokus: (
+        KeypressKey: string,
+        erJuridiskEnhetSomViserUnderenheter: boolean
+    ) => void;
+    lukkMenyOnTabPaNedersteElement: (
+        organisasjonsnummer: string,
+        erJuridiskEnhetSomViserUnderenheter: boolean
+    ) => void;
     lukkUnderenhetsvelgerOgFokuserPåEnhet: (underenhet: Organisasjon) => void;
 }
 
@@ -31,8 +37,7 @@ const Underenhet: FunctionComponent<Props> = ({
     erApen,
     setNyOrganisasjonIFokus,
     lukkUnderenhetsvelgerOgFokuserPåEnhet,
-    lukkMenyOnTabPaNedersteElement,
-
+    lukkMenyOnTabPaNedersteElement
 }) => {
     const [erValgtEnhet, setErValgtEnhet] = useState(false);
 
@@ -51,43 +56,43 @@ const Underenhet: FunctionComponent<Props> = ({
 
     useEffect(() => {
         if (organisasjonIFokus.OrganizationNumber === underEnhet.OrganizationNumber) {
-            const idTilUnderEnhet = underEnhet.OrganizationNumber === valgtOrganisasjon.OrganizationNumber ?
-                'valgtunderenhet' : 'organisasjons-id-'+underEnhet.OrganizationNumber;
-            const element = document.getElementById(idTilUnderEnhet)
+            const idTilUnderEnhet =
+                underEnhet.OrganizationNumber === valgtOrganisasjon.OrganizationNumber
+                    ? 'valgtunderenhet'
+                    : 'organisasjons-id-' + underEnhet.OrganizationNumber;
+            const element = document.getElementById(idTilUnderEnhet);
             element?.focus();
         }
     }, [valgtOrganisasjon, underEnhet, organisasjonIFokus]);
 
     const onKeyDown = (key: string) => {
         if (key === 'Enter') {
-            onUnderenhetSelect(underEnhet.OrganizationNumber)
+            onUnderenhetSelect(underEnhet.OrganizationNumber);
             return;
         }
         if (key === 'Tab') {
-            lukkMenyOnTabPaNedersteElement(underEnhet.OrganizationNumber, false)
+            lukkMenyOnTabPaNedersteElement(underEnhet.OrganizationNumber, false);
         }
         if (key === 'ArrowUp' || key === 'ArrowDown' || key === 'Up' || key === 'Down') {
-            setNyOrganisasjonIFokus(key, false)
+            setNyOrganisasjonIFokus(key, false);
         }
-        if (key === 'ArrowLeft' || key ==='Left') {
-            lukkUnderenhetsvelgerOgFokuserPåEnhet(underEnhet)
+        if (key === 'ArrowLeft' || key === 'Left') {
+            lukkUnderenhetsvelgerOgFokuserPåEnhet(underEnhet);
         }
-    }
+    };
 
     return (
         <li
             onClick={() => {
                 onUnderenhetSelect(underEnhet.OrganizationNumber);
-            }
-            }
+            }}
             onKeyDown={(e) => {
                 if (erPilNavigasjon(e.key)) {
-                    e.preventDefault()
-                    e.stopPropagation()
+                    e.preventDefault();
+                    e.stopPropagation();
                 }
-                onKeyDown(e.key)
-            }
-              }
+                onKeyDown(e.key);
+            }}
             onMouseOver={() => {
                 if (!erValgtEnhet) {
                     setHover(true);
@@ -106,8 +111,12 @@ const Underenhet: FunctionComponent<Props> = ({
                     ? 'valgtunderenhet'
                     : ''
             }`}
-            id={erValgtEnhet ? 'valgtunderenhet' : 'organisasjons-id-'+underEnhet.OrganizationNumber}
-            key={underEnhet.OrganizationNumber}
+            id={
+                erValgtEnhet
+                    ? 'valgtunderenhet'
+                    : 'organisasjons-id-' + underEnhet.OrganizationNumber
+            }
+            // key={underEnhet.OrganizationNumber}
             tabIndex={erApen ? 0 : -1}>
             <Organisasjonsbeskrivelse
                 navn={underEnhet.Name}

@@ -29,10 +29,19 @@
 
         &:focus {
             box-shadow: inset 0 0 0 3px @fokusFarge;
+            outline: none;
+        }
+        &:active {
+            background-color: @navBlaDarken40;
         }
 
         &:hover {
-            background-color: @navLysBlaLighten80;
+            color: white;
+            background-color: @navBla;
+            svg g {
+                stroke: white;
+                fill: none;
+            }
         }
 
         &__chevron {
@@ -63,7 +72,7 @@
             transform: rotateX(-90deg);
             transform-origin: top center;
             opacity: 0.3;
-            transition: 0.3s ease, max-height 0.3s ease;
+            transition: 0.3s ease;
             max-height: 0;
 
             .underenhet {
@@ -74,9 +83,9 @@
 
         &--apen {
             visibility: visible;
-            max-height: 20rem;
+            max-height: max-content;
             opacity: 1;
-            transition: 0.4s ease, max-height 0.4s ease;
+            transition: 0.4s ease;
             transform: rotateX(0deg);
         }
     }
