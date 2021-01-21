@@ -47,11 +47,7 @@ const Bedriftsmeny: FunctionComponent<EgneProps> = (props) => {
     return (
         <div className="bedriftsmeny" role="banner">
             <div className="bedriftsmeny__inner">
-                <Innholdstittel
-                    className="bedriftsmeny__tittel"
-                    aria-label="Innholdstittel for applikasjon">
-                    {sidetittel}
-                </Innholdstittel>
+                <Innholdstittel className="bedriftsmeny__tittel">{sidetittel}</Innholdstittel>
                 {visVirksomhetsvelger && (
                     <Virksomhetsvelger
                         history={props.history}
