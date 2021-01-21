@@ -4,7 +4,6 @@ import { Input } from 'nav-frontend-skjema';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../../organisasjon';
 import Forstørrelsesglass from './Forstørrelsesglass';
-import Kryss from './Kryss';
 import { erPilNavigasjon, setfokusPaMenyKnapp } from '../pilnavigerinsfunksjoner';
 import { settOrgnummerIUrl } from '../../utils/utils';
 import './Sokefelt.less';
@@ -63,7 +62,12 @@ const Sokefelt: FunctionComponent<Props> = ({
     };
 
     const onEnter = () => {
-        if (soketekst.length > 0 && treffPåOrganisasjoner && treffPåOrganisasjoner?.length > 0 && menyKomponenter) {
+        if (
+            soketekst.length > 0 &&
+            treffPåOrganisasjoner &&
+            treffPåOrganisasjoner?.length > 0 &&
+            menyKomponenter
+        ) {
             const kunTreffPåEnUnderenhet =
                 menyKomponenter.length === 1 && menyKomponenter[0].Underenheter.length === 1;
             if (kunTreffPåEnUnderenhet) {
@@ -83,7 +87,10 @@ const Sokefelt: FunctionComponent<Props> = ({
     };
 
     const settFokusPaForsteEnhet = () => {
-        if (menyKomponenter && ((treffPåOrganisasjoner && treffPåOrganisasjoner?.length > 0) || soketekst.length === 0)) {
+        if (
+            menyKomponenter &&
+            ((treffPåOrganisasjoner && treffPåOrganisasjoner?.length > 0) || soketekst.length === 0)
+        ) {
             const blarOppTilSøkefeltOgNedTilMeny =
                 forrigeOrganisasjonIFokus.OrganizationNumber ===
                 menyKomponenter[0].JuridiskEnhet.OrganizationNumber;
@@ -105,6 +112,7 @@ const Sokefelt: FunctionComponent<Props> = ({
     return (
         <div className="bedriftsmeny-sokefelt">
             <Input
+                autoComplete="off"
                 id="bedriftsmeny-sokefelt"
                 className="bedriftsmeny-sokefelt__felt"
                 type="search"
@@ -114,6 +122,7 @@ const Sokefelt: FunctionComponent<Props> = ({
                 value={soketekst}
                 onChange={(e) => onChange(e.target.value)}
                 placeholder="Søk"
+                role="searchbox"
                 onKeyDown={(e) => {
                     if (erPilNavigasjon(e.key) || e.key === 'Enter') {
                         onKeyDown(e.key);
@@ -128,14 +137,7 @@ const Sokefelt: FunctionComponent<Props> = ({
                 {ariaTekst}
             </Normaltekst>
             <div className="bedriftsmeny-sokefelt__ikon">
-                {soketekst.length === 0 ? (
-                    <Forstørrelsesglass />
-                ) : (
-                    <Kryss
-                        className="bedriftsmeny-sokefelt__ikon--klikkbart"
-                        onClick={() => onChange('')}
-                    />
-                )}
+                {soketekst.length === 0 ? <Forstørrelsesglass /> : null}
             </div>
         </div>
     );

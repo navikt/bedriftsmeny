@@ -1,4 +1,4 @@
-import { Organisasjon} from '../bedriftsmeny/organisasjon';
+import { Organisasjon } from '../bedriftsmeny/organisasjon';
 
 export const MOCK_ORGANISASJONER: Organisasjon[] = [
     {
@@ -169,5 +169,4 @@ export const MOCK_ORGANISASJONER: Organisasjon[] = [
         OrganizationForm: 'BEDR',
         Status: 'Active'
     }
-    ]
-;
+];

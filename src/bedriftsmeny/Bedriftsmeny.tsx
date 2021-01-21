@@ -27,20 +27,25 @@ const Bedriftsmeny: FunctionComponent<EgneProps> = (props) => {
             return juridiskEnhetMedUnderEnheterArray;
         };
         if (props.organisasjoner && props.organisasjoner.length > 0) {
-            byggTre(props.organisasjoner.sort((a, b) => a.Name.localeCompare(b.Name))).then((juridiskEnhetMedUnderEnheterArray) => {
-                const organisasjonstre = juridiskEnhetMedUnderEnheterArray;
-                if (organisasjonstre.length > 0) {
-                    setOrganisasjonstre(organisasjonstre);
+            byggTre(props.organisasjoner.sort((a, b) => a.Name.localeCompare(b.Name))).then(
+                (juridiskEnhetMedUnderEnheterArray) => {
+                    const organisasjonstre = juridiskEnhetMedUnderEnheterArray;
+                    if (organisasjonstre.length > 0) {
+                        setOrganisasjonstre(organisasjonstre);
+                    }
                 }
-            });
+            );
         }
     }, [props.organisasjoner]);
 
-    const visVirksomhetsvelger = organisasjonstre && organisasjonstre.length > 0
-        && props.organisasjoner && props.organisasjoner?.length>0;
+    const visVirksomhetsvelger =
+        organisasjonstre &&
+        organisasjonstre.length > 0 &&
+        props.organisasjoner &&
+        props.organisasjoner?.length > 0;
 
     return (
-        <div className="bedriftsmeny">
+        <div className="bedriftsmeny" role="banner">
             <div className="bedriftsmeny__inner">
                 <Innholdstittel className="bedriftsmeny__tittel">{sidetittel}</Innholdstittel>
                 {visVirksomhetsvelger && (

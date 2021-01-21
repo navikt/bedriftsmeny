@@ -1,13 +1,14 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import {
     JuridiskEnhetMedUnderEnheterArray,
-    Organisasjon, tomAltinnOrganisasjon
+    Organisasjon,
+    tomAltinnOrganisasjon
 } from '../../organisasjon';
 import { History } from 'history';
 import Underenhetsvelger from './Underenhetsvelger/Underenhetsvelger';
 import {
     endreTabIndexAlleOrganisasjonerOgSokefelt,
-    setfokusPaSokefelt,
+    setfokusPaSokefelt
 } from './pilnavigerinsfunksjoner';
 
 interface Props {
@@ -24,28 +25,46 @@ interface Props {
 }
 
 const Menyvalg: FunctionComponent<Props> = (props) => {
-    const { menyKomponenter = [], history, valgtOrganisasjon, setErApen, erSok, erApen, organisasjonIFokus, setOrganisasjonIFokus,
-        forrigeOrganisasjonIFokus, setForrigeOrganisasjonIFokus } = props;
+    const {
+        menyKomponenter = [],
+        history,
+        valgtOrganisasjon,
+        setErApen,
+        erSok,
+        erApen,
+        organisasjonIFokus,
+        setOrganisasjonIFokus,
+        forrigeOrganisasjonIFokus,
+        setForrigeOrganisasjonIFokus
+    } = props;
     const [hover, setHover] = useState(false);
 
     useEffect(() => {
-        const navarendeTabIndex = erApen ? 0 : -1
-        endreTabIndexAlleOrganisasjonerOgSokefelt(menyKomponenter,navarendeTabIndex)
+        const navarendeTabIndex = erApen ? 0 : -1;
+        endreTabIndexAlleOrganisasjonerOgSokefelt(menyKomponenter, navarendeTabIndex);
     }, [erApen, menyKomponenter]);
 
-    const lukkMenyOnTabPaNedersteElement = (organisasjonsnummer: string, erJuridiskEnhetSomViserUnderenheter: boolean) => {
-        const nedersteElement = menyKomponenter[menyKomponenter.length -1];
-        const erNedersteJuridiskeEnhet = nedersteElement.JuridiskEnhet.OrganizationNumber === organisasjonsnummer;
-        const nedersteUnderenhet = nedersteElement.Underenheter[nedersteElement.Underenheter.length-1];
+    const lukkMenyOnTabPaNedersteElement = (
+        organisasjonsnummer: string,
+        erJuridiskEnhetSomViserUnderenheter: boolean
+    ) => {
+        const nedersteElement = menyKomponenter[menyKomponenter.length - 1];
+        const erNedersteJuridiskeEnhet =
+            nedersteElement.JuridiskEnhet.OrganizationNumber === organisasjonsnummer;
+        const nedersteUnderenhet =
+            nedersteElement.Underenheter[nedersteElement.Underenheter.length - 1];
         const erNedersteUnderenhet = nedersteUnderenhet.OrganizationNumber === organisasjonsnummer;
-        if ((erNedersteJuridiskeEnhet && !erJuridiskEnhetSomViserUnderenheter) || erNedersteUnderenhet) {
+        if (
+            (erNedersteJuridiskeEnhet && !erJuridiskEnhetSomViserUnderenheter) ||
+            erNedersteUnderenhet
+        ) {
             setErApen(false);
         }
-    }
+    };
 
     return (
-        <div id = {"virksomhetsvelger-id"}>
-            {menyKomponenter.map(organisasjon => (
+        <div id={'virksomhetsvelger-id'}>
+            {menyKomponenter.map((organisasjon) => (
                 <Underenhetsvelger
                     menyKomponenter={menyKomponenter}
                     setOrganisasjonIFokus={setOrganisasjonIFokus}
@@ -53,7 +72,7 @@ const Menyvalg: FunctionComponent<Props> = (props) => {
                     setErApen={setErApen}
                     organisasjonIFokus={organisasjonIFokus}
                     forrigeOrganisasjonIFokus={forrigeOrganisasjonIFokus}
-                    lukkMenyOnTabPaNedersteElement = {lukkMenyOnTabPaNedersteElement}
+                    lukkMenyOnTabPaNedersteElement={lukkMenyOnTabPaNedersteElement}
                     key={organisasjon.JuridiskEnhet.OrganizationNumber}
                     juridiskEnhetMedUnderenheter={organisasjon}
                     history={history}
