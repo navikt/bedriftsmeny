@@ -1,10 +1,10 @@
-import React, { FunctionComponent, SyntheticEvent, useEffect, useRef, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { History } from 'history';
 import Organisasjonsbeskrivelse from '../Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
-import { Organisasjon, tomAltinnOrganisasjon } from '../../../../organisasjon';
+import { Organisasjon } from '../../../../organisasjon';
 import { settOrgnummerIUrl } from '../../../utils/utils';
+import { erPilNavigasjon } from '../../pilnavigerinsfunksjoner';
 import './Underenhet.less';
-import { erPilNavigasjon, setfokusPaMenyKnapp } from '../../pilnavigerinsfunksjoner';
 
 interface Props {
     underEnhet: Organisasjon;

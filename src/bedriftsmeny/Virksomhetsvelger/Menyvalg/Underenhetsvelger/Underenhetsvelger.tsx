@@ -3,8 +3,8 @@ import { History } from 'history';
 import { JuridiskEnhetMedUnderEnheterArray, Organisasjon, tomAltinnOrganisasjon } from '../../../organisasjon';
 import Underenhet from './Underenhet/Underenhet';
 import UnderenhetsVelgerMenyButton from './UnderenhetsVelgerMenyButton/UnderenhetsVelgerMenyButton';
-import './Underenhetsvelger.less';
 import { finnIndeksIMenyKomponenter, finnOrganisasjonsSomskalHaFokus } from '../pilnavigerinsfunksjoner';
+import './Underenhetsvelger.less';
 
 interface Props {
     menyKomponenter: JuridiskEnhetMedUnderEnheterArray[];
