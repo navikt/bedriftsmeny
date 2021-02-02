@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Undertittel, Element, Normaltekst } from 'nav-frontend-typografi';
-import { NedChevron, OppChevron } from 'nav-frontend-chevron';
+import { NedChevron } from 'nav-frontend-chevron';
 import UnderenhetIkon from '../Menyvalg/Underenhetsvelger/Organisasjonsbeskrivelse/UnderenhetIkon';
-import './Menyknapp.less';
 import { erPilNavigasjon, setfokusPaSokefelt } from '../Menyvalg/pilnavigerinsfunksjoner';
+import './Menyknapp.less';
 
 interface Props {
     navn: string;

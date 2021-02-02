@@ -3,15 +3,15 @@ import { History } from 'history';
 import {
     JuridiskEnhetMedUnderEnheterArray,
     Organisasjon,
-    tomAltinnOrganisasjon
+    tomAltinnOrganisasjon,
 } from '../organisasjon';
 import { byggSokeresultat } from './utils/byggSokeresultat';
 import Menyvalg from './Menyvalg/Menyvalg';
 import Sokefelt from './Menyvalg/Sokefelt/Sokefelt';
 import useOrganisasjon from './utils/useOrganisasjon';
 import MenyKnapp from './Menyknapp/Menyknapp';
-import './Virksomhetsvelger.less';
 import { setfokusPaMenyKnapp, setfokusPaSokefelt } from './Menyvalg/pilnavigerinsfunksjoner';
+import './Virksomhetsvelger.less';
 
 export interface VirksomhetsvelgerProps {
     organisasjonstre?: JuridiskEnhetMedUnderEnheterArray[];

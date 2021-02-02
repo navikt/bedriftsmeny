@@ -1,7 +1,7 @@
 import {
     JuridiskEnhetMedUnderEnheterArray,
     Organisasjon,
-    tomAltinnOrganisasjon
+    tomAltinnOrganisasjon,
 } from '../../organisasjon';
 
 export const finnOrganisasjonsSomskalHaFokus = (

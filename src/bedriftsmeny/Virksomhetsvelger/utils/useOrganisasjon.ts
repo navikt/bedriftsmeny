@@ -1,6 +1,6 @@
+import { useState, useEffect } from 'react';
 import { History } from 'history';
 import { Organisasjon, JuridiskEnhetMedUnderEnheterArray } from '../../organisasjon';
-import { useState, useEffect } from 'react';
 import { settOrgnummerIUrl, hentUnderenheter } from './utils';
 
 const hentOrgnummerFraUrl = () => new URL(window.location.href).searchParams.get('bedrift');

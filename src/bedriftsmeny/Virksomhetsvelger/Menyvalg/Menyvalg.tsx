@@ -1,15 +1,8 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import {
-    JuridiskEnhetMedUnderEnheterArray,
-    Organisasjon,
-    tomAltinnOrganisasjon
-} from '../../organisasjon';
 import { History } from 'history';
+import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../organisasjon';
 import Underenhetsvelger from './Underenhetsvelger/Underenhetsvelger';
-import {
-    endreTabIndexAlleOrganisasjonerOgSokefelt,
-    setfokusPaSokefelt
-} from './pilnavigerinsfunksjoner';
+import { endreTabIndexAlleOrganisasjonerOgSokefelt } from './pilnavigerinsfunksjoner';
 
 interface Props {
     valgtOrganisasjon: Organisasjon;
