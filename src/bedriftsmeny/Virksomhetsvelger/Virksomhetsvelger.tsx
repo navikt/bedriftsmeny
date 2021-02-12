@@ -24,13 +24,9 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
     const { organisasjonstre, onOrganisasjonChange, history } = props;
     const [erApen, setErApen] = useState(false);
     const [soketekst, setSoketekst] = useState('');
-    const [listeMedOrganisasjonerFraSok, setlisteMedOrganisasjonerFraSok] = useState(
-        organisasjonstre
-    );
+    const [listeMedOrganisasjonerFraSok, setlisteMedOrganisasjonerFraSok] = useState(organisasjonstre);
     const [organisasjonIFokus, setOrganisasjonIFokus] = useState(tomAltinnOrganisasjon);
-    const [forrigeOrganisasjonIFokus, setForrigeOrganisasjonIFokus] = useState(
-        tomAltinnOrganisasjon
-    );
+    const [forrigeOrganisasjonIFokus, setForrigeOrganisasjonIFokus] = useState(tomAltinnOrganisasjon);
 
     const { valgtOrganisasjon } = useOrganisasjon(organisasjonstre, history);
 
@@ -41,21 +37,6 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
         }
     }, [valgtOrganisasjon]);
 
-    const handleOutsideClick: { (event: MouseEvent): void } = (e: MouseEvent) => {
-        const node = bedriftvelgernode.current;
-        if (node && node.contains(e.target as HTMLElement)) {
-            return;
-        }
-        setErApen(false);
-    };
-
-    const handleOutsidePress: { (event: KeyboardEvent): void } = (e: KeyboardEvent) => {
-        const bediftsmenyInnhold = bedriftvelgernode.current;
-        if (bediftsmenyInnhold?.contains(document.activeElement)) {
-            return;
-        }
-        setErApen(false);
-    };
 
     useEffect(() => {
         if (!erApen) {
@@ -66,15 +47,23 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
         }
     }, [erApen]);
 
-    useEffect(() => {
-        document.addEventListener('click', handleOutsideClick, false);
-        return () => {
-            window.removeEventListener('click', handleOutsideClick, false);
-        };
-    }, []);
+    const handleOutsideClick: { (event: MouseEvent | KeyboardEvent): void } = (
+        e: MouseEvent | KeyboardEvent
+    ) => {
+        const node = bedriftvelgernode.current;
+        if (node && node.contains(e.target as HTMLElement)) {
+            return;
+        }
+        setErApen(false);
+    };
 
     useEffect(() => {
-        document.addEventListener('keydown', handleOutsidePress, false);
+        document.addEventListener('click', handleOutsideClick, false);
+        document.addEventListener('keydown', handleOutsideClick, false);
+        return () => {
+            window.removeEventListener('click', handleOutsideClick, false);
+            window.removeEventListener('keydown', handleOutsideClick, false);
+        };
     }, []);
 
     const brukSoketekst = (soketekst: string) => {
