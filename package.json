@@ -94,7 +94,7 @@
         "nav-frontend-skjema-style": "^2.0.30",
         "nav-frontend-typografi": "^3.0.2",
         "nav-frontend-typografi-style": "^1.0.33",
-        "react": "^16.14.0 | ^17.0.1"
+        "react": "^16.14.0 || ^17.0.1"
     },
     "browserslist": {
         "production": [
