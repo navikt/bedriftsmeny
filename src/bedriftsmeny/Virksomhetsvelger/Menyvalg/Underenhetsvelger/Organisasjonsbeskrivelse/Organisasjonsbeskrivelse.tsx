@@ -14,6 +14,7 @@ interface Props {
 const Organisasjonsbeskrivelse = ({ navn, orgnummer, erJuridiskEnhet, brukOverskrift }: Props) => {
     const Navn = brukOverskrift ? Undertittel : Element;
     const Ikon = erJuridiskEnhet ? JuridiskEnhetIkon : UnderenhetIkon;
+    const tekst = erJuridiskEnhet ? `org.nr. ${orgnummer}` : `virksomhetsnr. ${orgnummer}`
 
     return (
         <div className="organisasjonsbeskrivelse">
@@ -22,7 +23,7 @@ const Organisasjonsbeskrivelse = ({ navn, orgnummer, erJuridiskEnhet, brukOversk
                 <Navn className="organisasjonsbeskrivelse__navn" title={navn.length > 26 ? navn : ''}>
                    {navn}
                 </Navn>
-                <Normaltekst aria-label={`Orgnummer: ${orgnummer}`}>org. nr. {orgnummer}</Normaltekst>
+                <Normaltekst aria-label={tekst}>{tekst}</Normaltekst>
             </div>
         </div>
     );
