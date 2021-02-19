@@ -55,7 +55,7 @@ const MenyKnapp = ({ navn, orgnummer, brukOverskrift, erApen, setErApen, setSoke
                 <UnderenhetIkon classname="menyknapp-ikon" />
                 <div className="menyknapp-beskrivelse">
                     <Navn className="menyknapp-navn">{navn}</Navn>
-                    <Normaltekst>org. nr. {orgnummer}</Normaltekst>
+                    <Normaltekst>virksomhetsnr. {orgnummer}</Normaltekst>
                 </div>
                 <NedChevron className={`menyknapp__chevron${erApen ? '--ned' : '--opp'}`} />
             </div>
