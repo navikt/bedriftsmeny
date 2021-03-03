@@ -1,0 +1,36 @@
+name: test, build, publish
+on:
+- push
+- workflow_dispatch
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12.x'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: install dependencies
+        run: npm ci
+
+      - name: build
+        run: npm run build
+
+      - if: github.ref == 'refs/heads/master'
+        name: publish
+        run: |
+          if jq --null-input --exit-status \
+              --argjson local $(jq .version package.json) \
+              --argjson published $(npm view --json @navikt/bedriftsmeny versions) \
+              '$local | IN($published)'
+          then
+              echo "Version already published. Nothing to do."
+          else
+              npm publish --access public --dry-run
+          fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
