@@ -1,7 +1,13 @@
-# Bedriftsmeny
+![master build](https://github.com/navikt/bedriftsmeny/actions/workflows/ci.yaml/badge.svg?branch=master)
+![npm version](https://img.shields.io/npm/v/@navikt/bedriftsmeny?label=current%20version)
 
-Bedriftsvelger og -meny for innlogget arbeidsgiver.
-Laget av TAG (Tjenester for arbeidsgivere).
+# Virksomhetmeny (Bedriftsmeny)
+
+Virksomhetsvelger og -meny for innlogget arbeidsgiver.
+
+Begrepet «virksomhet» er ønsket terminologi og det som vises i nettleseren, men
+du vil se at npm-pakken, koden og lignende bruker begrepet «bedrift». Det som vises i nettleseren er «virksomhet» og
+det er ikke prioritert å endre pakkenavn og lignende.
 
 ## Bruk
 
@@ -38,13 +44,14 @@ npm start
 
 ## Publisering på NPM
 
-Alle commits vil bygges og testes på CircleCI. Commits som er tagget med en ny versjon ("vX.Y.Z") vil publiseres til NPM, men disse krever en manuell godkjenning i CircleCI først. Oppskriften på å publisere ny versjon blir dermed:
 
-1. Først merger du inn endringene dine i master.
-3. Oppgrader versjonsnummer i package.json ved å kjøre `npm version patch/minor/major` (F.eks "npm version major" hvis det er breaking changes). Hvis du er i tvil om du skal oppgradere med patch, minor eller major, kan lese om sematic versioning på https://semver.org/. Ved å kjøre en av de tre kommandoene opprettes det en ny commit med det nye versjonsnummeret som commit message. Det opprettes samtidig en ny tag med det nye versjonsnummeret. For å se alle opprettede tagger kan du kjøre git tag i prosjektet.
-2. Push commiten opprettet i punkt 2.
-4. Derettes pusher du den nye taggen ved å kjøre git push origin vX.Y.Z., der X.Y.Z er taggen du opprettet i punkt 2 (F.eks push origin v2.0.0, dersom det er den nye taggen)._Dette trigger en publisering (med godkjenning) hos CircleCI_.
-5. Hvis byggingen gikk fint (sjekk https://circleci.com/gh/navikt/workflows/bedriftsmeny) kan du godkjenne publiseringen. Da vil den nye versjonen snart ligge på NPM! https://www.npmjs.com/package/@navikt/bedriftsmeny
+Oppgrader versjonsnummer i package.json ved å kjøre `npm version patch/minor/major` (F.eks 
+"npm version major" hvis det er breaking changes). Hvis du er i tvil om du skal oppgradere med patch, minor eller
+major, kan lese om sematic versioning på https://semver.org/. Ved å kjøre en av de tre kommandoene opprettes det en ny
+commit med det nye versjonsnummeret som commit message.
+Det opprettes samtidig en ny tag med det nye versjonsnummeret.
+
+Commits til master med ny versjon i `package.json` vil publiseres til NPM.
 
 ## Stack
 
@@ -55,3 +62,10 @@ Bedriftsmenyen bygges med Webpack og Babel. Babel klarer å tolke TypeScript med
 ### Utvikling
 
 Under utvikling (`npm start`) bygges appen med Parcel og en egen TypeScript-konfigurasjonsfil.
+
+## Kontakt oss
+Opprett issue i repository hvis du lurer på noe.
+
+De med tilgang til NAVs interne slack anbefales å bruker `#bedriftsmeny`.
+
+Opprinnelig laget av TAG (Tjenester for arbeidsgivere).
