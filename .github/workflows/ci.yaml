@@ -30,7 +30,7 @@ jobs:
           then
               echo "Version already published. Nothing to do."
           else
-              npm publish --access public --dry-run
+              npm publish --access public
           fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
