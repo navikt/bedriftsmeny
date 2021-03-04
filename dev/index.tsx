@@ -6,9 +6,9 @@ import { Router } from 'react-router-dom';
 import { createBrowserHistory, History } from 'history';
 import 'whatwg-fetch';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { Organisasjon } from './bedriftsmeny/organisasjon';
-import Bedriftsmeny from './bedriftsmeny/Bedriftsmeny';
-import { MOCK_ORGANISASJONER } from './mock/organisasjoner';
+import { Organisasjon } from '../src/organisasjon';
+import Bedriftsmeny from '../src/Bedriftsmeny';
+import { MOCK_ORGANISASJONER } from './organisasjoner';
 import './index.less';
 
 const history: History = createBrowserHistory();

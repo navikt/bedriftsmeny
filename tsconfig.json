@@ -1,14 +1,13 @@
 {
     "compilerOptions": {
-        "noEmit": true,
-        "declaration": false,
+        "outDir": "./lib",
+        "emitDeclarationOnly": true,
+        "declaration": true,
         "strict": true,
         "jsx": "react",
-        "allowSyntheticDefaultImports": true,
-        "moduleResolution": "node",
-        "allowJs": true,
         "target": "es2016",
-        "esModuleInterop": true
+        "moduleResolution": "node",
+        "allowSyntheticDefaultImports": true
     },
     "include": ["src/**/*"]
 }
