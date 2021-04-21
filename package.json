@@ -35,7 +35,7 @@
         "postcss-loader": "^3.0.0",
         "postcss-prefix-selector": "^1.9.0",
         "prop-types": "^15.7.2",
-        "whatwg-fetch": "^3.5.0"
+        "whatwg-fetch": "^3.6.2"
     },
     "devDependencies": {
         "@babel/cli": "^7.12.10",
