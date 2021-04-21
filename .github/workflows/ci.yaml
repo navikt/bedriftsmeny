@@ -26,7 +26,7 @@ jobs:
           if jq --null-input --exit-status \
               --argjson local "$(jq .version package.json)" \
               --argjson published "$(npm view --json @navikt/bedriftsmeny versions)" \
-              '$local | IN($published)'
+              '$published | map(. == $local) | any'
           then
               echo "Version already published. Nothing to do."
           else
