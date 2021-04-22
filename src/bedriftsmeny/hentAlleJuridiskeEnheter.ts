@@ -3,56 +3,38 @@ import { ListeMedJuridiskeEnheter, Organisasjon, tomAltinnOrganisasjon } from '.
 export async function hentAlleJuridiskeEnheter(
     listeMedJuridiskeOrgnr: string[]
 ): Promise<Organisasjon[]> {
-    const listerMedDefinerteOrgnr = listeMedJuridiskeOrgnr.filter((orgnr) => {
-        return orgnr !== null;
-    });
-    let url: string = 'https://data.brreg.no/enhetsregisteret/api/enheter/?organisasjonsnummer=';
-    const distinkteJuridiskeEnhetsnr: string[] = listerMedDefinerteOrgnr.filter(
-        (juridiskEnhet, index) => listeMedJuridiskeOrgnr.indexOf(juridiskEnhet) === index
-    );
-    distinkteJuridiskeEnhetsnr.forEach((orgnr) => {
-        if (distinkteJuridiskeEnhetsnr.indexOf(orgnr) === 0) {
-            url += orgnr;
-        } else {
-            url += ',' + orgnr;
-        }
-    });
-    if (!window.location.href.includes('localhost')) {
-        let respons = await fetch(url);
-        if (respons.ok && distinkteJuridiskeEnhetsnr.length > 0) {
-            const distinkteJuridiskeEnheterFraEreg: ListeMedJuridiskeEnheter = await respons.json();
-            if (
-                distinkteJuridiskeEnheterFraEreg._embedded &&
-                distinkteJuridiskeEnheterFraEreg._embedded.enheter.length > 0
-            ) {
-                const distinkteJuridiskeEnheter: Organisasjon[] = distinkteJuridiskeEnheterFraEreg._embedded.enheter.map(
-                    (orgFraEereg) => {
-                        const jurOrg: Organisasjon = {
-                            ...tomAltinnOrganisasjon,
-                            Name: orgFraEereg.navn,
-                            OrganizationNumber: orgFraEereg.organisasjonsnummer,
-                            Type: 'Business',
-                        };
-                        return jurOrg;
-                    }
-                );
-                return distinkteJuridiskeEnheter;
-            }
-        }
-    } else {
+    if (window.location.hostname.includes('localhost')) {
         return lagListeMedMockedeJuridiskeEnheter(listeMedJuridiskeOrgnr);
     }
-    return [];
+
+    const orgnr = listeMedJuridiskeOrgnr
+            .filter(orgnr => orgnr !== null)
+            .filter((juridiskEnhet, index) =>
+                listeMedJuridiskeOrgnr.indexOf(juridiskEnhet) === index
+            );
+
+    if (orgnr.length <= 0) {
+        return [];
+    }
+
+    const respons = await fetch(
+        `https://data.brreg.no/enhetsregisteret/api/enheter/?organisasjonsnummer=${orgnr.join(",")}`
+    );
+    if (!respons.ok) {
+        return [];
+    }
+
+    const responsBody: ListeMedJuridiskeEnheter = await respons.json();
+    const enheter = responsBody._embedded?.enheter ?? [];
+    return enheter.map(eeregEnhet => lagOrganisasjon(eeregEnhet.organisasjonsnummer, eeregEnhet.navn));
 }
 
-const lagListeMedMockedeJuridiskeEnheter = (listeMedJuridiskeOrgnr: string[]) => {
-    return listeMedJuridiskeOrgnr.map((orgNr) => {
-        const jurOrg: Organisasjon = {
-            ...tomAltinnOrganisasjon,
-            Name: 'MOCK ORGANISASJON',
-            OrganizationNumber: orgNr,
-            Type: 'Business',
-        };
-        return jurOrg;
-    });
-};
+const lagOrganisasjon = (orgnr: string, navn: string): Organisasjon => ({
+    ...tomAltinnOrganisasjon,
+    Name: navn,
+    OrganizationNumber: orgnr,
+    Type: 'Business',
+});
+
+const lagListeMedMockedeJuridiskeEnheter = (listeMedJuridiskeOrgnr: string[]) =>
+    listeMedJuridiskeOrgnr.map(orgnr => lagOrganisasjon(orgnr, 'MOCK ORGANISASjON'));
