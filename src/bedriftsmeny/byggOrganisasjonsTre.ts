@@ -9,10 +9,14 @@ const erUnderenhet = (organisasjon: Organisasjon): boolean =>
     !!organisasjon.OrganizationNumber
     && ['BEDR', 'AAFY'].includes(organisasjon.OrganizationForm);
 
+
+const sorted = <T extends any>(array: T[], on: (e:T) => string): T[] =>
+    [...array].sort((a, b) => on(a).localeCompare(on(b)));
+
 export async function byggOrganisasjonstre(
     organisasjoner: Organisasjon[]
 ): Promise<JuridiskEnhetMedUnderEnheterArray[]> {
-    organisasjoner = organisasjoner.sort((a, b) => a.Name.localeCompare(b.Name))
+    organisasjoner = sorted(organisasjoner, org => org.Name);
 
     const hovedenheter = organisasjoner.filter(erHovedenhet);
     const underenheter = organisasjoner.filter(erUnderenhet);
@@ -24,7 +28,7 @@ export async function byggOrganisasjonstre(
 
     hovedenheter.push(... await hentAlleJuridiskeEnheter(manglendeHovedenheterOrgnr))
 
-    return hovedenheter
+    const resultat = hovedenheter
         .map(hovedenhet => ({
                 JuridiskEnhet: hovedenhet,
                 Underenheter: underenheter.filter(underenhet =>
@@ -33,6 +37,6 @@ export async function byggOrganisasjonstre(
                 SokeresultatKunUnderenhet: false
             })
         )
-        .filter(orgtre => orgtre.Underenheter.length > 0)
-        .sort((a, b) => a.JuridiskEnhet.Name.localeCompare(b.JuridiskEnhet.Name));
+        .filter(orgtre => orgtre.Underenheter.length > 0);
+    return sorted(resultat, a => a.JuridiskEnhet.Name);
 }
