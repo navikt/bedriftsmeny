@@ -29,7 +29,7 @@
         "build": "run-s build:webpack build:declarations"
     },
     "dependencies": {
-        "classnames": "^2.3.0",
+        "classnames": "^2.3.1",
         "fuzzysort": "^1.1.4",
         "lodash.throttle": "^4.1.1",
         "postcss-loader": "^3.0.0",
