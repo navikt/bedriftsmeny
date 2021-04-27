@@ -20,18 +20,10 @@ const Bedriftsmeny: FunctionComponent<EgneProps> = (props) => {
     >(undefined);
 
     useEffect(() => {
-        const byggTre = async (organisasjoner: Organisasjon[]) => {
-            const juridiskEnhetMedUnderEnheterArray: JuridiskEnhetMedUnderEnheterArray[] = await byggOrganisasjonstre(
-                organisasjoner
-            );
-            return juridiskEnhetMedUnderEnheterArray;
-        };
         if (props.organisasjoner && props.organisasjoner.length > 0) {
-            byggTre(props.organisasjoner.sort((a, b) => a.Name.localeCompare(b.Name))).then(
-                (juridiskEnhetMedUnderEnheterArray) => {
-                    const organisasjonstre = juridiskEnhetMedUnderEnheterArray;
-                    if (organisasjonstre.length > 0) {
-                        setOrganisasjonstre(organisasjonstre);
+            byggOrganisasjonstre(props.organisasjoner).then(nyttOrganisasjonstre => {
+                if (nyttOrganisasjonstre.length > 0) {
+                        setOrganisasjonstre(nyttOrganisasjonstre);
                     }
                 }
             );
