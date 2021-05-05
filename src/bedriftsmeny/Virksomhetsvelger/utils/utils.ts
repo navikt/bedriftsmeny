@@ -8,8 +8,7 @@ export const settOrgnummerIUrl = (orgnummer: string, history: History) => {
     currentUrl.searchParams.set(ORGNUMMER_PARAMETER, orgnummer);
 
     const { search } = currentUrl;
-
-    history.replace({ search });
+    history.replace({ ...history.location, search });
 };
 
 export const hentUnderenheter = (organisasjonstre: JuridiskEnhetMedUnderEnheterArray[]) =>
