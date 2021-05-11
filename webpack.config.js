@@ -35,12 +35,14 @@ module.exports = {
                     {
                         loader: 'postcss-loader',
                         options: {
-                            plugins: () => [
-                                prefixer({
-                                    prefix: '.bedriftsmeny',
-                                    exclude: ['.bedriftsmeny']
-                                })
-                            ]
+                            postcssOptions: {
+                                plugins: {
+                                    "postcss-prefix-selector": {
+                                        prefix: '.bedriftsmeny',
+                                        exclude: ['.bedriftsmeny']
+                                    }
+                                }
+                            }
                         }
                     },
                     'less-loader'
