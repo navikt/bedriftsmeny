@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 import { History } from 'history';
+
 import {
     JuridiskEnhetMedUnderEnheterArray,
     Organisasjon,

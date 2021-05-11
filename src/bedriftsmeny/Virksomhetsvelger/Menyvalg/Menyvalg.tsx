@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { History } from 'history';
+
 import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../organisasjon';
 import Underenhetsvelger from './Underenhetsvelger/Underenhetsvelger';
 import { endreTabIndexAlleOrganisasjonerOgSokefelt } from './pilnavigerinsfunksjoner';

@@ -1,5 +1,7 @@
 import React from 'react';
+
 import { Undertittel, Element, Normaltekst } from 'nav-frontend-typografi';
+
 import JuridiskEnhetIkon from './JuridiskEnhetIkon';
 import UnderenhetIkon from './UnderenhetIkon';
 import './Organisasjonsbeskrivelse.less';

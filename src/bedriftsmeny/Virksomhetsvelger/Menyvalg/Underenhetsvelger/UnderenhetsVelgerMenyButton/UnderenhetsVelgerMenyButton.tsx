@@ -1,6 +1,8 @@
 import React, { FunctionComponent } from 'react';
+
 import { NedChevron } from 'nav-frontend-chevron';
 import { Normaltekst } from 'nav-frontend-typografi';
+
 import Organisasjonsbeskrivelse from '../Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
 import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../../../organisasjon';
 import { erPilNavigasjon } from '../../pilnavigerinsfunksjoner';

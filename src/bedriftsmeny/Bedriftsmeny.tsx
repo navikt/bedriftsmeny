@@ -1,6 +1,8 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { History } from 'history';
+
 import { Innholdstittel } from 'nav-frontend-typografi';
+
 import { Organisasjon, JuridiskEnhetMedUnderEnheterArray } from './organisasjon';
 import { byggOrganisasjonstre } from './byggOrganisasjonsTre';
 import Virksomhetsvelger from './Virksomhetsvelger/Virksomhetsvelger';
