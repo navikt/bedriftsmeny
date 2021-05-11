@@ -1,7 +1,9 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { History } from 'history';
+
 import { Input } from 'nav-frontend-skjema';
 import { Normaltekst } from 'nav-frontend-typografi';
+
 import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../../organisasjon';
 import Forstørrelsesglass from './Forstørrelsesglass';
 import { erPilNavigasjon, setfokusPaMenyKnapp } from '../pilnavigerinsfunksjoner';

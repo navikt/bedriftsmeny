@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { History } from 'history';
+
 import { Organisasjon, JuridiskEnhetMedUnderEnheterArray } from '../../organisasjon';
 import { settOrgnummerIUrl, hentUnderenheter } from './utils';
 

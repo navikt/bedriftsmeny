@@ -1,6 +1,8 @@
 import React from 'react';
+
 import { Undertittel, Element, Normaltekst } from 'nav-frontend-typografi';
 import { NedChevron } from 'nav-frontend-chevron';
+
 import UnderenhetIkon from '../Menyvalg/Underenhetsvelger/Organisasjonsbeskrivelse/UnderenhetIkon';
 import { erPilNavigasjon, setfokusPaSokefelt } from '../Menyvalg/pilnavigerinsfunksjoner';
 import './Menyknapp.less';

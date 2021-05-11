@@ -1,4 +1,5 @@
 import { History } from 'history';
+
 import { Organisasjon, JuridiskEnhetMedUnderEnheterArray } from '../../organisasjon';
 
 const ORGNUMMER_PARAMETER = 'bedrift';
