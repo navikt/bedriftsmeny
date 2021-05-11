@@ -1,6 +1,5 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const prefixer = require('postcss-prefix-selector');
 
 module.exports = {
     mode: 'production',
@@ -31,19 +30,21 @@ module.exports = {
                 test: /\.(css|less)$/,
                 use: [
                     MiniCssExtractPlugin.loader,
-                    'css-loader',
                     {
-                        loader: 'postcss-loader',
+                        loader: 'css-modules-typescript-loader',
                         options: {
-                            plugins: () => [
-                                prefixer({
-                                    prefix: '.bedriftsmeny',
-                                    exclude: ['.bedriftsmeny']
-                                })
-                            ]
+                            mode: process.env.CI ? 'verify' : 'emit'
                         }
                     },
-                    'less-loader'
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            importLoaders: 1,
+                            modules: true
+                        }
+                    },
+                    'less-loader',
+
                 ]
             }
         ]
@@ -57,5 +58,15 @@ module.exports = {
 
     externals: {
         react: 'react'
-    }
+    },
+
+    devServer: {
+        contentBase: [
+            path.join(__dirname, 'lib'),
+            path.join(__dirname, 'dist'),
+            path.join(__dirname, 'demoapp/public'),
+        ],
+        hot: true,
+        port: 8000,
+    },
 };

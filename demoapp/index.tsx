@@ -6,8 +6,8 @@ import { Router } from 'react-router-dom';
 import { createBrowserHistory, History } from 'history';
 import 'whatwg-fetch';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { Organisasjon } from './bedriftsmeny/organisasjon';
-import Bedriftsmeny from './bedriftsmeny/Bedriftsmeny';
+import { Organisasjon } from '../src/bedriftsmeny/organisasjon';
+import Bedriftsmeny from '../lib/Bedriftsmeny';
 import { MOCK_ORGANISASJONER } from './mock/organisasjoner';
 import './index.less';
 

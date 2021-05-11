@@ -6,7 +6,7 @@ import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../../organi
 import Forstørrelsesglass from './Forstørrelsesglass';
 import { erPilNavigasjon, setfokusPaMenyKnapp } from '../pilnavigerinsfunksjoner';
 import { settOrgnummerIUrl } from '../../utils/utils';
-import './Sokefelt.less';
+import cssExports from './Sokefelt.less';
 
 interface Props {
     soketekst: string;
@@ -110,11 +110,11 @@ const Sokefelt: FunctionComponent<Props> = ({
     };
 
     return (
-        <div className="bedriftsmeny-sokefelt">
+        <div className={cssExports["bedriftsmeny-sokefelt"]}>
             <Input
                 autoComplete="off"
                 id="bedriftsmeny-sokefelt"
-                className="bedriftsmeny-sokefelt__felt"
+                className={cssExports["bedriftsmeny-sokefelt__felt"]}
                 type="search"
                 label=""
                 aria-label={'Søk'}
@@ -132,11 +132,11 @@ const Sokefelt: FunctionComponent<Props> = ({
                 }}
             />
             <Normaltekst
-                className={'bedriftsmeny-sokefelt__skjult-aria-live-sokeresultat'}
+                className={cssExports["bedriftsmeny-sokefelt__skjult-aria-live-sokeresultat"]}
                 aria-live="assertive">
                 {ariaTekst}
             </Normaltekst>
-            <div className="bedriftsmeny-sokefelt__ikon">
+            <div className={cssExports["bedriftsmeny-sokefelt__ikon"]}>
                 {soketekst.length === 0 ? <Forstørrelsesglass /> : null}
             </div>
         </div>

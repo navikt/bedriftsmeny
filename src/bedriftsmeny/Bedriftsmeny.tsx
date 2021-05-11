@@ -4,7 +4,9 @@ import { Innholdstittel } from 'nav-frontend-typografi';
 import { Organisasjon, JuridiskEnhetMedUnderEnheterArray } from './organisasjon';
 import { byggOrganisasjonstre } from './byggOrganisasjonsTre';
 import Virksomhetsvelger from './Virksomhetsvelger/Virksomhetsvelger';
-import './Bedriftsmeny.less';
+import { cssExports } from './Bedriftsmeny.less';
+
+const { bedriftsmeny, bedriftsmeny__inner, bedriftsmeny__tittel } = cssExports;
 
 interface EgneProps {
     sidetittel?: string;
@@ -37,9 +39,9 @@ const Bedriftsmeny: FunctionComponent<EgneProps> = (props) => {
         props.organisasjoner?.length > 0;
 
     return (
-        <div className="bedriftsmeny" role="banner">
-            <div className="bedriftsmeny__inner">
-                <Innholdstittel className="bedriftsmeny__tittel">{sidetittel}</Innholdstittel>
+        <div className={bedriftsmeny} role="banner">
+            <div className={bedriftsmeny__inner}>
+                <Innholdstittel className={bedriftsmeny__tittel}>{sidetittel}</Innholdstittel>
                 {visVirksomhetsvelger && (
                     <Virksomhetsvelger
                         history={props.history}

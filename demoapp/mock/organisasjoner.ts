@@ -1,4 +1,4 @@
-import { Organisasjon } from '../bedriftsmeny/organisasjon';
+import { Organisasjon } from '../../src/bedriftsmeny/organisasjon';
 
 export const MOCK_ORGANISASJONER: Organisasjon[] = [
     {

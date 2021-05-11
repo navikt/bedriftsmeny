@@ -11,7 +11,7 @@ import Sokefelt from './Menyvalg/Sokefelt/Sokefelt';
 import useOrganisasjon from './utils/useOrganisasjon';
 import MenyKnapp from './Menyknapp/Menyknapp';
 import { setfokusPaMenyKnapp, setfokusPaSokefelt } from './Menyvalg/pilnavigerinsfunksjoner';
-import './Virksomhetsvelger.less';
+import cssExports from './Virksomhetsvelger.less';
 
 export interface VirksomhetsvelgerProps {
     organisasjonstre?: JuridiskEnhetMedUnderEnheterArray[];
@@ -89,14 +89,14 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
     }
     return (
         <nav
-            className="virksomhetsvelger"
+            className={cssExports.virksomhetsvelger}
             aria-label="Velg virksomhet"
             onKeyDown={(event) => {
                 if (event.key === 'Escape' || event.key === 'Esc') {
                     setErApen(false);
                 }
             }}>
-            <div ref={bedriftvelgernode} className="virksomhetsvelger__wrapper">
+            <div ref={bedriftvelgernode} className={cssExports.virksomhetsvelger__wrapper}>
                 {valgtOrganisasjon && valgtOrganisasjon !== tomAltinnOrganisasjon && (
                     <MenyKnapp
                         navn={valgtOrganisasjon.Name}
@@ -110,7 +110,7 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                     {valgtOrganisasjon !== undefined && (
                         <div
                             role="toolbar"
-                            className={`virksomhetsvelger__dropdown--${erApen ? 'apen' : 'lukket'}`}
+                            className={erApen ? cssExports["virksomhetsvelger__dropdown--apen"] : cssExports["virksomhetsvelger__dropdown--lukket"]}
                             aria-hidden={!erApen}
                             id="virksomhetsvelger__dropdown">
                             <Sokefelt
@@ -126,11 +126,9 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                                 history={history}
                             />
 
-                            <div className="dropdownmeny-elementer-wrapper">
+                            <div className={cssExports["dropdownmeny-elementer-wrapper"]}>
                                 <div
-                                    className={`dropdownmeny-elementer ${
-                                        !!soketekst ? 'medSokeTekst' : ''
-                                    }`}>
+                                    className={[cssExports["dropdownmeny-elementer"], !!soketekst ? cssExports.medSokeTekst : ''].join(' ')}>
                                     {menyKomponenter && menyKomponenter?.length > 0 && (
                                         <Menyvalg
                                             organisasjonIFokus={organisasjonIFokus}
