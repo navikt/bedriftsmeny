@@ -49,6 +49,7 @@ const Bedriftsmeny: FunctionComponent<EgneProps> = (props) => {
                         organisasjonstre={organisasjonstre}
                     />
                 )}
+                { props.children }
             </div>
         </div>
     );
