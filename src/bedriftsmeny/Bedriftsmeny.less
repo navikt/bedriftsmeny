@@ -5,15 +5,20 @@
     border-bottom: 0.25rem solid @navDypBlaLighten60;
     padding: 2rem;
 
+    .virksomhetsvelger + * {
+      margin-left: 1rem;
+    }
+
     &__tittel {
         margin-bottom: 1rem;
+        margin-right: auto;
     }
 
     &__inner {
         display: flex;
         align-items: center;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: flex-end;
         width: 100%;
         max-width: 60rem;
         margin: 0 auto;

@@ -37,7 +37,11 @@ const App = () => {
                     organisasjoner={organisasjoner}
                     onOrganisasjonChange={onOrganisasjonChange}
                     history={history}
-                />
+                >
+                    <div className="eksempelapp__child">
+                        hello
+                    </div>
+                </Bedriftsmeny>
                 <section className="eksempelapp__innhold" role="main">
                     <Normaltekst>
                         Her ser du et eksempel på bruk av bedriftsmenyen. Hvis du endrer
