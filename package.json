@@ -21,7 +21,7 @@
         "arbeidsgiver"
     ],
     "scripts": {
-        "start:parcel": "parcel src/index.html --open --port 8000",
+        "start:parcel": "parcel src/index.html --no-autoinstall --open --port 8000",
         "start:ts": "tsc --watch",
         "start": "run-p start:parcel start:ts",
         "build:webpack": "webpack",
