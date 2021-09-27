@@ -1,17 +1,18 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import React, { useState, useEffect } from 'react';
-import { render } from 'react-dom';
-import { Router } from 'react-router-dom';
-import { createBrowserHistory, History } from 'history';
+import React, {useEffect, useState} from 'react';
+import {render} from 'react-dom';
+import {Router} from 'react-router-dom';
+import {createBrowserHistory, History} from 'history';
 import 'whatwg-fetch';
 
-import { Normaltekst } from 'nav-frontend-typografi';
+import {Normaltekst} from 'nav-frontend-typografi';
 
-import { Organisasjon } from './bedriftsmeny/organisasjon';
+import {Organisasjon} from './bedriftsmeny/organisasjon';
 import Bedriftsmeny from './bedriftsmeny/Bedriftsmeny';
-import { MOCK_ORGANISASJONER } from './mock/organisasjoner';
+import {MOCK_ORGANISASJONER} from './mock/organisasjoner';
 import './index.less';
+import amplitude from "./amplitude";
 
 const history: History = createBrowserHistory();
 
@@ -22,6 +23,7 @@ const App = () => {
     const onOrganisasjonChange = (organisasjon?: Organisasjon) => {
         setValgtOrganisasjon(organisasjon);
     };
+
 
     useEffect(() => {
         setTimeout(() => {
@@ -37,6 +39,7 @@ const App = () => {
                     organisasjoner={organisasjoner}
                     onOrganisasjonChange={onOrganisasjonChange}
                     history={history}
+                    amplitudeClient={amplitude}
                 >
                     <div className="eksempelapp__child">
                         hello
@@ -62,4 +65,4 @@ const App = () => {
     );
 };
 
-render(<App />, document.getElementById('app'));
+render(<App/>, document.getElementById('app'));
