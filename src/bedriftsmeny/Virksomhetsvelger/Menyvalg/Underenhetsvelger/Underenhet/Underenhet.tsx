@@ -47,7 +47,7 @@ const Underenhet: FunctionComponent<Props> = ({
 
     const onUnderenhetSelect = (value: string) => {
         setErApen(false);
-        loggBedriftValgt(value)
+        loggBedriftValgt()
         settOrgnummerIUrl(value, history);
         setHover(false);
     };

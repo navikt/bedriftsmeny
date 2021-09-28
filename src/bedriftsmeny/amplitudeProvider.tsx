@@ -2,7 +2,7 @@ import {AmplitudeClient} from "amplitude-js";
 import React, {createContext, FunctionComponent} from 'react';
 
 type Context = {
-    loggBedriftValgt: (orgnr: string) => void;
+    loggBedriftValgt: () => void;
 }
 
 interface Props {
@@ -13,9 +13,9 @@ export const AmplitudeLoggerContext = createContext<Context>({} as Context);
 
 export const AmplitudeProvider: FunctionComponent<Props> = (props) => {
 
-    const loggBedriftValgt = (orgnr: string) => {
+    const loggBedriftValgt = () => {
         if (props.amplitudeClient !== undefined) {
-            props.amplitudeClient.logEvent("velgbedrift", orgnr)
+            props.amplitudeClient.logEvent("virksomhetsklikk")
         }
     }
 
