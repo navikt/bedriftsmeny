@@ -15,7 +15,7 @@ export const AmplitudeProvider: FunctionComponent<Props> = (props) => {
 
     const loggBedriftValgt = () => {
         if (props.amplitudeClient !== undefined) {
-            props.amplitudeClient.logEvent("virksomhetsklikk")
+            props.amplitudeClient.logEvent("virksomhetsklikk", {url:window.location.toString()})
         }
     }
 
