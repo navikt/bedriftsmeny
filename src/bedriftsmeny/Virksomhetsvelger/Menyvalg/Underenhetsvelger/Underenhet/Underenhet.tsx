@@ -1,11 +1,12 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
-import { History } from 'history';
+import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
+import {History} from 'history';
 
 import Organisasjonsbeskrivelse from '../Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
-import { Organisasjon } from '../../../../organisasjon';
-import { settOrgnummerIUrl } from '../../../utils/utils';
-import { erPilNavigasjon } from '../../pilnavigerinsfunksjoner';
+import {Organisasjon} from '../../../../organisasjon';
+import {settOrgnummerIUrl} from '../../../utils/utils';
+import {erPilNavigasjon} from '../../pilnavigerinsfunksjoner';
 import './Underenhet.less';
+import {AmplitudeLoggerContext} from "../../../../amplitudeProvider";
 
 interface Props {
     underEnhet: Organisasjon;
@@ -28,22 +29,25 @@ interface Props {
 }
 
 const Underenhet: FunctionComponent<Props> = ({
-    underEnhet,
-    valgtOrganisasjon,
-    organisasjonIFokus,
-    history,
-    hover,
-    setHover,
-    setErApen,
-    erApen,
-    setNyOrganisasjonIFokus,
-    lukkUnderenhetsvelgerOgFokuserPåEnhet,
-    lukkMenyOnTabPaNedersteElement
-}) => {
+                                                  underEnhet,
+                                                  valgtOrganisasjon,
+                                                  organisasjonIFokus,
+                                                  history,
+                                                  hover,
+                                                  setHover,
+                                                  setErApen,
+                                                  erApen,
+                                                  setNyOrganisasjonIFokus,
+                                                  lukkUnderenhetsvelgerOgFokuserPåEnhet,
+                                                  lukkMenyOnTabPaNedersteElement
+                                              }) => {
     const [erValgtEnhet, setErValgtEnhet] = useState(false);
+
+    const {loggBedriftValgt} = useContext(AmplitudeLoggerContext);
 
     const onUnderenhetSelect = (value: string) => {
         setErApen(false);
+        loggBedriftValgt()
         settOrgnummerIUrl(value, history);
         setHover(false);
     };
@@ -109,8 +113,8 @@ const Underenhet: FunctionComponent<Props> = ({
                 hover && erValgtEnhet
                     ? 'valgtunderenhet-grey-on-hover'
                     : erValgtEnhet && !hover
-                    ? 'valgtunderenhet'
-                    : ''
+                        ? 'valgtunderenhet'
+                        : ''
             }`}
             id={
                 erValgtEnhet

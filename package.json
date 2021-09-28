@@ -1,6 +1,6 @@
 {
     "name": "@navikt/bedriftsmeny",
-    "version": "3.2.0",
+    "version": "3.3.0-rc",
     "description": "Bedriftsvelger og -meny for innlogget arbeidsgiver. Laget av TAG (Tjenester for Arbeidsgivere).",
     "author": "NAVIKT",
     "license": "MIT",
@@ -29,6 +29,7 @@
         "build": "run-s build:webpack build:declarations"
     },
     "dependencies": {
+        "@types/amplitude-js": "^8.0.1",
         "fuzzysort": "^1.1.4"
     },
     "devDependencies": {
