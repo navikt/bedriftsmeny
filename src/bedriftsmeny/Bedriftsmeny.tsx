@@ -11,11 +11,11 @@ import {AmplitudeClient} from "amplitude-js";
 import {AmplitudeProvider} from "./amplitudeProvider";
 
 interface EgneProps {
-    sidetittel?: string;
+    sidetittel?: string | JSX.Element;
     organisasjoner?: Organisasjon[];
     history: History;
     onOrganisasjonChange: (organisasjon: Organisasjon) => void;
-    amplitudeClient?: AmplitudeClient
+    amplitudeClient?: AmplitudeClient;
 }
 
 const Bedriftsmeny: FunctionComponent<EgneProps> = (props) => {
@@ -42,7 +42,11 @@ const Bedriftsmeny: FunctionComponent<EgneProps> = (props) => {
     return (
         <div className="bedriftsmeny" role="banner">
             <div className="bedriftsmeny__inner">
-                <Innholdstittel className="bedriftsmeny__tittel">{sidetittel}</Innholdstittel>
+                {typeof sidetittel === 'string' ? (
+                    <Innholdstittel className="bedriftsmeny__tittel">{sidetittel}</Innholdstittel>
+                ) : (
+                    <div className="bedriftsmeny__tittel">{sidetittel}</div>
+                )}
                 {visVirksomhetsvelger && (
                     <AmplitudeProvider amplitudeClient={props.amplitudeClient}>
                         <Virksomhetsvelger
