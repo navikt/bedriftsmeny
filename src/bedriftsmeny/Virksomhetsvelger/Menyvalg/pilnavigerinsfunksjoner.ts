@@ -62,12 +62,11 @@ export const finnOrganisasjonsSomskalHaFokus = (
 };
 
 const pakkUtOrganisasjonstre = (organisasjonstre: JuridiskEnhetMedUnderEnheterArray[]) => {
-    const utpakketMenyKomponenter: Organisasjon[] = [];
-    organisasjonstre.forEach((enhet: JuridiskEnhetMedUnderEnheterArray) => {
-        utpakketMenyKomponenter.push(enhet.JuridiskEnhet);
-        enhet.Underenheter.forEach((underenhet) => utpakketMenyKomponenter.push(underenhet));
-    });
-    return utpakketMenyKomponenter;
+    const alleEnheter = [];
+    for (const {JuridiskEnhet, Underenheter} of organisasjonstre) {
+        alleEnheter.push(JuridiskEnhet, ...Underenheter)
+    }
+    return alleEnheter;
 };
 
 export const finnIndeksIMenyKomponenter = (
