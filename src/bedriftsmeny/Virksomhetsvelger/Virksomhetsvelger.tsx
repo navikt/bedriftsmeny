@@ -26,9 +26,7 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
 
     useEffect(() => {
         setErApen(false);
-        if (valgtOrganisasjon) {
-            onOrganisasjonChange(valgtOrganisasjon);
-        }
+        onOrganisasjonChange(valgtOrganisasjon);
     }, [valgtOrganisasjon]);
 
 
