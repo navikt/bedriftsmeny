@@ -1,8 +1,4 @@
-import {
-    JuridiskEnhetMedUnderEnheterArray,
-    Organisasjon,
-    tomAltinnOrganisasjon,
-} from '../../organisasjon';
+import { JuridiskEnhetMedUnderEnheterArray, Organisasjon, tomAltinnOrganisasjon, } from '../../organisasjon';
 
 export const finnOrganisasjonsSomskalHaFokus = (
     organisasjonIFokus: Organisasjon,
@@ -59,9 +55,7 @@ export const finnOrganisasjonsSomskalHaFokus = (
             }
         }
         if (keyPressKey === 'ArrowUp' || keyPressKey === 'Up') {
-            const juridiskEnhetOver =
-                menyKomponenter[indeksTilOrganisasjonOrganisasjonstre - 1].JuridiskEnhet;
-            nesteOrganisasjon = juridiskEnhetOver;
+            nesteOrganisasjon = menyKomponenter[indeksTilOrganisasjonOrganisasjonstre - 1].JuridiskEnhet;
         }
     }
     return nesteOrganisasjon;
@@ -80,17 +74,15 @@ export const finnIndeksIMenyKomponenter = (
     enhetsOrganisasjonsnummer: string,
     array: JuridiskEnhetMedUnderEnheterArray[]
 ) => {
-    const indeksTilEnhet = array
+    return array
         .map((organisasjon) => organisasjon.JuridiskEnhet.OrganizationNumber)
         .indexOf(enhetsOrganisasjonsnummer);
-    return indeksTilEnhet;
 };
 
 export const finnIndeksIUtpakketListe = (organisasjonsnummer: string, array: Organisasjon[]) => {
-    const indeksTilEnhet = array
+    return array
         .map((organisasjon) => organisasjon.OrganizationNumber)
         .indexOf(organisasjonsnummer);
-    return indeksTilEnhet;
 };
 
 export const sjekkOmNederstPåLista = (
@@ -146,13 +138,11 @@ export const endreTabIndeksGittId = (idString: string, tabIndex: number) => {
 };
 
 export const setfokusPaSokefelt = () => {
-    const sokefeltElement = document.getElementById('bedriftsmeny-sokefelt');
-    sokefeltElement?.focus();
+    document.getElementById('bedriftsmeny-sokefelt')?.focus();
 };
 
 export const setfokusPaMenyKnapp = () => {
-    const hovedknapp = document.getElementById('virksomhetsvelger__button');
-    hovedknapp?.focus();
+    document.getElementById('virksomhetsvelger__button')?.focus();
 };
 
 const erPilNavigasjonRegex = /^(Arrow)?(Up|Down|Left|Right)$/
