@@ -1,17 +1,15 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
-import { History } from 'history';
+import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 
 import { JuridiskEnhetMedUnderEnheterArray, Organisasjon, tomAltinnOrganisasjon } from '../../../organisasjon';
 import Underenhet from './Underenhet/Underenhet';
 import UnderenhetsVelgerMenyButton from './UnderenhetsVelgerMenyButton/UnderenhetsVelgerMenyButton';
 import { finnIndeksIMenyKomponenter, finnOrganisasjonsSomskalHaFokus } from '../pilnavigerinsfunksjoner';
 import './Underenhetsvelger.less';
+import { VirksomhetsvelgerContext } from '../../VirksomhetsvelgerProvider';
 
 interface Props {
     menyKomponenter: JuridiskEnhetMedUnderEnheterArray[];
-    history: History;
     juridiskEnhetMedUnderenheter: JuridiskEnhetMedUnderEnheterArray;
-    valgtOrganisasjon: Organisasjon;
     hover: boolean;
     setHover: (bool: boolean) => void;
     setErApen: (bool: boolean) => void;
@@ -26,9 +24,7 @@ interface Props {
 
 const Underenhetsvelger: FunctionComponent<Props> = ({
     menyKomponenter,
-    history,
     juridiskEnhetMedUnderenheter,
-    valgtOrganisasjon,
     hover,
     setHover,
     erSok,
@@ -41,6 +37,7 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
     lukkMenyOnTabPaNedersteElement
 }) => {
     const [visUnderenheter, setVisUnderenheter] = useState(false);
+    const {valgtOrganisasjon } = useContext(VirksomhetsvelgerContext)
     const juridiskEnhet = juridiskEnhetMedUnderenheter.JuridiskEnhet;
 
     const setNyOrganisasjonIFokus = (keypressKey: string, erJuridiskEnhetSomViserUnderenheter: boolean) => {
@@ -110,7 +107,6 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
             <UnderenhetsVelgerMenyButton
                 visUnderenheter={visUnderenheter}
                 juridiskEnhetMedUnderenheter={juridiskEnhetMedUnderenheter}
-                valgtOrganisasjon={valgtOrganisasjon}
                 setVisUnderenheter={setVisUnderenheter}
                 setHover={setHover}
                 erSok={erSok}
@@ -132,8 +128,6 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
                         lukkUnderenhetsvelgerOgFokuserPåEnhet={lukkUnderenhetsvelgerOgFokuserPåEnhet}
                         key={organisasjon.OrganizationNumber}
                         underEnhet={organisasjon}
-                        valgtOrganisasjon={valgtOrganisasjon}
-                        history={history}
                         hover={hover}
                         setHover={setHover}
                         erApen={erApen}

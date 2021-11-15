@@ -1,12 +1,10 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { History } from 'history';
 
 import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../organisasjon';
 import Underenhetsvelger from './Underenhetsvelger/Underenhetsvelger';
 import { endreTabIndexAlleOrganisasjonerOgSokefelt } from './pilnavigerinsfunksjoner';
 
 interface Props {
-    valgtOrganisasjon: Organisasjon;
     menyKomponenter?: JuridiskEnhetMedUnderEnheterArray[];
     erApen: boolean;
     setErApen: (bool: boolean) => void;
@@ -15,14 +13,11 @@ interface Props {
     forrigeOrganisasjonIFokus: Organisasjon;
     setOrganisasjonIFokus: (organisasjon: Organisasjon) => void;
     setForrigeOrganisasjonIFokus: (organisasjon: Organisasjon) => void;
-    history: History;
 }
 
 const Menyvalg: FunctionComponent<Props> = (props) => {
     const {
         menyKomponenter = [],
-        history,
-        valgtOrganisasjon,
         setErApen,
         erSok,
         erApen,
@@ -69,8 +64,6 @@ const Menyvalg: FunctionComponent<Props> = (props) => {
                     lukkMenyOnTabPaNedersteElement={lukkMenyOnTabPaNedersteElement}
                     key={organisasjon.JuridiskEnhet.OrganizationNumber}
                     juridiskEnhetMedUnderenheter={organisasjon}
-                    history={history}
-                    valgtOrganisasjon={valgtOrganisasjon}
                     erApen={erApen}
                     hover={hover}
                     setHover={setHover}

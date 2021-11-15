@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { NedChevron } from 'nav-frontend-chevron';
@@ -6,16 +6,16 @@ import { NedChevron } from 'nav-frontend-chevron';
 import UnderenhetIkon from '../Menyvalg/Underenhetsvelger/Organisasjonsbeskrivelse/UnderenhetIkon';
 import { erPilNavigasjon, setfokusPaSokefelt } from '../Menyvalg/pilnavigerinsfunksjoner';
 import './Menyknapp.less';
+import { VirksomhetsvelgerContext } from '../VirksomhetsvelgerProvider';
 
 interface Props {
-    navn: string;
-    orgnummer: string;
     erApen: boolean;
     setErApen: (bool: boolean) => void;
     setSoketekst: (soketekst: string) => void;
 }
 
-const MenyKnapp = ({ navn, orgnummer, erApen, setErApen, setSoketekst }: Props) => {
+const MenyKnapp = ({ erApen, setErApen, setSoketekst }: Props) => {
+    const {valgtOrganisasjon: {Name, OrganizationNumber}} = useContext(VirksomhetsvelgerContext)
     const onKeyPress = (key: string, skift: boolean) => {
         if (key === 'ArrowDown' || key === 'Down') {
             if (erApen) {
@@ -43,7 +43,7 @@ const MenyKnapp = ({ navn, orgnummer, erApen, setErApen, setSoketekst }: Props) 
             }}
             className="menyknapp"
             id="virksomhetsvelger__button"
-            aria-label={`Virksomhetsvelger. Valgt virksomhet er ${navn}, Trykk enter for å ${
+            aria-label={`Virksomhetsvelger. Valgt virksomhet er ${Name}, Trykk enter for å ${
                 erApen ? 'lukke' : 'åpne'
             } denne menyen`}
             aria-pressed={erApen}
@@ -53,8 +53,8 @@ const MenyKnapp = ({ navn, orgnummer, erApen, setErApen, setSoketekst }: Props) 
             <div className="menyknapp__innhold">
                 <UnderenhetIkon classname="menyknapp-ikon" />
                 <div className="menyknapp-beskrivelse">
-                    <Element className="menyknapp-navn">{navn}</Element>
-                    <Normaltekst>virksomhetsnr. {orgnummer}</Normaltekst>
+                    <Element className="menyknapp-navn">{Name}</Element>
+                    <Normaltekst>virksomhetsnr. {OrganizationNumber}</Normaltekst>
                 </div>
                 <NedChevron className={`menyknapp__chevron${erApen ? '--ned' : '--opp'}`} />
             </div>

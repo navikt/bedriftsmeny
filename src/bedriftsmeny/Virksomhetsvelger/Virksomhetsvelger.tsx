@@ -4,7 +4,6 @@ import { Organisasjon, tomAltinnOrganisasjon, } from '../organisasjon';
 import { byggSokeresultat } from './utils/byggSokeresultat';
 import Menyvalg from './Menyvalg/Menyvalg';
 import Sokefelt from './Menyvalg/Sokefelt/Sokefelt';
-import useOrganisasjon from './utils/useOrganisasjon';
 import MenyKnapp from './Menyknapp/Menyknapp';
 import { setfokusPaMenyKnapp, setfokusPaSokefelt } from './Menyvalg/pilnavigerinsfunksjoner';
 import './Virksomhetsvelger.less';
@@ -19,14 +18,12 @@ export interface VirksomhetsvelgerProps {
 const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => {
     const bedriftvelgernode = useRef<HTMLDivElement>(null);
     const { onOrganisasjonChange } = props;
-    const {organisasjonstre, history} = useContext(VirksomhetsvelgerContext)
+    const {valgtOrganisasjon, organisasjonstre, history} = useContext(VirksomhetsvelgerContext)
     const [erApen, setErApen] = useState(false);
     const [soketekst, setSoketekst] = useState('');
     const [listeMedOrganisasjonerFraSok, setlisteMedOrganisasjonerFraSok] = useState(organisasjonstre);
     const [organisasjonIFokus, setOrganisasjonIFokus] = useState(tomAltinnOrganisasjon);
     const [forrigeOrganisasjonIFokus, setForrigeOrganisasjonIFokus] = useState(tomAltinnOrganisasjon);
-
-    const { valgtOrganisasjon } = useOrganisasjon(organisasjonstre, history);
 
     useEffect(() => {
         setErApen(false);
@@ -49,10 +46,6 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
         setErApen(false);
     });
 
-    if (valgtOrganisasjon === undefined) {
-        return null;
-    }
-
     const brukSoketekst = (soketekst: string) => {
         setSoketekst(soketekst);
         setlisteMedOrganisasjonerFraSok(byggSokeresultat(organisasjonstre, soketekst));
@@ -62,17 +55,15 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
         soketekst.length === 0 ? organisasjonstre : listeMedOrganisasjonerFraSok;
 
     let forsteJuridiskEnhetILista = tomAltinnOrganisasjon;
-    if (valgtOrganisasjon && valgtOrganisasjon !== tomAltinnOrganisasjon && menyKomponenter) {
-        if (menyKomponenter.length > 0) {
-            forsteJuridiskEnhetILista =
-                soketekst.length === 0
-                    ? menyKomponenter.find(
-                          (juridiskenhet) =>
-                              juridiskenhet.JuridiskEnhet.OrganizationNumber ===
-                              valgtOrganisasjon.ParentOrganizationNumber
-                      )!!.JuridiskEnhet!!
-                    : menyKomponenter[0].JuridiskEnhet;
-        }
+    if (menyKomponenter && menyKomponenter.length > 0) {
+        forsteJuridiskEnhetILista =
+            soketekst.length === 0
+                ? menyKomponenter.find(
+                    (juridiskenhet) =>
+                        juridiskenhet.JuridiskEnhet.OrganizationNumber ===
+                        valgtOrganisasjon.ParentOrganizationNumber
+                )!!.JuridiskEnhet!!
+                : menyKomponenter[0].JuridiskEnhet;
     }
 
     const onEnterSearchbox = () => {
@@ -134,56 +125,48 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                 }
             }}>
             <div ref={bedriftvelgernode} className="virksomhetsvelger__wrapper">
-                {valgtOrganisasjon && valgtOrganisasjon !== tomAltinnOrganisasjon && (
-                    <MenyKnapp
-                        navn={valgtOrganisasjon.Name}
-                        orgnummer={valgtOrganisasjon.OrganizationNumber}
-                        erApen={erApen}
-                        setErApen={setErApen}
-                        setSoketekst={setSoketekst}
-                    />
-                )}
+                <MenyKnapp
+                    erApen={erApen}
+                    setErApen={setErApen}
+                    setSoketekst={setSoketekst}
+                />
                 <>
-                    {valgtOrganisasjon !== undefined && (
-                        <div
-                            role="toolbar"
-                            className={`virksomhetsvelger__dropdown--${erApen ? 'apen' : 'lukket'}`}
-                            aria-hidden={!erApen}
-                            id="virksomhetsvelger__dropdown">
-                            <Sokefelt
-                                onArrowUp={() => setfokusPaMenyKnapp()}
-                                onArrowDown={() => setFocusOnForsteVirksomhet()}
-                                onEnter={() => onEnterSearchbox()}
-                                soketekst={soketekst}
-                                treffPåOrganisasjoner={listeMedOrganisasjonerFraSok}
-                                onChange={brukSoketekst}
-                            />
+                    <div
+                        role="toolbar"
+                        className={`virksomhetsvelger__dropdown--${erApen ? 'apen' : 'lukket'}`}
+                        aria-hidden={!erApen}
+                        id="virksomhetsvelger__dropdown">
+                        <Sokefelt
+                            onArrowUp={() => setfokusPaMenyKnapp()}
+                            onArrowDown={() => setFocusOnForsteVirksomhet()}
+                            onEnter={() => onEnterSearchbox()}
+                            soketekst={soketekst}
+                            treffPåOrganisasjoner={listeMedOrganisasjonerFraSok}
+                            onChange={brukSoketekst}
+                        />
 
-                            <div className="dropdownmeny-elementer-wrapper">
-                                <div
-                                    className={`dropdownmeny-elementer ${
-                                        !!soketekst ? 'medSokeTekst' : ''
-                                    }`}>
-                                    {menyKomponenter && menyKomponenter?.length > 0 && (
-                                        <Menyvalg
-                                            organisasjonIFokus={organisasjonIFokus}
-                                            setOrganisasjonIFokus={setOrganisasjonIFokus}
-                                            forrigeOrganisasjonIFokus={forrigeOrganisasjonIFokus}
-                                            setForrigeOrganisasjonIFokus={
-                                                setForrigeOrganisasjonIFokus
-                                            }
-                                            menyKomponenter={menyKomponenter}
-                                            erApen={erApen}
-                                            setErApen={setErApen}
-                                            history={history}
-                                            valgtOrganisasjon={valgtOrganisasjon}
-                                            erSok={!!soketekst}
-                                        />
-                                    )}
-                                </div>
+                        <div className="dropdownmeny-elementer-wrapper">
+                            <div
+                                className={`dropdownmeny-elementer ${
+                                    !!soketekst ? 'medSokeTekst' : ''
+                                }`}>
+                                {menyKomponenter && menyKomponenter?.length > 0 && (
+                                    <Menyvalg
+                                        organisasjonIFokus={organisasjonIFokus}
+                                        setOrganisasjonIFokus={setOrganisasjonIFokus}
+                                        forrigeOrganisasjonIFokus={forrigeOrganisasjonIFokus}
+                                        setForrigeOrganisasjonIFokus={
+                                            setForrigeOrganisasjonIFokus
+                                        }
+                                        menyKomponenter={menyKomponenter}
+                                        erApen={erApen}
+                                        setErApen={setErApen}
+                                        erSok={!!soketekst}
+                                    />
+                                )}
                             </div>
                         </div>
-                    )}
+                    </div>
                 </>
             </div>
         </nav>

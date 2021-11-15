@@ -1,17 +1,17 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useContext } from 'react';
 
 import { NedChevron } from 'nav-frontend-chevron';
 import { Normaltekst } from 'nav-frontend-typografi';
 
 import Organisasjonsbeskrivelse from '../Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
-import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../../../organisasjon';
+import { JuridiskEnhetMedUnderEnheterArray } from '../../../../organisasjon';
 import { erPilNavigasjon } from '../../pilnavigerinsfunksjoner';
+import { VirksomhetsvelgerContext } from '../../../VirksomhetsvelgerProvider';
 
 interface Props {
     juridiskEnhetMedUnderenheter: JuridiskEnhetMedUnderEnheterArray;
     visUnderenheter: boolean;
     setVisUnderenheter: (bool: boolean) => void;
-    valgtOrganisasjon: Organisasjon;
     setHover: (bool: boolean) => void;
     erSok: boolean;
     erApen: boolean;
@@ -30,13 +30,13 @@ const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
         juridiskEnhetMedUnderenheter,
         visUnderenheter,
         setVisUnderenheter,
-        valgtOrganisasjon,
         setHover,
         erSok,
         erApen,
         setNyOrganisasjonIFokus,
         lukkMenyOnTabPaNedersteElement
     } = props;
+    const {valgtOrganisasjon} = useContext(VirksomhetsvelgerContext)
     const juridiskEnhet = juridiskEnhetMedUnderenheter.JuridiskEnhet;
     const underenheter = juridiskEnhetMedUnderenheter.Underenheter;
     const erValgtOrganisasjon =
