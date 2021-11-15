@@ -1,14 +1,14 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 
 import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../organisasjon';
 import Underenhetsvelger from './Underenhetsvelger/Underenhetsvelger';
 import { endreTabIndexAlleOrganisasjonerOgSokefelt } from './pilnavigerinsfunksjoner';
+import Virksomhetsvelger from '../Virksomhetsvelger';
+import { VirksomhetsvelgerContext } from '../VirksomhetsvelgerProvider';
 
 interface Props {
-    menyKomponenter?: JuridiskEnhetMedUnderEnheterArray[];
     erApen: boolean;
     setErApen: (bool: boolean) => void;
-    erSok: boolean;
     organisasjonIFokus: Organisasjon;
     forrigeOrganisasjonIFokus: Organisasjon;
     setOrganisasjonIFokus: (organisasjon: Organisasjon) => void;
@@ -17,9 +17,7 @@ interface Props {
 
 const Menyvalg: FunctionComponent<Props> = (props) => {
     const {
-        menyKomponenter = [],
         setErApen,
-        erSok,
         erApen,
         organisasjonIFokus,
         setOrganisasjonIFokus,
@@ -27,6 +25,7 @@ const Menyvalg: FunctionComponent<Props> = (props) => {
         setForrigeOrganisasjonIFokus
     } = props;
     const [hover, setHover] = useState(false);
+    const {aktivtOrganisasjonstre: menyKomponenter} = useContext(VirksomhetsvelgerContext)
 
     useEffect(() => {
         const navarendeTabIndex = erApen ? 0 : -1;
@@ -55,7 +54,6 @@ const Menyvalg: FunctionComponent<Props> = (props) => {
         <div id={'virksomhetsvelger-id'}>
             {menyKomponenter.map((organisasjon) => (
                 <Underenhetsvelger
-                    menyKomponenter={menyKomponenter}
                     setOrganisasjonIFokus={setOrganisasjonIFokus}
                     setForrigeOrganisasjonIFokus={setForrigeOrganisasjonIFokus}
                     setErApen={setErApen}
@@ -67,7 +65,6 @@ const Menyvalg: FunctionComponent<Props> = (props) => {
                     erApen={erApen}
                     hover={hover}
                     setHover={setHover}
-                    erSok={erSok}
                 />
             ))}
         </div>

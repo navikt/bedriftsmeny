@@ -13,7 +13,6 @@ interface Props {
     visUnderenheter: boolean;
     setVisUnderenheter: (bool: boolean) => void;
     setHover: (bool: boolean) => void;
-    erSok: boolean;
     erApen: boolean;
     setNyOrganisasjonIFokus: (
         KeypressKey: string,
@@ -31,16 +30,16 @@ const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
         visUnderenheter,
         setVisUnderenheter,
         setHover,
-        erSok,
         erApen,
         setNyOrganisasjonIFokus,
         lukkMenyOnTabPaNedersteElement
     } = props;
-    const {valgtOrganisasjon} = useContext(VirksomhetsvelgerContext)
+    const {valgtOrganisasjon, søketekst} = useContext(VirksomhetsvelgerContext)
     const juridiskEnhet = juridiskEnhetMedUnderenheter.JuridiskEnhet;
     const underenheter = juridiskEnhetMedUnderenheter.Underenheter;
     const erValgtOrganisasjon =
         valgtOrganisasjon.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber;
+    const erSok = søketekst !== '';
 
     const valgtunderenhet =
         valgtOrganisasjon.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber

@@ -21,7 +21,6 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
         aktivtOrganisasjonstre,
         velgUnderenhet,
         søketekst: soketekst,
-        setSøketekst: setSoketekst,
     } = useContext(VirksomhetsvelgerContext)
     const [erApen, setErApen] = useState(false);
 
@@ -116,44 +115,36 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                 <MenyKnapp
                     erApen={erApen}
                     setErApen={setErApen}
-                    setSoketekst={setSoketekst}
                 />
-                <>
-                    <div
-                        role="toolbar"
-                        className={`virksomhetsvelger__dropdown--${erApen ? 'apen' : 'lukket'}`}
-                        aria-hidden={!erApen}
-                        id="virksomhetsvelger__dropdown">
-                        <Sokefelt
-                            onArrowUp={() => setfokusPaMenyKnapp()}
-                            onArrowDown={() => setFocusOnForsteVirksomhet()}
-                            onEnter={() => onEnterSearchbox()}
-                            antallTreff={antallTreff}
-                        />
+                <div role="toolbar"
+                     className={`virksomhetsvelger__dropdown--${erApen ? 'apen' : 'lukket'}`}
+                     aria-hidden={!erApen}
+                     id="virksomhetsvelger__dropdown">
+                    <Sokefelt
+                        onArrowUp={() => setfokusPaMenyKnapp()}
+                        onArrowDown={() => setFocusOnForsteVirksomhet()}
+                        onEnter={() => onEnterSearchbox()}
+                        antallTreff={antallTreff}
+                    />
 
-                        <div className="dropdownmeny-elementer-wrapper">
-                            <div
-                                className={`dropdownmeny-elementer ${
-                                    !!soketekst ? 'medSokeTekst' : ''
-                                }`}>
-                                {aktivtOrganisasjonstre.length > 0 && (
-                                    <Menyvalg
-                                        organisasjonIFokus={organisasjonIFokus}
-                                        setOrganisasjonIFokus={setOrganisasjonIFokus}
-                                        forrigeOrganisasjonIFokus={forrigeOrganisasjonIFokus}
-                                        setForrigeOrganisasjonIFokus={
-                                            setForrigeOrganisasjonIFokus
-                                        }
-                                        menyKomponenter={aktivtOrganisasjonstre}
-                                        erApen={erApen}
-                                        setErApen={setErApen}
-                                        erSok={!!soketekst}
-                                    />
-                                )}
-                            </div>
+                    <div className="dropdownmeny-elementer-wrapper">
+                        <div
+                            className={`dropdownmeny-elementer ${
+                                !!soketekst ? 'medSokeTekst' : ''
+                            }`}>
+                            {aktivtOrganisasjonstre.length > 0 && (
+                                <Menyvalg
+                                    organisasjonIFokus={organisasjonIFokus}
+                                    setOrganisasjonIFokus={setOrganisasjonIFokus}
+                                    forrigeOrganisasjonIFokus={forrigeOrganisasjonIFokus}
+                                    setForrigeOrganisasjonIFokus={setForrigeOrganisasjonIFokus}
+                                    erApen={erApen}
+                                    setErApen={setErApen}
+                                />
+                            )}
                         </div>
                     </div>
-                </>
+                </div>
             </div>
         </nav>
     );

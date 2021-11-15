@@ -8,12 +8,10 @@ import './Underenhetsvelger.less';
 import { VirksomhetsvelgerContext } from '../../VirksomhetsvelgerProvider';
 
 interface Props {
-    menyKomponenter: JuridiskEnhetMedUnderEnheterArray[];
     juridiskEnhetMedUnderenheter: JuridiskEnhetMedUnderEnheterArray;
     hover: boolean;
     setHover: (bool: boolean) => void;
     setErApen: (bool: boolean) => void;
-    erSok: boolean;
     erApen: boolean;
     lukkMenyOnTabPaNedersteElement: (organisasjonsnummer: string, erJuridiskEnhetSomViserUnderenheter: boolean) => void;
     setOrganisasjonIFokus: (organisasjon: Organisasjon) => void;
@@ -23,11 +21,9 @@ interface Props {
 }
 
 const Underenhetsvelger: FunctionComponent<Props> = ({
-    menyKomponenter,
     juridiskEnhetMedUnderenheter,
     hover,
     setHover,
-    erSok,
     setErApen,
     erApen,
     setForrigeOrganisasjonIFokus,
@@ -37,12 +33,12 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
     lukkMenyOnTabPaNedersteElement
 }) => {
     const [visUnderenheter, setVisUnderenheter] = useState(false);
-    const {valgtOrganisasjon } = useContext(VirksomhetsvelgerContext)
+    const {valgtOrganisasjon, søketekst, aktivtOrganisasjonstre: menyKomponenter } = useContext(VirksomhetsvelgerContext)
     const juridiskEnhet = juridiskEnhetMedUnderenheter.JuridiskEnhet;
 
     const setNyOrganisasjonIFokus = (keypressKey: string, erJuridiskEnhetSomViserUnderenheter: boolean) => {
         const organisasjonsSomSkalFåFokus =
-            finnOrganisasjonsSomskalHaFokus(organisasjonIFokus,keypressKey, erJuridiskEnhetSomViserUnderenheter,menyKomponenter);
+            finnOrganisasjonsSomskalHaFokus(organisasjonIFokus,keypressKey, erJuridiskEnhetSomViserUnderenheter, menyKomponenter);
         if (organisasjonsSomSkalFåFokus) {
             setOrganisasjonIFokus(organisasjonsSomSkalFåFokus);
         }
@@ -54,6 +50,7 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
 
     useEffect(() => {
         setVisUnderenheter(false);
+        const erSok = søketekst !== '';
         const erValgt: boolean = valgtOrganisasjon.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber;
         if (erValgt || (erSok && juridiskEnhetMedUnderenheter.SokeresultatKunUnderenhet)) {
             setVisUnderenheter(true);
@@ -67,7 +64,7 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
                 }
             }, 100);
         }
-    }, [juridiskEnhetMedUnderenheter, valgtOrganisasjon, erApen]);
+    }, [juridiskEnhetMedUnderenheter, valgtOrganisasjon, erApen, søketekst]);
 
 
     useEffect(() => {
@@ -109,7 +106,6 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
                 juridiskEnhetMedUnderenheter={juridiskEnhetMedUnderenheter}
                 setVisUnderenheter={setVisUnderenheter}
                 setHover={setHover}
-                erSok={erSok}
                 erApen={erApen}
                 setNyOrganisasjonIFokus = {setNyOrganisasjonIFokus}
                 lukkMenyOnTabPaNedersteElement={lukkMenyOnTabPaNedersteElement}

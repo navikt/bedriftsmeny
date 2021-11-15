@@ -11,16 +11,18 @@ import { VirksomhetsvelgerContext } from '../VirksomhetsvelgerProvider';
 interface Props {
     erApen: boolean;
     setErApen: (bool: boolean) => void;
-    setSoketekst: (soketekst: string) => void;
 }
 
-const MenyKnapp = ({ erApen, setErApen, setSoketekst }: Props) => {
-    const {valgtOrganisasjon: {Name, OrganizationNumber}} = useContext(VirksomhetsvelgerContext)
+const MenyKnapp = ({ erApen, setErApen }: Props) => {
+    const {
+        valgtOrganisasjon: {Name, OrganizationNumber},
+        setSøketekst,
+    } = useContext(VirksomhetsvelgerContext)
     const onKeyPress = (key: string, skift: boolean) => {
         if (key === 'ArrowDown' || key === 'Down') {
             if (erApen) {
                 setfokusPaSokefelt();
-                setSoketekst('');
+                setSøketekst('');
             }
         }
         if (key === 'Tab' && skift) {
@@ -31,7 +33,7 @@ const MenyKnapp = ({ erApen, setErApen, setSoketekst }: Props) => {
     return (
         <button
             onClick={() => {
-                setSoketekst('');
+                setSøketekst('');
                 setErApen(!erApen);
             }}
             onKeyDown={(e) => {
