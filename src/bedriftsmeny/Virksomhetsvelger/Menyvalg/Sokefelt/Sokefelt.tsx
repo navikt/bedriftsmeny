@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 
 import { Input } from 'nav-frontend-skjema';
 import { Normaltekst } from 'nav-frontend-typografi';
@@ -6,10 +6,9 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import Forstørrelsesglass from './Forstørrelsesglass';
 import { erPilNavigasjon } from '../pilnavigerinsfunksjoner';
 import './Sokefelt.less';
+import { VirksomhetsvelgerContext } from '../../VirksomhetsvelgerProvider';
 
 interface Props {
-    soketekst: string;
-    onChange: (soketekst: string) => void;
     onEnter: () => void;
     onArrowDown: () => void;
     onArrowUp: () => void;
@@ -17,23 +16,22 @@ interface Props {
 }
 
 const Sokefelt: FunctionComponent<Props> = ({
-    soketekst,
-    onChange,
     onEnter,
     onArrowDown,
     onArrowUp,
     antallTreff,
 }) => {
+    const {søketekst, setSøketekst} = useContext(VirksomhetsvelgerContext)
     const [ariaTekst, setTekst] = useState('Søk etter virksomhet');
 
     useEffect(() => {
-        if (soketekst.length === 0 || antallTreff === null) {
+        if (søketekst.length === 0 || antallTreff === null) {
             setTekst('');
         } else {
             const treff = antallTreff === 0 ? 'Ingen' : antallTreff;
-            setTekst(`${treff} treff for \"${soketekst}\"`);
+            setTekst(`${treff} treff for \"${søketekst}\"`);
         }
-    }, [soketekst, antallTreff]);
+    }, [søketekst, antallTreff]);
 
     const onKeyDown = (key: string) => {
         if (key === 'Enter') {
@@ -57,8 +55,8 @@ const Sokefelt: FunctionComponent<Props> = ({
                 label=""
                 aria-label={'Søk'}
                 aria-haspopup={false}
-                value={soketekst}
-                onChange={(e) => onChange(e.target.value)}
+                value={søketekst}
+                onChange={(e) => setSøketekst(e.target.value)}
                 placeholder="Søk"
                 role="searchbox"
                 onKeyDown={(e) => {
@@ -75,7 +73,7 @@ const Sokefelt: FunctionComponent<Props> = ({
                 {ariaTekst}
             </Normaltekst>
             <div className="bedriftsmeny-sokefelt__ikon">
-                {soketekst.length === 0 ? <Forstørrelsesglass /> : null}
+                {søketekst.length === 0 ? <Forstørrelsesglass /> : null}
             </div>
         </div>
     );
