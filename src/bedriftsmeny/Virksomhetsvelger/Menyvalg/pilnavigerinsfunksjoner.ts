@@ -155,10 +155,5 @@ export const setfokusPaMenyKnapp = () => {
     hovedknapp?.focus();
 };
 
-export const erPilNavigasjon = (key: string) => {
-    const erPIL =
-        key === 'ArrowUp' || key === 'ArrowDown' || key === 'ArrowLeft' || key === 'ArrowRight';
-    const erPilInternetExplorer =
-        key === 'Up' || key === 'Down' || key === 'Left' || key === 'Right';
-    return erPIL || erPilInternetExplorer;
-};
+const erPilNavigasjonRegex = /^(Arrow)?(Up|Down|Left|Right)$/
+export const erPilNavigasjon = (key: string) => erPilNavigasjonRegex.test(key);
