@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Undertittel, Element, Normaltekst } from 'nav-frontend-typografi';
+import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { NedChevron } from 'nav-frontend-chevron';
 
 import UnderenhetIkon from '../Menyvalg/Underenhetsvelger/Organisasjonsbeskrivelse/UnderenhetIkon';
@@ -10,15 +10,12 @@ import './Menyknapp.less';
 interface Props {
     navn: string;
     orgnummer: string;
-    brukOverskrift?: boolean;
     erApen: boolean;
     setErApen: (bool: boolean) => void;
     setSoketekst: (soketekst: string) => void;
 }
 
-const MenyKnapp = ({ navn, orgnummer, brukOverskrift, erApen, setErApen, setSoketekst }: Props) => {
-    const Navn = brukOverskrift ? Undertittel : Element;
-
+const MenyKnapp = ({ navn, orgnummer, erApen, setErApen, setSoketekst }: Props) => {
     const onKeyPress = (key: string, skift: boolean) => {
         if (key === 'ArrowDown' || key === 'Down') {
             if (erApen) {
@@ -56,7 +53,7 @@ const MenyKnapp = ({ navn, orgnummer, brukOverskrift, erApen, setErApen, setSoke
             <div className="menyknapp__innhold">
                 <UnderenhetIkon classname="menyknapp-ikon" />
                 <div className="menyknapp-beskrivelse">
-                    <Navn className="menyknapp-navn">{navn}</Navn>
+                    <Element className="menyknapp-navn">{navn}</Element>
                     <Normaltekst>virksomhetsnr. {orgnummer}</Normaltekst>
                 </div>
                 <NedChevron className={`menyknapp__chevron${erApen ? '--ned' : '--opp'}`} />
