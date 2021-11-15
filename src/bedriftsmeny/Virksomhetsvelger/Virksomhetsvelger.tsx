@@ -62,8 +62,8 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
         document.addEventListener('click', handleOutsideClick, false);
         document.addEventListener('keydown', handleOutsideClick, false);
         return () => {
-            window.removeEventListener('click', handleOutsideClick, false);
-            window.removeEventListener('keydown', handleOutsideClick, false);
+            document.removeEventListener('click', handleOutsideClick, false);
+            document.removeEventListener('keydown', handleOutsideClick, false);
         };
     }, []);
 
