@@ -13,6 +13,7 @@ import useOrganisasjon from './utils/useOrganisasjon';
 import MenyKnapp from './Menyknapp/Menyknapp';
 import { setfokusPaMenyKnapp, setfokusPaSokefelt } from './Menyvalg/pilnavigerinsfunksjoner';
 import './Virksomhetsvelger.less';
+import { useHandleOutsideEvent } from './useHandleOutsideEvent';
 
 export interface VirksomhetsvelgerProps {
     organisasjonstre?: JuridiskEnhetMedUnderEnheterArray[];
@@ -48,24 +49,9 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
         }
     }, [erApen]);
 
-    const handleOutsideClick: { (event: MouseEvent | KeyboardEvent): void } = (
-        e: MouseEvent | KeyboardEvent
-    ) => {
-        const node = bedriftvelgernode.current;
-        if (node && node.contains(e.target as HTMLElement)) {
-            return;
-        }
+    useHandleOutsideEvent(bedriftvelgernode, () => {
         setErApen(false);
-    };
-
-    useEffect(() => {
-        document.addEventListener('click', handleOutsideClick, false);
-        document.addEventListener('keydown', handleOutsideClick, false);
-        return () => {
-            document.removeEventListener('click', handleOutsideClick, false);
-            document.removeEventListener('keydown', handleOutsideClick, false);
-        };
-    }, []);
+    });
 
     const brukSoketekst = (soketekst: string) => {
         setSoketekst(soketekst);
