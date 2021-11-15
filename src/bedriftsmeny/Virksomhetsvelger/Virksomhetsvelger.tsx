@@ -1,11 +1,7 @@
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 import { History } from 'history';
 
-import {
-    JuridiskEnhetMedUnderEnheterArray,
-    Organisasjon,
-    tomAltinnOrganisasjon,
-} from '../organisasjon';
+import { JuridiskEnhetMedUnderEnheterArray, Organisasjon, tomAltinnOrganisasjon, } from '../organisasjon';
 import { byggSokeresultat } from './utils/byggSokeresultat';
 import Menyvalg from './Menyvalg/Menyvalg';
 import Sokefelt from './Menyvalg/Sokefelt/Sokefelt';
@@ -14,6 +10,7 @@ import MenyKnapp from './Menyknapp/Menyknapp';
 import { setfokusPaMenyKnapp, setfokusPaSokefelt } from './Menyvalg/pilnavigerinsfunksjoner';
 import './Virksomhetsvelger.less';
 import { useHandleOutsideEvent } from './useHandleOutsideEvent';
+import { settOrgnummerIUrl } from './utils/utils';
 
 export interface VirksomhetsvelgerProps {
     organisasjonstre?: JuridiskEnhetMedUnderEnheterArray[];
@@ -53,6 +50,10 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
         setErApen(false);
     });
 
+    if (valgtOrganisasjon === undefined) {
+        return null;
+    }
+
     const brukSoketekst = (soketekst: string) => {
         setSoketekst(soketekst);
         setlisteMedOrganisasjonerFraSok(byggSokeresultat(organisasjonstre, soketekst));
@@ -74,6 +75,56 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                     : menyKomponenter[0].JuridiskEnhet;
         }
     }
+
+    const onEnterSearchbox = () => {
+        if (
+            soketekst.length > 0 &&
+            listeMedOrganisasjonerFraSok &&
+            listeMedOrganisasjonerFraSok?.length > 0 &&
+            menyKomponenter
+        ) {
+            const kunTreffPåEnUnderenhet =
+                menyKomponenter.length === 1 && menyKomponenter[0].Underenheter.length === 1;
+            if (kunTreffPåEnUnderenhet) {
+                const underenhet = menyKomponenter[0].Underenheter[0];
+                if (underenhet.OrganizationNumber !== valgtOrganisasjon.OrganizationNumber) {
+                    settOrgnummerIUrl(
+                        menyKomponenter[0].Underenheter[0].OrganizationNumber,
+                        history
+                    );
+                } else {
+                    setErApen(false);
+                }
+            } else {
+                setOrganisasjonIFokus(menyKomponenter[0].JuridiskEnhet);
+            }
+        }
+    };
+
+    const setFocusOnForsteVirksomhet = () => {
+        if (
+            menyKomponenter &&
+            ((listeMedOrganisasjonerFraSok && listeMedOrganisasjonerFraSok?.length > 0) || soketekst.length === 0)
+        ) {
+            const blarOppTilSøkefeltOgNedTilMeny =
+                forrigeOrganisasjonIFokus.OrganizationNumber ===
+                menyKomponenter[0].JuridiskEnhet.OrganizationNumber;
+            const valgtJuridiskEnhetErFørsteILista =
+                forsteJuridiskEnhetILista.OrganizationNumber ===
+                menyKomponenter[0].JuridiskEnhet.OrganizationNumber;
+            const skalBlaTilFørsteElementIMenyKomponenter =
+                (blarOppTilSøkefeltOgNedTilMeny && !valgtJuridiskEnhetErFørsteILista) ||
+                soketekst.length > 0;
+
+            if (skalBlaTilFørsteElementIMenyKomponenter) {
+                setOrganisasjonIFokus(menyKomponenter[0].JuridiskEnhet);
+            } else {
+                setOrganisasjonIFokus(forsteJuridiskEnhetILista);
+            }
+        }
+    };
+
+
     return (
         <nav
             className="virksomhetsvelger"
@@ -101,16 +152,12 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                             aria-hidden={!erApen}
                             id="virksomhetsvelger__dropdown">
                             <Sokefelt
-                                setOrganisasjonIFokus={setOrganisasjonIFokus}
-                                forrigeOrganisasjonIFokus={forrigeOrganisasjonIFokus}
-                                juridiskEnhetTilValgtOrganisasjon={forsteJuridiskEnhetILista}
-                                menyKomponenter={menyKomponenter}
+                                onArrowUp={() => setfokusPaMenyKnapp()}
+                                onArrowDown={() => setFocusOnForsteVirksomhet()}
+                                onEnter={() => onEnterSearchbox()}
                                 soketekst={soketekst}
                                 treffPåOrganisasjoner={listeMedOrganisasjonerFraSok}
                                 onChange={brukSoketekst}
-                                setErApen={setErApen}
-                                valgtOrganisasjon={valgtOrganisasjon}
-                                history={history}
                             />
 
                             <div className="dropdownmeny-elementer-wrapper">
