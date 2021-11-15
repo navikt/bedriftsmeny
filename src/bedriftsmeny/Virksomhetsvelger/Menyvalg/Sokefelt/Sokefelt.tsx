@@ -7,7 +7,7 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../../organisasjon';
 import Forstørrelsesglass from './Forstørrelsesglass';
 import { erPilNavigasjon, setfokusPaMenyKnapp } from '../pilnavigerinsfunksjoner';
-import { settOrgnummerIUrl } from '../../utils/utils';
+import { setLocalStorageOrgnr, settOrgnummerIUrl } from '../../utils/utils';
 import './Sokefelt.less';
 
 interface Props {
@@ -75,10 +75,9 @@ const Sokefelt: FunctionComponent<Props> = ({
             if (kunTreffPåEnUnderenhet) {
                 const underenhet = menyKomponenter[0].Underenheter[0];
                 if (underenhet.OrganizationNumber !== valgtOrganisasjon.OrganizationNumber) {
-                    settOrgnummerIUrl(
-                        menyKomponenter[0].Underenheter[0].OrganizationNumber,
-                        history
-                    );
+                    const orgnr = menyKomponenter[0].Underenheter[0].OrganizationNumber;
+                    settOrgnummerIUrl(orgnr, history);
+                    setLocalStorageOrgnr(orgnr);
                 } else {
                     setErApen(false);
                 }

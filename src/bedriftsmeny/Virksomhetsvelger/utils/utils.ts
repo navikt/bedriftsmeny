@@ -12,6 +12,12 @@ export const settOrgnummerIUrl = (orgnummer: string, history: History) => {
     history.replace({ ...history.location, search });
 };
 
+export const getLocalStorageOrgnr = (): string | null =>
+    window.localStorage.getItem(ORGNUMMER_PARAMETER);
+
+export const setLocalStorageOrgnr = (orgnr: string): void =>
+    window.localStorage.setItem(ORGNUMMER_PARAMETER, orgnr);
+
 export const hentUnderenheter = (organisasjonstre: JuridiskEnhetMedUnderEnheterArray[]) =>
     organisasjonstre.reduce(
         (organisasjoner: Organisasjon[], parentOrg) => [
