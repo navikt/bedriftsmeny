@@ -8,7 +8,6 @@ import MenyKnapp from './Menyknapp/Menyknapp';
 import { setfokusPaMenyKnapp, setfokusPaSokefelt } from './Menyvalg/pilnavigerinsfunksjoner';
 import './Virksomhetsvelger.less';
 import { useHandleOutsideEvent } from './useHandleOutsideEvent';
-import { settOrgnummerIUrl } from './utils/utils';
 import { VirksomhetsvelgerContext } from './VirksomhetsvelgerProvider';
 
 export interface VirksomhetsvelgerProps {
@@ -18,7 +17,7 @@ export interface VirksomhetsvelgerProps {
 const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => {
     const bedriftvelgernode = useRef<HTMLDivElement>(null);
     const { onOrganisasjonChange } = props;
-    const {valgtOrganisasjon, organisasjonstre, history} = useContext(VirksomhetsvelgerContext)
+    const {valgtOrganisasjon, organisasjonstre, velgUnderenhet} = useContext(VirksomhetsvelgerContext)
     const [erApen, setErApen] = useState(false);
     const [soketekst, setSoketekst] = useState('');
     const [listeMedOrganisasjonerFraSok, setlisteMedOrganisasjonerFraSok] = useState(organisasjonstre);
@@ -78,9 +77,8 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
             if (kunTreffPåEnUnderenhet) {
                 const underenhet = menyKomponenter[0].Underenheter[0];
                 if (underenhet.OrganizationNumber !== valgtOrganisasjon.OrganizationNumber) {
-                    settOrgnummerIUrl(
+                    velgUnderenhet(
                         menyKomponenter[0].Underenheter[0].OrganizationNumber,
-                        history
                     );
                 } else {
                     setErApen(false);

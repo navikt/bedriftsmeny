@@ -2,6 +2,7 @@ import React, { createContext, FunctionComponent } from 'react';
 import { JuridiskEnhetMedUnderEnheterArray, Organisasjon, tomAltinnOrganisasjon } from '../organisasjon';
 import { History } from 'history';
 import useOrganisasjon from './utils/useOrganisasjon';
+import { settOrgnummerIUrl } from './utils/utils';
 
 interface Props {
     organisasjonstre: JuridiskEnhetMedUnderEnheterArray[];
@@ -10,7 +11,7 @@ interface Props {
 
 interface Context {
     organisasjonstre: JuridiskEnhetMedUnderEnheterArray[];
-    history: History;
+    velgUnderenhet: (orgnr: string) => void;
     valgtOrganisasjon: Organisasjon;
 }
 
@@ -24,7 +25,7 @@ export const VirksomhetsvelgerProvider: FunctionComponent<Props> = props => {
     }
 
     const context: Context = {
-        history: props.history,
+        velgUnderenhet: (orgnr) => settOrgnummerIUrl(orgnr, props.history),
         organisasjonstre: props.organisasjonstre,
         valgtOrganisasjon
     }

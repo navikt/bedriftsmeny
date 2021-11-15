@@ -37,7 +37,7 @@ const Underenhet: FunctionComponent<Props> = ({
                                                   lukkUnderenhetsvelgerOgFokuserPåEnhet,
                                                   lukkMenyOnTabPaNedersteElement
                                               }) => {
-    const {valgtOrganisasjon, history} = useContext(VirksomhetsvelgerContext)
+    const {valgtOrganisasjon, velgUnderenhet} = useContext(VirksomhetsvelgerContext)
     const [erValgtEnhet, setErValgtEnhet] = useState(false);
 
     const {loggBedriftValgt} = useContext(AmplitudeLoggerContext);
@@ -45,7 +45,7 @@ const Underenhet: FunctionComponent<Props> = ({
     const onUnderenhetSelect = (value: string) => {
         setErApen(false);
         loggBedriftValgt()
-        settOrgnummerIUrl(value, history);
+        velgUnderenhet(value);
         setHover(false);
     };
 
