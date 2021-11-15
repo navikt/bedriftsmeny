@@ -9,6 +9,7 @@ import Virksomhetsvelger from './Virksomhetsvelger/Virksomhetsvelger';
 import './Bedriftsmeny.less';
 import {AmplitudeClient} from "amplitude-js";
 import {AmplitudeProvider} from "./amplitudeProvider";
+import { VirksomhetsvelgerProvider } from './Virksomhetsvelger/VirksomhetsvelgerProvider';
 
 interface EgneProps {
     sidetittel?: string | JSX.Element;
@@ -49,11 +50,14 @@ const Bedriftsmeny: FunctionComponent<EgneProps> = (props) => {
                 )}
                 {visVirksomhetsvelger && (
                     <AmplitudeProvider amplitudeClient={props.amplitudeClient}>
-                        <Virksomhetsvelger
+                        <VirksomhetsvelgerProvider
                             history={props.history}
-                            onOrganisasjonChange={props.onOrganisasjonChange}
-                            organisasjonstre={organisasjonstre}
-                        />
+                            organisasjonstre={organisasjonstre ?? []}
+                        >
+                            <Virksomhetsvelger
+                                onOrganisasjonChange={props.onOrganisasjonChange}
+                            />
+                        </VirksomhetsvelgerProvider>
                     </AmplitudeProvider>
                 )}
                 {props.children}

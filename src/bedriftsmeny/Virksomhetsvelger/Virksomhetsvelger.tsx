@@ -1,7 +1,6 @@
-import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
-import { History } from 'history';
+import React, { FunctionComponent, useContext, useEffect, useRef, useState } from 'react';
 
-import { JuridiskEnhetMedUnderEnheterArray, Organisasjon, tomAltinnOrganisasjon, } from '../organisasjon';
+import { Organisasjon, tomAltinnOrganisasjon, } from '../organisasjon';
 import { byggSokeresultat } from './utils/byggSokeresultat';
 import Menyvalg from './Menyvalg/Menyvalg';
 import Sokefelt from './Menyvalg/Sokefelt/Sokefelt';
@@ -11,16 +10,16 @@ import { setfokusPaMenyKnapp, setfokusPaSokefelt } from './Menyvalg/pilnavigerin
 import './Virksomhetsvelger.less';
 import { useHandleOutsideEvent } from './useHandleOutsideEvent';
 import { settOrgnummerIUrl } from './utils/utils';
+import { VirksomhetsvelgerContext } from './VirksomhetsvelgerProvider';
 
 export interface VirksomhetsvelgerProps {
-    organisasjonstre?: JuridiskEnhetMedUnderEnheterArray[];
     onOrganisasjonChange: (organisasjon: Organisasjon) => void;
-    history: History;
 }
 
 const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => {
     const bedriftvelgernode = useRef<HTMLDivElement>(null);
-    const { organisasjonstre, onOrganisasjonChange, history } = props;
+    const { onOrganisasjonChange } = props;
+    const {organisasjonstre, history} = useContext(VirksomhetsvelgerContext)
     const [erApen, setErApen] = useState(false);
     const [soketekst, setSoketekst] = useState('');
     const [listeMedOrganisasjonerFraSok, setlisteMedOrganisasjonerFraSok] = useState(organisasjonstre);
