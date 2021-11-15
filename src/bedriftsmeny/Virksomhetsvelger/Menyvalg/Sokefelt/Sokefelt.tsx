@@ -3,7 +3,6 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Input } from 'nav-frontend-skjema';
 import { Normaltekst } from 'nav-frontend-typografi';
 
-import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../../organisasjon';
 import Forstørrelsesglass from './Forstørrelsesglass';
 import { erPilNavigasjon } from '../pilnavigerinsfunksjoner';
 import './Sokefelt.less';
@@ -14,7 +13,7 @@ interface Props {
     onEnter: () => void;
     onArrowDown: () => void;
     onArrowUp: () => void;
-    treffPåOrganisasjoner?: JuridiskEnhetMedUnderEnheterArray[];
+    antallTreff: number | null;
 }
 
 const Sokefelt: FunctionComponent<Props> = ({
@@ -23,23 +22,18 @@ const Sokefelt: FunctionComponent<Props> = ({
     onEnter,
     onArrowDown,
     onArrowUp,
-    treffPåOrganisasjoner,
+    antallTreff,
 }) => {
     const [ariaTekst, setTekst] = useState('Søk etter virksomhet');
 
     useEffect(() => {
-        const underenheter: Organisasjon[] = [];
-        treffPåOrganisasjoner?.forEach((juridiskEnhet) =>
-            underenheter.push.apply(underenheter, juridiskEnhet.Underenheter)
-        );
-        if (soketekst.length === 0) {
+        if (soketekst.length === 0 || antallTreff === null) {
             setTekst('');
-        } else if (treffPåOrganisasjoner?.length === 0) {
-            setTekst(`Ingen treff for \"${soketekst}\"`);
-        } else if (treffPåOrganisasjoner) {
-            setTekst(`${underenheter.length} treff for \"${soketekst}\"`);
+        } else {
+            const treff = antallTreff === 0 ? 'Ingen' : antallTreff;
+            setTekst(`${treff} treff for \"${soketekst}\"`);
         }
-    }, [soketekst, treffPåOrganisasjoner]);
+    }, [soketekst, antallTreff]);
 
     const onKeyDown = (key: string) => {
         if (key === 'Enter') {
@@ -52,7 +46,6 @@ const Sokefelt: FunctionComponent<Props> = ({
             onArrowDown();
         }
     };
-
 
     return (
         <div className="bedriftsmeny-sokefelt">

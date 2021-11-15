@@ -110,6 +110,9 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
         }
     };
 
+    const antallTreff = listeMedOrganisasjonerFraSok
+        .map(({Underenheter}) => Underenheter.length)
+        .reduce((x, y) => x + y, 0)
 
     return (
         <nav
@@ -137,8 +140,8 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                             onArrowDown={() => setFocusOnForsteVirksomhet()}
                             onEnter={() => onEnterSearchbox()}
                             soketekst={soketekst}
-                            treffPåOrganisasjoner={listeMedOrganisasjonerFraSok}
                             onChange={brukSoketekst}
+                            antallTreff={antallTreff}
                         />
 
                         <div className="dropdownmeny-elementer-wrapper">
