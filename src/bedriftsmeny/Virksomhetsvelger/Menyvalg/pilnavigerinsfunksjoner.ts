@@ -17,16 +17,12 @@ export const finnOrganisasjonsSomskalHaFokus = (
             organisasjonIFokus,
             menyKomponenter,
             flatOrganisasjonsliste
-        ) &&
-        keyPressKey === 'ArrowDown'
+        ) && arrowDown(keyPressKey)
     ) {
         nesteOrganisasjon = flatOrganisasjonsliste[0];
         return nesteOrganisasjon;
     }
-    if (
-        sjekkOmOverstPaLista(organisasjonIFokus, flatOrganisasjonsliste) &&
-        (keyPressKey === 'ArrowUp' || keyPressKey === 'Up')
-    ) {
+    if (sjekkOmOverstPaLista(organisasjonIFokus, flatOrganisasjonsliste) && arrowUp(keyPressKey)) {
         setfokusPaSokefelt();
         return null;
     }
@@ -35,10 +31,10 @@ export const finnOrganisasjonsSomskalHaFokus = (
         flatOrganisasjonsliste
     );
     if (!erJuridiskEnhet) {
-        if (keyPressKey === 'ArrowDown' || keyPressKey === 'Down') {
+        if (arrowDown(keyPressKey)) {
             nesteOrganisasjon = flatOrganisasjonsliste[indeksTilOrganisasjonIFlatListe + 1];
         }
-        if (keyPressKey === 'ArrowUp' || keyPressKey === 'Up') {
+        if (arrowUp(keyPressKey)) {
             nesteOrganisasjon = flatOrganisasjonsliste[indeksTilOrganisasjonIFlatListe - 1];
         }
     } else {
@@ -46,7 +42,7 @@ export const finnOrganisasjonsSomskalHaFokus = (
             organisasjonIFokus.OrganizationNumber,
             menyKomponenter
         );
-        if (keyPressKey === 'ArrowDown' || keyPressKey === 'Down') {
+        if (arrowDown(keyPressKey)) {
             if (erApen) {
                 nesteOrganisasjon = flatOrganisasjonsliste[indeksTilOrganisasjonIFlatListe + 1];
             } else {
@@ -54,7 +50,7 @@ export const finnOrganisasjonsSomskalHaFokus = (
                     menyKomponenter[indeksTilOrganisasjonOrganisasjonstre + 1].JuridiskEnhet;
             }
         }
-        if (keyPressKey === 'ArrowUp' || keyPressKey === 'Up') {
+        if (arrowUp(keyPressKey)) {
             nesteOrganisasjon = menyKomponenter[indeksTilOrganisasjonOrganisasjonstre - 1].JuridiskEnhet;
         }
     }
@@ -146,3 +142,6 @@ export const setfokusPaMenyKnapp = () => {
 
 const erPilNavigasjonRegex = /^(Arrow)?(Up|Down|Left|Right)$/
 export const erPilNavigasjon = (key: string) => erPilNavigasjonRegex.test(key);
+
+const arrowDown = (key: string) => key === 'ArrowDown' || key === 'Down'
+const arrowUp = (key: string) => key === 'ArrowUp' || key === 'Up'
