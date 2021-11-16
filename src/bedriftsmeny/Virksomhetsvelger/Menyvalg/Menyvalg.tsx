@@ -1,9 +1,8 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 
-import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../organisasjon';
+import { Organisasjon } from '../../organisasjon';
 import Underenhetsvelger from './Underenhetsvelger/Underenhetsvelger';
 import { endreTabIndexAlleOrganisasjonerOgSokefelt } from './pilnavigerinsfunksjoner';
-import Virksomhetsvelger from '../Virksomhetsvelger';
 import { VirksomhetsvelgerContext } from '../VirksomhetsvelgerProvider';
 
 interface Props {
