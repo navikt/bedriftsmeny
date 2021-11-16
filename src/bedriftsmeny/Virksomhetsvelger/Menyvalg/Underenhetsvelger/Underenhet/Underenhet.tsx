@@ -3,7 +3,7 @@ import {History} from 'history';
 
 import Organisasjonsbeskrivelse from '../Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
 import {Organisasjon} from '../../../../organisasjon';
-import {settOrgnummerIUrl} from '../../../utils/utils';
+import { setLocalStorageOrgnr, settOrgnummerIUrl } from '../../../utils/utils';
 import {erPilNavigasjon} from '../../pilnavigerinsfunksjoner';
 import './Underenhet.less';
 import {AmplitudeLoggerContext} from "../../../../amplitudeProvider";
@@ -49,6 +49,7 @@ const Underenhet: FunctionComponent<Props> = ({
         setErApen(false);
         loggBedriftValgt()
         settOrgnummerIUrl(value, history);
+        setLocalStorageOrgnr(value)
         setHover(false);
     };
 
