@@ -1,29 +1,28 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
-import { Undertittel, Element, Normaltekst } from 'nav-frontend-typografi';
+import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { NedChevron } from 'nav-frontend-chevron';
 
 import UnderenhetIkon from '../Menyvalg/Underenhetsvelger/Organisasjonsbeskrivelse/UnderenhetIkon';
 import { erPilNavigasjon, setfokusPaSokefelt } from '../Menyvalg/pilnavigerinsfunksjoner';
 import './Menyknapp.less';
+import { VirksomhetsvelgerContext } from '../VirksomhetsvelgerProvider';
 
 interface Props {
-    navn: string;
-    orgnummer: string;
-    brukOverskrift?: boolean;
     erApen: boolean;
     setErApen: (bool: boolean) => void;
-    setSoketekst: (soketekst: string) => void;
 }
 
-const MenyKnapp = ({ navn, orgnummer, brukOverskrift, erApen, setErApen, setSoketekst }: Props) => {
-    const Navn = brukOverskrift ? Undertittel : Element;
-
+const MenyKnapp = ({ erApen, setErApen }: Props) => {
+    const {
+        valgtOrganisasjon: {Name, OrganizationNumber},
+        setSøketekst,
+    } = useContext(VirksomhetsvelgerContext)
     const onKeyPress = (key: string, skift: boolean) => {
         if (key === 'ArrowDown' || key === 'Down') {
             if (erApen) {
                 setfokusPaSokefelt();
-                setSoketekst('');
+                setSøketekst('');
             }
         }
         if (key === 'Tab' && skift) {
@@ -34,7 +33,7 @@ const MenyKnapp = ({ navn, orgnummer, brukOverskrift, erApen, setErApen, setSoke
     return (
         <button
             onClick={() => {
-                setSoketekst('');
+                setSøketekst('');
                 setErApen(!erApen);
             }}
             onKeyDown={(e) => {
@@ -46,7 +45,7 @@ const MenyKnapp = ({ navn, orgnummer, brukOverskrift, erApen, setErApen, setSoke
             }}
             className="menyknapp"
             id="virksomhetsvelger__button"
-            aria-label={`Virksomhetsvelger. Valgt virksomhet er ${navn}, Trykk enter for å ${
+            aria-label={`Virksomhetsvelger. Valgt virksomhet er ${Name}, Trykk enter for å ${
                 erApen ? 'lukke' : 'åpne'
             } denne menyen`}
             aria-pressed={erApen}
@@ -56,8 +55,8 @@ const MenyKnapp = ({ navn, orgnummer, brukOverskrift, erApen, setErApen, setSoke
             <div className="menyknapp__innhold">
                 <UnderenhetIkon classname="menyknapp-ikon" />
                 <div className="menyknapp-beskrivelse">
-                    <Navn className="menyknapp-navn">{navn}</Navn>
-                    <Normaltekst>virksomhetsnr. {orgnummer}</Normaltekst>
+                    <Element className="menyknapp-navn">{Name}</Element>
+                    <Normaltekst>virksomhetsnr. {OrganizationNumber}</Normaltekst>
                 </div>
                 <NedChevron className={`menyknapp__chevron${erApen ? '--ned' : '--opp'}`} />
             </div>

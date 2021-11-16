@@ -1,112 +1,47 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
-import { History } from 'history';
+import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 
 import { Input } from 'nav-frontend-skjema';
 import { Normaltekst } from 'nav-frontend-typografi';
 
-import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../../organisasjon';
 import Forstørrelsesglass from './Forstørrelsesglass';
-import { erPilNavigasjon, setfokusPaMenyKnapp } from '../pilnavigerinsfunksjoner';
-import { setLocalStorageOrgnr, settOrgnummerIUrl } from '../../utils/utils';
+import { erPilNavigasjon } from '../pilnavigerinsfunksjoner';
 import './Sokefelt.less';
+import { VirksomhetsvelgerContext } from '../../VirksomhetsvelgerProvider';
 
 interface Props {
-    soketekst: string;
-    onChange: (soketekst: string) => void;
-    juridiskEnhetTilValgtOrganisasjon: Organisasjon;
-    forrigeOrganisasjonIFokus: Organisasjon;
-    setOrganisasjonIFokus: (organisasjon: Organisasjon) => void;
-    menyKomponenter: JuridiskEnhetMedUnderEnheterArray[] | undefined;
-    treffPåOrganisasjoner?: JuridiskEnhetMedUnderEnheterArray[];
-    history: History;
-    setErApen: (apen: boolean) => void;
-    valgtOrganisasjon: Organisasjon;
+    onEnter: () => void;
+    onArrowDown: () => void;
+    onArrowUp: () => void;
+    antallTreff: number | null;
 }
 
 const Sokefelt: FunctionComponent<Props> = ({
-    soketekst,
-    onChange,
-    treffPåOrganisasjoner,
-    forrigeOrganisasjonIFokus,
-    juridiskEnhetTilValgtOrganisasjon,
-    menyKomponenter,
-    setOrganisasjonIFokus,
-    history,
-    setErApen,
-    valgtOrganisasjon
+    onEnter,
+    onArrowDown,
+    onArrowUp,
+    antallTreff,
 }) => {
+    const {søketekst, setSøketekst} = useContext(VirksomhetsvelgerContext)
     const [ariaTekst, setTekst] = useState('Søk etter virksomhet');
 
     useEffect(() => {
-        const underenheter: Organisasjon[] = [];
-        treffPåOrganisasjoner?.forEach((juridiskEnhet) =>
-            underenheter.push.apply(underenheter, juridiskEnhet.Underenheter)
-        );
-        if (soketekst.length === 0) {
+        if (søketekst.length === 0 || antallTreff === null) {
             setTekst('');
-        } else if (treffPåOrganisasjoner?.length === 0) {
-            setTekst(`Ingen treff for \"${soketekst}\"`);
-        } else if (treffPåOrganisasjoner) {
-            setTekst(`${underenheter.length} treff for \"${soketekst}\"`);
+        } else {
+            const treff = antallTreff === 0 ? 'Ingen' : antallTreff;
+            setTekst(`${treff} treff for \"${søketekst}\"`);
         }
-    }, [soketekst, treffPåOrganisasjoner]);
+    }, [søketekst, antallTreff]);
 
     const onKeyDown = (key: string) => {
         if (key === 'Enter') {
             onEnter();
         }
         if (key === 'ArrowUp' || key === 'Up') {
-            setfokusPaMenyKnapp();
+            onArrowUp();
         }
         if (key === 'ArrowDown' || key === 'Down') {
-            settFokusPaForsteEnhet();
-        }
-    };
-
-    const onEnter = () => {
-        if (
-            soketekst.length > 0 &&
-            treffPåOrganisasjoner &&
-            treffPåOrganisasjoner?.length > 0 &&
-            menyKomponenter
-        ) {
-            const kunTreffPåEnUnderenhet =
-                menyKomponenter.length === 1 && menyKomponenter[0].Underenheter.length === 1;
-            if (kunTreffPåEnUnderenhet) {
-                const underenhet = menyKomponenter[0].Underenheter[0];
-                if (underenhet.OrganizationNumber !== valgtOrganisasjon.OrganizationNumber) {
-                    const orgnr = menyKomponenter[0].Underenheter[0].OrganizationNumber;
-                    settOrgnummerIUrl(orgnr, history);
-                    setLocalStorageOrgnr(orgnr);
-                } else {
-                    setErApen(false);
-                }
-            } else {
-                setOrganisasjonIFokus(menyKomponenter[0].JuridiskEnhet);
-            }
-        }
-    };
-
-    const settFokusPaForsteEnhet = () => {
-        if (
-            menyKomponenter &&
-            ((treffPåOrganisasjoner && treffPåOrganisasjoner?.length > 0) || soketekst.length === 0)
-        ) {
-            const blarOppTilSøkefeltOgNedTilMeny =
-                forrigeOrganisasjonIFokus.OrganizationNumber ===
-                menyKomponenter[0].JuridiskEnhet.OrganizationNumber;
-            const valgtJuridiskEnhetErFørsteILista =
-                juridiskEnhetTilValgtOrganisasjon.OrganizationNumber ===
-                menyKomponenter[0].JuridiskEnhet.OrganizationNumber;
-            const skalBlaTilFørsteElementIMenyKomponenter =
-                (blarOppTilSøkefeltOgNedTilMeny && !valgtJuridiskEnhetErFørsteILista) ||
-                soketekst.length > 0;
-
-            if (skalBlaTilFørsteElementIMenyKomponenter) {
-                setOrganisasjonIFokus(menyKomponenter[0].JuridiskEnhet);
-            } else {
-                setOrganisasjonIFokus(juridiskEnhetTilValgtOrganisasjon);
-            }
+            onArrowDown();
         }
     };
 
@@ -120,8 +55,8 @@ const Sokefelt: FunctionComponent<Props> = ({
                 label=""
                 aria-label={'Søk'}
                 aria-haspopup={false}
-                value={soketekst}
-                onChange={(e) => onChange(e.target.value)}
+                value={søketekst}
+                onChange={(e) => setSøketekst(e.target.value)}
                 placeholder="Søk"
                 role="searchbox"
                 onKeyDown={(e) => {
@@ -138,7 +73,7 @@ const Sokefelt: FunctionComponent<Props> = ({
                 {ariaTekst}
             </Normaltekst>
             <div className="bedriftsmeny-sokefelt__ikon">
-                {soketekst.length === 0 ? <Forstørrelsesglass /> : null}
+                {søketekst.length === 0 ? <Forstørrelsesglass /> : null}
             </div>
         </div>
     );

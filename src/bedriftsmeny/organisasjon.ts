@@ -32,16 +32,6 @@ export interface OrganisasjonFraEnhetsregisteret {
     overordnetEnhet: string;
 }
 
-export const tomEnhetsregOrg: OrganisasjonFraEnhetsregisteret = {
-    organisasjonsnummer: '',
-    navn: '',
-    organisasjonsform: {
-        kode: '',
-        beskrivelse: ''
-    },
-    overordnetEnhet: ''
-};
-
 export interface ListeMedJuridiskeEnheter {
     _embedded: {
         enheter: OrganisasjonFraEnhetsregisteret[];

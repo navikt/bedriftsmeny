@@ -1,8 +1,4 @@
-import {
-    JuridiskEnhetMedUnderEnheterArray,
-    Organisasjon,
-    tomAltinnOrganisasjon,
-} from '../../organisasjon';
+import { JuridiskEnhetMedUnderEnheterArray, Organisasjon, tomAltinnOrganisasjon, } from '../../organisasjon';
 
 export const finnOrganisasjonsSomskalHaFokus = (
     organisasjonIFokus: Organisasjon,
@@ -21,16 +17,12 @@ export const finnOrganisasjonsSomskalHaFokus = (
             organisasjonIFokus,
             menyKomponenter,
             flatOrganisasjonsliste
-        ) &&
-        keyPressKey === 'ArrowDown'
+        ) && arrowDown(keyPressKey)
     ) {
         nesteOrganisasjon = flatOrganisasjonsliste[0];
         return nesteOrganisasjon;
     }
-    if (
-        sjekkOmOverstPaLista(organisasjonIFokus, flatOrganisasjonsliste) &&
-        (keyPressKey === 'ArrowUp' || keyPressKey === 'Up')
-    ) {
+    if (sjekkOmOverstPaLista(organisasjonIFokus, flatOrganisasjonsliste) && arrowUp(keyPressKey)) {
         setfokusPaSokefelt();
         return null;
     }
@@ -39,10 +31,10 @@ export const finnOrganisasjonsSomskalHaFokus = (
         flatOrganisasjonsliste
     );
     if (!erJuridiskEnhet) {
-        if (keyPressKey === 'ArrowDown' || keyPressKey === 'Down') {
+        if (arrowDown(keyPressKey)) {
             nesteOrganisasjon = flatOrganisasjonsliste[indeksTilOrganisasjonIFlatListe + 1];
         }
-        if (keyPressKey === 'ArrowUp' || keyPressKey === 'Up') {
+        if (arrowUp(keyPressKey)) {
             nesteOrganisasjon = flatOrganisasjonsliste[indeksTilOrganisasjonIFlatListe - 1];
         }
     } else {
@@ -50,7 +42,7 @@ export const finnOrganisasjonsSomskalHaFokus = (
             organisasjonIFokus.OrganizationNumber,
             menyKomponenter
         );
-        if (keyPressKey === 'ArrowDown' || keyPressKey === 'Down') {
+        if (arrowDown(keyPressKey)) {
             if (erApen) {
                 nesteOrganisasjon = flatOrganisasjonsliste[indeksTilOrganisasjonIFlatListe + 1];
             } else {
@@ -58,39 +50,34 @@ export const finnOrganisasjonsSomskalHaFokus = (
                     menyKomponenter[indeksTilOrganisasjonOrganisasjonstre + 1].JuridiskEnhet;
             }
         }
-        if (keyPressKey === 'ArrowUp' || keyPressKey === 'Up') {
-            const juridiskEnhetOver =
-                menyKomponenter[indeksTilOrganisasjonOrganisasjonstre - 1].JuridiskEnhet;
-            nesteOrganisasjon = juridiskEnhetOver;
+        if (arrowUp(keyPressKey)) {
+            nesteOrganisasjon = menyKomponenter[indeksTilOrganisasjonOrganisasjonstre - 1].JuridiskEnhet;
         }
     }
     return nesteOrganisasjon;
 };
 
 const pakkUtOrganisasjonstre = (organisasjonstre: JuridiskEnhetMedUnderEnheterArray[]) => {
-    const utpakketMenyKomponenter: Organisasjon[] = [];
-    organisasjonstre.forEach((enhet: JuridiskEnhetMedUnderEnheterArray) => {
-        utpakketMenyKomponenter.push(enhet.JuridiskEnhet);
-        enhet.Underenheter.forEach((underenhet) => utpakketMenyKomponenter.push(underenhet));
-    });
-    return utpakketMenyKomponenter;
+    const alleEnheter = [];
+    for (const {JuridiskEnhet, Underenheter} of organisasjonstre) {
+        alleEnheter.push(JuridiskEnhet, ...Underenheter)
+    }
+    return alleEnheter;
 };
 
 export const finnIndeksIMenyKomponenter = (
     enhetsOrganisasjonsnummer: string,
     array: JuridiskEnhetMedUnderEnheterArray[]
 ) => {
-    const indeksTilEnhet = array
+    return array
         .map((organisasjon) => organisasjon.JuridiskEnhet.OrganizationNumber)
         .indexOf(enhetsOrganisasjonsnummer);
-    return indeksTilEnhet;
 };
 
 export const finnIndeksIUtpakketListe = (organisasjonsnummer: string, array: Organisasjon[]) => {
-    const indeksTilEnhet = array
+    return array
         .map((organisasjon) => organisasjon.OrganizationNumber)
         .indexOf(organisasjonsnummer);
-    return indeksTilEnhet;
 };
 
 export const sjekkOmNederstPåLista = (
@@ -146,19 +133,15 @@ export const endreTabIndeksGittId = (idString: string, tabIndex: number) => {
 };
 
 export const setfokusPaSokefelt = () => {
-    const sokefeltElement = document.getElementById('bedriftsmeny-sokefelt');
-    sokefeltElement?.focus();
+    document.getElementById('bedriftsmeny-sokefelt')?.focus();
 };
 
 export const setfokusPaMenyKnapp = () => {
-    const hovedknapp = document.getElementById('virksomhetsvelger__button');
-    hovedknapp?.focus();
+    document.getElementById('virksomhetsvelger__button')?.focus();
 };
 
-export const erPilNavigasjon = (key: string) => {
-    const erPIL =
-        key === 'ArrowUp' || key === 'ArrowDown' || key === 'ArrowLeft' || key === 'ArrowRight';
-    const erPilInternetExplorer =
-        key === 'Up' || key === 'Down' || key === 'Left' || key === 'Right';
-    return erPIL || erPilInternetExplorer;
-};
+const erPilNavigasjonRegex = /^(Arrow)?(Up|Down|Left|Right)$/
+export const erPilNavigasjon = (key: string) => erPilNavigasjonRegex.test(key);
+
+const arrowDown = (key: string) => key === 'ArrowDown' || key === 'Down'
+const arrowUp = (key: string) => key === 'ArrowUp' || key === 'Up'

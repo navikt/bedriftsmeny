@@ -1,21 +1,17 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
-import { History } from 'history';
+import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 
 import { JuridiskEnhetMedUnderEnheterArray, Organisasjon, tomAltinnOrganisasjon } from '../../../organisasjon';
 import Underenhet from './Underenhet/Underenhet';
 import UnderenhetsVelgerMenyButton from './UnderenhetsVelgerMenyButton/UnderenhetsVelgerMenyButton';
 import { finnIndeksIMenyKomponenter, finnOrganisasjonsSomskalHaFokus } from '../pilnavigerinsfunksjoner';
 import './Underenhetsvelger.less';
+import { VirksomhetsvelgerContext } from '../../VirksomhetsvelgerProvider';
 
 interface Props {
-    menyKomponenter: JuridiskEnhetMedUnderEnheterArray[];
-    history: History;
     juridiskEnhetMedUnderenheter: JuridiskEnhetMedUnderEnheterArray;
-    valgtOrganisasjon: Organisasjon;
     hover: boolean;
     setHover: (bool: boolean) => void;
     setErApen: (bool: boolean) => void;
-    erSok: boolean;
     erApen: boolean;
     lukkMenyOnTabPaNedersteElement: (organisasjonsnummer: string, erJuridiskEnhetSomViserUnderenheter: boolean) => void;
     setOrganisasjonIFokus: (organisasjon: Organisasjon) => void;
@@ -25,13 +21,9 @@ interface Props {
 }
 
 const Underenhetsvelger: FunctionComponent<Props> = ({
-    menyKomponenter,
-    history,
     juridiskEnhetMedUnderenheter,
-    valgtOrganisasjon,
     hover,
     setHover,
-    erSok,
     setErApen,
     erApen,
     setForrigeOrganisasjonIFokus,
@@ -41,11 +33,12 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
     lukkMenyOnTabPaNedersteElement
 }) => {
     const [visUnderenheter, setVisUnderenheter] = useState(false);
+    const {valgtOrganisasjon, søketekst, aktivtOrganisasjonstre: menyKomponenter } = useContext(VirksomhetsvelgerContext)
     const juridiskEnhet = juridiskEnhetMedUnderenheter.JuridiskEnhet;
 
     const setNyOrganisasjonIFokus = (keypressKey: string, erJuridiskEnhetSomViserUnderenheter: boolean) => {
         const organisasjonsSomSkalFåFokus =
-            finnOrganisasjonsSomskalHaFokus(organisasjonIFokus,keypressKey, erJuridiskEnhetSomViserUnderenheter,menyKomponenter);
+            finnOrganisasjonsSomskalHaFokus(organisasjonIFokus,keypressKey, erJuridiskEnhetSomViserUnderenheter, menyKomponenter);
         if (organisasjonsSomSkalFåFokus) {
             setOrganisasjonIFokus(organisasjonsSomSkalFåFokus);
         }
@@ -57,6 +50,7 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
 
     useEffect(() => {
         setVisUnderenheter(false);
+        const erSok = søketekst !== '';
         const erValgt: boolean = valgtOrganisasjon.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber;
         if (erValgt || (erSok && juridiskEnhetMedUnderenheter.SokeresultatKunUnderenhet)) {
             setVisUnderenheter(true);
@@ -70,7 +64,7 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
                 }
             }, 100);
         }
-    }, [juridiskEnhetMedUnderenheter, valgtOrganisasjon, erApen]);
+    }, [juridiskEnhetMedUnderenheter, valgtOrganisasjon, erApen, søketekst]);
 
 
     useEffect(() => {
@@ -110,10 +104,8 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
             <UnderenhetsVelgerMenyButton
                 visUnderenheter={visUnderenheter}
                 juridiskEnhetMedUnderenheter={juridiskEnhetMedUnderenheter}
-                valgtOrganisasjon={valgtOrganisasjon}
                 setVisUnderenheter={setVisUnderenheter}
                 setHover={setHover}
-                erSok={erSok}
                 erApen={erApen}
                 setNyOrganisasjonIFokus = {setNyOrganisasjonIFokus}
                 lukkMenyOnTabPaNedersteElement={lukkMenyOnTabPaNedersteElement}
@@ -132,8 +124,6 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
                         lukkUnderenhetsvelgerOgFokuserPåEnhet={lukkUnderenhetsvelgerOgFokuserPåEnhet}
                         key={organisasjon.OrganizationNumber}
                         underEnhet={organisasjon}
-                        valgtOrganisasjon={valgtOrganisasjon}
-                        history={history}
                         hover={hover}
                         setHover={setHover}
                         erApen={erApen}

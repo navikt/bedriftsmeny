@@ -19,6 +19,9 @@ export function byggSokeresultat(
     organisasjonstre: JuridiskEnhetMedUnderEnheterArray[] = [],
     inputTekst: string
 ): JuridiskEnhetMedUnderEnheterArray[] {
+    if (inputTekst === '') {
+        return organisasjonstre;
+    }
     const sokeresultatUnderenheter = finnUnderEnheterMedSok(organisasjonstre, inputTekst);
     const sokeresultatEnheter = finnEnheterMedSok(organisasjonstre, inputTekst);
     return matchResultatMedJuridiskEnhet(

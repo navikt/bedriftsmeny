@@ -1,18 +1,15 @@
 import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
-import {History} from 'history';
 
 import Organisasjonsbeskrivelse from '../Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
 import {Organisasjon} from '../../../../organisasjon';
-import { setLocalStorageOrgnr, settOrgnummerIUrl } from '../../../utils/utils';
 import {erPilNavigasjon} from '../../pilnavigerinsfunksjoner';
 import './Underenhet.less';
 import {AmplitudeLoggerContext} from "../../../../amplitudeProvider";
+import { VirksomhetsvelgerContext } from '../../../VirksomhetsvelgerProvider';
 
 interface Props {
     underEnhet: Organisasjon;
-    valgtOrganisasjon: Organisasjon;
     organisasjonIFokus: Organisasjon;
-    history: History;
     hover: boolean;
     setHover: (bool: boolean) => void;
     erApen: boolean;
@@ -30,9 +27,7 @@ interface Props {
 
 const Underenhet: FunctionComponent<Props> = ({
                                                   underEnhet,
-                                                  valgtOrganisasjon,
                                                   organisasjonIFokus,
-                                                  history,
                                                   hover,
                                                   setHover,
                                                   setErApen,
@@ -41,6 +36,7 @@ const Underenhet: FunctionComponent<Props> = ({
                                                   lukkUnderenhetsvelgerOgFokuserPåEnhet,
                                                   lukkMenyOnTabPaNedersteElement
                                               }) => {
+    const {valgtOrganisasjon, velgUnderenhet} = useContext(VirksomhetsvelgerContext)
     const [erValgtEnhet, setErValgtEnhet] = useState(false);
 
     const {loggBedriftValgt} = useContext(AmplitudeLoggerContext);
@@ -48,8 +44,7 @@ const Underenhet: FunctionComponent<Props> = ({
     const onUnderenhetSelect = (value: string) => {
         setErApen(false);
         loggBedriftValgt()
-        settOrgnummerIUrl(value, history);
-        setLocalStorageOrgnr(value)
+        velgUnderenhet(value);
         setHover(false);
     };
 

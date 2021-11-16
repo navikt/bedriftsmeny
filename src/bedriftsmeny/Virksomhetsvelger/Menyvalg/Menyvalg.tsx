@@ -1,30 +1,22 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
-import { History } from 'history';
+import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 
-import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../organisasjon';
+import { Organisasjon } from '../../organisasjon';
 import Underenhetsvelger from './Underenhetsvelger/Underenhetsvelger';
 import { endreTabIndexAlleOrganisasjonerOgSokefelt } from './pilnavigerinsfunksjoner';
+import { VirksomhetsvelgerContext } from '../VirksomhetsvelgerProvider';
 
 interface Props {
-    valgtOrganisasjon: Organisasjon;
-    menyKomponenter?: JuridiskEnhetMedUnderEnheterArray[];
     erApen: boolean;
     setErApen: (bool: boolean) => void;
-    erSok: boolean;
     organisasjonIFokus: Organisasjon;
     forrigeOrganisasjonIFokus: Organisasjon;
     setOrganisasjonIFokus: (organisasjon: Organisasjon) => void;
     setForrigeOrganisasjonIFokus: (organisasjon: Organisasjon) => void;
-    history: History;
 }
 
 const Menyvalg: FunctionComponent<Props> = (props) => {
     const {
-        menyKomponenter = [],
-        history,
-        valgtOrganisasjon,
         setErApen,
-        erSok,
         erApen,
         organisasjonIFokus,
         setOrganisasjonIFokus,
@@ -32,6 +24,7 @@ const Menyvalg: FunctionComponent<Props> = (props) => {
         setForrigeOrganisasjonIFokus
     } = props;
     const [hover, setHover] = useState(false);
+    const {aktivtOrganisasjonstre: menyKomponenter} = useContext(VirksomhetsvelgerContext)
 
     useEffect(() => {
         const navarendeTabIndex = erApen ? 0 : -1;
@@ -60,7 +53,6 @@ const Menyvalg: FunctionComponent<Props> = (props) => {
         <div id={'virksomhetsvelger-id'}>
             {menyKomponenter.map((organisasjon) => (
                 <Underenhetsvelger
-                    menyKomponenter={menyKomponenter}
                     setOrganisasjonIFokus={setOrganisasjonIFokus}
                     setForrigeOrganisasjonIFokus={setForrigeOrganisasjonIFokus}
                     setErApen={setErApen}
@@ -69,12 +61,9 @@ const Menyvalg: FunctionComponent<Props> = (props) => {
                     lukkMenyOnTabPaNedersteElement={lukkMenyOnTabPaNedersteElement}
                     key={organisasjon.JuridiskEnhet.OrganizationNumber}
                     juridiskEnhetMedUnderenheter={organisasjon}
-                    history={history}
-                    valgtOrganisasjon={valgtOrganisasjon}
                     erApen={erApen}
                     hover={hover}
                     setHover={setHover}
-                    erSok={erSok}
                 />
             ))}
         </div>
