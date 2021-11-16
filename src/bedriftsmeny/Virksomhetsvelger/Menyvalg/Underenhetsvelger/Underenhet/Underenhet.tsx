@@ -2,7 +2,6 @@ import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
 
 import Organisasjonsbeskrivelse from '../Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
 import {Organisasjon} from '../../../../organisasjon';
-import {settOrgnummerIUrl} from '../../../utils/utils';
 import {erPilNavigasjon} from '../../pilnavigerinsfunksjoner';
 import './Underenhet.less';
 import {AmplitudeLoggerContext} from "../../../../amplitudeProvider";

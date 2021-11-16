@@ -2,7 +2,7 @@ import React, { createContext, FunctionComponent, useEffect, useState } from 're
 import { JuridiskEnhetMedUnderEnheterArray, Organisasjon, tomAltinnOrganisasjon } from '../organisasjon';
 import { History } from 'history';
 import useOrganisasjon from './utils/useOrganisasjon';
-import { settOrgnummerIUrl } from './utils/utils';
+import { setLocalStorageOrgnr, settOrgnummerIUrl } from './utils/utils';
 import { byggSokeresultat } from './utils/byggSokeresultat';
 
 interface Props {
@@ -35,11 +35,14 @@ export const VirksomhetsvelgerProvider: FunctionComponent<Props> = props => {
     }
 
     const context: Context = {
-        velgUnderenhet: (orgnr) => settOrgnummerIUrl(orgnr, props.history),
+        velgUnderenhet: (orgnr) => {
+            settOrgnummerIUrl(orgnr, props.history)
+            setLocalStorageOrgnr(orgnr)
+        },
         aktivtOrganisasjonstre,
         valgtOrganisasjon,
         søketekst,
-        setSøketekst,
+        setSøketekst
     }
 
     return <VirksomhetsvelgerContext.Provider value={context}>
