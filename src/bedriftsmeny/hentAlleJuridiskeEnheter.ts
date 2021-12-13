@@ -17,9 +17,14 @@ export async function hentAlleJuridiskeEnheter(
         return [];
     }
 
-    const respons = await fetch(
-        `https://data.brreg.no/enhetsregisteret/api/enheter/?organisasjonsnummer=${orgnr.join(",")}`
-    );
+    let respons
+    try {
+        respons = await fetch(
+            `https://data.brreg.no/enhetsregisteret/api/enheter/?organisasjonsnummer=${orgnr.join(",")}`
+        );
+    } catch (e) {
+        return [];
+    }
     if (!respons.ok) {
         return [];
     }
