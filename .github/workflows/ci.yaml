@@ -21,7 +21,7 @@ jobs:
       - name: build
         run: npm run build
 
-      - if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/robustify_brreg'
+      - if: github.ref == 'refs/heads/master'
         name: publish
         run: |
           if jq --null-input --exit-status \
