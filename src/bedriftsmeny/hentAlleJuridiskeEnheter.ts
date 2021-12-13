@@ -19,7 +19,7 @@ export async function hentAlleJuridiskeEnheter(
 
     const respons = await fetch(
         `https://data.brreg.no/enhetsregisteret/api/enheter/?organisasjonsnummer=${orgnr.join(",")}`
-    );
+    ).catch();
     if (!respons.ok) {
         return [];
     }
