@@ -17,16 +17,13 @@ export async function hentAlleJuridiskeEnheter(
         return [];
     }
 
-    let respons
-    try {
-        respons = await fetch(
+    const respons = await fetch(
             `https://data.brreg.no/enhetsregisteret/api/enheter/?organisasjonsnummer=${orgnr.join(",")}`
-        );
-    } catch (e) {
-        return [];
-    }
-    if (!respons.ok) {
-        return [];
+        )
+        .catch(_ => undefined);
+
+    if (respons === undefined || !respons.ok) {
+        return orgnr.map(orgnr => lagOrganisasjon(orgnr, "—"));
     }
 
     const responsBody: ListeMedJuridiskeEnheter = await respons.json();
