@@ -18,10 +18,12 @@ export async function hentAlleJuridiskeEnheter(
     }
 
     const respons = await fetch(
-        `https://data.brreg.no/enhetsregisteret/api/enheter/?organisasjonsnummer=${orgnr.join(",")}`
-    );
-    if (!respons.ok) {
-        return [];
+            `https://data.brreg.no/enhetsregisteret/api/enheter/?organisasjonsnummer=${orgnr.join(",")}`
+        )
+        .catch(_ => undefined);
+
+    if (respons === undefined || !respons.ok) {
+        return orgnr.map(orgnr => lagOrganisasjon(orgnr, "—"));
     }
 
     const responsBody: ListeMedJuridiskeEnheter = await respons.json();
