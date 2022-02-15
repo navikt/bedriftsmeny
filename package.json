@@ -29,7 +29,7 @@
         "build": "run-s build:webpack build:declarations"
     },
     "dependencies": {
-        "@types/amplitude-js": "^8.9.4",
+        "@types/amplitude-js": "^8.9.5",
         "fuzzysort": "^1.1.4"
     },
     "devDependencies": {
