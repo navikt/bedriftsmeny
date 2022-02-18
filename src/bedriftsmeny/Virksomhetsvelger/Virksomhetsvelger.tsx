@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useContext, useEffect, useRef, useState } from 'react';
 
-import { Organisasjon, tomAltinnOrganisasjon, } from '../organisasjon';
+import {JuridiskEnhetMedUnderEnheterArray, Organisasjon, tomAltinnOrganisasjon,} from '../organisasjon';
 import Menyvalg from './Menyvalg/Menyvalg';
 import Sokefelt from './Menyvalg/Sokefelt/Sokefelt';
 import MenyKnapp from './Menyknapp/Menyknapp';
@@ -11,6 +11,21 @@ import { VirksomhetsvelgerContext } from './VirksomhetsvelgerProvider';
 
 export interface VirksomhetsvelgerProps {
     onOrganisasjonChange: (organisasjon: Organisasjon) => void;
+}
+
+const finnForsteJuridiskEnhet = (organisasjonstre: JuridiskEnhetMedUnderEnheterArray[], soketekst: string, orgNrValgtJuridiskEnhet: string) : Organisasjon => {
+    if (organisasjonstre.length === 0) {
+        return tomAltinnOrganisasjon;
+    }
+
+    if (soketekst.length > 0) {
+        return organisasjonstre[0].JuridiskEnhet;
+    }
+
+    const juridiskeEnheter = organisasjonstre.map(({JuridiskEnhet}) => JuridiskEnhet)
+    return juridiskeEnheter.find(
+        ({OrganizationNumber}) => OrganizationNumber === orgNrValgtJuridiskEnhet
+    ) ?? tomAltinnOrganisasjon
 }
 
 const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => {
@@ -46,19 +61,6 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
         setErApen(false);
     });
 
-
-    let forsteJuridiskEnhetILista = tomAltinnOrganisasjon;
-    if (aktivtOrganisasjonstre.length > 0) {
-        forsteJuridiskEnhetILista =
-            soketekst.length === 0
-                ? aktivtOrganisasjonstre.find(
-                    (juridiskenhet) =>
-                        juridiskenhet.JuridiskEnhet.OrganizationNumber ===
-                        valgtOrganisasjon.ParentOrganizationNumber
-                )!!.JuridiskEnhet!!
-                : aktivtOrganisasjonstre[0].JuridiskEnhet;
-    }
-
     const onEnterSearchbox = () => {
         if (soketekst.length > 0 && aktivtOrganisasjonstre.length > 0) {
             const kunTreffPåEnUnderenhet =
@@ -80,6 +82,7 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
 
     const setFocusOnForsteVirksomhet = () => {
         if (aktivtOrganisasjonstre.length > 0 || soketekst.length === 0) {
+            const forsteJuridiskEnhetILista = finnForsteJuridiskEnhet(aktivtOrganisasjonstre, soketekst, valgtOrganisasjon.ParentOrganizationNumber);
             const blarOppTilSøkefeltOgNedTilMeny =
                 forrigeOrganisasjonIFokus.OrganizationNumber ===
                 aktivtOrganisasjonstre[0].JuridiskEnhet.OrganizationNumber;
