@@ -19,6 +19,7 @@ interface EgneProps {
     amplitudeClient?: AmplitudeClient;
 }
 
+
 const Bedriftsmeny: FunctionComponent<EgneProps> = (props) => {
     const {sidetittel = 'Arbeidsgiver'} = props;
     const [organisasjonstre, setOrganisasjonstre] = useState<JuridiskEnhetMedUnderEnheterArray[] | undefined>(undefined);
