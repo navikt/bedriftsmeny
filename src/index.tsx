@@ -6,6 +6,7 @@ import {Router} from 'react-router-dom';
 import {createBrowserHistory, History} from 'history';
 import 'whatwg-fetch';
 
+
 import {Normaltekst} from 'nav-frontend-typografi';
 
 import {Organisasjon} from './bedriftsmeny/organisasjon';
@@ -13,6 +14,7 @@ import Bedriftsmeny from './bedriftsmeny/Bedriftsmeny';
 import {MOCK_ORGANISASJONER} from './mock/organisasjoner';
 import './index.less';
 import amplitude from "./amplitude";
+import {Bjelleikon} from "./bjelleikon";
 
 const history: History = createBrowserHistory();
 
@@ -41,9 +43,7 @@ const App = () => {
                     history={history}
                     amplitudeClient={amplitude}
                 >
-                    <div className="eksempelapp__child">
-                        hello
-                    </div>
+                    <Bjelleikon/>
                 </Bedriftsmeny>
                 <section className="eksempelapp__innhold" role="main">
                     <Normaltekst>
@@ -52,12 +52,12 @@ const App = () => {
                         tilsvarende.
                     </Normaltekst>
                     {valgtOrganisasjon && (
-                        <>
+                        <div style={{overflow:"scroll", width:"100%"}}>
                             <Normaltekst>
                                 <em>Heisann, du har valgt en organisasjon!</em>
                             </Normaltekst>
-                            <code>{JSON.stringify(valgtOrganisasjon, null, 4)}</code>
-                        </>
+                            <code >{JSON.stringify(valgtOrganisasjon, null, 4)}</code>
+                        </div>
                     )}
                 </section>
             </div>

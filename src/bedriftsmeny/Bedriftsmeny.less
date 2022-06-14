@@ -3,7 +3,8 @@
 .bedriftsmeny {
     background-color: @navBlaLighten80;
     border-bottom: 0.25rem solid @navDypBlaLighten60;
-    padding: 2rem;
+    padding: 2rem 1rem 1rem 1rem;
+
 
     .virksomhetsvelger + * {
       margin-left: 1rem;
@@ -12,21 +13,25 @@
     &__tittel {
         margin-bottom: 1rem;
         margin-right: auto;
+        width: 100%;
     }
 
     &__inner {
         display: flex;
         align-items: center;
-        flex-direction: column;
-        justify-content: flex-end;
+        flex-wrap: wrap;
+        justify-content: flex-start;
         width: 100%;
         max-width: 60rem;
         margin: 0 auto;
     }
 
     @media (min-width: @screen-sm-min) {
+        padding: 2rem;
+
         &__tittel {
             margin-bottom: 0;
+            width: auto;
         }
 
         &__inner {
