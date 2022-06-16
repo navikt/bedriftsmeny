@@ -43,7 +43,9 @@ const App = () => {
                     history={history}
                     amplitudeClient={amplitude}
                 >
-                    <Bjelleikon/>
+                    <div className={"eksempelapp__bjelleikon"}>
+                        <Bjelleikon/>
+                    </div>
                 </Bedriftsmeny>
                 <section className="eksempelapp__innhold" role="main">
                     <Normaltekst>
@@ -52,7 +54,7 @@ const App = () => {
                         tilsvarende.
                     </Normaltekst>
                     {valgtOrganisasjon && (
-                        <div style={{overflow:"scroll", width:"100%"}}>
+                        <div style={{overflow:"scroll", width:"70%"}}>
                             <Normaltekst>
                                 <em>Heisann, du har valgt en organisasjon!</em>
                             </Normaltekst>

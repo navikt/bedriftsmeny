@@ -4,13 +4,13 @@
     background-color: white;
     border: 2px solid #78706a;
     padding: 0.5rem 0.7rem 0.5rem 1rem;
-    width: 18rem;
+    //width: 100%;
     cursor: pointer;
     border-radius: 4px;
-
-    @media (min-width: @screen-sm-min) {
-        width: 20rem;
-    }
+    width: 100%;
+    //@media (min-width: @screen-sm-min) {
+    //    width: 20rem;
+    //}
 
     &:hover {
         background-color: @navBla;
@@ -48,15 +48,17 @@
         .menyknapp-beskrivelse {
             overflow: hidden;
             text-align: left;
-            width: 12rem;
-            @media (min-width: @screen-sm-min) {
-                width: 14.5rem;
-            }
+            margin-right: 1rem;
+            //
+            //@media (min-width: @screen-sm-min) {
+            //    width: 14.5rem;
+            //}
 
             .menyknapp-navn {
                 text-overflow: ellipsis;
                 white-space: nowrap;
                 overflow: hidden;
+                margin-right: 0.5rem;
             }
         }
     }

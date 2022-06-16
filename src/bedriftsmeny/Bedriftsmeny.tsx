@@ -49,19 +49,21 @@ const Bedriftsmeny: FunctionComponent<EgneProps> = (props) => {
                 ) : (
                     <div className="bedriftsmeny__tittel">{sidetittel}</div>
                 )}
-                {visVirksomhetsvelger && (
-                    <AmplitudeProvider amplitudeClient={props.amplitudeClient}>
-                        <VirksomhetsvelgerProvider
-                            history={props.history}
-                            organisasjonstre={organisasjonstre ?? []}
-                        >
-                            <Virksomhetsvelger
-                                onOrganisasjonChange={props.onOrganisasjonChange}
-                            />
-                        </VirksomhetsvelgerProvider>
-                    </AmplitudeProvider>
-                )}
-                {props.children}
+                <div className={"bedriftsmeny__some-appropriate-name"}>
+                    {visVirksomhetsvelger && (
+                        <AmplitudeProvider amplitudeClient={props.amplitudeClient}>
+                            <VirksomhetsvelgerProvider
+                                history={props.history}
+                                organisasjonstre={organisasjonstre ?? []}
+                            >
+                                <Virksomhetsvelger
+                                    onOrganisasjonChange={props.onOrganisasjonChange}
+                                />
+                            </VirksomhetsvelgerProvider>
+                        </AmplitudeProvider>
+                    )}
+                    {props.children}
+                </div>
             </div>
         </div>
     );
