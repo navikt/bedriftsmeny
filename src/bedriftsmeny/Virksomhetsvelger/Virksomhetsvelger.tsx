@@ -114,7 +114,7 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                     setErApen(false);
                 }
             }}>
-            <div ref={bedriftvelgernode} className="virksomhetsvelger__wrapper">
+            <div ref={bedriftvelgernode}>
                 <MenyKnapp
                     erApen={erApen}
                     setErApen={setErApen}

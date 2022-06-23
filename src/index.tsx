@@ -36,18 +36,19 @@ const App = () => {
     return (
         <Router history={history}>
             <div className="eksempelapp">
-                <Bedriftsmeny2/>
-                {/*<Bedriftsmeny*/}
-                {/*    sidetittel="Utviklingsapp"*/}
-                {/*    organisasjoner={organisasjoner}*/}
-                {/*    onOrganisasjonChange={onOrganisasjonChange}*/}
-                {/*    history={history}*/}
-                {/*    amplitudeClient={amplitude}*/}
-                {/*>*/}
-                {/*    <div className={"eksempelapp__bjelleikon"}>*/}
-                {/*        <Bjelleikon/>*/}
-                {/*    </div>*/}
-                {/*</Bedriftsmeny>*/}
+                {/*<Bedriftsmeny2/>*/}
+                <Bedriftsmeny
+                    sidetittel="Utviklingsapp"
+                    organisasjoner={organisasjoner}
+                    onOrganisasjonChange={onOrganisasjonChange}
+                    history={history}
+                    amplitudeClient={amplitude}
+                >
+                    <div className={"eksempelapp__bjelleikon"}>
+                        <Bjelleikon/>
+                    </div>
+                </Bedriftsmeny>
+
                 <section className="eksempelapp__innhold" role="main">
                     <Normaltekst style={{wordWrap:"break-word"}}>
                         Her ser du et eksempel på bruk av bedriftsmenyen. Hvis du endrer

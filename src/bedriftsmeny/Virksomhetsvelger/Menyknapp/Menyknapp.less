@@ -4,10 +4,9 @@
     background-color: white;
     border: 2px solid #78706a;
     padding: 0.5rem 0.7rem 0.5rem 1rem;
-    //width: 100%;
     cursor: pointer;
     border-radius: 4px;
-    width: 100%;
+    box-sizing: border-box;
     //@media (min-width: @screen-sm-min) {
     //    width: 20rem;
     //}
@@ -34,8 +33,10 @@
     }
 
     &__innhold {
+        box-sizing: border-box;
         display: flex;
         position: relative;
+        box-sizing: border-box;
 
         .menyknapp-ikon {
             display: flex;
@@ -43,13 +44,16 @@
             margin-right: 1rem;
             flex-shrink: 0;
             margin-top: 0.2rem;
+            box-sizing: border-box;
         }
 
         .menyknapp-beskrivelse {
             overflow: hidden;
             text-align: left;
             margin-right: 1rem;
-            //
+            box-sizing: border-box;
+
+
             //@media (min-width: @screen-sm-min) {
             //    width: 14.5rem;
             //}
@@ -59,6 +63,8 @@
                 white-space: nowrap;
                 overflow: hidden;
                 margin-right: 0.5rem;
+                box-sizing: border-box;
+
             }
         }
     }

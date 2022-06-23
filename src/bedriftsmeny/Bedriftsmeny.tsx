@@ -1,6 +1,6 @@
 import React, {FunctionComponent, useEffect, useState} from 'react';
 import {History} from 'history';
-
+import {Bjelleikon} from "../bjelleikon";
 import {Innholdstittel} from 'nav-frontend-typografi';
 
 import {JuridiskEnhetMedUnderEnheterArray, Organisasjon} from './organisasjon';
@@ -10,6 +10,7 @@ import './Bedriftsmeny.less';
 import {AmplitudeClient} from "amplitude-js";
 import {AmplitudeProvider} from "./amplitudeProvider";
 import { VirksomhetsvelgerProvider } from './Virksomhetsvelger/VirksomhetsvelgerProvider';
+import {Bedriftsmeny2} from "./Bedriftsmeny2";
 
 interface EgneProps {
     sidetittel?: string | JSX.Element;
@@ -41,31 +42,43 @@ const Bedriftsmeny: FunctionComponent<EgneProps> = (props) => {
         props.organisasjoner &&
         props.organisasjoner?.length > 0;
 
-    return (
-        <div className="bedriftsmeny" role="banner">
-            <div className="bedriftsmeny__inner">
-                {typeof sidetittel === 'string' ? (
-                    <Innholdstittel className="bedriftsmeny__tittel">{sidetittel}</Innholdstittel>
-                ) : (
-                    <div className="bedriftsmeny__tittel">{sidetittel}</div>
-                )}
-                <div className={"bedriftsmeny__some-appropriate-name"}>
-                    {visVirksomhetsvelger && (
-                        <AmplitudeProvider amplitudeClient={props.amplitudeClient}>
-                            <VirksomhetsvelgerProvider
-                                history={props.history}
-                                organisasjonstre={organisasjonstre ?? []}
-                            >
-                                <Virksomhetsvelger
-                                    onOrganisasjonChange={props.onOrganisasjonChange}
-                                />
-                            </VirksomhetsvelgerProvider>
-                        </AmplitudeProvider>
-                    )}
-                    {props.children}
-                </div>
-            </div>
-        </div>
+    return (<>
+            <Bedriftsmeny2
+                tittel={sidetittel.toString()}
+                virksomhetsvelger={
+                    <VirksomhetsvelgerProvider
+                        history={props.history}
+                        organisasjonstre={organisasjonstre ?? []}
+                    >
+                        <Virksomhetsvelger onOrganisasjonChange={props.onOrganisasjonChange}/>
+                    </VirksomhetsvelgerProvider>
+            }
+                bjelle={Bjelleikon()}
+            />
+
+        {/*<div className="bedriftsmeny" role="banner">*/}
+        {/*    <div className="bedriftsmeny__inner">*/}
+        {/*        {typeof sidetittel === 'string' ? (*/}
+        {/*            <Innholdstittel className="bedriftsmeny__tittel">{sidetittel}</Innholdstittel>*/}
+        {/*        ) : (*/}
+        {/*            <div className="bedriftsmeny__tittel">{sidetittel}</div>*/}
+        {/*        )}*/}
+        {/*        {visVirksomhetsvelger && (*/}
+        {/*            <AmplitudeProvider amplitudeClient={props.amplitudeClient}>*/}
+        {/*                <VirksomhetsvelgerProvider*/}
+        {/*                    history={props.history}*/}
+        {/*                    organisasjonstre={organisasjonstre ?? []}*/}
+        {/*                >*/}
+        {/*                    <Virksomhetsvelger*/}
+        {/*                        onOrganisasjonChange={props.onOrganisasjonChange}*/}
+        {/*                    />*/}
+        {/*                </VirksomhetsvelgerProvider>*/}
+        {/*            </AmplitudeProvider>*/}
+        {/*        )}*/}
+        {/*        {props.children}*/}
+        {/*    </div>*/}
+        {/*</div>*/}
+        </>
     );
 };
 
