@@ -22,7 +22,7 @@ export const BedriftsmenyView = (props: Props) =>
                         {props.virksomhetsvelger}
                     </div>
                 </div>
-                <div className="bedriftsmeny__bjelle">
+                <div>
                     {props.bjelle}
                 </div>
             </div>
