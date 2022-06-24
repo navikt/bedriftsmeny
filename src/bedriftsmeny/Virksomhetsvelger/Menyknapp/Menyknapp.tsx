@@ -1,19 +1,14 @@
-import React, { useContext } from 'react';
-
-import { Element, Normaltekst } from 'nav-frontend-typografi';
-import { NedChevron } from 'nav-frontend-chevron';
-
-import UnderenhetIkon from '../Menyvalg/Underenhetsvelger/Organisasjonsbeskrivelse/UnderenhetIkon';
-import { erPilNavigasjon, setfokusPaSokefelt } from '../Menyvalg/pilnavigerinsfunksjoner';
-import './Menyknapp.less';
-import { VirksomhetsvelgerContext } from '../VirksomhetsvelgerProvider';
+import React, {useContext} from 'react';
+import {erPilNavigasjon, setfokusPaSokefelt} from '../Menyvalg/pilnavigerinsfunksjoner';
+import {VirksomhetsvelgerContext} from '../VirksomhetsvelgerProvider';
+import {MenyknappView} from "./MenyknappView";
 
 interface Props {
     erApen: boolean;
     setErApen: (bool: boolean) => void;
 }
 
-const MenyKnapp = ({ erApen, setErApen }: Props) => {
+const MenyKnapp = ({erApen, setErApen}: Props) => {
     const {
         valgtOrganisasjon: {Name, OrganizationNumber},
         setSøketekst,
@@ -31,7 +26,10 @@ const MenyKnapp = ({ erApen, setErApen }: Props) => {
     };
 
     return (
-        <button
+        <MenyknappView
+            navn={Name}
+            orgNummer={OrganizationNumber}
+            isOpen={erApen}
             onClick={() => {
                 setSøketekst('');
                 setErApen(!erApen);
@@ -43,25 +41,8 @@ const MenyKnapp = ({ erApen, setErApen }: Props) => {
                 }
                 onKeyPress(e.key, e.shiftKey);
             }}
-            className="menyknapp"
-            id="virksomhetsvelger__button"
-            aria-label={`Virksomhetsvelger. Valgt virksomhet er ${Name}, Trykk enter for å ${
-                erApen ? 'lukke' : 'åpne'
-            } denne menyen`}
-            aria-pressed={erApen}
-            aria-haspopup="true"
-            aria-controls="virksomhetsvelger__dropdown"
-            aria-expanded={erApen}>
-            <div className="menyknapp__innhold">
-                <UnderenhetIkon classname="menyknapp-ikon" />
-                <div className="menyknapp-beskrivelse">
-                    <Element className="menyknapp-navn">{Name}</Element>
-                    <Normaltekst>virksomhetsnr. {OrganizationNumber}</Normaltekst>
-                </div>
-                <NedChevron className={`menyknapp__chevron${erApen ? '--ned' : '--opp'}`} />
-            </div>
-        </button>
-    );
-};
+        />
+    )
+}
 
 export default MenyKnapp;

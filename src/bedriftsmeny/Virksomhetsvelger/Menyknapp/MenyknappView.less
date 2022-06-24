@@ -1,0 +1,61 @@
+@import '~nav-frontend-core/less/_variabler';
+
+.menyknapp{
+    background-color: white;
+    border: 2px solid #78706a;
+    border-radius: 4px;
+    width: 100%;
+    padding: 0.5rem 1rem;
+
+
+    &:hover {
+        background-color: @navBla;
+    }
+
+    &:active {
+        background-color: @navBlaDarken40;
+    }
+
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px @fokusFarge;
+    }
+
+    &__container{
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &__tekstcontainer{
+        margin: 0 0.7rem;
+        overflow: hidden;
+        white-space: nowrap;
+        text-align: left;
+    }
+
+    &__overtekst{
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    &__undertekst{
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    &__ikon{
+        padding-top: 0.3rem;
+    }
+
+    &__chevron {
+        padding-top: 0.3rem;
+        width: 20px;
+        &--ned,
+        &--opp {
+            transition: 0.6s ease;
+        }
+        &--ned {
+            transform: rotateX(-180deg);
+        }
+    }
+}

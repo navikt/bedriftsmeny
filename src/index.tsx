@@ -5,7 +5,7 @@ import {render} from 'react-dom';
 import {Router} from 'react-router-dom';
 import {createBrowserHistory, History} from 'history';
 import 'whatwg-fetch';
-
+import {BedriftsmenyView} from "./bedriftsmeny/BedriftsmenyView";
 
 import {Normaltekst} from 'nav-frontend-typografi';
 
@@ -37,22 +37,25 @@ const App = () => {
         <Router history={history}>
             <div className="eksempelapp">
                 <Bedriftsmeny
-                    sidetittel="Utviklingsapp"
+                    sidetittel="Min Side Arbeidsgiver"
                     organisasjoner={organisasjoner}
                     onOrganisasjonChange={onOrganisasjonChange}
                     history={history}
                     amplitudeClient={amplitude}
                 >
-                    <Bjelleikon/>
+                    <div className={"eksempelapp__bjelleikon"}>
+                        <Bjelleikon/>
+                    </div>
                 </Bedriftsmeny>
+
                 <section className="eksempelapp__innhold" role="main">
-                    <Normaltekst>
+                    <Normaltekst style={{wordWrap:"break-word"}}>
                         Her ser du et eksempel på bruk av bedriftsmenyen. Hvis du endrer
                         organisasjon vil organisasjonsnummer i adressefeltet også endres
                         tilsvarende.
                     </Normaltekst>
                     {valgtOrganisasjon && (
-                        <div style={{overflow:"scroll", width:"100%"}}>
+                        <div style={{overflow:"scroll", width:"70%"}}>
                             <Normaltekst>
                                 <em>Heisann, du har valgt en organisasjon!</em>
                             </Normaltekst>
