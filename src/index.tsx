@@ -5,7 +5,6 @@ import {render} from 'react-dom';
 import {Router} from 'react-router-dom';
 import {createBrowserHistory, History} from 'history';
 import 'whatwg-fetch';
-import {BedriftsmenyView} from "./bedriftsmeny/BedriftsmenyView";
 
 import {Normaltekst} from 'nav-frontend-typografi';
 

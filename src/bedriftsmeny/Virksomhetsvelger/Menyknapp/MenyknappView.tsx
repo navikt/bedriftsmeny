@@ -32,7 +32,7 @@ export const MenyknappView=(props: Props)=>
                 <Element className="menyknapp__overtekst">
                     {props.navn}
                 </Element>
-                <Normaltekst className="menyknapp__undertekst">
+                <Normaltekst className="menyknapp__undertekst" >
                     virksomhetsnr. {props.orgNummer}
                 </Normaltekst>
             </div>
