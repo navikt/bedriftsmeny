@@ -1,9 +1,7 @@
 import React, {useContext} from 'react';
-
 import {erPilNavigasjon, setfokusPaSokefelt} from '../Menyvalg/pilnavigerinsfunksjoner';
-import './Menyknapp.less';
 import {VirksomhetsvelgerContext} from '../VirksomhetsvelgerProvider';
-import {Virksomhetsvelger2} from "../Virksomhetsvelger2";
+import {MenyknappView} from "./MenyknappView";
 
 interface Props {
     erApen: boolean;
@@ -28,7 +26,7 @@ const MenyKnapp = ({erApen, setErApen}: Props) => {
     };
 
     return (
-        <Virksomhetsvelger2
+        <MenyknappView
             navn={Name}
             orgNummer={OrganizationNumber}
             isOpen={erApen}

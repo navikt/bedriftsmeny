@@ -1,14 +1,18 @@
 @import '~nav-frontend-core/less/_variabler';
 
-.bedriftsmeny2{
+.bedriftsmeny{
   background-color: @navBlaLighten80;
+  border-bottom: 0.25rem solid @navDypBlaLighten60;
   padding: 1rem;
+
+  @media(min-width:@screen-sm-min){
+    padding: 2rem 1rem;
+  }
 
   &__content{
     display: flex;
     flex-wrap: wrap;
-    background-color: @navBlaDarken20;
-    max-width: 70rem;
+    max-width: 60rem;
     margin: 0 auto;
     justify-content: space-between;
     column-gap: 3rem;
@@ -16,32 +20,25 @@
     align-items: center;
   }
 
-  &__tittel{
-    background-color: white;
-  }
-
   &__widgets{
     position: relative;
-    background-color: #194d62;
     display: flex;
     gap: 1rem;
     max-width: 23rem;
     width: 100%;
     align-items: center;
-
   }
 
   &__virksomhetsvelger{
-    background-color: aqua;
     overflow: hidden;
     width: 100%;
   }
 
   &__bjelle{
-    background-color: aqua;
     width: 40px;
     height: 40px;
   }
+
 
 
 }

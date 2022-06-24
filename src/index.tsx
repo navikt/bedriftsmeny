@@ -5,7 +5,7 @@ import {render} from 'react-dom';
 import {Router} from 'react-router-dom';
 import {createBrowserHistory, History} from 'history';
 import 'whatwg-fetch';
-import {Bedriftsmeny2} from "./bedriftsmeny/Bedriftsmeny2";
+import {BedriftsmenyView} from "./bedriftsmeny/BedriftsmenyView";
 
 import {Normaltekst} from 'nav-frontend-typografi';
 
@@ -36,9 +36,8 @@ const App = () => {
     return (
         <Router history={history}>
             <div className="eksempelapp">
-                {/*<Bedriftsmeny2/>*/}
                 <Bedriftsmeny
-                    sidetittel="Utviklingsapp"
+                    sidetittel="Min Side Arbeidsgiver"
                     organisasjoner={organisasjoner}
                     onOrganisasjonChange={onOrganisasjonChange}
                     history={history}
