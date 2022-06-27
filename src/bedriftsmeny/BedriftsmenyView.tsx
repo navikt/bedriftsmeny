@@ -22,9 +22,10 @@ export const BedriftsmenyView = (props: Props) =>
                         {props.virksomhetsvelger}
                     </div>
                 </div>
-                <div>
+                {props.bjelle ? <div>
                     {props.bjelle}
-                </div>
+                </div> : null}
+
             </div>
         </div>
     </div>
