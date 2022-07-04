@@ -1,5 +1,4 @@
 import React, {FunctionComponent, useEffect, useState} from 'react';
-import {History} from 'history';
 import {JuridiskEnhetMedUnderEnheterArray, Organisasjon} from './organisasjon';
 import {byggOrganisasjonstre} from './byggOrganisasjonsTre';
 import Virksomhetsvelger from './Virksomhetsvelger/Virksomhetsvelger';
@@ -11,7 +10,6 @@ import {BedriftsmenyView} from "./BedriftsmenyView";
 interface EgneProps {
     sidetittel?: string | JSX.Element;
     organisasjoner?: Organisasjon[];
-    history: History;
     onOrganisasjonChange: (organisasjon: Organisasjon) => void;
     amplitudeClient?: AmplitudeClient;
 }
@@ -43,7 +41,6 @@ const Bedriftsmeny: FunctionComponent<EgneProps> = (props) => {
         virksomhetsvelger={visVirksomhetsvelger ?
             <AmplitudeProvider amplitudeClient={props.amplitudeClient}>
                 <VirksomhetsvelgerProvider
-                    history={props.history}
                     organisasjonstre={organisasjonstre ?? []}
                 >
                     <Virksomhetsvelger onOrganisasjonChange={props.onOrganisasjonChange}/>
