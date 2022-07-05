@@ -3,6 +3,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const prefixer = require('postcss-prefix-selector');
 
 module.exports = {
+    devtool: "source-map",
+
     mode: 'production',
     entry: './src/bedriftsmeny/Bedriftsmeny.tsx',
 

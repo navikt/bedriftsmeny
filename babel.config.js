@@ -1,4 +1,6 @@
 module.exports = {
+    sourceMaps: true,
+
     presets: [
         '@babel/typescript',
         '@babel/react',
