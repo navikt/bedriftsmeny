@@ -20,31 +20,36 @@ interface Context {
 export const VirksomhetsvelgerContext = createContext<Context>({} as any)
 
 export const VirksomhetsvelgerProvider: FunctionComponent<Props> = props => {
-    const [søketekst, setSøketekst] = useState('');
-    const [aktivtOrganisasjonstre, setAktivtOrganisasjonstre] = useState(props.organisasjonstre)
-    const {valgtOrganisasjon} = useOrganisasjon(props.organisasjonstre);
-    const [, setOrgnr] = useOrgnrSearchParam();
+    try {
+        const [søketekst, setSøketekst] = useState("");
+        const [aktivtOrganisasjonstre, setAktivtOrganisasjonstre] = useState(props.organisasjonstre);
+        const {valgtOrganisasjon} = useOrganisasjon(props.organisasjonstre);
+        const [, setOrgnr] = useOrgnrSearchParam();
 
-    useEffect(() => {
-        setAktivtOrganisasjonstre(byggSokeresultat(props.organisasjonstre, søketekst));
-    }, [props.organisasjonstre, søketekst])
+        useEffect(() => {
+            setAktivtOrganisasjonstre(byggSokeresultat(props.organisasjonstre, søketekst));
+        }, [props.organisasjonstre, søketekst])
 
-    if (valgtOrganisasjon === undefined || valgtOrganisasjon === tomAltinnOrganisasjon) {
-        return null;
+        if (valgtOrganisasjon === undefined || valgtOrganisasjon === tomAltinnOrganisasjon) {
+            return null;
+        }
+
+        const context: Context = {
+            velgUnderenhet: (orgnr) => {
+                setOrgnr(orgnr)
+                setLocalStorageOrgnr(orgnr)
+            },
+            aktivtOrganisasjonstre,
+            valgtOrganisasjon,
+            søketekst,
+            setSøketekst
+        }
+
+        return <VirksomhetsvelgerContext.Provider value={context}>
+            {props.children}
+        </VirksomhetsvelgerContext.Provider>
+    }catch (e){
+        console.log("Her skjer det noe.. ", e)
+        return <>Lastefeil...</>
     }
-
-    const context: Context = {
-        velgUnderenhet: (orgnr) => {
-            setOrgnr(orgnr)
-            setLocalStorageOrgnr(orgnr)
-        },
-        aktivtOrganisasjonstre,
-        valgtOrganisasjon,
-        søketekst,
-        setSøketekst
-    }
-
-    return <VirksomhetsvelgerContext.Provider value={context}>
-        {props.children}
-    </VirksomhetsvelgerContext.Provider>
 };
