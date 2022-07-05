@@ -1,8 +1,13 @@
-import { useEffect, useState } from 'react';
-import { History } from 'history';
+import {useEffect, useState} from 'react';
 
-import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../organisasjon';
-import { getLocalStorageOrgnr, hentUnderenheter, setLocalStorageOrgnr, settOrgnummerIUrl } from './utils';
+
+import {JuridiskEnhetMedUnderEnheterArray, Organisasjon} from '../../organisasjon';
+import {
+    getLocalStorageOrgnr,
+    hentUnderenheter,
+    setLocalStorageOrgnr,
+    useOrgnrSearchParam
+} from './utils';
 
 const lookupOrg = (alle: Organisasjon[], orgnr: string | null): Organisasjon | undefined =>
     orgnr === null
@@ -11,25 +16,24 @@ const lookupOrg = (alle: Organisasjon[], orgnr: string | null): Organisasjon | u
 
 const useOrganisasjon = (
     organisasjonstre: JuridiskEnhetMedUnderEnheterArray[] = [],
-    history: History
 ) => {
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState<Organisasjon | undefined>();
+    const [orgnr, setOrgnr] = useOrgnrSearchParam();
 
-    const brukOrgnummerFraUrl = () => {
+    useEffect(() => {
         if (organisasjonstre.length === 0) {
             return;
         }
 
-        const orgnummerFraUrl = new URL(window.location.href).searchParams.get('bedrift');
         const orgnummerFraLocalStore = getLocalStorageOrgnr();
         const underenheter = hentUnderenheter(organisasjonstre);
 
-        if (valgtOrganisasjon && valgtOrganisasjon.OrganizationNumber === orgnummerFraUrl) {
-            setLocalStorageOrgnr(orgnummerFraUrl);
+        if (valgtOrganisasjon && valgtOrganisasjon.OrganizationNumber === orgnr) {
+            setLocalStorageOrgnr(orgnr);
             return;
         }
 
-        const organisasjonReferertIUrl = lookupOrg(underenheter, orgnummerFraUrl);
+        const organisasjonReferertIUrl = lookupOrg(underenheter, orgnr);
 
         if (organisasjonReferertIUrl !== undefined) {
             setValgtOrganisasjon(organisasjonReferertIUrl);
@@ -38,7 +42,7 @@ const useOrganisasjon = (
         }
 
         if (valgtOrganisasjon && valgtOrganisasjon.OrganizationNumber === orgnummerFraLocalStore) {
-            settOrgnummerIUrl(orgnummerFraLocalStore, history)
+            setOrgnr(orgnummerFraLocalStore)
             return;
         }
 
@@ -46,26 +50,17 @@ const useOrganisasjon = (
 
         if (organisasjonReferertILocalStore !== undefined) {
             setValgtOrganisasjon(organisasjonReferertILocalStore);
-            settOrgnummerIUrl(organisasjonReferertILocalStore.OrganizationNumber, history)
+            setOrgnr(organisasjonReferertILocalStore.OrganizationNumber)
             return;
         }
-
         const førsteOrganisasjon = organisasjonstre[0].Underenheter[0];
-        settOrgnummerIUrl(førsteOrganisasjon.OrganizationNumber, history);
+        setOrgnr(førsteOrganisasjon.OrganizationNumber);
         setLocalStorageOrgnr(førsteOrganisasjon.OrganizationNumber)
         setValgtOrganisasjon(førsteOrganisasjon);
-    };
 
-    const velgOrganisasjonOgLyttPåUrl = () => {
-        brukOrgnummerFraUrl();
+    }, [organisasjonstre, orgnr]);
 
-        const unlisten = history.listen(brukOrgnummerFraUrl);
-        return unlisten;
-    };
-
-    useEffect(velgOrganisasjonOgLyttPåUrl, [organisasjonstre]);
-
-    return { valgtOrganisasjon };
+    return {valgtOrganisasjon};
 };
 
 export default useOrganisasjon;

@@ -2,13 +2,10 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import React, {useEffect, useState} from 'react';
 import {render} from 'react-dom';
-import {Router} from 'react-router-dom';
+import {BrowserRouter, Router, useNavigate} from 'react-router-dom';
 import {createBrowserHistory, History} from 'history';
 import 'whatwg-fetch';
-import {BedriftsmenyView} from "./bedriftsmeny/BedriftsmenyView";
-
 import {Normaltekst} from 'nav-frontend-typografi';
-
 import {Organisasjon} from './bedriftsmeny/organisasjon';
 import Bedriftsmeny from './bedriftsmeny/Bedriftsmeny';
 import {MOCK_ORGANISASJONER} from './mock/organisasjoner';
@@ -16,7 +13,6 @@ import './index.less';
 import amplitude from "./amplitude";
 import {Bjelleikon} from "./bjelleikon";
 
-const history: History = createBrowserHistory();
 
 const App = () => {
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState<Organisasjon | undefined>();
@@ -34,13 +30,12 @@ const App = () => {
     }, []);
 
     return (
-        <Router history={history}>
+        <BrowserRouter>
             <div className="eksempelapp">
                 <Bedriftsmeny
                     sidetittel="Min Side Arbeidsgiver"
                     organisasjoner={organisasjoner}
                     onOrganisasjonChange={onOrganisasjonChange}
-                    history={history}
                     amplitudeClient={amplitude}
                 >
                     <div className={"eksempelapp__bjelleikon"}>
@@ -64,7 +59,7 @@ const App = () => {
                     )}
                 </section>
             </div>
-        </Router>
+        </BrowserRouter>
     );
 };
 
