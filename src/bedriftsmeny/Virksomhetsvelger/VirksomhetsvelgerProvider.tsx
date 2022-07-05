@@ -1,8 +1,8 @@
-import React, { createContext, FunctionComponent, useEffect, useState } from 'react';
-import { JuridiskEnhetMedUnderEnheterArray, Organisasjon, tomAltinnOrganisasjon } from '../organisasjon';
+import React, {createContext, FunctionComponent, useEffect, useState} from 'react';
+import {JuridiskEnhetMedUnderEnheterArray, Organisasjon, tomAltinnOrganisasjon} from '../organisasjon';
 import useOrganisasjon from './utils/useOrganisasjon';
-import { setLocalStorageOrgnr, settOrgnummerIUrl } from './utils/utils';
-import { byggSokeresultat } from './utils/byggSokeresultat';
+import {setLocalStorageOrgnr, useOrgnrSearchParam} from './utils/utils';
+import {byggSokeresultat} from './utils/byggSokeresultat';
 
 interface Props {
     organisasjonstre: JuridiskEnhetMedUnderEnheterArray[];
@@ -22,7 +22,8 @@ export const VirksomhetsvelgerContext = createContext<Context>({} as any)
 export const VirksomhetsvelgerProvider: FunctionComponent<Props> = props => {
     const [søketekst, setSøketekst] = useState('');
     const [aktivtOrganisasjonstre, setAktivtOrganisasjonstre] = useState(props.organisasjonstre)
-    const { valgtOrganisasjon } = useOrganisasjon(props.organisasjonstre);
+    const {valgtOrganisasjon} = useOrganisasjon(props.organisasjonstre);
+    const [, setOrgnr] = useOrgnrSearchParam();
 
     useEffect(() => {
         setAktivtOrganisasjonstre(byggSokeresultat(props.organisasjonstre, søketekst));
@@ -34,7 +35,7 @@ export const VirksomhetsvelgerProvider: FunctionComponent<Props> = props => {
 
     const context: Context = {
         velgUnderenhet: (orgnr) => {
-            settOrgnummerIUrl(orgnr)
+            setOrgnr(orgnr)
             setLocalStorageOrgnr(orgnr)
         },
         aktivtOrganisasjonstre,

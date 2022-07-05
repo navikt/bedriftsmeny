@@ -36,7 +36,6 @@ const App = () => {
                     sidetittel="Min Side Arbeidsgiver"
                     organisasjoner={organisasjoner}
                     onOrganisasjonChange={onOrganisasjonChange}
-                    history={history}
                     amplitudeClient={amplitude}
                 >
                     <div className={"eksempelapp__bjelleikon"}>
