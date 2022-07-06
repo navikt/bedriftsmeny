@@ -8,6 +8,10 @@ module.exports = {
     mode: 'production',
     entry: './src/bedriftsmeny/Bedriftsmeny.tsx',
 
+    optimization: {
+        minimize: false
+    },
+
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.jsx', '.less', '.css']
     },
@@ -18,7 +22,7 @@ module.exports = {
         filename: 'Bedriftsmeny.js',
         library: {
             type: "umd"
-        }
+        },
     },
 
     module: {
@@ -62,6 +66,8 @@ module.exports = {
     ],
 
     externals: {
-        react: 'react'
+        react: 'react',
+        reactRouter: 'react-router',
+        reactRouterDom: 'react-router-dom'
     }
 };
