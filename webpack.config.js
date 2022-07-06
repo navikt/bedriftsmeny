@@ -2,6 +2,7 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const prefixer = require('postcss-prefix-selector');
 
+
 module.exports = {
     devtool: "source-map",
 
@@ -62,12 +63,13 @@ module.exports = {
     plugins: [
         new MiniCssExtractPlugin({
             filename: 'bedriftsmeny.css'
-        })
+        }),
     ],
 
     externals: {
         react: 'react',
-        reactRouter: 'react-router',
-        reactRouterDom: 'react-router-dom'
+        "react-dom": "ReactDOM",
+        "react-router": "ReactRouter",
+        "react-router-dom": "ReactRouterDOM",
     }
 };
