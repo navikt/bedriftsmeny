@@ -16,7 +16,9 @@ module.exports = {
         path: path.resolve(__dirname, 'lib'),
         publicPath: '/lib/',
         filename: 'Bedriftsmeny.js',
-        libraryTarget: 'commonjs2'
+        library: {
+            type: "umd"
+        }
     },
 
     module: {
