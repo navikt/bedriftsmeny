@@ -68,8 +68,8 @@ module.exports = {
 
     externals: {
         react: 'react',
-        "react-dom": "ReactDOM",
-        "react-router": "ReactRouter",
-        "react-router-dom": "ReactRouterDOM",
+        "react-dom": "react-dom",
+        "react-router": "react-router",
+        "react-router-dom": "react-router-dom",
     }
 };
