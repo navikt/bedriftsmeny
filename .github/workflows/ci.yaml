@@ -6,6 +6,8 @@ on:
 jobs:
   ci:
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
     steps:
       - uses: actions/checkout@v2
 
@@ -22,7 +24,7 @@ jobs:
         run: npm run build
 
       - if: github.ref == 'refs/heads/master'
-        name: publish
+        name: publish on npmjs.org
         run: |
           if jq --null-input --exit-status \
               --argjson local "$(jq .version package.json)" \
@@ -35,3 +37,18 @@ jobs:
           fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+
+      - if: github.ref == 'refs/heads/master'
+        name: publish on github
+        run: |
+          if jq --null-input --exit-status \
+              --argjson local "$(jq .version package.json)" \
+              --argjson published "$(npm view --registry https://npm.pkg.github.com --json @navikt/bedriftsmeny versions)" \
+              '$published | map(. == $local) | any'
+          then
+              echo "Version already published. Nothing to do."
+          else
+              npm publish --access public --@navikt:registry=https://npm.pkg.github.com
+          fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
