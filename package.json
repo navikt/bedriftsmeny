@@ -80,17 +80,6 @@
         "whatwg-fetch": "^3.6.2"
     },
     "peerDependencies": {
-        "nav-frontend-chevron": "^1.0.27",
-        "nav-frontend-chevron-style": "^1.0.3",
-        "nav-frontend-core": "^5.0.11 || ^6.0.1",
-        "nav-frontend-js-utils": "^1.0.16",
-        "nav-frontend-lenker": "^1.0.59 || ^2.0.1",
-        "nav-frontend-lenker-style": "^1.0.1 || ^2.0.1",
-        "nav-frontend-paneler-style": "^1.0.1 || ^2.0.1",
-        "nav-frontend-skjema": "^3.0.50 || ^4.0.1",
-        "nav-frontend-skjema-style": "^2.0.30 || ^3.0.1",
-        "nav-frontend-typografi": "^3.0.2 || ^4.0.1",
-        "nav-frontend-typografi-style": "^1.0.33 || ^2.0.1",
         "react": "16 || 17",
         "react-router-dom": "6"
     },
