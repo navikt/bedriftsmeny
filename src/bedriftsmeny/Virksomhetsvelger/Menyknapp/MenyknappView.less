@@ -20,8 +20,9 @@
     }
 
     &:focus {
-        outline: none;
-        box-shadow: 0 0 0 3px @fokusFarge;
+        @focusWidth: 3px;
+        outline: solid @focusWidth @fokusFarge;
+        outline-offset: -@focusWidth;
     }
 
     &__container{
