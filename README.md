@@ -41,23 +41,24 @@ Eksempel:
 ````typescript jsx
 export default function() {
     const { query, push } = useRouter()
-    const useOrgnrHook: () => [string | null, (orgnr: string) => void] = () => {
-        const currentOrgnr =
-            typeof query.bedrift === "string" ? query.bedrift : null;
+    const useOrgnrHook: () => [string | null, (orgnr: string) => void] =
+        useCallback(() => {
+            const currentOrgnr =
+                typeof query.bedrift === "string" ? query.bedrift : null;
 
-        return [
-            currentOrgnr,
-            (orgnr: string) => {
-                if (currentOrgnr !== orgnr) {
-                    if (orgnr === null) {
-                        push("");
-                    } else {
-                        push(`?bedrift=${orgnr}`);
+            return [
+                currentOrgnr,
+                (orgnr: string) => {
+                    if (currentOrgnr !== orgnr) {
+                        if (orgnr === null) {
+                            push("");
+                        } else {
+                            push(`?bedrift=${orgnr}`);
+                        }
                     }
-                }
-            },
-        ];
-    };
+                },
+            ];
+        }, [push, query.bedrift]);
 
     return (
         <Bedriftsmeny
