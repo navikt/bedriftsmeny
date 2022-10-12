@@ -19,8 +19,9 @@ export const hentUnderenheter = (organisasjonstre: JuridiskEnhetMedUnderEnheterA
         []
     );
 
+export type OrgnrSearchParamType = () => [string | null, (orgnr: string) => void]
 
-export const useOrgnrSearchParam = (): [string | null, (orgnr: string) => void] => {
+export const useOrgnrSearchParam: OrgnrSearchParamType = () => {
     const location = useLocation();
     const searchParam = new URLSearchParams(location.search)
     const currentOrgnr = searchParam.get(ORGNUMMER_PARAMETER)

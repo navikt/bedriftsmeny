@@ -4,9 +4,8 @@ import {useEffect, useState} from 'react';
 import {JuridiskEnhetMedUnderEnheterArray, Organisasjon} from '../../organisasjon';
 import {
     getLocalStorageOrgnr,
-    hentUnderenheter,
+    hentUnderenheter, OrgnrSearchParamType,
     setLocalStorageOrgnr,
-    useOrgnrSearchParam
 } from './utils';
 
 const lookupOrg = (alle: Organisasjon[], orgnr: string | null): Organisasjon | undefined =>
@@ -15,10 +14,9 @@ const lookupOrg = (alle: Organisasjon[], orgnr: string | null): Organisasjon | u
         : alle.find(({OrganizationNumber}) => OrganizationNumber === orgnr);
 
 const useOrganisasjon = (
-    organisasjonstre: JuridiskEnhetMedUnderEnheterArray[] = [],
-) => {
+    organisasjonstre: JuridiskEnhetMedUnderEnheterArray[] = [], orgnrSearchParam: OrgnrSearchParamType) => {
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState<Organisasjon | undefined>();
-    const [orgnr, setOrgnr] = useOrgnrSearchParam();
+    const [orgnr, setOrgnr] = orgnrSearchParam();
 
     useEffect(() => {
         if (organisasjonstre.length === 0) {
