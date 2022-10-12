@@ -11,7 +11,7 @@ import {OrgnrSearchParamType} from "./Virksomhetsvelger/utils/utils";
 interface EgneProps {
     sidetittel?: string | JSX.Element;
     organisasjoner?: Organisasjon[];
-    onOrganisasjonChange: (organisasjon: Organisasjon) => void;
+    onOrganisasjonChange?: (organisasjon: Organisasjon) => void;
     orgnrSearchParam?: OrgnrSearchParamType;
     amplitudeClient?: AmplitudeClient;
 }
