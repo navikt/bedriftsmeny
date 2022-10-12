@@ -12,6 +12,9 @@ interface EgneProps {
     sidetittel?: string | JSX.Element;
     organisasjoner?: Organisasjon[];
     onOrganisasjonChange?: (organisasjon: Organisasjon) => void;
+    /**
+     * Hook som styrer hvordan man skal oppdatere søkeparametere i urlen
+     */
     orgnrSearchParam?: OrgnrSearchParamType;
     amplitudeClient?: AmplitudeClient;
 }
