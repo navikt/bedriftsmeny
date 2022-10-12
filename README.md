@@ -35,6 +35,67 @@ Du er selv ansvarlig for å importere `nav-frontend-core` i din egen app. Bedrif
 </div>
 ```
 
+NB! Hvis du f.eks kjører på Next.js og er avhengig av å styre hvordan query-parameterne settes så kan du implementere din egen `orgnrSearchParam` hook. Dette gjør at man slipper en avhengighet til `react-router-dom` 
+
+Eksempel:
+````typescript jsx
+export default function() {
+    const { query, push } = useRouter()
+    const useOrgnrHook: () => [string | null, (orgnr: string) => void] =
+        useCallback(() => {
+            const currentOrgnr =
+                typeof query.bedrift === "string" ? query.bedrift : null;
+
+            return [
+                currentOrgnr,
+                (orgnr: string) => {
+                    if (currentOrgnr !== orgnr) {
+                        if (orgnr === null) {
+                            push("");
+                        } else {
+                            push(`?bedrift=${orgnr}`);
+                        }
+                    }
+                },
+            ];
+        }, [push, query.bedrift]);
+
+    return (
+        <Bedriftsmeny
+            orgnrSearchParam={useOrgnrHook}
+            sidetittel={"Tittel"}
+            organisasjoner={[
+                {
+                    Name: "Forelder",
+                    Type: "Enterprise",
+                    OrganizationNumber: "811076112",
+                    ParentOrganizationNumber: "",
+                    OrganizationForm: "FLI",
+                    Status: "Active",
+                },
+                {
+                    Name: "BALLSTAD OG HAMARØY",
+                    Type: "Business",
+                    OrganizationNumber: "811076732",
+                    ParentOrganizationNumber: "811076112",
+                    OrganizationForm: "BEDR",
+                    Status: "Active",
+                },
+                {
+                    Name: "Tvedestrand",
+                    Type: "Business",
+                    OrganizationNumber: "811076733",
+                    ParentOrganizationNumber: "811076112",
+                    OrganizationForm: "BEDR",
+                    Status: "Active",
+                },
+            ]}
+        />
+    );
+}
+
+````
+
 ## Utvikling
 
 ```sh

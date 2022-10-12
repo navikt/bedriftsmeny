@@ -10,7 +10,7 @@ import { useHandleOutsideEvent } from './useHandleOutsideEvent';
 import { VirksomhetsvelgerContext } from './VirksomhetsvelgerProvider';
 
 export interface VirksomhetsvelgerProps {
-    onOrganisasjonChange: (organisasjon: Organisasjon) => void;
+    onOrganisasjonChange?: (organisasjon: Organisasjon) => void;
 }
 
 const finnForsteJuridiskEnhet = (organisasjonstre: JuridiskEnhetMedUnderEnheterArray[], soketekst: string, orgNrValgtJuridiskEnhet: string) : Organisasjon => {
@@ -44,7 +44,7 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
 
     useEffect(() => {
         setErApen(false);
-        onOrganisasjonChange(valgtOrganisasjon);
+        onOrganisasjonChange?.(valgtOrganisasjon);
     }, [valgtOrganisasjon]);
 
 

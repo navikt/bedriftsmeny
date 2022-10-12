@@ -6,11 +6,16 @@ import {AmplitudeClient} from "amplitude-js";
 import {AmplitudeProvider} from "./amplitudeProvider";
 import {VirksomhetsvelgerProvider} from './Virksomhetsvelger/VirksomhetsvelgerProvider';
 import {BedriftsmenyView} from "./BedriftsmenyView";
+import {OrgnrSearchParamType} from "./Virksomhetsvelger/utils/utils";
 
 interface EgneProps {
     sidetittel?: string | JSX.Element;
     organisasjoner?: Organisasjon[];
-    onOrganisasjonChange: (organisasjon: Organisasjon) => void;
+    onOrganisasjonChange?: (organisasjon: Organisasjon) => void;
+    /**
+     * Hook som styrer hvordan man skal oppdatere søkeparametere i urlen
+     */
+    orgnrSearchParam?: OrgnrSearchParamType;
     amplitudeClient?: AmplitudeClient;
 }
 
@@ -41,6 +46,7 @@ const Bedriftsmeny: FunctionComponent<EgneProps> = (props) => {
         virksomhetsvelger={visVirksomhetsvelger ?
             <AmplitudeProvider amplitudeClient={props.amplitudeClient}>
                 <VirksomhetsvelgerProvider
+                    orgnrSearchParam={props.orgnrSearchParam}
                     organisasjonstre={organisasjonstre ?? []}
                 >
                     <Virksomhetsvelger onOrganisasjonChange={props.onOrganisasjonChange}/>

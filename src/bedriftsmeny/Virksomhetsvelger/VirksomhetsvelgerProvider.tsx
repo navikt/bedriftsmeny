@@ -1,11 +1,12 @@
 import React, {createContext, FunctionComponent, useEffect, useState} from 'react';
 import {JuridiskEnhetMedUnderEnheterArray, Organisasjon, tomAltinnOrganisasjon} from '../organisasjon';
 import useOrganisasjon from './utils/useOrganisasjon';
-import {setLocalStorageOrgnr, useOrgnrSearchParam} from './utils/utils';
+import {OrgnrSearchParamType, setLocalStorageOrgnr, useOrgnrSearchParam} from './utils/utils';
 import {byggSokeresultat} from './utils/byggSokeresultat';
 
 interface Props {
     organisasjonstre: JuridiskEnhetMedUnderEnheterArray[];
+    orgnrSearchParam?: OrgnrSearchParamType;
 }
 
 interface Context {
@@ -19,15 +20,16 @@ interface Context {
 
 export const VirksomhetsvelgerContext = createContext<Context>({} as any)
 
-export const VirksomhetsvelgerProvider: FunctionComponent<Props> = props => {
+export const VirksomhetsvelgerProvider: FunctionComponent<Props> = ({children, organisasjonstre, orgnrSearchParam}) => {
+    const orgnrParamHook = orgnrSearchParam ?? useOrgnrSearchParam;
     const [søketekst, setSøketekst] = useState("");
-    const [aktivtOrganisasjonstre, setAktivtOrganisasjonstre] = useState(props.organisasjonstre);
-    const {valgtOrganisasjon} = useOrganisasjon(props.organisasjonstre);
-    const [, setOrgnr] = useOrgnrSearchParam();
+    const [aktivtOrganisasjonstre, setAktivtOrganisasjonstre] = useState(organisasjonstre);
+    const {valgtOrganisasjon} = useOrganisasjon(organisasjonstre, orgnrParamHook);
+    const [, setOrgnr] = orgnrParamHook();
 
     useEffect(() => {
-        setAktivtOrganisasjonstre(byggSokeresultat(props.organisasjonstre, søketekst));
-    }, [props.organisasjonstre, søketekst])
+        setAktivtOrganisasjonstre(byggSokeresultat(organisasjonstre, søketekst));
+    }, [organisasjonstre, søketekst])
 
     if (valgtOrganisasjon === undefined || valgtOrganisasjon === tomAltinnOrganisasjon) {
         return null;
@@ -45,7 +47,7 @@ export const VirksomhetsvelgerProvider: FunctionComponent<Props> = props => {
     }
 
     return <VirksomhetsvelgerContext.Provider value={context}>
-        {props.children}
+        {children}
     </VirksomhetsvelgerContext.Provider>
 
 };
