@@ -6,7 +6,7 @@ interface Props {
 
 const JuridiskEnhetIkon = ({ classname }: Props) => (
     <div className={classname}>
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="25" viewBox="0 0 20 25" focusable="false">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="25" viewBox="0 0 20 25" focusable="false" role="img">
             <title>Juridisk enhet</title>
             <g
                 fill="none"
