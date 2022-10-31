@@ -6,8 +6,8 @@ interface Props {
 
 const UnderenhetIkon = ({ classname }: Props) => (
     <div className={classname}>
-        <svg width="12px" height="17px" version="1" xmlns="http://www.w3.org/2000/svg" focusable="false">
-            <title>Bedrift</title>
+        <svg width="12px" height="17px" version="1" xmlns="http://www.w3.org/2000/svg" focusable="false" role="img" aria-labelledby="underenhet-ikon-tittel" aria-hidden="true">
+            <title id="underenhet-ikon-tittel">Bedrift</title>
             <g
                 stroke="#000"
                 fill="none"

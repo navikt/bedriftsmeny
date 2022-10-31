@@ -6,8 +6,8 @@ interface Props {
 
 const JuridiskEnhetIkon = ({ classname }: Props) => (
     <div className={classname}>
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="25" viewBox="0 0 20 25" focusable="false">
-            <title>Juridisk enhet</title>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="25" viewBox="0 0 20 25" focusable="false" role="img" aria-labelledby="juridiskenhet-ikon-tittel" aria-hidden="true">
+            <title id="juridiskenhet-ikon-tittel">Juridisk enhet</title>
             <g
                 fill="none"
                 fillRule="evenodd"

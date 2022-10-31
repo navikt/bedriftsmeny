@@ -1,8 +1,8 @@
 import React from 'react';
 
 const Forstørrelsesglass = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" focusable="false" className="bedriftsmeny-sokefelt__forstorrelsesglass">
-        <title>Forstørrelsesglass</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" focusable="false" className="bedriftsmeny-sokefelt__forstorrelsesglass" role="img" aria-labelledby="sokefelt-ikon-tittel" aria-hidden="true">
+        <title id="sokefelt-ikon-tittel">Forstørrelsesglass</title>
         <path
             fill="#3E3832"
             fillRule="evenodd"
