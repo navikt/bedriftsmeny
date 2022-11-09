@@ -1,6 +1,10 @@
 import React, { FunctionComponent, useContext, useEffect, useRef, useState } from 'react';
 
-import {JuridiskEnhetMedUnderEnheterArray, Organisasjon, tomAltinnOrganisasjon,} from '../organisasjon';
+import {
+    JuridiskEnhetMedUnderEnheterArray,
+    Organisasjon,
+    tomAltinnOrganisasjon,
+} from '../organisasjon';
 import Menyvalg from './Menyvalg/Menyvalg';
 import Sokefelt from './Menyvalg/Sokefelt/Sokefelt';
 import MenyKnapp from './Menyknapp/Menyknapp';
@@ -13,7 +17,11 @@ export interface VirksomhetsvelgerProps {
     onOrganisasjonChange?: (organisasjon: Organisasjon) => void;
 }
 
-const finnForsteJuridiskEnhet = (organisasjonstre: JuridiskEnhetMedUnderEnheterArray[], soketekst: string, orgNrValgtJuridiskEnhet: string) : Organisasjon => {
+const finnForsteJuridiskEnhet = (
+    organisasjonstre: JuridiskEnhetMedUnderEnheterArray[],
+    soketekst: string,
+    orgNrValgtJuridiskEnhet: string
+): Organisasjon => {
     if (organisasjonstre.length === 0) {
         return tomAltinnOrganisasjon;
     }
@@ -22,11 +30,13 @@ const finnForsteJuridiskEnhet = (organisasjonstre: JuridiskEnhetMedUnderEnheterA
         return organisasjonstre[0].JuridiskEnhet;
     }
 
-    const juridiskeEnheter = organisasjonstre.map(({JuridiskEnhet}) => JuridiskEnhet)
-    return juridiskeEnheter.find(
-        ({OrganizationNumber}) => OrganizationNumber === orgNrValgtJuridiskEnhet
-    ) ?? tomAltinnOrganisasjon
-}
+    const juridiskeEnheter = organisasjonstre.map(({ JuridiskEnhet }) => JuridiskEnhet);
+    return (
+        juridiskeEnheter.find(
+            ({ OrganizationNumber }) => OrganizationNumber === orgNrValgtJuridiskEnhet
+        ) ?? tomAltinnOrganisasjon
+    );
+};
 
 const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => {
     const bedriftvelgernode = useRef<HTMLDivElement>(null);
@@ -36,17 +46,18 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
         aktivtOrganisasjonstre,
         velgUnderenhet,
         søketekst: soketekst,
-    } = useContext(VirksomhetsvelgerContext)
+    } = useContext(VirksomhetsvelgerContext);
     const [erApen, setErApen] = useState(false);
 
     const [organisasjonIFokus, setOrganisasjonIFokus] = useState(tomAltinnOrganisasjon);
-    const [forrigeOrganisasjonIFokus, setForrigeOrganisasjonIFokus] = useState(tomAltinnOrganisasjon);
+    const [forrigeOrganisasjonIFokus, setForrigeOrganisasjonIFokus] = useState(
+        tomAltinnOrganisasjon
+    );
 
     useEffect(() => {
         setErApen(false);
         onOrganisasjonChange?.(valgtOrganisasjon);
     }, [valgtOrganisasjon]);
-
 
     useEffect(() => {
         if (!erApen) {
@@ -64,13 +75,12 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
     const onEnterSearchbox = () => {
         if (soketekst.length > 0 && aktivtOrganisasjonstre.length > 0) {
             const kunTreffPåEnUnderenhet =
-                aktivtOrganisasjonstre.length === 1 && aktivtOrganisasjonstre[0].Underenheter.length === 1;
+                aktivtOrganisasjonstre.length === 1 &&
+                aktivtOrganisasjonstre[0].Underenheter.length === 1;
             if (kunTreffPåEnUnderenhet) {
                 const underenhet = aktivtOrganisasjonstre[0].Underenheter[0];
                 if (underenhet.OrganizationNumber !== valgtOrganisasjon.OrganizationNumber) {
-                    velgUnderenhet(
-                        aktivtOrganisasjonstre[0].Underenheter[0].OrganizationNumber,
-                    );
+                    velgUnderenhet(aktivtOrganisasjonstre[0].Underenheter[0].OrganizationNumber);
                 } else {
                     setErApen(false);
                 }
@@ -82,7 +92,11 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
 
     const setFocusOnForsteVirksomhet = () => {
         if (aktivtOrganisasjonstre.length > 0 || soketekst.length === 0) {
-            const forsteJuridiskEnhetILista = finnForsteJuridiskEnhet(aktivtOrganisasjonstre, soketekst, valgtOrganisasjon.ParentOrganizationNumber);
+            const forsteJuridiskEnhetILista = finnForsteJuridiskEnhet(
+                aktivtOrganisasjonstre,
+                soketekst,
+                valgtOrganisasjon.ParentOrganizationNumber
+            );
             const blarOppTilSøkefeltOgNedTilMeny =
                 forrigeOrganisasjonIFokus.OrganizationNumber ===
                 aktivtOrganisasjonstre[0].JuridiskEnhet.OrganizationNumber;
@@ -102,8 +116,8 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
     };
 
     const antallTreff = aktivtOrganisasjonstre
-        .map(({Underenheter}) => Underenheter.length)
-        .reduce((x, y) => x + y, 0)
+        .map(({ Underenheter }) => Underenheter.length)
+        .reduce((x, y) => x + y, 0);
 
     return (
         <nav
@@ -115,14 +129,12 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                 }
             }}>
             <div ref={bedriftvelgernode}>
-                <MenyKnapp
-                    erApen={erApen}
-                    setErApen={setErApen}
-                />
-                <div role="toolbar"
-                     className={`virksomhetsvelger__dropdown--${erApen ? 'apen' : 'lukket'}`}
-                     aria-hidden={!erApen}
-                     id="virksomhetsvelger__dropdown">
+                <MenyKnapp erApen={erApen} setErApen={setErApen} />
+                <div
+                    role="toolbar"
+                    className={`virksomhetsvelger__dropdown--${erApen ? 'apen' : 'lukket'}`}
+                    aria-hidden={!erApen}
+                    id="virksomhetsvelger__dropdown">
                     <Sokefelt
                         onArrowUp={() => setfokusPaMenyKnapp()}
                         onArrowDown={() => setFocusOnForsteVirksomhet()}

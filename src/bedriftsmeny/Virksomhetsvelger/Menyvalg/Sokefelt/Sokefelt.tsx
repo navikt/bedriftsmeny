@@ -1,12 +1,11 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 
-import { Input } from 'nav-frontend-skjema';
-import { Normaltekst } from 'nav-frontend-typografi';
+import { Search } from '@navikt/ds-react';
+import { BodyShort } from '@navikt/ds-react';
 
-import Forstørrelsesglass from './Forstørrelsesglass';
 import { erPilNavigasjon } from '../pilnavigerinsfunksjoner';
-import './Sokefelt.less';
 import { VirksomhetsvelgerContext } from '../../VirksomhetsvelgerProvider';
+import './Sokefelt.less';
 
 interface Props {
     onEnter: () => void;
@@ -15,13 +14,8 @@ interface Props {
     antallTreff: number | null;
 }
 
-const Sokefelt: FunctionComponent<Props> = ({
-    onEnter,
-    onArrowDown,
-    onArrowUp,
-    antallTreff,
-}) => {
-    const {søketekst, setSøketekst} = useContext(VirksomhetsvelgerContext)
+const Sokefelt: FunctionComponent<Props> = ({ onEnter, onArrowDown, onArrowUp, antallTreff }) => {
+    const { søketekst, setSøketekst } = useContext(VirksomhetsvelgerContext);
     const [ariaTekst, setTekst] = useState('Søk etter virksomhet');
 
     useEffect(() => {
@@ -47,16 +41,15 @@ const Sokefelt: FunctionComponent<Props> = ({
 
     return (
         <div className="bedriftsmeny-sokefelt">
-            <Input
+            <Search
                 autoComplete="off"
                 id="bedriftsmeny-sokefelt"
                 className="bedriftsmeny-sokefelt__felt"
-                type="search"
                 label=""
                 aria-label={'Søk'}
                 aria-haspopup={false}
                 value={søketekst}
-                onChange={(e) => setSøketekst(e.target.value)}
+                onChange={setSøketekst}
                 placeholder="Søk"
                 role="searchbox"
                 onKeyDown={(e) => {
@@ -67,14 +60,11 @@ const Sokefelt: FunctionComponent<Props> = ({
                     }
                 }}
             />
-            <Normaltekst
+            <BodyShort
                 className={'bedriftsmeny-sokefelt__skjult-aria-live-sokeresultat'}
                 aria-live="assertive">
                 {ariaTekst}
-            </Normaltekst>
-            <div className="bedriftsmeny-sokefelt__ikon">
-                {søketekst.length === 0 ? <Forstørrelsesglass /> : null}
-            </div>
+            </BodyShort>
         </div>
     );
 };

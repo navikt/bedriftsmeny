@@ -1,9 +1,8 @@
 import React from 'react';
 
-import { Element, Normaltekst } from 'nav-frontend-typografi';
-
 import JuridiskEnhetIkon from './JuridiskEnhetIkon';
 import UnderenhetIkon from './UnderenhetIkon';
+import { Heading, BodyShort } from '@navikt/ds-react';
 import './Organisasjonsbeskrivelse.less';
 
 interface Props {
@@ -14,16 +13,20 @@ interface Props {
 
 const Organisasjonsbeskrivelse = ({ navn, orgnummer, erJuridiskEnhet }: Props) => {
     const Ikon = erJuridiskEnhet ? JuridiskEnhetIkon : UnderenhetIkon;
-    const tekst = erJuridiskEnhet ? `org.nr. ${orgnummer}` : `virksomhetsnr. ${orgnummer}`
+    const tekst = erJuridiskEnhet ? `org.nr. ${orgnummer}` : `virksomhetsnr. ${orgnummer}`;
 
     return (
         <div className="organisasjonsbeskrivelse">
             <Ikon classname="organisasjonsbeskrivelse__ikon" />
             <div className="organisasjonsbeskrivelse__beskrivelse">
-                <Element className="organisasjonsbeskrivelse__navn" title={navn.length > 26 ? navn : ''}>
-                   {navn}
-                </Element>
-                <Normaltekst aria-label={tekst}>{tekst}</Normaltekst>
+                <Heading
+                    title={navn.length > 26 ? navn : ''}
+                    level="4"
+                    size="small"
+                    className="organisasjonsbeskrivelse__navn">
+                    {navn}
+                </Heading>
+                <BodyShort aria-label={tekst}>{tekst}</BodyShort>
             </div>
         </div>
     );

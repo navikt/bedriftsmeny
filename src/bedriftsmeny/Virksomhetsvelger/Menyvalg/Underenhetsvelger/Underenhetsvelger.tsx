@@ -1,11 +1,18 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 
-import { JuridiskEnhetMedUnderEnheterArray, Organisasjon, tomAltinnOrganisasjon } from '../../../organisasjon';
+import {
+    JuridiskEnhetMedUnderEnheterArray,
+    Organisasjon,
+    tomAltinnOrganisasjon,
+} from '../../../organisasjon';
 import Underenhet from './Underenhet/Underenhet';
 import UnderenhetsVelgerMenyButton from './UnderenhetsVelgerMenyButton/UnderenhetsVelgerMenyButton';
-import { finnIndeksIMenyKomponenter, finnOrganisasjonsSomskalHaFokus } from '../pilnavigerinsfunksjoner';
-import './Underenhetsvelger.less';
+import {
+    finnIndeksIMenyKomponenter,
+    finnOrganisasjonsSomskalHaFokus,
+} from '../pilnavigerinsfunksjoner';
 import { VirksomhetsvelgerContext } from '../../VirksomhetsvelgerProvider';
+import './Underenhetsvelger.less';
 
 interface Props {
     juridiskEnhetMedUnderenheter: JuridiskEnhetMedUnderEnheterArray;
@@ -13,11 +20,14 @@ interface Props {
     setHover: (bool: boolean) => void;
     setErApen: (bool: boolean) => void;
     erApen: boolean;
-    lukkMenyOnTabPaNedersteElement: (organisasjonsnummer: string, erJuridiskEnhetSomViserUnderenheter: boolean) => void;
+    lukkMenyOnTabPaNedersteElement: (
+        organisasjonsnummer: string,
+        erJuridiskEnhetSomViserUnderenheter: boolean
+    ) => void;
     setOrganisasjonIFokus: (organisasjon: Organisasjon) => void;
     setForrigeOrganisasjonIFokus: (organisasjon: Organisasjon) => void;
     organisasjonIFokus: Organisasjon;
-    forrigeOrganisasjonIFokus: Organisasjon
+    forrigeOrganisasjonIFokus: Organisasjon;
 }
 
 const Underenhetsvelger: FunctionComponent<Props> = ({
@@ -30,28 +40,37 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
     setOrganisasjonIFokus,
     organisasjonIFokus,
     forrigeOrganisasjonIFokus,
-    lukkMenyOnTabPaNedersteElement
+    lukkMenyOnTabPaNedersteElement,
 }) => {
     const [visUnderenheter, setVisUnderenheter] = useState(false);
-    const {valgtOrganisasjon, søketekst, aktivtOrganisasjonstre: menyKomponenter } = useContext(VirksomhetsvelgerContext)
+    const { valgtOrganisasjon, søketekst, aktivtOrganisasjonstre: menyKomponenter } = useContext(
+        VirksomhetsvelgerContext
+    );
     const juridiskEnhet = juridiskEnhetMedUnderenheter.JuridiskEnhet;
 
-    const setNyOrganisasjonIFokus = (keypressKey: string, erJuridiskEnhetSomViserUnderenheter: boolean) => {
-        const organisasjonsSomSkalFåFokus =
-            finnOrganisasjonsSomskalHaFokus(organisasjonIFokus,keypressKey, erJuridiskEnhetSomViserUnderenheter, menyKomponenter);
+    const setNyOrganisasjonIFokus = (
+        keypressKey: string,
+        erJuridiskEnhetSomViserUnderenheter: boolean
+    ) => {
+        const organisasjonsSomSkalFåFokus = finnOrganisasjonsSomskalHaFokus(
+            organisasjonIFokus,
+            keypressKey,
+            erJuridiskEnhetSomViserUnderenheter,
+            menyKomponenter
+        );
         if (organisasjonsSomSkalFåFokus) {
             setOrganisasjonIFokus(organisasjonsSomSkalFåFokus);
+        } else {
+            setOrganisasjonIFokus(tomAltinnOrganisasjon);
         }
-        else {
-            setOrganisasjonIFokus(tomAltinnOrganisasjon)
-        }
-        setForrigeOrganisasjonIFokus(organisasjonIFokus)
-    }
+        setForrigeOrganisasjonIFokus(organisasjonIFokus);
+    };
 
     useEffect(() => {
         setVisUnderenheter(false);
         const erSok = søketekst !== '';
-        const erValgt: boolean = valgtOrganisasjon.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber;
+        const erValgt: boolean =
+            valgtOrganisasjon.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber;
         if (erValgt || (erSok && juridiskEnhetMedUnderenheter.SokeresultatKunUnderenhet)) {
             setVisUnderenheter(true);
             const scrollcontainer = document.querySelector('.dropdownmeny-elementer');
@@ -66,38 +85,50 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
         }
     }, [juridiskEnhetMedUnderenheter, valgtOrganisasjon, erApen, søketekst]);
 
-
     useEffect(() => {
-        const skalSettesIFokus = organisasjonIFokus.OrganizationNumber === juridiskEnhet.OrganizationNumber;
-        const indeksIOrganisasjonstre = finnIndeksIMenyKomponenter(juridiskEnhet.OrganizationNumber, menyKomponenter);
+        const skalSettesIFokus =
+            organisasjonIFokus.OrganizationNumber === juridiskEnhet.OrganizationNumber;
+        const indeksIOrganisasjonstre = finnIndeksIMenyKomponenter(
+            juridiskEnhet.OrganizationNumber,
+            menyKomponenter
+        );
         if (skalSettesIFokus) {
-            const idTilJuridiskEnhet = valgtOrganisasjon.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber ?
-                'valgtjuridiskenhet' : 'organisasjons-id-' + juridiskEnhet.OrganizationNumber;
-            const erSisteElement = indeksIOrganisasjonstre === menyKomponenter.length - 1
+            const idTilJuridiskEnhet =
+                valgtOrganisasjon.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber
+                    ? 'valgtjuridiskenhet'
+                    : 'organisasjons-id-' + juridiskEnhet.OrganizationNumber;
+            const erSisteElement = indeksIOrganisasjonstre === menyKomponenter.length - 1;
             if (!erSisteElement) {
                 const forrigeOrganisasjonErJuridiskEnhetUnder =
-                    forrigeOrganisasjonIFokus.OrganizationNumber === menyKomponenter[indeksIOrganisasjonstre + 1].JuridiskEnhet.OrganizationNumber;
+                    forrigeOrganisasjonIFokus.OrganizationNumber ===
+                    menyKomponenter[indeksIOrganisasjonstre + 1].JuridiskEnhet.OrganizationNumber;
                 if (forrigeOrganisasjonErJuridiskEnhetUnder && visUnderenheter) {
-                    const sisteUnderenhet = juridiskEnhetMedUnderenheter.Underenheter[juridiskEnhetMedUnderenheter.Underenheter.length - 1];
+                    const sisteUnderenhet =
+                        juridiskEnhetMedUnderenheter.Underenheter[
+                            juridiskEnhetMedUnderenheter.Underenheter.length - 1
+                        ];
                     setOrganisasjonIFokus(sisteUnderenhet);
                     return;
                 }
             }
             const element = document.getElementById(idTilJuridiskEnhet);
-            element?.focus()
+            element?.focus();
         }
-    }, [forrigeOrganisasjonIFokus,organisasjonIFokus]);
+    }, [forrigeOrganisasjonIFokus, organisasjonIFokus]);
 
     const lukkUnderenhetsvelgerOgFokuserPåEnhet = (underenhet: Organisasjon) => {
-        const erUnderenhetAvValgtEnhet = underenhet.ParentOrganizationNumber === valgtOrganisasjon.ParentOrganizationNumber;
-        const juridiskEnhetElementId = erUnderenhetAvValgtEnhet ? 'valgtjuridiskenhet' : 'organisasjons-id-' + underenhet.ParentOrganizationNumber;
+        const erUnderenhetAvValgtEnhet =
+            underenhet.ParentOrganizationNumber === valgtOrganisasjon.ParentOrganizationNumber;
+        const juridiskEnhetElementId = erUnderenhetAvValgtEnhet
+            ? 'valgtjuridiskenhet'
+            : 'organisasjons-id-' + underenhet.ParentOrganizationNumber;
         const juridiskEnhetElement = document.getElementById(juridiskEnhetElementId);
         if (juridiskEnhetElement) {
             juridiskEnhetElement?.click();
             juridiskEnhetElement?.focus();
-            setOrganisasjonIFokus(juridiskEnhet)
+            setOrganisasjonIFokus(juridiskEnhet);
         }
-    }
+    };
 
     return (
         <div className="underenhetsvelger" id={visUnderenheter ? 'underenhet-apen' : ''}>
@@ -107,7 +138,7 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
                 setVisUnderenheter={setVisUnderenheter}
                 setHover={setHover}
                 erApen={erApen}
-                setNyOrganisasjonIFokus = {setNyOrganisasjonIFokus}
+                setNyOrganisasjonIFokus={setNyOrganisasjonIFokus}
                 lukkMenyOnTabPaNedersteElement={lukkMenyOnTabPaNedersteElement}
             />
             <ul
@@ -116,19 +147,20 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
                 }`}
                 id={`underenhetvelger${juridiskEnhet.OrganizationNumber}`}
                 role="menu"
-                aria-label={`Underenheter til ${juridiskEnhet.Name}`}
-            >
+                aria-label={`Underenheter til ${juridiskEnhet.Name}`}>
                 {juridiskEnhetMedUnderenheter.Underenheter.map((organisasjon: Organisasjon) => (
                     <Underenhet
                         setErApen={setErApen}
-                        lukkUnderenhetsvelgerOgFokuserPåEnhet={lukkUnderenhetsvelgerOgFokuserPåEnhet}
+                        lukkUnderenhetsvelgerOgFokuserPåEnhet={
+                            lukkUnderenhetsvelgerOgFokuserPåEnhet
+                        }
                         key={organisasjon.OrganizationNumber}
                         underEnhet={organisasjon}
                         hover={hover}
                         setHover={setHover}
                         erApen={erApen}
-                        organisasjonIFokus = {organisasjonIFokus}
-                        setNyOrganisasjonIFokus = {setNyOrganisasjonIFokus}
+                        organisasjonIFokus={organisasjonIFokus}
+                        setNyOrganisasjonIFokus={setNyOrganisasjonIFokus}
                         lukkMenyOnTabPaNedersteElement={lukkMenyOnTabPaNedersteElement}
                     />
                 ))}

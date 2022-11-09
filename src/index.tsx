@@ -1,17 +1,19 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import React, {useEffect, useState} from 'react';
-import {render} from 'react-dom';
-import {BrowserRouter} from 'react-router-dom';
 import 'whatwg-fetch';
-import {Normaltekst} from 'nav-frontend-typografi';
-import {Organisasjon} from './bedriftsmeny/organisasjon';
-import Bedriftsmeny from './bedriftsmeny/Bedriftsmeny';
-import {MOCK_ORGANISASJONER} from './mock/organisasjoner';
-import './index.less';
-import amplitude from "./amplitude";
-import {Bjelleikon} from "./bjelleikon";
 
+import React, { useEffect, useState } from 'react';
+import { render } from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
+import { BodyLong, BodyShort } from '@navikt/ds-react';
+import { Organisasjon } from './bedriftsmeny/organisasjon';
+import Bedriftsmeny from './bedriftsmeny/Bedriftsmeny';
+import { MOCK_ORGANISASJONER } from './mock/organisasjoner';
+import amplitude from './amplitude';
+import { Bell } from '@navikt/ds-icons';
+
+import '@navikt/ds-css';
+import './index.less';
 
 const App = () => {
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState<Organisasjon | undefined>();
@@ -20,7 +22,6 @@ const App = () => {
     const onOrganisasjonChange = (organisasjon?: Organisasjon) => {
         setValgtOrganisasjon(organisasjon);
     };
-
 
     useEffect(() => {
         setTimeout(() => {
@@ -35,25 +36,22 @@ const App = () => {
                     sidetittel="Min Side Arbeidsgiver"
                     organisasjoner={organisasjoner}
                     onOrganisasjonChange={onOrganisasjonChange}
-                    amplitudeClient={amplitude}
-                >
-                    <div className={"eksempelapp__bjelleikon"}>
-                        <Bjelleikon/>
-                    </div>
+                    amplitudeClient={amplitude}>
+                    <Bell className="eksempelapp__bjelleikon" />
                 </Bedriftsmeny>
 
                 <section className="eksempelapp__innhold" role="main">
-                    <Normaltekst style={{wordWrap:"break-word"}}>
+                    <BodyLong style={{ wordWrap: 'break-word' }}>
                         Her ser du et eksempel på bruk av bedriftsmenyen. Hvis du endrer
                         organisasjon vil organisasjonsnummer i adressefeltet også endres
                         tilsvarende.
-                    </Normaltekst>
+                    </BodyLong>
                     {valgtOrganisasjon && (
-                        <div style={{overflow:"scroll", width:"70%"}}>
-                            <Normaltekst>
+                        <div style={{ overflow: 'scroll', width: '70%' }}>
+                            <BodyShort>
                                 <em>Heisann, du har valgt en organisasjon!</em>
-                            </Normaltekst>
-                            <code >{JSON.stringify(valgtOrganisasjon, null, 4)}</code>
+                            </BodyShort>
+                            <code>{JSON.stringify(valgtOrganisasjon, null, 4)}</code>
                         </div>
                     )}
                 </section>
@@ -62,4 +60,4 @@ const App = () => {
     );
 };
 
-render(<App/>, document.getElementById('app'));
+render(<App />, document.getElementById('app'));

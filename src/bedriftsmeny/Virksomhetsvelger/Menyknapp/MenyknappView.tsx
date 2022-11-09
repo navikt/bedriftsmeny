@@ -1,19 +1,18 @@
-import React, {KeyboardEventHandler, MouseEventHandler, useState} from "react"
-import "./MenyknappView.less"
-import {NedChevron} from "nav-frontend-chevron";
+import React, { KeyboardEventHandler, MouseEventHandler } from 'react';
 import UnderenhetIkon from '../Menyvalg/Underenhetsvelger/Organisasjonsbeskrivelse/UnderenhetIkon';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
+import { Collapse, Expand } from '@navikt/ds-icons';
+import { Heading, BodyShort } from '@navikt/ds-react';
+import './MenyknappView.less';
 
-
-interface Props{
-    navn: string,
-    orgNummer: string,
-    onClick:MouseEventHandler<HTMLButtonElement>,
-    onKeyDown:KeyboardEventHandler<HTMLButtonElement>,
-    isOpen:boolean,
+interface Props {
+    navn: string;
+    orgNummer: string;
+    onClick: MouseEventHandler<HTMLButtonElement>;
+    onKeyDown: KeyboardEventHandler<HTMLButtonElement>;
+    isOpen: boolean;
 }
 
-export const MenyknappView=(props: Props)=>
+export const MenyknappView = (props: Props) => (
     <button
         className="menyknapp menyknapp__menyknapp"
         onClick={props.onClick}
@@ -24,20 +23,18 @@ export const MenyknappView=(props: Props)=>
         aria-pressed={props.isOpen}
         aria-expanded={props.isOpen}
         aria-haspopup="true"
-        aria-controls="virksomhetsvelger__dropdown"
-    >
+        aria-controls="virksomhetsvelger__dropdown">
         <div className="menyknapp__container">
-            <UnderenhetIkon classname="menyknapp__ikon"/>
+            <UnderenhetIkon classname="menyknapp__ikon" />
             <div className="menyknapp__tekstcontainer">
-                <Element className="menyknapp__overtekst">
+                <Heading size="small" className="menyknapp__overtekst">
                     {props.navn}
-                </Element>
-                <Normaltekst className="menyknapp__undertekst">
+                </Heading>
+                <BodyShort className="menyknapp__undertekst">
                     virksomhetsnr. {props.orgNummer}
-                </Normaltekst>
+                </BodyShort>
             </div>
-            <div className="menyknapp__chevron">
-                <NedChevron className={`menyknapp__chevron${props.isOpen ? '--ned' : '--opp'}`} />
-            </div>
+            <div className="menyknapp__chevron">{props.isOpen ? <Collapse /> : <Expand />}</div>
         </div>
     </button>
+);

@@ -1,8 +1,7 @@
 import React, { FunctionComponent, useContext } from 'react';
 
-import { NedChevron } from 'nav-frontend-chevron';
-import { Normaltekst } from 'nav-frontend-typografi';
-
+import { BodyShort } from '@navikt/ds-react';
+import { Collapse, Expand } from '@navikt/ds-icons';
 import Organisasjonsbeskrivelse from '../Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
 import { JuridiskEnhetMedUnderEnheterArray } from '../../../../organisasjon';
 import { erPilNavigasjon } from '../../pilnavigerinsfunksjoner';
@@ -32,9 +31,9 @@ const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
         setHover,
         erApen,
         setNyOrganisasjonIFokus,
-        lukkMenyOnTabPaNedersteElement
+        lukkMenyOnTabPaNedersteElement,
     } = props;
-    const {valgtOrganisasjon, søketekst} = useContext(VirksomhetsvelgerContext)
+    const { valgtOrganisasjon, søketekst } = useContext(VirksomhetsvelgerContext);
     const juridiskEnhet = juridiskEnhetMedUnderenheter.JuridiskEnhet;
     const underenheter = juridiskEnhetMedUnderenheter.Underenheter;
     const erValgtOrganisasjon =
@@ -108,13 +107,8 @@ const UnderenhetsVelgerMenyButton: FunctionComponent<Props> = (props) => {
                 navn={juridiskEnhet.Name}
                 orgnummer={juridiskEnhet.OrganizationNumber}
             />
-            <Normaltekst className="underenhetsvelger__button__label">{label}</Normaltekst>
-            <div
-                className={`underenhetsvelger__button__chevron${
-                    visUnderenheter ? '--apen' : '--lukket'
-                }`}>
-                <NedChevron />
-            </div>
+            <BodyShort className="underenhetsvelger__button__label">{label}</BodyShort>
+            {visUnderenheter ? <Collapse /> : <Expand />}
         </button>
     );
 };

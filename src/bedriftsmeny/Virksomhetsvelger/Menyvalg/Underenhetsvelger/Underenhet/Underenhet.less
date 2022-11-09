@@ -1,12 +1,10 @@
-@import '~nav-frontend-core/less/_variabler';
-
 .underenhet {
     width: 100%;
     border-top: 1px solid #979797;
     cursor: pointer;
 
     &.valgtunderenhet {
-        background-color: @navBla;
+        background-color: var(--navds-semantic-color-interaction-primary);
         color: white;
 
         svg g {
@@ -16,11 +14,11 @@
     }
 
     &.valgtunderenhet-grey-on-hover {
-        background-color: @navGra20;
-        color: @navMorkGra;
+        background-color: var(--navds-global-color-gray-200);
+        color: var(--navds-semantic-color-text);
 
         svg g {
-            fill: @navMorkGra;
+            fill: var(--navds-semantic-color-text);
             stroke: white;
         }
     }
@@ -36,7 +34,7 @@
 
     &:hover {
         color: white;
-        background-color: @navBla;
+        background-color: var(--navds-semantic-color-interaction-primary);
 
         svg g {
             stroke: white;

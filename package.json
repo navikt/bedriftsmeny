@@ -29,6 +29,9 @@
         "build": "run-s build:webpack build:declarations"
     },
     "dependencies": {
+        "@navikt/ds-css": "^1.5.6",
+        "@navikt/ds-icons": "^1.5.6",
+        "@navikt/ds-react": "^1.5.6",
         "@types/amplitude-js": "^8.9.4",
         "fuzzysort": "^1.1.4"
     },
@@ -45,6 +48,7 @@
         "@types/react": "^18.0.25",
         "@types/react-collapse": "^5.0.0",
         "@types/react-dom": "^18.0.8",
+        "@types/react-modal": "^3.13.1",
         "babel-loader": "^8.2.2",
         "core-js": "^3.8.3",
         "css-loader": "^5.0.1",

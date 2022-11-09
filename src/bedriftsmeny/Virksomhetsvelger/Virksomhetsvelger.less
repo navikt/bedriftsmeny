@@ -1,4 +1,3 @@
-@import '~nav-frontend-core/less/_variabler';
 @import './pilOpp.less';
 
 @dropdownHeight: 35rem;
@@ -9,12 +8,12 @@
     z-index: var(--virksomhetsvelger-z-index, 15);
 }
 .virksomhetsvelger {
-    color: @navMorkGra;
+    color: var(--navds-semantic-color-text);
 
     &__dropdown {
         &--lukket,
         &--apen {
-            left:-1rem;
+            left: -1rem;
             width: calc(100% + 2rem);
             background-color: white;
             outline: none;
@@ -73,19 +72,17 @@
         }
     }
 
-
-
     @media (min-width: 23rem) {
         &__dropdown {
             &--lukket,
             &--apen {
                 max-width: 23rem;
-                left:unset;
+                left: unset;
             }
         }
     }
 
-    @media (min-width: @screen-sm-min) {
+    @media (min-width: 48rem) {
         .dropdownmeny-elementer {
             max-height: @dropdownElemHeightDesktop;
             &.medSokeTekst {
