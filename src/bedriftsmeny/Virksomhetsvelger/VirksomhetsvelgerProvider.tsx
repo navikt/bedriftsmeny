@@ -1,4 +1,4 @@
-import React, {createContext, FunctionComponent, useEffect, useState} from 'react';
+import React, {createContext, FunctionComponent, ReactNode, useEffect, useState} from 'react';
 import {JuridiskEnhetMedUnderEnheterArray, Organisasjon, tomAltinnOrganisasjon} from '../organisasjon';
 import useOrganisasjon from './utils/useOrganisasjon';
 import {OrgnrSearchParamType, setLocalStorageOrgnr, useOrgnrSearchParam} from './utils/utils';
@@ -7,6 +7,7 @@ import {byggSokeresultat} from './utils/byggSokeresultat';
 interface Props {
     organisasjonstre: JuridiskEnhetMedUnderEnheterArray[];
     orgnrSearchParam?: OrgnrSearchParamType;
+    children?: ReactNode;
 }
 
 interface Context {
