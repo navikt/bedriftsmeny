@@ -1,91 +1,53 @@
 {
     "name": "@navikt/bedriftsmeny",
-    "version": "4.1.1",
+    "version": "5.0.0",
     "description": "Bedriftsvelger og -meny for innlogget arbeidsgiver. Laget av TAG (Tjenester for Arbeidsgivere).",
     "author": "NAVIKT",
     "license": "MIT",
-    "main": "lib/Bedriftsmeny.js",
-    "types": "lib/Bedriftsmeny.d.ts",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/navikt/bedriftsmeny.git"
     },
+    "source": "src/index.html",
+    "main": "lib/index.js",
+    "types": "lib/index.d.ts",
     "files": [
         "lib",
         "src/bedriftsmeny"
     ],
-    "keywords": [
-        "react",
-        "bedrift",
-        "bedriftsmeny",
-        "arbeidsgiver"
-    ],
     "scripts": {
-        "start:parcel": "parcel src/index.html --no-autoinstall --open --port 8000",
+        "start:parcel": "parcel",
         "start:ts": "tsc --watch",
         "start": "run-p start:parcel start:ts",
-        "build:webpack": "webpack",
-        "build:declarations": "tsc --project tsconfig.build.json",
-        "build": "run-s build:webpack build:declarations"
+        "build": "tsc --project tsconfig.build.json"
+    },
+    "devDependencies": {
+        "@parcel/transformer-less": "^2.8.0",
+        "@types/history": "^4.7.8",
+        "@types/react": "^18.0.25",
+        "@types/react-collapse": "^5.0.0",
+        "@types/react-dom": "^18.0.8",
+        "@types/react-modal": "^3.13.1",
+        "npm-run-all": "^4.1.5",
+        "parcel": "^2.8.0",
+        "prettier": "2.2.1",
+        "process": "^0.11.10",
+        "typescript": "^4.1.3"
     },
     "dependencies": {
         "@navikt/ds-css": "^1.5.6",
         "@navikt/ds-icons": "^1.5.6",
         "@navikt/ds-react": "^1.5.6",
         "@types/amplitude-js": "^8.9.4",
-        "fuzzysort": "^1.1.4"
-    },
-    "devDependencies": {
-        "@babel/cli": "^7.12.10",
-        "@babel/core": "^7.12.10",
-        "@babel/plugin-proposal-class-properties": "^7.12.1",
-        "@babel/plugin-proposal-object-rest-spread": "^7.12.1",
-        "@babel/plugin-transform-arrow-functions": "^7.12.1",
-        "@babel/preset-env": "^7.12.11",
-        "@babel/preset-react": "^7.12.10",
-        "@babel/preset-typescript": "^7.12.7",
-        "@types/history": "^4.7.8",
-        "@types/react": "^18.0.25",
-        "@types/react-collapse": "^5.0.0",
-        "@types/react-dom": "^18.0.8",
-        "@types/react-modal": "^3.13.1",
-        "babel-loader": "^8.2.2",
-        "core-js": "^3.8.3",
-        "css-loader": "^5.0.1",
+        "fuzzysort": "^1.1.4",
         "history": "^4.10.1",
-        "less": "^4.1.1",
-        "less-loader": "^8.0.0",
-        "mini-css-extract-plugin": "^0.12.0",
-        "npm-run-all": "^4.1.5",
-        "parcel-bundler": "^1.3.1",
-        "postcss-loader": "^6.1.1",
-        "postcss-prefix-selector": "^1.10.0",
-        "prettier": "2.2.1",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
-        "react-router-dom": "^6.3.0",
-        "regenerator-runtime": "^0.13.7",
-        "typescript": "^4.1.3",
-        "webpack": "^5.0.0",
-        "webpack-cli": "^4.4.0",
-        "whatwg-fetch": "^3.6.2"
-    },
-    "peerDependencies": {
-        "react": "^18.2.0",
         "react-router-dom": "6"
     },
-    "browserslist": {
-        "production": [
-            "> 1% in NO",
-            "not dead",
-            "not op_mini all",
-            "ie 11"
-        ],
-        "development": [
-            "last 1 chrome version",
-            "last 1 firefox version",
-            "last 1 safari version",
-            "ie 11"
-        ]
+    "prettier": {
+        "tabWidth": 4,
+        "printWidth": 100,
+        "singleQuote": true
     }
 }

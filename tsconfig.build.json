@@ -1,13 +1,15 @@
 {
     "compilerOptions": {
-        "outDir": "./lib",
-        "emitDeclarationOnly": true,
+        "outDir": "lib",
+        "target": "esnext",
+        "lib": ["dom", "esnext"],
         "declaration": true,
-        "strict": true,
-        "jsx": "react",
-        "target": "es2016",
         "moduleResolution": "node",
+        "sourceMap": true,
+        "strict": true,
+        "jsx": "preserve",
+
         "allowSyntheticDefaultImports": true
     },
-    "include": ["src/bedriftsmeny/**/*"]
+    "include": ["src/bedriftsmeny"]
 }

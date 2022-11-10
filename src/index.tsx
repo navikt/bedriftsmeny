@@ -1,7 +1,3 @@
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
-import 'whatwg-fetch';
-
 import React, { useEffect, useState } from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
@@ -36,7 +32,8 @@ const App = () => {
                     sidetittel="Min Side Arbeidsgiver"
                     organisasjoner={organisasjoner}
                     onOrganisasjonChange={onOrganisasjonChange}
-                    amplitudeClient={amplitude}>
+                    amplitudeClient={amplitude}
+                >
                     <Bell className="eksempelapp__bjelleikon" />
                 </Bedriftsmeny>
 
