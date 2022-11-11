@@ -1,0 +1,55 @@
+.menyknapp {
+    background-color: white;
+    border: 2px solid #78706a;
+    border-radius: 4px;
+    width: 100%;
+    padding: 0.5rem 1rem;
+    color: var(--navds-semantic-color-text);
+}
+
+@media (hover: hover) {
+    .menyknapp:hover {
+        color: white;
+        background-color: var(--navds-global-color-blue-500);
+    }
+}
+
+.menyknapp:active {
+    background-color: var(--navds-global-color-blue-700);
+}
+
+.menyknapp:focus {
+    outline: solid 3px var(--navds-semantic-color-focus);
+    outline-offset: -3px;
+}
+
+.menyknapp__container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.menyknapp__tekstcontainer {
+    margin: 0 0.7rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-align: left;
+}
+
+.menyknapp__overtekst {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.menyknapp__undertekst {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.menyknapp__ikon {
+    padding-top: 0.3rem;
+}
+
+.menyknapp__chevron {
+    padding-top: 0.3rem;
+    width: 20px;
+}

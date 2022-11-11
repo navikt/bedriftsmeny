@@ -12,7 +12,6 @@ import {
     finnOrganisasjonsSomskalHaFokus,
 } from '../pilnavigerinsfunksjoner';
 import { VirksomhetsvelgerContext } from '../../VirksomhetsvelgerProvider';
-import './Underenhetsvelger.less';
 
 interface Props {
     juridiskEnhetMedUnderenheter: JuridiskEnhetMedUnderEnheterArray;
@@ -147,7 +146,8 @@ const Underenhetsvelger: FunctionComponent<Props> = ({
                 }`}
                 id={`underenhetvelger${juridiskEnhet.OrganizationNumber}`}
                 role="menu"
-                aria-label={`Underenheter til ${juridiskEnhet.Name}`}>
+                aria-label={`Underenheter til ${juridiskEnhet.Name}`}
+            >
                 {juridiskEnhetMedUnderenheter.Underenheter.map((organisasjon: Organisasjon) => (
                     <Underenhet
                         setErApen={setErApen}

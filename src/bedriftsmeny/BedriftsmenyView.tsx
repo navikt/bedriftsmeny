@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react';
 import { Heading } from '@navikt/ds-react';
-import './BedriftsmenyView.less';
 
 interface Props {
     tittel?: string | JSX.Element;

@@ -1,0 +1,74 @@
+.underenhetsvelger ul {
+    background-color: white;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.underenhetsvelger #valgtjuridiskenhet svg g {
+    stroke: white;
+    fill: var(--navds-semantic-color-text);
+}
+
+.underenhetsvelger__button {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 1rem;
+    position: relative;
+    height: 6rem;
+    border: none;
+    border-top: 1px solid #979797;
+    background-color: white;
+    color: var(--navds-global-color-gray-800);
+    cursor: pointer;
+}
+
+.underenhetsvelger__button:focus {
+    box-shadow: inset 0 0 0 3px var(--navds-semantic-color-focus);
+    outline: none;
+}
+
+.underenhetsvelger__button:active {
+    background-color: var(--navds-global-color-blue-600);
+}
+
+.underenhetsvelger__button:hover {
+    color: white;
+    background-color: var(--navds-semantic-color-interaction-primary);
+}
+
+.underenhetsvelger__button:hover svg g {
+    stroke: white;
+    fill: none;
+}
+
+.underenhetsvelger__button__label {
+    position: absolute;
+    bottom: 0.5rem;
+    left: 3.5rem;
+}
+
+.underenhetsvelger__menyvalg-wrapper--lukket,
+.underenhetsvelger__menyvalg-wrapper--apen {
+    visibility: hidden;
+    transform: rotateX(-90deg);
+    transform-origin: top center;
+    opacity: 0.3;
+    transition: 0.3s ease;
+    max-height: 0;
+}
+
+.underenhetsvelger__menyvalg-wrapper--lukket .underenhet,
+.underenhetsvelger__menyvalg-wrapper--apen .underenhet {
+    max-height: 20rem;
+    padding: 0.5rem 0.5rem 0.5rem 2.4rem;
+}
+
+.underenhetsvelger__menyvalg-wrapper--apen {
+    visibility: visible;
+    max-height: max-content;
+    opacity: 1;
+    transition: 0.4s ease;
+    transform: rotateX(0deg);
+}

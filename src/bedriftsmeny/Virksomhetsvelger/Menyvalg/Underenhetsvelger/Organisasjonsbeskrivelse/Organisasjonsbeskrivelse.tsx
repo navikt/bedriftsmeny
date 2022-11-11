@@ -3,7 +3,6 @@ import React from 'react';
 import JuridiskEnhetIkon from './JuridiskEnhetIkon';
 import UnderenhetIkon from './UnderenhetIkon';
 import { Heading, BodyShort } from '@navikt/ds-react';
-import './Organisasjonsbeskrivelse.less';
 
 interface Props {
     navn: string;
@@ -23,7 +22,8 @@ const Organisasjonsbeskrivelse = ({ navn, orgnummer, erJuridiskEnhet }: Props) =
                     title={navn.length > 26 ? navn : ''}
                     level="4"
                     size="small"
-                    className="organisasjonsbeskrivelse__navn">
+                    className="organisasjonsbeskrivelse__navn"
+                >
                     {navn}
                 </Heading>
                 <BodyShort aria-label={tekst}>{tekst}</BodyShort>

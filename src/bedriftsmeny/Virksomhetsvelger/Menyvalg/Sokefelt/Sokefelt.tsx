@@ -5,7 +5,6 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { erPilNavigasjon } from '../pilnavigerinsfunksjoner';
 import { VirksomhetsvelgerContext } from '../../VirksomhetsvelgerProvider';
-import './Sokefelt.less';
 
 interface Props {
     onEnter: () => void;
@@ -62,7 +61,8 @@ const Sokefelt: FunctionComponent<Props> = ({ onEnter, onArrowDown, onArrowUp, a
             />
             <BodyShort
                 className={'bedriftsmeny-sokefelt__skjult-aria-live-sokeresultat'}
-                aria-live="assertive">
+                aria-live="assertive"
+            >
                 {ariaTekst}
             </BodyShort>
         </div>

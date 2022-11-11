@@ -2,7 +2,6 @@ import React, { KeyboardEventHandler, MouseEventHandler } from 'react';
 import UnderenhetIkon from '../Menyvalg/Underenhetsvelger/Organisasjonsbeskrivelse/UnderenhetIkon';
 import { Collapse, Expand } from '@navikt/ds-icons';
 import { Heading, BodyShort } from '@navikt/ds-react';
-import './MenyknappView.less';
 
 interface Props {
     navn: string;
@@ -23,7 +22,8 @@ export const MenyknappView = (props: Props) => (
         aria-pressed={props.isOpen}
         aria-expanded={props.isOpen}
         aria-haspopup="true"
-        aria-controls="virksomhetsvelger__dropdown">
+        aria-controls="virksomhetsvelger__dropdown"
+    >
         <div className="menyknapp__container">
             <UnderenhetIkon classname="menyknapp__ikon" />
             <div className="menyknapp__tekstcontainer">

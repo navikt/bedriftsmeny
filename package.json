@@ -9,8 +9,8 @@
         "url": "git+https://github.com/navikt/bedriftsmeny.git"
     },
     "source": "src/index.html",
-    "main": "lib/index.js",
-    "types": "lib/index.d.ts",
+    "main": "lib/Bedriftsmeny.js",
+    "types": "lib/Bedriftsmeny.d.ts",
     "files": [
         "lib",
         "src/bedriftsmeny"
@@ -19,7 +19,11 @@
         "start:parcel": "parcel",
         "start:ts": "tsc --watch",
         "start": "run-p start:parcel start:ts",
-        "build": "tsc --project tsconfig.build.json"
+        "clean": "rm -rf lib",
+        "prebuild": "npm run clean",
+        "build": "run-p build:ts build:css",
+        "build:ts": "tsc --project tsconfig.build.json",
+        "build:css": "postcss --use postcss-import -o lib/index.css src/bedriftsmeny/index.css"
     },
     "devDependencies": {
         "@parcel/transformer-less": "^2.8.0",
@@ -30,6 +34,9 @@
         "@types/react-modal": "^3.13.1",
         "npm-run-all": "^4.1.5",
         "parcel": "^2.8.0",
+        "postcss": "^8.4.19",
+        "postcss-cli": "^10.0.0",
+        "postcss-import": "^15.0.0",
         "prettier": "2.2.1",
         "process": "^0.11.10",
         "typescript": "^4.1.3"

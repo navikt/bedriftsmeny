@@ -9,7 +9,6 @@ import Menyvalg from './Menyvalg/Menyvalg';
 import Sokefelt from './Menyvalg/Sokefelt/Sokefelt';
 import MenyKnapp from './Menyknapp/Menyknapp';
 import { setfokusPaMenyKnapp, setfokusPaSokefelt } from './Menyvalg/pilnavigerinsfunksjoner';
-import './Virksomhetsvelger.less';
 import { useHandleOutsideEvent } from './useHandleOutsideEvent';
 import { VirksomhetsvelgerContext } from './VirksomhetsvelgerProvider';
 
@@ -127,14 +126,16 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                 if (event.key === 'Escape' || event.key === 'Esc') {
                     setErApen(false);
                 }
-            }}>
+            }}
+        >
             <div ref={bedriftvelgernode}>
                 <MenyKnapp erApen={erApen} setErApen={setErApen} />
                 <div
                     role="toolbar"
                     className={`virksomhetsvelger__dropdown--${erApen ? 'apen' : 'lukket'}`}
                     aria-hidden={!erApen}
-                    id="virksomhetsvelger__dropdown">
+                    id="virksomhetsvelger__dropdown"
+                >
                     <Sokefelt
                         onArrowUp={() => setfokusPaMenyKnapp()}
                         onArrowDown={() => setFocusOnForsteVirksomhet()}
@@ -146,7 +147,8 @@ const Virksomhetsvelger: FunctionComponent<VirksomhetsvelgerProps> = (props) => 
                         <div
                             className={`dropdownmeny-elementer ${
                                 !!soketekst ? 'medSokeTekst' : ''
-                            }`}>
+                            }`}
+                        >
                             {aktivtOrganisasjonstre.length > 0 && (
                                 <Menyvalg
                                     organisasjonIFokus={organisasjonIFokus}

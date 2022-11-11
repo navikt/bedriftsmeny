@@ -1,0 +1,8 @@
+.virksomhetsvelger .bedriftsmeny-sokefelt {
+    margin: 1rem;
+}
+
+.virksomhetsvelger .bedriftsmeny-sokefelt__skjult-aria-live-sokeresultat {
+    font-style: italic;
+    margin: 1rem 0 0 1rem;
+}

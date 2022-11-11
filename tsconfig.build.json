@@ -7,7 +7,9 @@
         "moduleResolution": "node",
         "sourceMap": true,
         "strict": true,
-        "jsx": "preserve",
+        "jsx": "react",
+        "esModuleInterop": true,
+        "module": "commonjs",
 
         "allowSyntheticDefaultImports": true
     },

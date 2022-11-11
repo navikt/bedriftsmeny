@@ -10,6 +10,7 @@ import { Bell } from '@navikt/ds-icons';
 
 import '@navikt/ds-css';
 import './index.less';
+import './bedriftsmeny/index.css';
 
 const App = () => {
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState<Organisasjon | undefined>();
