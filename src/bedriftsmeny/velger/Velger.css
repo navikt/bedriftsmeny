@@ -1,0 +1,131 @@
+.velgerknapp__container {
+    width: 100%;
+    justify-content: flex-start;
+}
+
+.velgerknapp__container + .navds-popover .navds-popover__arrow {
+    background-color: var(--navds-semantic-color-canvas-background);
+}
+
+.velgerknapp__container:active {
+    color: white;
+}
+
+.velgerknapp__container > span {
+    width: 100%;
+}
+
+.velgerknapp {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    width: 100%;
+    gap: 1rem;
+}
+
+.velgerknapp--ikon {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.velgerknapp--tekst {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    width: 15rem;
+}
+
+.velgerknapp--tekst h2 {
+    max-width: 100%;
+    white-space: pre;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.velgerinnhold {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 26.25rem;
+    padding: var(--navds-spacing-3) var(--navds-spacing-3);
+    background-color: var(--navds-semantic-color-canvas-background);
+    border-radius: var(--navds-border-radius-small);
+}
+
+.velgerinnhold .navds-accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    max-height: 65vh;
+    overflow-y: scroll;
+}
+
+.juridisk-enhet .navds-accordion__content,
+.juridisk-enhet .navds-accordion__header,
+.juridisk-enhet .navds-accordion__header:hover,
+.juridisk-enhet .navds-accordion__header:active {
+    border: none;
+}
+
+.juridisk-enhet .navds-accordion__header {
+    align-items: center;
+    border-radius: var(--navds-border-radius-medium);
+}
+
+.juridisk-enhet .navds-accordion__header:focus {
+    box-shadow: inset var(--navds-shadow-focus);
+}
+
+.juridisk-enhet {
+    border-radius: var(--navds-border-radius-medium);
+    background-color: white;
+}
+
+.juridisk-enhet--innhold {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 1rem;
+}
+
+.juridisk-enhet--tittel {
+    font-weight: bold;
+}
+
+.juridisk-enhet--tekst {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.juridisk-enhet--orgnummer {
+    margin-bottom: 0.5rem;
+}
+
+.juridisk-enhet--virksomheter {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.25rem;
+    padding: 0.5rem;
+}
+
+.virksomhet--knapp {
+    padding: 0.75rem;
+    padding-left: 1.25rem;
+    justify-content: flex-start;
+}
+
+.virksomhet--knapp span {
+    width: 100%;
+}
+
+.virksomhet {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 1rem;
+}

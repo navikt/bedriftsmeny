@@ -1,18 +1,18 @@
-import React, {useContext} from 'react';
-import {erPilNavigasjon, setfokusPaSokefelt} from '../Menyvalg/pilnavigerinsfunksjoner';
-import {VirksomhetsvelgerContext} from '../VirksomhetsvelgerProvider';
-import {MenyknappView} from "./MenyknappView";
+import React, { useContext } from 'react';
+import { erPilNavigasjon, setfokusPaSokefelt } from '../Menyvalg/pilnavigerinsfunksjoner';
+import { VirksomhetsvelgerContext } from '../VirksomhetsvelgerProvider';
+import { MenyknappView } from './MenyknappView';
 
 interface Props {
     erApen: boolean;
     setErApen: (bool: boolean) => void;
 }
 
-const MenyKnapp = ({erApen, setErApen}: Props) => {
+const MenyKnapp = ({ erApen, setErApen }: Props) => {
     const {
-        valgtOrganisasjon: {Name, OrganizationNumber},
+        valgtOrganisasjon: { Name, OrganizationNumber },
         setSøketekst,
-    } = useContext(VirksomhetsvelgerContext)
+    } = useContext(VirksomhetsvelgerContext);
     const onKeyPress = (key: string, skift: boolean) => {
         if (key === 'ArrowDown' || key === 'Down') {
             if (erApen) {
@@ -42,7 +42,7 @@ const MenyKnapp = ({erApen, setErApen}: Props) => {
                 onKeyPress(e.key, e.shiftKey);
             }}
         />
-    )
-}
+    );
+};
 
 export default MenyKnapp;

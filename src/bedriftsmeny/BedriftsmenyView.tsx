@@ -18,9 +18,7 @@ export const BedriftsmenyView = (props: Props) => (
                 )}
             </div>
             <div className="bedriftsmeny__widgets">
-                <div className="bedriftsmeny__virksomhetsvelger">
-                    <div>{props.virksomhetsvelger}</div>
-                </div>
+                {props.virksomhetsvelger}
                 {props.bjelle ? <div>{props.bjelle}</div> : null}
             </div>
         </div>

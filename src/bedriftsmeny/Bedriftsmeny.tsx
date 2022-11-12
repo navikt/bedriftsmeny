@@ -7,6 +7,7 @@ import { AmplitudeProvider } from './amplitudeProvider';
 import { VirksomhetsvelgerProvider } from './Virksomhetsvelger/VirksomhetsvelgerProvider';
 import { BedriftsmenyView } from './BedriftsmenyView';
 import { OrgnrSearchParamType } from './Virksomhetsvelger/utils/utils';
+import Velger from './velger/Velger';
 
 interface EgneProps {
     sidetittel?: string | JSX.Element;
@@ -50,8 +51,9 @@ const Bedriftsmeny: FunctionComponent<EgneProps> = (props) => {
                     <AmplitudeProvider amplitudeClient={props.amplitudeClient}>
                         <VirksomhetsvelgerProvider
                             orgnrSearchParam={props.orgnrSearchParam}
-                            organisasjonstre={organisasjonstre ?? []}>
-                            <Virksomhetsvelger onOrganisasjonChange={props.onOrganisasjonChange} />
+                            organisasjonstre={organisasjonstre ?? []}
+                        >
+                            <Velger onOrganisasjonChange={props.onOrganisasjonChange} />
                         </VirksomhetsvelgerProvider>
                     </AmplitudeProvider>
                 ) : (

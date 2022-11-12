@@ -25,12 +25,5 @@
     position: relative;
     display: flex;
     gap: 1rem;
-    max-width: 23rem;
-    width: 100%;
     align-items: center;
-}
-
-.bedriftsmeny__virksomhetsvelger {
-    overflow: hidden;
-    width: 100%;
 }
