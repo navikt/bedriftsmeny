@@ -1,43 +1,31 @@
-.velgerknapp__container {
-    width: 100%;
-    justify-content: flex-start;
-}
-
-.velgerknapp__container + .navds-popover .navds-popover__arrow {
+.bedriftsmenyknapp + .navds-popover .navds-popover__arrow {
     background-color: var(--navds-semantic-color-canvas-background);
 }
 
-.velgerknapp__container:active {
+.bedriftsmenyknapp:active {
     color: white;
 }
 
-.velgerknapp__container > span {
-    width: 100%;
-}
-
-.velgerknapp {
+.bedriftsmenyknapp__innhold {
     display: grid;
     grid-template-columns: auto 1fr auto;
     align-items: center;
-    width: 100%;
     gap: 1rem;
 }
 
-.velgerknapp--ikon {
+.bedriftsmenyknapp__innhold svg {
     width: 1.5rem;
     height: 1.5rem;
 }
 
-.velgerknapp--tekst {
+.bedriftsmenyknapp__tekst {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
     text-align: left;
     width: 15rem;
 }
 
-.velgerknapp--tekst h2 {
-    max-width: 100%;
+.bedriftsmenyknapp__tekst h2 {
     white-space: pre;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -53,7 +41,10 @@
     border-radius: var(--navds-border-radius-small);
 }
 
-.velgerinnhold .navds-accordion {
+.velgerinnhold__liste {
+    padding: 0;
+    margin: 0;
+
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -83,29 +74,29 @@
     background-color: white;
 }
 
-.juridisk-enhet--innhold {
+.juridisk-enhet__innhold {
     display: grid;
     grid-template-columns: auto 1fr;
     align-items: center;
     gap: 1rem;
 }
 
-.juridisk-enhet--tittel {
+.juridisk-enhet__tittel {
     font-weight: bold;
 }
 
-.juridisk-enhet--tekst {
+.juridisk-enhet__tekst {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     text-align: left;
 }
 
-.juridisk-enhet--orgnummer {
-    margin-bottom: 0.5rem;
+.juridisk-enhet__antall-virksomheter {
+    margin-top: 0.5rem;
 }
 
-.juridisk-enhet--virksomheter {
+.juridisk-enhet__virksomheter {
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -113,17 +104,16 @@
     padding: 0.5rem;
 }
 
-.virksomhet--knapp {
+.virksomhetsknapp {
     padding: 0.75rem;
-    padding-left: 1.25rem;
     justify-content: flex-start;
 }
 
-.virksomhet--knapp span {
+.virksomhetsknapp__innhold span {
     width: 100%;
 }
 
-.virksomhet {
+.virksomhetsknapp__innhold {
     display: grid;
     grid-template-columns: auto 1fr;
     align-items: center;
