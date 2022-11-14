@@ -1,14 +1,5 @@
 import React, { FunctionComponent, useContext, useEffect, useRef, useState } from 'react';
-import {
-    Button,
-    Popover,
-    Heading,
-    BodyShort,
-    Search,
-    Accordion,
-    Label,
-    Detail,
-} from '@navikt/ds-react';
+import { Button, Popover, Heading, BodyShort, Search, Accordion, Detail } from '@navikt/ds-react';
 import { Organisasjon } from '../organisasjon';
 import { Office1, Office2, Expand, Collapse } from '@navikt/ds-icons';
 import { VirksomhetsvelgerContext } from '../Virksomhetsvelger/VirksomhetsvelgerProvider';
@@ -30,8 +21,8 @@ const Velger: FunctionComponent<Props> = ({ onOrganisasjonChange }) => {
         setSøketekst,
     } = useContext(VirksomhetsvelgerContext);
 
-    const toggleVelger = () => {
-        setÅpen(!åpen);
+    const toggleVelger = (verdi?: boolean) => {
+        setÅpen(verdi === undefined ? !åpen : verdi);
     };
 
     const onUnderenhetClick = (virksomhet: Organisasjon) => () => {
@@ -58,7 +49,7 @@ const Velger: FunctionComponent<Props> = ({ onOrganisasjonChange }) => {
         <>
             <Button
                 className="bedriftsmenyknapp"
-                onClick={toggleVelger}
+                onClick={() => toggleVelger()}
                 type="button"
                 variant="secondary"
                 ref={buttonRef}
