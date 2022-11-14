@@ -1,13 +1,12 @@
 import React, { FunctionComponent, ReactNode, useEffect, useState } from 'react';
 import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from './organisasjon';
 import { byggOrganisasjonstre } from './byggOrganisasjonsTre';
-import Virksomhetsvelger from './Virksomhetsvelger/Virksomhetsvelger';
 import { AmplitudeClient } from 'amplitude-js';
 import { AmplitudeProvider } from './amplitudeProvider';
 import { VirksomhetsvelgerProvider } from './Virksomhetsvelger/VirksomhetsvelgerProvider';
 import { BedriftsmenyView } from './BedriftsmenyView';
 import { OrgnrSearchParamType } from './Virksomhetsvelger/utils/utils';
-import Velger from './velger/Velger';
+import Virksomhetsvelger from './velger/Virksomhetsvelger';
 
 interface EgneProps {
     sidetittel?: string | JSX.Element;
@@ -53,7 +52,7 @@ const Bedriftsmeny: FunctionComponent<EgneProps> = (props) => {
                             orgnrSearchParam={props.orgnrSearchParam}
                             organisasjonstre={organisasjonstre ?? []}
                         >
-                            <Velger onOrganisasjonChange={props.onOrganisasjonChange} />
+                            <Virksomhetsvelger onOrganisasjonChange={props.onOrganisasjonChange} />
                         </VirksomhetsvelgerProvider>
                     </AmplitudeProvider>
                 ) : (

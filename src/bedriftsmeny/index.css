@@ -6,5 +6,5 @@
 @import './Virksomhetsvelger/Menyvalg/Underenhetsvelger/Organisasjonsbeskrivelse/Organisasjonsbeskrivelse.css';
 @import './Virksomhetsvelger/Menyvalg/Underenhetsvelger/Underenhet/Underenhet.css';
 
-@import './Velger/Velger.css';
-@import './Velger/JuridiskEnhet.css';
+@import './velger/Virksomhetsvelger.css';
+@import './velger/JuridiskEnhet.css';

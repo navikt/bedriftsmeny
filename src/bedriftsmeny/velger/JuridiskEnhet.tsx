@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Office1, Office2, Success } from '@navikt/ds-icons';
+import { Office1, Success } from '@navikt/ds-icons';
 import { Accordion, BodyShort, Button } from '@navikt/ds-react';
 import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../organisasjon';
 
@@ -16,71 +16,67 @@ const JuridiskEnhet: FunctionComponent<Props> = ({
 }) => {
     const { JuridiskEnhet, Underenheter } = juridiskEnhet;
 
+    const juridiskEnhetErValgt = Underenheter.some(
+        (enhet: Organisasjon) => enhet.OrganizationNumber === valgtOrganisasjon.OrganizationNumber
+    );
+
     return (
-        <li className="juridisk-enhet">
+        <li className="navbm-virksomhetsvelger__juridisk-enhet">
             <Accordion.Item
                 key={JuridiskEnhet.OrganizationNumber}
-                defaultOpen={Underenheter.some(
-                    (enhet: Organisasjon) =>
-                        enhet.OrganizationNumber === valgtOrganisasjon.OrganizationNumber
-                )}
+                defaultOpen={juridiskEnhetErValgt}
             >
-                <Accordion.Header>
-                    <div className="juridisk-enhet__innhold">
-                        <Office1 aria-hidden={true} />
-                        <div className="juridisk-enhet__tekst">
-                            <BodyShort className="juridisk-enhet__tittel">
-                                {JuridiskEnhet.Name}
-                            </BodyShort>
-                            <BodyShort>
-                                <span>org.nummer </span>
-                                <span>{JuridiskEnhet.OrganizationNumber}</span>
-                            </BodyShort>
-                            <BodyShort className="juridisk-enhet__antall-virksomheter">
-                                {Underenheter.length} virksomhet
-                                {Underenheter.length === 1 ? '' : 'er'}
-                            </BodyShort>
-                        </div>
+                <Accordion.Header className="navbm-virksomhetsvelger__enhet navbm-virksomhetsvelger__enhet--juridisk">
+                    <div className="navbm-virksomhetsvelger__enhet-tekst">
+                        <BodyShort className="navbm-virksomhetsvelger__enhet-tittel">
+                            {JuridiskEnhet.Name}
+                        </BodyShort>
+                        <BodyShort>
+                            <span>org.nummer </span>
+                            <span>{JuridiskEnhet.OrganizationNumber}</span>
+                        </BodyShort>
+                        <BodyShort className="navbm-virksomhetsvelger__enhet-beskrivelse">
+                            {Underenheter.length} virksomhet
+                            {Underenheter.length === 1 ? '' : 'er'}
+                        </BodyShort>
                     </div>
                 </Accordion.Header>
-                <Accordion.Content className="juridisk-enhet__virksomheter">
-                    <ul role="presentation" className="juridisk-enhet__virksomhetsliste">
-                        {Underenheter.map((virksomhet) => (
-                            <li
-                                className="virksomhet"
-                                role="menuitem"
-                                aria-selected={
-                                    valgtOrganisasjon.OrganizationNumber ===
-                                    virksomhet.OrganizationNumber
-                                }
-                            >
-                                <Button
-                                    variant="tertiary"
-                                    onClick={() => onUnderenhetClick(virksomhet)}
-                                    className="virksomhetsknapp"
-                                >
-                                    <div className="virksomhetsknapp__innhold">
-                                        <Office2 aria-hidden={true} />
-                                        <div className="juridisk-enhet__tekst">
-                                            <BodyShort className="juridisk-enhet__tittel">
-                                                {virksomhet.Name}
-                                            </BodyShort>
-                                            <BodyShort>
-                                                <span>virksomhetsnr. </span>
-                                                <span>{virksomhet.OrganizationNumber}</span>
-                                            </BodyShort>
+                <Accordion.Content className="navbm-virksomhetsvelger__underenheter ">
+                    <ul role="presentation">
+                        {Underenheter.map((virksomhet) => {
+                            const underenhetErValgt =
+                                valgtOrganisasjon.OrganizationNumber ===
+                                virksomhet.OrganizationNumber;
+
+                            return (
+                                <li role="menuitem" aria-selected={underenhetErValgt}>
+                                    <Button
+                                        variant="tertiary"
+                                        onClick={() => onUnderenhetClick(virksomhet)}
+                                        className="navbm-virksomhetsvelger__underenhet-innhold"
+                                    >
+                                        <div className="navbm-virksomhetsvelger__enhet">
+                                            <Office1 aria-hidden={true} />
+                                            <div className="navbm-virksomhetsvelger__enhet-tekst">
+                                                <BodyShort className="navbm-virksomhetsvelger__enhet-tittel">
+                                                    {virksomhet.Name}
+                                                </BodyShort>
+                                                <BodyShort>
+                                                    <span>virksomhetsnr. </span>
+                                                    <span>{virksomhet.OrganizationNumber}</span>
+                                                </BodyShort>
+                                            </div>
+                                            {underenhetErValgt && (
+                                                <Success
+                                                    aria-hidden={true}
+                                                    className="navbm-virksomhetsvelger__underenhet-ikon"
+                                                />
+                                            )}
                                         </div>
-                                        {valgtOrganisasjon.OrganizationNumber ===
-                                            virksomhet.OrganizationNumber && (
-                                            <Success
-                                                aria-hidden={true}
-                                                className="virksomhetsknapp__valgt-ikon"
-                                            />
-                                        )}
-                                    </div>
-                                </Button>
-                            </li>
-                        ))}
+                                    </Button>
+                                </li>
+                            );
+                        })}
                     </ul>
                 </Accordion.Content>
             </Accordion.Item>

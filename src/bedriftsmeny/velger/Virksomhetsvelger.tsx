@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useContext, useEffect, useRef, useState } from 'react';
 import { Button, Popover, Heading, BodyShort, Search, Accordion, Detail } from '@navikt/ds-react';
 import { Organisasjon } from '../organisasjon';
-import { Office2, Expand, Collapse } from '@navikt/ds-icons';
+import { Expand, Collapse, Office1 } from '@navikt/ds-icons';
 import { VirksomhetsvelgerContext } from '../Virksomhetsvelger/VirksomhetsvelgerProvider';
 import JuridiskEnhet from './JuridiskEnhet';
 
@@ -49,7 +49,7 @@ const Velger: FunctionComponent<Props> = ({ onOrganisasjonChange }) => {
     return (
         <>
             <Button
-                className="bedriftsmenyknapp"
+                className="navbm-virksomhetsvelger"
                 onClick={() => toggleVelger()}
                 type="button"
                 variant="secondary"
@@ -60,9 +60,9 @@ const Velger: FunctionComponent<Props> = ({ onOrganisasjonChange }) => {
                 aria-haspopup={true}
                 aria-expanded={åpen}
             >
-                <div className="bedriftsmenyknapp__innhold">
-                    <Office2 aria-hidden={true} />
-                    <div className="bedriftsmenyknapp__tekst">
+                <div className="navbm-virksomhetsvelger__innhold">
+                    <Office1 aria-hidden={true} />
+                    <div className="navbm-virksomhetsvelger__tekst">
                         <Heading size="small" level="2">
                             {valgtOrganisasjon.Name}
                         </Heading>
@@ -79,7 +79,7 @@ const Velger: FunctionComponent<Props> = ({ onOrganisasjonChange }) => {
                 placement="bottom-start"
                 id="bedriftsvelger-popup"
             >
-                <div className="velgerinnhold" role="menu">
+                <div className="navbm-virksomhetsvelger__popup" role="menu">
                     <Search
                         ref={searchRef}
                         variant="simple"
@@ -94,7 +94,10 @@ const Velger: FunctionComponent<Props> = ({ onOrganisasjonChange }) => {
                         </Detail>
                     )}
                     <Accordion>
-                        <ul role="presentation" className="velgerinnhold__liste">
+                        <ul
+                            role="presentation"
+                            className="navbm-virksomhetsvelger__juridiske-enheter"
+                        >
                             {aktivtOrganisasjonstre.map((juridiskEnhet) => (
                                 <JuridiskEnhet
                                     juridiskEnhet={juridiskEnhet}
