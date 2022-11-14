@@ -1,16 +1,16 @@
-.bedriftsmeny {
+.navbm-bedriftsmeny {
     background-color: var(--navds-global-color-blue-100);
     border-bottom: 0.25rem solid var(--navds-global-color-deepblue-200);
     padding: 1rem;
 }
 
 @media (min-width: 48rem) {
-    .bedriftsmeny {
+    .navbm-bedriftsmeny {
         padding: 2rem 1rem;
     }
 }
 
-.bedriftsmeny__content {
+.navbm-innhold {
     display: flex;
     flex-wrap: wrap;
     max-width: 60rem;
@@ -21,7 +21,7 @@
     align-items: center;
 }
 
-.bedriftsmeny__widgets {
+.navbm-widgets {
     position: relative;
     display: flex;
     gap: 1rem;

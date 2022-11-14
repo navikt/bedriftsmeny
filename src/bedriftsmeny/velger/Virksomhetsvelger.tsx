@@ -56,7 +56,7 @@ const Velger: FunctionComponent<Props> = ({ onOrganisasjonChange }) => {
                 ref={buttonRef}
                 role="menubutton"
                 aria-label="Velg aktiv virksomhet"
-                aria-controls="bedriftsvelger-popup"
+                aria-controls="navbm-virksomhetsvelger-popup"
                 aria-haspopup={true}
                 aria-expanded={åpen}
             >
@@ -77,7 +77,7 @@ const Velger: FunctionComponent<Props> = ({ onOrganisasjonChange }) => {
                 onClose={() => setÅpen(false)}
                 anchorEl={buttonRef.current}
                 placement="bottom-start"
-                id="bedriftsvelger-popup"
+                id="navbm-virksomhetsvelger-popup"
             >
                 <div className="navbm-virksomhetsvelger__popup" role="menu">
                     <Search

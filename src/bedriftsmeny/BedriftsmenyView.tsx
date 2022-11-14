@@ -8,16 +8,14 @@ interface Props {
 }
 
 export const BedriftsmenyView = (props: Props) => (
-    <div className="bedriftsmeny">
-        <div className="bedriftsmeny__content">
-            <div className="bedriftsmeny__tittel">
-                {typeof props.tittel === 'string' ? (
-                    <Heading size="large">{props.tittel}</Heading>
-                ) : (
-                    props.tittel
-                )}
-            </div>
-            <div className="bedriftsmeny__widgets">
+    <div className="navbm-bedriftsmeny">
+        <div className="navbm-innhold">
+            {typeof props.tittel === 'string' ? (
+                <Heading size="large">{props.tittel}</Heading>
+            ) : (
+                props.tittel
+            )}
+            <div className="navbm-widgets">
                 {props.virksomhetsvelger}
                 {props.bjelle ? <div>{props.bjelle}</div> : null}
             </div>
