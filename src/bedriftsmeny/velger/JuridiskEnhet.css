@@ -19,16 +19,20 @@
     background-color: white;
 }
 
+.navbm-virksomhetsvelger__juridisk-enhet .navds-accordion__content {
+    padding: var(--navds-spacing-2);
+}
+
 .navbm-virksomhetsvelger__enhet {
     display: grid;
     grid-template-columns: auto 1fr auto;
     align-items: center;
-    gap: 1rem;
+    gap: var(--navds-spacing-4);
 }
 
 .navbm-virksomhetsvelger__enhet--juridisk {
     grid-template-columns: 1fr auto;
-    padding: 1rem 1.25rem;
+    padding: var(--navds-spacing-4) var(--navds-spacing-5);
 }
 
 .navbm-virksomhetsvelger__enhet-tittel {
@@ -43,15 +47,15 @@
 }
 
 .navbm-virksomhetsvelger__enhet-beskrivelse {
-    margin-top: 0.5rem;
+    margin-top: var(--navds-spacing-2);
 }
 
 .navbm-virksomhetsvelger__underenheter {
     display: flex;
     flex-direction: column;
-    align-items: stretch;
-    gap: 0.25rem;
-    padding: 0.5rem;
+    gap: var(--navds-spacing-1);
+    padding: 0;
+    list-style: none;
 }
 
 .navbm-virksomhetsvelger__underenheter ul {
@@ -59,12 +63,14 @@
 }
 
 .navbm-virksomhetsvelger__underenhet {
-    padding: 0.75rem;
     justify-content: flex-start;
     width: 100%;
 }
 
-.navbm-virksomhetsvelger__underenhet-innhold,
+.navbm-virksomhetsvelger__underenhet-innhold {
+    width: 100%;
+    padding: var(--navds-spacing-3) var(--navds-spacing-4);
+}
 .navbm-virksomhetsvelger__underenhet-innhold > span {
     width: 100%;
 }

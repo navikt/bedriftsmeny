@@ -41,8 +41,8 @@ const JuridiskEnhet: FunctionComponent<Props> = ({
                         </BodyShort>
                     </div>
                 </Accordion.Header>
-                <Accordion.Content className="navbm-virksomhetsvelger__underenheter ">
-                    <ul role="presentation">
+                <Accordion.Content>
+                    <ul role="presentation" className="navbm-virksomhetsvelger__underenheter">
                         {Underenheter.map((virksomhet) => {
                             const underenhetErValgt =
                                 valgtOrganisasjon.OrganizationNumber ===
