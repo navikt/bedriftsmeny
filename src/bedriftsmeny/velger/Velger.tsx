@@ -31,6 +31,10 @@ const Velger: FunctionComponent<Props> = ({ onOrganisasjonChange }) => {
     };
 
     const onUnderenhetClick = (virksomhet: Organisasjon) => () => {
+        if (onOrganisasjonChange) {
+            virksomhet;
+        }
+
         velgUnderenhet(virksomhet.OrganizationNumber);
         setÅpen(false);
     };
