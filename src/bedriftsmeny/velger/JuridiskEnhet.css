@@ -1,0 +1,77 @@
+.juridisk-enhet .navds-accordion__content,
+.juridisk-enhet .navds-accordion__header,
+.juridisk-enhet .navds-accordion__header:hover,
+.juridisk-enhet .navds-accordion__header:active {
+    border: none;
+}
+
+.juridisk-enhet .navds-accordion__header {
+    align-items: center;
+    border-radius: var(--navds-border-radius-medium);
+}
+
+.juridisk-enhet .navds-accordion__header:focus {
+    box-shadow: inset var(--navds-shadow-focus);
+}
+
+.juridisk-enhet {
+    border-radius: var(--navds-border-radius-medium);
+    background-color: white;
+}
+
+.juridisk-enhet__innhold {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 1rem;
+}
+
+.juridisk-enhet__tittel {
+    font-weight: bold;
+}
+
+.juridisk-enhet__tekst {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.juridisk-enhet__antall-virksomheter {
+    margin-top: 0.5rem;
+}
+
+.juridisk-enhet__virksomheter {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.25rem;
+    padding: 0.5rem;
+}
+
+.juridisk-enhet__virksomhetsliste {
+    padding: 0;
+}
+
+.virksomhetsknapp {
+    padding: 0.75rem 0.4rem;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.virksomhetsknapp span {
+    width: 100%;
+}
+
+.virksomhetsknapp__innhold {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+}
+
+.virksomhetsknapp__valgt-ikon {
+    width: 1.25rem;
+    height: 1.25rem;
+}

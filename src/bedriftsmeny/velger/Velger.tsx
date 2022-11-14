@@ -1,8 +1,9 @@
 import React, { FunctionComponent, useContext, useEffect, useRef, useState } from 'react';
 import { Button, Popover, Heading, BodyShort, Search, Accordion, Detail } from '@navikt/ds-react';
 import { Organisasjon } from '../organisasjon';
-import { Office1, Office2, Expand, Collapse } from '@navikt/ds-icons';
+import { Office2, Expand, Collapse } from '@navikt/ds-icons';
 import { VirksomhetsvelgerContext } from '../Virksomhetsvelger/VirksomhetsvelgerProvider';
+import JuridiskEnhet from './JuridiskEnhet';
 
 type Props = {
     onOrganisasjonChange?: (organisasjon: Organisasjon) => void;
@@ -25,7 +26,7 @@ const Velger: FunctionComponent<Props> = ({ onOrganisasjonChange }) => {
         setÅpen(verdi === undefined ? !åpen : verdi);
     };
 
-    const onUnderenhetClick = (virksomhet: Organisasjon) => () => {
+    const onUnderenhetClick = (virksomhet: Organisasjon) => {
         if (onOrganisasjonChange) {
             virksomhet;
         }
@@ -94,63 +95,12 @@ const Velger: FunctionComponent<Props> = ({ onOrganisasjonChange }) => {
                     )}
                     <Accordion>
                         <ul role="presentation" className="velgerinnhold__liste">
-                            {aktivtOrganisasjonstre.map((organisasjon) => (
-                                <li role="menuitem" className="juridisk-enhet">
-                                    <Accordion.Item
-                                        key={organisasjon.JuridiskEnhet.OrganizationNumber}
-                                    >
-                                        <Accordion.Header>
-                                            <div className="juridisk-enhet__innhold">
-                                                <Office1 aria-hidden={true} />
-                                                <div className="juridisk-enhet__tekst">
-                                                    <BodyShort className="juridisk-enhet__tittel">
-                                                        {organisasjon.JuridiskEnhet.Name}
-                                                    </BodyShort>
-                                                    <BodyShort>
-                                                        <span>org.nummer </span>
-                                                        <span>
-                                                            {
-                                                                organisasjon.JuridiskEnhet
-                                                                    .OrganizationNumber
-                                                            }
-                                                        </span>
-                                                    </BodyShort>
-                                                    <BodyShort className="juridisk-enhet__antall-virksomheter">
-                                                        {organisasjon.Underenheter.length}{' '}
-                                                        virksomhet
-                                                        {organisasjon.Underenheter.length === 1
-                                                            ? ''
-                                                            : 'er'}
-                                                    </BodyShort>
-                                                </div>
-                                            </div>
-                                        </Accordion.Header>
-                                        <Accordion.Content className="juridisk-enhet__virksomheter">
-                                            {organisasjon.Underenheter.map((virksomhet) => (
-                                                <Button
-                                                    variant="tertiary"
-                                                    onClick={onUnderenhetClick(virksomhet)}
-                                                    className="virksomhetsknapp"
-                                                >
-                                                    <div className="virksomhetsknapp__innhold">
-                                                        <Office2 aria-hidden={true} />
-                                                        <div className="juridisk-enhet__tekst">
-                                                            <BodyShort className="juridisk-enhet__tittel">
-                                                                {virksomhet.Name}
-                                                            </BodyShort>
-                                                            <BodyShort>
-                                                                <span>virksomhetsnr. </span>
-                                                                <span>
-                                                                    {virksomhet.OrganizationNumber}
-                                                                </span>
-                                                            </BodyShort>
-                                                        </div>
-                                                    </div>
-                                                </Button>
-                                            ))}
-                                        </Accordion.Content>
-                                    </Accordion.Item>
-                                </li>
+                            {aktivtOrganisasjonstre.map((juridiskEnhet) => (
+                                <JuridiskEnhet
+                                    juridiskEnhet={juridiskEnhet}
+                                    valgtOrganisasjon={valgtOrganisasjon}
+                                    onUnderenhetClick={onUnderenhetClick}
+                                />
                             ))}
                         </ul>
                     </Accordion>
