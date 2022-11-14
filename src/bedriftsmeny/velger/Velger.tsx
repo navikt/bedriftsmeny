@@ -1,5 +1,14 @@
-import React, { FunctionComponent, useContext, useRef, useState } from 'react';
-import { Button, Popover, Heading, BodyShort, Search, Accordion, Label } from '@navikt/ds-react';
+import React, { FunctionComponent, useContext, useEffect, useRef, useState } from 'react';
+import {
+    Button,
+    Popover,
+    Heading,
+    BodyShort,
+    Search,
+    Accordion,
+    Label,
+    Detail,
+} from '@navikt/ds-react';
 import { Organisasjon } from '../organisasjon';
 import { Office1, Office2, Expand, Collapse } from '@navikt/ds-icons';
 import { VirksomhetsvelgerContext } from '../Virksomhetsvelger/VirksomhetsvelgerProvider';
@@ -22,12 +31,7 @@ const Velger: FunctionComponent<Props> = ({ onOrganisasjonChange }) => {
     } = useContext(VirksomhetsvelgerContext);
 
     const toggleVelger = () => {
-        if (åpen) {
-            setÅpen(false);
-        } else {
-            setÅpen(true);
-            searchRef.current?.focus();
-        }
+        setÅpen(!åpen);
     };
 
     const onUnderenhetClick = (virksomhet: Organisasjon) => () => {
@@ -38,6 +42,17 @@ const Velger: FunctionComponent<Props> = ({ onOrganisasjonChange }) => {
         velgUnderenhet(virksomhet.OrganizationNumber);
         setÅpen(false);
     };
+
+    useEffect(() => {
+        if (åpen) {
+            searchRef.current?.focus();
+        }
+    }, [åpen]);
+
+    const antallTreff = aktivtOrganisasjonstre.reduce(
+        (totaltAntall, juridiskEnhet) => totaltAntall + juridiskEnhet.Underenheter.length,
+        0
+    );
 
     return (
         <>
@@ -81,6 +96,11 @@ const Velger: FunctionComponent<Props> = ({ onOrganisasjonChange }) => {
                         placeholder="Søk på virksomhet ..."
                         label="Søk på virksomhet"
                     />
+                    {søketekst.length > 0 && (
+                        <Detail aria-live="polite">
+                            {antallTreff === 0 ? 'Ingen' : antallTreff} treff på "{søketekst}"
+                        </Detail>
+                    )}
                     <Accordion>
                         <ul role="presentation" className="velgerinnhold__liste">
                             {aktivtOrganisasjonstre.map((organisasjon) => (
