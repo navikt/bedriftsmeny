@@ -3,10 +3,10 @@ import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from './organisasjon'
 import { byggOrganisasjonstre } from './byggOrganisasjonsTre';
 import { AmplitudeClient } from 'amplitude-js';
 import { AmplitudeProvider } from './amplitudeProvider';
-import { VirksomhetsvelgerProvider } from './virksomhetsvelger/VirksomhetsvelgerProvider';
+import { VirksomhetsvelgerProvider } from './velger/VirksomhetsvelgerProvider';
 import { BedriftsmenyView } from './BedriftsmenyView';
-import { OrgnrSearchParamType } from './virksomhetsvelger/utils';
-import Virksomhetsvelger from './virksomhetsvelger/Virksomhetsvelger';
+import { OrgnrSearchParamType } from './velger/utils';
+import Virksomhetsvelger from './velger/Virksomhetsvelger';
 
 interface EgneProps {
     sidetittel?: string | JSX.Element;
