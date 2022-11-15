@@ -1,88 +1,53 @@
-#virksomhetsvelger__dropdown {
-    z-index: var(--virksomhetsvelger-z-index, 15);
+.navbm-virksomhetsvelger + .navds-popover .navds-popover__arrow {
+    background-color: var(--navds-semantic-color-canvas-background);
 }
 
-.virksomhetsvelger {
-    color: var(--navds-semantic-color-text);
+.navbm-virksomhetsvelger:active {
+    color: white;
 }
 
-.virksomhetsvelger__dropdown--lukket,
-.virksomhetsvelger__dropdown--apen {
-    left: -1rem;
-    width: calc(100% + 2rem);
-    background-color: white;
-    outline: none;
-    border: solid 2px #194d62;
-    border-radius: 4px;
-    position: absolute;
-    top: 6.1rem;
-    max-height: 35rem;
-    visibility: hidden;
-    transform: rotateX(-90deg);
-    transform-origin: top center;
-    opacity: 0.3;
+.navbm-virksomhetsvelger__innhold {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 1rem;
 }
 
-.virksomhetsvelger__dropdown--apen {
-    visibility: visible;
-    transform-origin: top center;
-    transform: rotateX(0);
-    opacity: 1;
+.navbm-virksomhetsvelger__innhold svg {
+    width: 1.25rem;
+    height: 1.25rem;
 }
 
-.virksomhetsvelger__dropdown--lukket .dropdownmeny-elementer-wrapper,
-.virksomhetsvelger__dropdown--apen .dropdownmeny-elementer-wrapper {
+.navbm-virksomhetsvelger__tekst {
     display: flex;
     flex-direction: column;
+    text-align: left;
+    width: 15rem;
+}
+
+.navbm-virksomhetsvelger__tekst h2 {
+    white-space: pre;
+    text-overflow: ellipsis;
     overflow: hidden;
-    position: relative;
 }
 
-.virksomhetsvelger__dropdown--lukket .dropdownmeny-elementer,
-.virksomhetsvelger__dropdown--apen .dropdownmeny-elementer {
+.navbm-virksomhetsvelger__popup {
     display: flex;
     flex-direction: column;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    width: 100%;
+    gap: 1rem;
+    width: 26.25rem;
+    padding: var(--navds-spacing-3) var(--navds-spacing-3);
+    background-color: var(--navds-semantic-color-canvas-background);
+    border-radius: var(--navds-border-radius-small);
+}
+
+.navbm-virksomhetsvelger__juridiske-enheter {
     padding: 0;
-    max-height: 25rem;
-}
+    margin: 0;
 
-.virksomhetsvelger__dropdown--lukket .dropdownmeny-elementer::-webkit-scrollbar-track,
-.virksomhetsvelger__dropdown--apen .dropdownmeny-elementer::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
-    background-color: #f5f5f5;
-}
-
-.virksomhetsvelger__dropdown--lukket .dropdownmeny-elementer::-webkit-scrollbar,
-.virksomhetsvelger__dropdown--apen .dropdownmeny-elementer::-webkit-scrollbar {
-    width: 12px;
-    background-color: #f5f5f5;
-}
-
-.virksomhetsvelger__dropdown--lukket .dropdownmeny-elementer::-webkit-scrollbar-thumb,
-.virksomhetsvelger__dropdown--apen .dropdownmeny-elementer::-webkit-scrollbar-thumb {
-    border-radius: 6px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    background-color: #555;
-}
-
-@media (min-width: 23rem) {
-    .virksomhetsvelger__dropdown--lukket,
-    .virksomhetsvelger__dropdown--apen {
-        max-width: 23rem;
-        left: unset;
-    }
-}
-
-@media (min-width: 48rem) {
-    .virksomhetsvelger .dropdownmeny-elementer {
-        max-height: 30rem;
-    }
-
-    .virksomhetsvelger .dropdownmeny-elementer.medSokeTekst {
-        max-height: calc(30rem - 2.5rem);
-    }
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-height: 65vh;
+    overflow-y: scroll;
 }

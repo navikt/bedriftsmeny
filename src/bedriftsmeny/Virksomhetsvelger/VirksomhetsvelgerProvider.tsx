@@ -1,8 +1,12 @@
-import React, {createContext, FunctionComponent, ReactNode, useEffect, useState} from 'react';
-import {JuridiskEnhetMedUnderEnheterArray, Organisasjon, tomAltinnOrganisasjon} from '../organisasjon';
-import useOrganisasjon from './utils/useOrganisasjon';
-import {OrgnrSearchParamType, setLocalStorageOrgnr, useOrgnrSearchParam} from './utils/utils';
-import {byggSokeresultat} from './utils/byggSokeresultat';
+import React, { createContext, FunctionComponent, ReactNode, useEffect, useState } from 'react';
+import {
+    JuridiskEnhetMedUnderEnheterArray,
+    Organisasjon,
+    tomAltinnOrganisasjon,
+} from '../organisasjon';
+import useOrganisasjon from './useOrganisasjon';
+import { OrgnrSearchParamType, setLocalStorageOrgnr, useOrgnrSearchParam } from './utils';
+import { byggSokeresultat } from './byggSokeresultat';
 
 interface Props {
     organisasjonstre: JuridiskEnhetMedUnderEnheterArray[];
@@ -19,18 +23,22 @@ interface Context {
     søketekst: string;
 }
 
-export const VirksomhetsvelgerContext = createContext<Context>({} as any)
+export const VirksomhetsvelgerContext = createContext<Context>({} as any);
 
-export const VirksomhetsvelgerProvider: FunctionComponent<Props> = ({children, organisasjonstre, orgnrSearchParam}) => {
+export const VirksomhetsvelgerProvider: FunctionComponent<Props> = ({
+    children,
+    organisasjonstre,
+    orgnrSearchParam,
+}) => {
     const orgnrParamHook = orgnrSearchParam ?? useOrgnrSearchParam;
-    const [søketekst, setSøketekst] = useState("");
+    const [søketekst, setSøketekst] = useState('');
     const [aktivtOrganisasjonstre, setAktivtOrganisasjonstre] = useState(organisasjonstre);
-    const {valgtOrganisasjon} = useOrganisasjon(organisasjonstre, orgnrParamHook);
+    const { valgtOrganisasjon } = useOrganisasjon(organisasjonstre, orgnrParamHook);
     const [, setOrgnr] = orgnrParamHook();
 
     useEffect(() => {
         setAktivtOrganisasjonstre(byggSokeresultat(organisasjonstre, søketekst));
-    }, [organisasjonstre, søketekst])
+    }, [organisasjonstre, søketekst]);
 
     if (valgtOrganisasjon === undefined || valgtOrganisasjon === tomAltinnOrganisasjon) {
         return null;
@@ -38,17 +46,18 @@ export const VirksomhetsvelgerProvider: FunctionComponent<Props> = ({children, o
 
     const context: Context = {
         velgUnderenhet: (orgnr) => {
-            setOrgnr(orgnr)
-            setLocalStorageOrgnr(orgnr)
+            setOrgnr(orgnr);
+            setLocalStorageOrgnr(orgnr);
         },
         aktivtOrganisasjonstre,
         valgtOrganisasjon,
         søketekst,
-        setSøketekst
-    }
+        setSøketekst,
+    };
 
-    return <VirksomhetsvelgerContext.Provider value={context}>
-        {children}
-    </VirksomhetsvelgerContext.Provider>
-
+    return (
+        <VirksomhetsvelgerContext.Provider value={context}>
+            {children}
+        </VirksomhetsvelgerContext.Provider>
+    );
 };
