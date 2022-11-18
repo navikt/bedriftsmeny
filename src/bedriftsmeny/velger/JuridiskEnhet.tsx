@@ -38,6 +38,7 @@ const JuridiskEnhet: FunctionComponent<Props> = ({
                         <BodyShort className="navbm-virksomhetsvelger__enhet-beskrivelse">
                             {Underenheter.length} virksomhet
                             {Underenheter.length === 1 ? '' : 'er'}
+                            {juridiskEnhetErValgt ? ' - 1 valgt' : ''}
                         </BodyShort>
                     </div>
                 </Accordion.Header>
