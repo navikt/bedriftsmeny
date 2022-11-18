@@ -23,7 +23,7 @@ jobs:
       - name: build
         run: npm run build
 
-      - if: github.ref == 'refs/heads/oppussing'
+      - if: github.ref == 'refs/heads/master'
         name: publish on npmjs.org
         run: |
           if jq --null-input --exit-status \
