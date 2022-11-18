@@ -1,20 +1,22 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 
-
-import {JuridiskEnhetMedUnderEnheterArray, Organisasjon} from '../../organisasjon';
+import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../organisasjon';
 import {
     getLocalStorageOrgnr,
-    hentUnderenheter, OrgnrSearchParamType,
+    hentUnderenheter,
+    OrgnrSearchParamType,
     setLocalStorageOrgnr,
 } from './utils';
 
 const lookupOrg = (alle: Organisasjon[], orgnr: string | null): Organisasjon | undefined =>
     orgnr === null
         ? undefined
-        : alle.find(({OrganizationNumber}) => OrganizationNumber === orgnr);
+        : alle.find(({ OrganizationNumber }) => OrganizationNumber === orgnr);
 
 const useOrganisasjon = (
-    organisasjonstre: JuridiskEnhetMedUnderEnheterArray[] = [], orgnrSearchParam: OrgnrSearchParamType) => {
+    organisasjonstre: JuridiskEnhetMedUnderEnheterArray[] = [],
+    orgnrSearchParam: OrgnrSearchParamType
+) => {
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState<Organisasjon | undefined>();
     const [orgnr, setOrgnr] = orgnrSearchParam();
 
@@ -40,7 +42,7 @@ const useOrganisasjon = (
         }
 
         if (valgtOrganisasjon && valgtOrganisasjon.OrganizationNumber === orgnummerFraLocalStore) {
-            setOrgnr(orgnummerFraLocalStore)
+            setOrgnr(orgnummerFraLocalStore);
             return;
         }
 
@@ -48,17 +50,16 @@ const useOrganisasjon = (
 
         if (organisasjonReferertILocalStore !== undefined) {
             setValgtOrganisasjon(organisasjonReferertILocalStore);
-            setOrgnr(organisasjonReferertILocalStore.OrganizationNumber)
+            setOrgnr(organisasjonReferertILocalStore.OrganizationNumber);
             return;
         }
         const førsteOrganisasjon = organisasjonstre[0].Underenheter[0];
         setOrgnr(førsteOrganisasjon.OrganizationNumber);
-        setLocalStorageOrgnr(førsteOrganisasjon.OrganizationNumber)
+        setLocalStorageOrgnr(førsteOrganisasjon.OrganizationNumber);
         setValgtOrganisasjon(førsteOrganisasjon);
-
     }, [organisasjonstre, orgnr]);
 
-    return {valgtOrganisasjon};
+    return { valgtOrganisasjon };
 };
 
 export default useOrganisasjon;

@@ -1,18 +1,18 @@
 import fuzzysort from 'fuzzysort';
 
-import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../../organisasjon';
+import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../organisasjon';
 import { hentUnderenheter } from './utils';
 
 const fuzzysortConfigUnderenheter = {
     keys: ['Name', 'OrganizationNumber'],
     allowTypo: false,
-    threshold: -1000
+    threshold: -1000,
 };
 
 const fuzzysortConfigJuridiskEnhet = {
     keys: ['JuridiskEnhet.Name', 'JuridiskEnhet.OrganizationNumber'],
     allowTypo: false,
-    threshold: -1000
+    threshold: -1000,
 };
 
 export function byggSokeresultat(
@@ -53,7 +53,7 @@ const matchResultatMedJuridiskEnhet = (
     sokeresultatEnheterMedUnderenhetArray: JuridiskEnhetMedUnderEnheterArray[]
 ): JuridiskEnhetMedUnderEnheterArray[] => {
     let sokeResultatListe: JuridiskEnhetMedUnderEnheterArray[] = sokeresultatEnheterMedUnderenhetArray;
-    organisasjonstre.forEach(juridiskEnhet => {
+    organisasjonstre.forEach((juridiskEnhet) => {
         const juridiskEnhetInkludertISokeResultat = sokeResultatListe.find(
             (enhet) =>
                 enhet.JuridiskEnhet.OrganizationNumber ===
@@ -71,7 +71,7 @@ const matchResultatMedJuridiskEnhet = (
             sokeResultatListe.push({
                 JuridiskEnhet: juridiskEnhet.JuridiskEnhet,
                 Underenheter: listeMedUnderEnheterFraSokeResultat,
-                SokeresultatKunUnderenhet: true
+                SokeresultatKunUnderenhet: true,
             });
         }
     });

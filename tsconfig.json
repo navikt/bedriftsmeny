@@ -10,5 +10,5 @@
         "target": "es2016",
         "esModuleInterop": true
     },
-    "include": ["src/**/*"]
+    "include": ["src/**/*", "index.tsx"]
 }

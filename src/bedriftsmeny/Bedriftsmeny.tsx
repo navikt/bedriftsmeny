@@ -1,12 +1,12 @@
-import React, {FunctionComponent, useEffect, useState} from 'react';
-import {JuridiskEnhetMedUnderEnheterArray, Organisasjon} from './organisasjon';
-import {byggOrganisasjonstre} from './byggOrganisasjonsTre';
-import Virksomhetsvelger from './Virksomhetsvelger/Virksomhetsvelger';
-import {AmplitudeClient} from "amplitude-js";
-import {AmplitudeProvider} from "./amplitudeProvider";
-import {VirksomhetsvelgerProvider} from './Virksomhetsvelger/VirksomhetsvelgerProvider';
-import {BedriftsmenyView} from "./BedriftsmenyView";
-import {OrgnrSearchParamType} from "./Virksomhetsvelger/utils/utils";
+import React, { FunctionComponent, ReactNode, useEffect, useState } from 'react';
+import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from './organisasjon';
+import { byggOrganisasjonstre } from './byggOrganisasjonsTre';
+import { AmplitudeClient } from 'amplitude-js';
+import { AmplitudeProvider } from './amplitudeProvider';
+import { VirksomhetsvelgerProvider } from './velger/VirksomhetsvelgerProvider';
+import { BedriftsmenyView } from './BedriftsmenyView';
+import { OrgnrSearchParamType } from './velger/utils';
+import Virksomhetsvelger from './velger/Virksomhetsvelger';
 
 interface EgneProps {
     sidetittel?: string | JSX.Element;
@@ -17,21 +17,22 @@ interface EgneProps {
      */
     orgnrSearchParam?: OrgnrSearchParamType;
     amplitudeClient?: AmplitudeClient;
+    children?: ReactNode;
 }
 
-
 const Bedriftsmeny: FunctionComponent<EgneProps> = (props) => {
-    const {sidetittel = 'Arbeidsgiver'} = props;
-    const [organisasjonstre, setOrganisasjonstre] = useState<JuridiskEnhetMedUnderEnheterArray[] | undefined>(undefined);
+    const { sidetittel = 'Arbeidsgiver' } = props;
+    const [organisasjonstre, setOrganisasjonstre] = useState<
+        JuridiskEnhetMedUnderEnheterArray[] | undefined
+    >(undefined);
 
     useEffect(() => {
         if (props.organisasjoner && props.organisasjoner.length > 0) {
-            byggOrganisasjonstre(props.organisasjoner).then(nyttOrganisasjonstre => {
-                    if (nyttOrganisasjonstre.length > 0) {
-                        setOrganisasjonstre(nyttOrganisasjonstre);
-                    }
+            byggOrganisasjonstre(props.organisasjoner).then((nyttOrganisasjonstre) => {
+                if (nyttOrganisasjonstre.length > 0) {
+                    setOrganisasjonstre(nyttOrganisasjonstre);
                 }
-            );
+            });
         }
     }, [props.organisasjoner]);
 
@@ -41,20 +42,27 @@ const Bedriftsmeny: FunctionComponent<EgneProps> = (props) => {
         props.organisasjoner &&
         props.organisasjoner?.length > 0;
 
-    return <BedriftsmenyView
-        tittel={sidetittel}
-        virksomhetsvelger={visVirksomhetsvelger ?
-            <AmplitudeProvider amplitudeClient={props.amplitudeClient}>
-                <VirksomhetsvelgerProvider
-                    orgnrSearchParam={props.orgnrSearchParam}
-                    organisasjonstre={organisasjonstre ?? []}
-                >
-                    <Virksomhetsvelger onOrganisasjonChange={props.onOrganisasjonChange}/>
-                </VirksomhetsvelgerProvider>
-            </AmplitudeProvider> : <></>
-        }
-        bjelle={props.children}
-    />
+    return (
+        <BedriftsmenyView
+            tittel={sidetittel}
+            virksomhetsvelger={
+                visVirksomhetsvelger ? (
+                    <AmplitudeProvider amplitudeClient={props.amplitudeClient}>
+                        <VirksomhetsvelgerProvider
+                            orgnrSearchParam={props.orgnrSearchParam}
+                            organisasjonstre={organisasjonstre ?? []}
+                            onOrganisasjonChange={props.onOrganisasjonChange ?? (() => {})}
+                        >
+                            <Virksomhetsvelger />
+                        </VirksomhetsvelgerProvider>
+                    </AmplitudeProvider>
+                ) : (
+                    <></>
+                )
+            }
+            bjelle={props.children}
+        />
+    );
 };
 
 export default Bedriftsmeny;

@@ -13,15 +13,6 @@ export interface JuridiskEnhetMedUnderEnheterArray {
     SokeresultatKunUnderenhet?: boolean;
 }
 
-export const tomAltinnOrganisasjon: Organisasjon = {
-    Name: '',
-    Type: '',
-    OrganizationNumber: '',
-    OrganizationForm: '',
-    Status: '',
-    ParentOrganizationNumber: ''
-};
-
 export interface OrganisasjonFraEnhetsregisteret {
     organisasjonsnummer: string;
     navn: string;

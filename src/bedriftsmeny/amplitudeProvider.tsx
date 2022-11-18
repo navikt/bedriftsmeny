@@ -1,12 +1,13 @@
 import {AmplitudeClient} from "amplitude-js";
-import React, {createContext, FunctionComponent} from 'react';
+import React, {createContext, FunctionComponent, ReactNode} from 'react';
 
 type Context = {
     loggBedriftValgt: () => void;
 }
 
 interface Props {
-    amplitudeClient?: AmplitudeClient
+    amplitudeClient?: AmplitudeClient;
+    children?: ReactNode;
 }
 
 export const AmplitudeLoggerContext = createContext<Context>({} as Context);
