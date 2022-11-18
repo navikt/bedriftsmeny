@@ -23,7 +23,7 @@
         "prebuild": "npm run clean",
         "build": "run-p build:ts build:css",
         "build:ts": "tsc --project tsconfig.build.json",
-        "build:css": "postcss --use postcss-import -o lib/index.css src/bedriftsmeny/index.css"
+        "build:css": "postcss --use postcss-import -o lib/bedriftsmeny.css src/bedriftsmeny/index.css"
     },
     "peerDependencies": {
         "@types/react": "17 || 18",
