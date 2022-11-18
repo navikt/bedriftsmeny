@@ -1,4 +1,4 @@
-import { ListeMedJuridiskeEnheter, Organisasjon, tomAltinnOrganisasjon } from './organisasjon';
+import { ListeMedJuridiskeEnheter, Organisasjon } from './organisasjon';
 
 export async function hentAlleJuridiskeEnheter(
     listeMedJuridiskeOrgnr: string[]
@@ -32,7 +32,9 @@ export async function hentAlleJuridiskeEnheter(
 }
 
 const lagOrganisasjon = (orgnr: string, navn: string): Organisasjon => ({
-    ...tomAltinnOrganisasjon,
+    OrganizationForm: '',
+    Status: '',
+    ParentOrganizationNumber: '',
     Name: navn,
     OrganizationNumber: orgnr,
     Type: 'Business',

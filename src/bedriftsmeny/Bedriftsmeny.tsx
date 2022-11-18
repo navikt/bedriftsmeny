@@ -51,8 +51,9 @@ const Bedriftsmeny: FunctionComponent<EgneProps> = (props) => {
                         <VirksomhetsvelgerProvider
                             orgnrSearchParam={props.orgnrSearchParam}
                             organisasjonstre={organisasjonstre ?? []}
+                            onOrganisasjonChange={props.onOrganisasjonChange ?? (() => {})}
                         >
-                            <Virksomhetsvelger onOrganisasjonChange={props.onOrganisasjonChange} />
+                            <Virksomhetsvelger />
                         </VirksomhetsvelgerProvider>
                     </AmplitudeProvider>
                 ) : (

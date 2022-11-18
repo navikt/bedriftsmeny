@@ -49,7 +49,7 @@ const JuridiskEnhet: FunctionComponent<Props> = ({
                                 virksomhet.OrganizationNumber;
 
                             return (
-                                <li role="menuitem" aria-selected={underenhetErValgt}>
+                                <li key={virksomhet.OrganizationNumber} role="menuitem" aria-selected={underenhetErValgt}>
                                     <Button
                                         variant="tertiary"
                                         onClick={() => onUnderenhetClick(virksomhet)}

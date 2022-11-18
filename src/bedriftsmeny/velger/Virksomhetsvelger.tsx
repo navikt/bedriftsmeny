@@ -5,11 +5,7 @@ import { Expand, Collapse, Office1 } from '@navikt/ds-icons';
 import { VirksomhetsvelgerContext } from './VirksomhetsvelgerProvider';
 import JuridiskEnhet from './JuridiskEnhet';
 
-type Props = {
-    onOrganisasjonChange?: (organisasjon: Organisasjon) => void;
-};
-
-const Velger: FunctionComponent<Props> = ({ onOrganisasjonChange }) => {
+const Velger = () => {
     const buttonRef = useRef<HTMLButtonElement>(null);
     const searchRef = useRef<HTMLInputElement>(null);
     const [åpen, setÅpen] = useState<boolean>(false);
@@ -27,10 +23,6 @@ const Velger: FunctionComponent<Props> = ({ onOrganisasjonChange }) => {
     };
 
     const onUnderenhetClick = (virksomhet: Organisasjon) => {
-        if (onOrganisasjonChange) {
-            virksomhet;
-        }
-
         velgUnderenhet(virksomhet.OrganizationNumber);
         setÅpen(false);
     };
@@ -100,6 +92,7 @@ const Velger: FunctionComponent<Props> = ({ onOrganisasjonChange }) => {
                         >
                             {aktivtOrganisasjonstre.map((juridiskEnhet) => (
                                 <JuridiskEnhet
+                                    key={juridiskEnhet.JuridiskEnhet.OrganizationNumber}
                                     juridiskEnhet={juridiskEnhet}
                                     valgtOrganisasjon={valgtOrganisasjon}
                                     onUnderenhetClick={onUnderenhetClick}

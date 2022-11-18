@@ -2,7 +2,6 @@ import React, { createContext, FunctionComponent, ReactNode, useEffect, useState
 import {
     JuridiskEnhetMedUnderEnheterArray,
     Organisasjon,
-    tomAltinnOrganisasjon,
 } from '../organisasjon';
 import useOrganisasjon from './useOrganisasjon';
 import { OrgnrSearchParamType, setLocalStorageOrgnr, useOrgnrSearchParam } from './utils';
@@ -11,6 +10,7 @@ import { byggSokeresultat } from './byggSokeresultat';
 interface Props {
     organisasjonstre: JuridiskEnhetMedUnderEnheterArray[];
     orgnrSearchParam?: OrgnrSearchParamType;
+    onOrganisasjonChange: (organisasjon: Organisasjon) => void;
     children?: ReactNode;
 }
 
@@ -29,6 +29,7 @@ export const VirksomhetsvelgerProvider: FunctionComponent<Props> = ({
     children,
     organisasjonstre,
     orgnrSearchParam,
+    onOrganisasjonChange,
 }) => {
     const orgnrParamHook = orgnrSearchParam ?? useOrgnrSearchParam;
     const [søketekst, setSøketekst] = useState('');
@@ -40,7 +41,13 @@ export const VirksomhetsvelgerProvider: FunctionComponent<Props> = ({
         setAktivtOrganisasjonstre(byggSokeresultat(organisasjonstre, søketekst));
     }, [organisasjonstre, søketekst]);
 
-    if (valgtOrganisasjon === undefined || valgtOrganisasjon === tomAltinnOrganisasjon) {
+    useEffect(() => {
+        if (valgtOrganisasjon?.OrganizationNumber) {
+            onOrganisasjonChange(valgtOrganisasjon)
+        }
+    }, [valgtOrganisasjon?.OrganizationNumber])
+
+    if (valgtOrganisasjon === undefined) {
         return null;
     }
 
