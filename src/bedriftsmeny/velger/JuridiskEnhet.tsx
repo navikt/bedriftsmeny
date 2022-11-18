@@ -42,15 +42,17 @@ const JuridiskEnhet: FunctionComponent<Props> = ({
                     </div>
                 </Accordion.Header>
                 <Accordion.Content>
-                    <ul role="presentation" className="navbm-virksomhetsvelger__underenheter">
+                    <ul className="navbm-virksomhetsvelger__underenheter">
                         {Underenheter.map((virksomhet) => {
                             const underenhetErValgt =
                                 valgtOrganisasjon.OrganizationNumber ===
                                 virksomhet.OrganizationNumber;
 
                             return (
-                                <li key={virksomhet.OrganizationNumber} role="menuitem" aria-selected={underenhetErValgt}>
+                                <li key={virksomhet.OrganizationNumber} >
                                     <Button
+                                        role="menuitemradio"
+                                        aria-checked={underenhetErValgt}
                                         variant="tertiary"
                                         onClick={() => onUnderenhetClick(virksomhet)}
                                         className="navbm-virksomhetsvelger__underenhet-innhold"

@@ -46,7 +46,6 @@ const Velger = () => {
                 type="button"
                 variant="secondary"
                 ref={buttonRef}
-                role="menubutton"
                 aria-label="Velg aktiv virksomhet"
                 aria-controls="navbm-virksomhetsvelger-popup"
                 aria-haspopup={true}
@@ -87,7 +86,6 @@ const Velger = () => {
                     )}
                     <Accordion>
                         <ul
-                            role="presentation"
                             className="navbm-virksomhetsvelger__juridiske-enheter"
                         >
                             {aktivtOrganisasjonstre.map((juridiskEnhet) => (

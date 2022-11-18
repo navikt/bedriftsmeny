@@ -35,7 +35,7 @@ const App = () => {
                     onOrganisasjonChange={onOrganisasjonChange}
                     amplitudeClient={amplitude}
                 >
-                    <Bell className="eksempelapp__bjelleikon" />
+                    <Bell className="eksempelapp__bjelleikon" title={"notifikasjon"}/>
                 </Bedriftsmeny>
 
                 <section className="eksempelapp__innhold" role="main">

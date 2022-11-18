@@ -50,4 +50,5 @@
     gap: 0.5rem;
     max-height: 65vh;
     overflow-y: scroll;
+    list-style-type: none;
 }
