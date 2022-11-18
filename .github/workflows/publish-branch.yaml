@@ -41,8 +41,7 @@ jobs:
           node-version: '16'
           registry-url: 'https://npm.pkg.github.com'
 
-      - if: github.ref == 'refs/heads/master'
-        name: publish on github
+      - name: publish on github
         run: |
           if jq --null-input --exit-status \
               --argjson local "$(jq .version package.json)" \
