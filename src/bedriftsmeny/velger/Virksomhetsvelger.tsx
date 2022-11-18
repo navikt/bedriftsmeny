@@ -63,7 +63,7 @@ const Velger = () => {
                     {åpen ? <Collapse aria-hidden={true} /> : <Expand aria-hidden={true} />}
                 </div>
             </Button>
-            <Popover
+            {åpen && <Popover
                 offset={24}
                 open={åpen}
                 onClose={() => setÅpen(false)}
@@ -101,7 +101,7 @@ const Velger = () => {
                         </ul>
                     </Accordion>
                 </div>
-            </Popover>
+            </Popover>}
         </>
     );
 };
