@@ -1,5 +1,5 @@
 .navbm-virksomhetsvelger + .navds-popover .navds-popover__arrow {
-    background-color: var(--navds-semantic-color-canvas-background);
+    background-color: var(--a-bg-subtle);
 }
 
 .navbm-virksomhetsvelger:active {
@@ -36,9 +36,9 @@
     flex-direction: column;
     gap: 1rem;
     width: min(26.25rem, 97vw);
-    padding: var(--navds-spacing-3) var(--navds-spacing-3);
-    background-color: var(--navds-semantic-color-canvas-background);
-    border-radius: var(--navds-border-radius-small);
+    padding: var(--a-spacing-3) var(--a-spacing-3);
+    background-color: var(--a-bg-subtle);
+    border-radius: var(--a-border-radius-small);
 }
 
 .navbm-virksomhetsvelger__juridiske-enheter {
