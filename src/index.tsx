@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { BodyLong, BodyShort } from '@navikt/ds-react';
 import { Organisasjon } from './bedriftsmeny/organisasjon';
-import Bedriftsmeny, { BedriftsmenyHeader } from './bedriftsmeny/Bedriftsmeny';
+import Bedriftsmeny, { BedriftsmenyHeader, Virksomhetsvelger } from './bedriftsmeny/Bedriftsmeny';
 import { MOCK_ORGANISASJONER } from './mock/organisasjoner';
 import amplitude from './amplitude';
 import { Bell } from '@navikt/ds-icons';
@@ -53,6 +53,12 @@ const App = () => {
                             <code>{JSON.stringify(valgtOrganisasjon, null, 4)}</code>
                         </div>
                     )}
+
+                    <p>
+                        Her er en annen virksomhetsvelger:
+                    </p>
+                    <Virksomhetsvelger organisasjoner={organisasjoner} />
+
                 </section>
             </div>
         </BrowserRouter>
