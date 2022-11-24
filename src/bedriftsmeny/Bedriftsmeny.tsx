@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactNode, useEffect, useState } from 'react';
+import React, { FunctionComponent, ReactElement, ReactNode, useEffect, useState } from 'react';
 import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from './organisasjon';
 import { byggOrganisasjonstre } from './byggOrganisasjonsTre';
 import { AmplitudeClient } from 'amplitude-js';
@@ -19,6 +19,7 @@ interface EgneProps {
     amplitudeClient?: AmplitudeClient;
     children?: ReactNode;
 }
+
 
 const Bedriftsmeny: FunctionComponent<EgneProps> = (props) => {
     const { sidetittel = 'Arbeidsgiver' } = props;
@@ -64,5 +65,14 @@ const Bedriftsmeny: FunctionComponent<EgneProps> = (props) => {
         />
     );
 };
+
+export type BedriftsmenyHeaderProps = {
+    tittel?: string;
+}
+export const BedriftsmenyHeader = (props: BedriftsmenyHeaderProps): ReactElement =>
+    <BedriftsmenyView
+        tittel={props.tittel}
+        virksomhetsvelger={<></>}
+    />
 
 export default Bedriftsmeny;
