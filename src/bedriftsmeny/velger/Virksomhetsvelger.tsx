@@ -63,7 +63,7 @@ const Velger = () => {
                 </div>
             </Button>
             {åpen && <Popover
-                offset={24}
+                offset={14}
                 open={åpen}
                 onClose={() => setÅpen(false)}
                 anchorEl={buttonRef.current}
