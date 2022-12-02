@@ -1,6 +1,6 @@
 {
     "name": "@navikt/bedriftsmeny",
-    "version": "6.2.0-rc",
+    "version": "6.2.0-rc1",
     "description": "Bedriftsvelger og -meny for innlogget arbeidsgiver. Laget av TAG (Tjenester for Arbeidsgivere).",
     "author": "NAVIKT",
     "license": "MIT",
@@ -26,9 +26,9 @@
         "build:css": "postcss --use postcss-import -o lib/bedriftsmeny.css src/bedriftsmeny/index.css"
     },
     "peerDependencies": {
-        "@navikt/ds-css": "^2.0.2",
-        "@navikt/ds-icons": "^2.0.2",
-        "@navikt/ds-react": "^2.0.2",
+        "@navikt/ds-css": "2",
+        "@navikt/ds-icons": "2",
+        "@navikt/ds-react": "2",
         "@types/react": "17 || 18",
         "@types/react-dom": "17 || 18",
         "react": "17 || 18",

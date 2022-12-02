@@ -5,7 +5,7 @@ import {MSAIkon} from "./MSAIkon";
 interface Props {
     tittel?: string | JSX.Element;
     undertittel?: string;
-    tittelIkon?: JSX.Element;
+    piktogram?: JSX.Element;
     virksomhetsvelger: JSX.Element;
     bjelle?: JSX.Element | ReactNode;
 }
@@ -13,8 +13,8 @@ interface Props {
 export const BedriftsmenyView = (props: Props) => (
     <div className="navbm-bedriftsmeny">
         <div className="navbm-container">
-            <div className="navbm-ikon">
-                {props.tittelIkon ?? <MSAIkon/>}
+            <div className="navbm-piktogram">
+                {props.piktogram ?? <MSAIkon/>}
             </div>
             <div className="navbm-innhold">
                 <div className="navbm-innhold-header">

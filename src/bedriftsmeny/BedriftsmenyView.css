@@ -10,13 +10,13 @@
     }
 }
 
-.navbm-ikon {
+.navbm-piktogram {
     display: flex;
     justify-content: flex-end;
     margin: 0 2rem 0 4rem;
     align-items: flex-start;
 }
-.navbm-ikon svg {
+.navbm-piktogram svg {
     height: 52px;
     width: 52px;
 }
