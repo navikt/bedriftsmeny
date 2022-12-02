@@ -78,4 +78,14 @@
 .navbm-virksomhetsvelger__underenhet-ikon {
     width: 1.25rem;
     height: 1.25rem;
+
+}
+@media(max-width: 520px) {
+    .navbm-virksomhetsvelger__underenhet-ikon{
+        display: none;
+    }
+
+    .navbm-virksomhetsvelger__underenhet-innhold {
+        padding: var(--a-spacing-4) 0;
+    }
 }

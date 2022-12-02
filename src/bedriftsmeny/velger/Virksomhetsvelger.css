@@ -2,15 +2,31 @@
     background-color: var(--a-bg-subtle);
 }
 
+.navbm-virksomhetsvelge {
+    padding: var(--a-spacing-3) var(--a-spacing-5);
+}
+
+
 .navbm-virksomhetsvelger:active {
     color: white;
 }
 
 .navbm-virksomhetsvelger__innhold {
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: auto auto auto;
     align-items: center;
     gap: 1rem;
+}
+
+@media (max-width: 520px) {
+    .navbm-virksomhetsvelger__innhold {
+        grid-template-columns: auto auto;
+        gap: 0.2rem
+    }
+
+    .navbm-virksomhetsvelger {
+        padding: var(--a-spacing-3) var(--a-spacing-1) var(--a-spacing-3) var(--a-spacing-3);
+    }
 }
 
 .navbm-virksomhetsvelger__innhold svg {

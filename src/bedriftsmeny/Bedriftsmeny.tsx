@@ -10,6 +10,8 @@ import Velger from './velger/Virksomhetsvelger';
 
 interface EgneProps {
     sidetittel?: string | JSX.Element;
+    undertittel?: string;
+    tittelIkon?: JSX.Element;
     organisasjoner?: Organisasjon[];
     onOrganisasjonChange?: (organisasjon: Organisasjon) => void;
     /**
@@ -27,6 +29,8 @@ const Bedriftsmeny: FunctionComponent<EgneProps> = (props) => {
     return (
         <BedriftsmenyView
             tittel={sidetittel}
+            undertittel={props.undertittel}
+            tittelIkon={props.tittelIkon}
             virksomhetsvelger={<Virksomhetsvelger {...props} />}
             bjelle={props.children}
         />

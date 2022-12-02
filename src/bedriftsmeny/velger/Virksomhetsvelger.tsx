@@ -1,8 +1,8 @@
-import React, { FunctionComponent, useContext, useEffect, useRef, useState } from 'react';
-import { Button, Popover, Heading, BodyShort, Search, Accordion, Detail } from '@navikt/ds-react';
-import { Organisasjon } from '../organisasjon';
-import { Expand, Collapse, Office1 } from '@navikt/ds-icons';
-import { VirksomhetsvelgerContext } from './VirksomhetsvelgerProvider';
+import React, {FunctionComponent, useContext, useEffect, useRef, useState} from 'react';
+import {Button, Popover, Heading, BodyShort, Search, Accordion, Detail} from '@navikt/ds-react';
+import {Organisasjon} from '../organisasjon';
+import {Expand, Collapse, Office1} from '@navikt/ds-icons';
+import {VirksomhetsvelgerContext} from './VirksomhetsvelgerProvider';
 import JuridiskEnhet from './JuridiskEnhet';
 
 const Velger = () => {
@@ -52,14 +52,16 @@ const Velger = () => {
                 aria-expanded={åpen}
             >
                 <div className="navbm-virksomhetsvelger__innhold">
-                    <Office1 aria-hidden={true} />
+                    <div className="navbm-virksomhetsvelger__underenhet-ikon">
+                        <Office1 aria-hidden={true}/>
+                    </div>
                     <div className="navbm-virksomhetsvelger__tekst">
                         <Heading size="small" level="2">
                             {valgtOrganisasjon.Name}
                         </Heading>
                         <BodyShort>virksomhetsnr. {valgtOrganisasjon.OrganizationNumber}</BodyShort>
                     </div>
-                    {åpen ? <Collapse aria-hidden={true} /> : <Expand aria-hidden={true} />}
+                    {åpen ? <Collapse aria-hidden={true}/> : <Expand aria-hidden={true}/>}
                 </div>
             </Button>
             {åpen && <Popover
