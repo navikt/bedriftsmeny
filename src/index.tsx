@@ -34,7 +34,7 @@ const App = () => {
                 <Bedriftsmeny
                     sidetittel="Min side – arbeidsgiver"
                     undertittel="INNLOGGEDE TJENESTER for arbeidsgiver"
-                    tittelIkon={<DemoTittelIkon/>}
+                    piktogram={<DemoTittelIkon/>}
                     organisasjoner={organisasjoner}
                     onOrganisasjonChange={onOrganisasjonChange}
                     amplitudeClient={amplitude}
