@@ -72,7 +72,7 @@ const JuridiskEnhet: FunctionComponent<Props> = ({
                                             {underenhetErValgt && (
                                                 <Success
                                                     aria-hidden={true}
-                                                    className="navbm-virksomhetsvelger__underenhet-ikon"
+                                                    className="navbm-virksomhetsvelger__underenhet-valgt-ikon"
                                                 />
                                             )}
                                         </div>

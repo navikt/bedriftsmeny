@@ -75,12 +75,13 @@
     width: 100%;
 }
 
-.navbm-virksomhetsvelger__underenhet-ikon {
+.navbm-virksomhetsvelger__underenhet-ikon,
+.navbm-virksomhetsvelger__underenhet-valgt-ikon{
     display: flex;
     width: 1.25rem;
     height: 1.25rem;
-
 }
+
 @media(max-width: 520px) {
     .navbm-virksomhetsvelger__underenhet-ikon{
         display: none;
