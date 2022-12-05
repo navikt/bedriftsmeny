@@ -11,7 +11,6 @@ import { Bell } from '@navikt/ds-icons';
 import '@navikt/ds-css';
 import './index.less';
 import './bedriftsmeny/index.css';
-import {DemoTittelIkon} from "./Demo-tittelIkon";
 
 const App = () => {
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState<Organisasjon | undefined>();
@@ -34,7 +33,6 @@ const App = () => {
                 <Bedriftsmeny
                     sidetittel="Min side – arbeidsgiver"
                     undertittel="INNLOGGEDE TJENESTER for arbeidsgiver"
-                    piktogram={<DemoTittelIkon/>}
                     organisasjoner={organisasjoner}
                     onOrganisasjonChange={onOrganisasjonChange}
                     amplitudeClient={amplitude}

@@ -16,7 +16,8 @@
     margin: 0 2rem 0 4rem;
     align-items: flex-start;
 }
-.navbm-piktogram svg {
+
+.navbm-piktogram > svg {
     height: 52px;
     width: 52px;
 }
