@@ -60,12 +60,5 @@
     display: flex;
     gap: 1rem;
     align-items: center;
-    flex-wrap: wrap;
     justify-content: center;
-}
-
-@media (max-width: 420px) {
-    .navbm-widgets {
-        gap: 0.2rem;
-    }
 }
