@@ -1,0 +1,22 @@
+.Dropdown-panel {
+  display: flex;
+  z-index: 999;
+  position: absolute;
+  top: 5rem;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 30rem;
+  border: solid 2px var(--a-deepblue-700);
+  border-radius: 4px;
+  max-height: 65vh;
+}
+
+@media (max-width: 30rem) {
+  .Dropdown-panel {
+    max-height: unset;
+    position: fixed;
+    top: calc(var(--decorator-sticky-offset, 0px) + 0rem);
+    height: calc(100% - env(safe-area-inset-bottom) - var(--decorator-sticky-offset, 0px))  }
+}

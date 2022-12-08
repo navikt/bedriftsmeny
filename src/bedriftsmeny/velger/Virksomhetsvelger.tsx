@@ -1,13 +1,15 @@
 import React, {FunctionComponent, useContext, useEffect, useRef, useState} from 'react';
 import {Button, Popover, Heading, BodyShort, Search, Accordion, Detail} from '@navikt/ds-react';
 import {Organisasjon} from '../organisasjon';
-import {Expand, Collapse, Office1} from '@navikt/ds-icons';
+import {Expand, Collapse, Office1, Close} from '@navikt/ds-icons';
 import {VirksomhetsvelgerContext} from './VirksomhetsvelgerProvider';
 import JuridiskEnhet from './JuridiskEnhet';
+import Dropdown from "./Dropdown";
 
 const Velger = () => {
     const buttonRef = useRef<HTMLButtonElement>(null);
-    const searchRef = useRef<HTMLInputElement>(null);
+    const valgtUnderenhetRef = useRef<HTMLButtonElement>(null);
+    const dropdownRef = useRef<HTMLDivElement>(null);
     const [åpen, setÅpen] = useState<boolean>(false);
 
     const {
@@ -22,6 +24,10 @@ const Velger = () => {
         setÅpen(verdi === undefined ? !åpen : verdi);
     };
 
+    const lukkDropdown = () => {
+        toggleVelger(false);
+    }
+
     const onUnderenhetClick = (virksomhet: Organisasjon) => {
         velgUnderenhet(virksomhet.OrganizationNumber);
         setÅpen(false);
@@ -29,7 +35,7 @@ const Velger = () => {
 
     useEffect(() => {
         if (åpen) {
-            searchRef.current?.focus();
+            valgtUnderenhetRef.current?.focus();
         }
     }, [åpen]);
 
@@ -38,8 +44,29 @@ const Velger = () => {
         0
     );
 
+
+    const handleFocusOutside: { (event: MouseEvent | KeyboardEvent): void } = (
+        e: MouseEvent | KeyboardEvent
+    ) => {
+        const node = dropdownRef.current
+        // @ts-ignore
+        if (node && node !== e.target && node.contains(e.target as HTMLOrSVGElement)) {
+            return
+        }
+        console.log(e.target)
+        lukkDropdown()
+    }
+
+    useEffect(() => {
+        document.addEventListener('click', handleFocusOutside)
+        return () => {
+            document.removeEventListener('click', handleFocusOutside)
+        }
+    }, [handleFocusOutside])
+
+
     return (
-        <>
+        <div ref={dropdownRef}>
             <Button
                 className="navbm-virksomhetsvelger"
                 onClick={() => toggleVelger()}
@@ -61,37 +88,50 @@ const Velger = () => {
                         </Heading>
                         <BodyShort>virksomhetsnr. {valgtOrganisasjon.OrganizationNumber}</BodyShort>
                     </div>
-                    {åpen ? <Collapse aria-hidden={true}/> : <Expand aria-hidden={true}/>}
+                    {åpen ? <Collapse style={{pointerEvents:"none"}} aria-hidden={true}/> : <Expand style={{pointerEvents:"none"}} aria-hidden={true}/>}
                 </div>
             </Button>
-            {åpen && <Popover
-                offset={14}
-                open={åpen}
-                onClose={() => setÅpen(false)}
-                anchorEl={buttonRef.current}
-                placement="bottom-start"
-                id="navbm-virksomhetsvelger-popup"
+            <Dropdown
+                ariaLabelledby={"navbm-virksomhetsvelger__popup"}
+                erApen={åpen}
             >
-                <div className="navbm-virksomhetsvelger__popup" role="menu">
-                    <Search
-                        ref={searchRef}
-                        variant="simple"
-                        value={søketekst}
-                        onChange={setSøketekst}
-                        placeholder="Søk på virksomhet ..."
-                        label="Søk på virksomhet"
-                    />
+                <div
+                    className="navbm-virksomhetsvelger__popup"
+                    role="menu"
+                    onKeyDown={({key}) => {
+                        if (key === 'Escape' || key === 'Esc') {
+                            toggleVelger()
+                        }
+                    }}
+                >
+                    <div className="navbm-virksomhetsvelger__popup-header">
+                        <Search
+                            variant="simple"
+                            value={søketekst}
+                            onChange={setSøketekst}
+                            placeholder="Søk på virksomhet ..."
+                            label="Søk på virksomhet"
+                        />
+                        <Button
+                            variant="tertiary"
+                            className="navbm-virksomhetsvelger__popup-header-xbtn"
+                            onClick={()=>toggleVelger()}
+                        >
+                            <Close/>
+                        </Button>
+                    </div>
                     {søketekst.length > 0 && (
                         <Detail aria-live="polite">
                             {antallTreff === 0 ? 'Ingen' : antallTreff} treff på "{søketekst}"
                         </Detail>
                     )}
-                    <Accordion>
+                    <Accordion style={{display: "flex", overflow: "auto"}}>
                         <ul
                             className="navbm-virksomhetsvelger__juridiske-enheter"
                         >
                             {aktivtOrganisasjonstre.map((juridiskEnhet) => (
                                 <JuridiskEnhet
+                                    ref={valgtUnderenhetRef}
                                     key={juridiskEnhet.JuridiskEnhet.OrganizationNumber}
                                     juridiskEnhet={juridiskEnhet}
                                     valgtOrganisasjon={valgtOrganisasjon}
@@ -101,8 +141,8 @@ const Velger = () => {
                         </ul>
                     </Accordion>
                 </div>
-            </Popover>}
-        </>
+            </Dropdown>
+        </div>
     );
 };
 

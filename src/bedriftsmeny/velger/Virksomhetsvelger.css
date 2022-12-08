@@ -2,7 +2,7 @@
     background-color: var(--a-bg-subtle);
 }
 
-.navbm-virksomhetsvelge {
+.navbm-virksomhetsvelger {
     padding: var(--a-spacing-3) var(--a-spacing-5);
 }
 
@@ -49,20 +49,31 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    width: min(26.25rem, 97vw);
-    padding: var(--a-spacing-3) var(--a-spacing-3);
+    padding: var(--a-spacing-3);
     background-color: var(--a-bg-subtle);
     border-radius: var(--a-border-radius-small);
 }
 
+.navbm-virksomhetsvelger__popup-header {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.navbm-virksomhetsvelger__popup-header-xbtn {
+    all: unset;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    width: 3rem;
+    cursor: pointer;
+}
+
+
 .navbm-virksomhetsvelger__juridiske-enheter {
     padding: 0;
     margin: 0;
-
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    max-height: 65vh;
-    overflow-y: scroll;
     list-style-type: none;
 }

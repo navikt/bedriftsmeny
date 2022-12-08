@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, {FunctionComponent, Ref} from 'react';
 import { Office1, Success } from '@navikt/ds-icons';
 import { Accordion, BodyShort, Button } from '@navikt/ds-react';
 import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../organisasjon';
@@ -7,12 +7,14 @@ type Props = {
     juridiskEnhet: JuridiskEnhetMedUnderEnheterArray;
     valgtOrganisasjon: Organisasjon;
     onUnderenhetClick: (underenhet: Organisasjon) => void;
+    ref: Ref<HTMLButtonElement>
 };
 
 const JuridiskEnhet: FunctionComponent<Props> = ({
     juridiskEnhet,
     valgtOrganisasjon,
     onUnderenhetClick,
+    ref,
 }) => {
     const { JuridiskEnhet, Underenheter } = juridiskEnhet;
 
@@ -52,6 +54,7 @@ const JuridiskEnhet: FunctionComponent<Props> = ({
                             return (
                                 <li key={virksomhet.OrganizationNumber} >
                                     <Button
+                                        ref={underenhetErValgt ? ref : null}
                                         role="menuitemradio"
                                         aria-checked={underenhetErValgt}
                                         variant="tertiary"
