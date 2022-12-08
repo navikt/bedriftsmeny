@@ -1,5 +1,4 @@
 import React from "react";
-import "./Dropdown.css"
 
 interface Props {
   children: React.ReactNode,
