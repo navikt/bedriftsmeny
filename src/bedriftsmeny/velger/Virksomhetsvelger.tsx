@@ -1,5 +1,5 @@
-import React, {FunctionComponent, useContext, useEffect, useRef, useState} from 'react';
-import {Button, Popover, Heading, BodyShort, Search, Accordion, Detail} from '@navikt/ds-react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
+import {Button,  Heading, BodyShort, Search, Accordion, Detail} from '@navikt/ds-react';
 import {Organisasjon} from '../organisasjon';
 import {Expand, Collapse, Office1, Close} from '@navikt/ds-icons';
 import {VirksomhetsvelgerContext} from './VirksomhetsvelgerProvider';
