@@ -48,6 +48,7 @@
 .navbm-virksomhetsvelger__popup {
     display: flex;
     flex-direction: column;
+    width: 100%;
     gap: 1rem;
     padding: var(--a-spacing-3);
     background-color: var(--a-bg-subtle);
