@@ -2,15 +2,14 @@ import React from "react";
 
 interface Props {
   children: React.ReactNode,
-  ariaLabelledby: string,
+  ariaLabel: string,
   erApen: boolean,
 }
 
-const Dropdown = ({erApen, ariaLabelledby, children}: Props) => {
+const Dropdown = ({erApen, ariaLabel, children}: Props) => {
   return erApen ? <div
     role='dialog'
-    aria-modal='true'
-    aria-labelledby={ariaLabelledby}
+    aria-label={ariaLabel}
     className="Dropdown-panel"
   >
     {children}

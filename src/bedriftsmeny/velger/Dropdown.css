@@ -13,6 +13,10 @@
   max-height: 65vh;
 }
 
+.Dropdown-panel > * {
+  flex-grow: 1;
+}
+
 @media (max-width: 30rem) {
   .Dropdown-panel {
     max-height: unset;

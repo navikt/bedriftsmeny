@@ -58,7 +58,7 @@ const App = () => {
                     <p>
                         Her er en annen virksomhetsvelger:
                     </p>
-                    <Virksomhetsvelger organisasjoner={organisasjoner} />
+                    {/*<Virksomhetsvelger organisasjoner={organisasjoner}/>*/}
 
                 </section>
             </div>

@@ -1,4 +1,4 @@
-import React, {FunctionComponent, Ref} from 'react';
+import React, {forwardRef, FunctionComponent, Ref} from 'react';
 import { Office1, Success } from '@navikt/ds-icons';
 import { Accordion, BodyShort, Button } from '@navikt/ds-react';
 import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../organisasjon';
@@ -7,15 +7,13 @@ type Props = {
     juridiskEnhet: JuridiskEnhetMedUnderEnheterArray;
     valgtOrganisasjon: Organisasjon;
     onUnderenhetClick: (underenhet: Organisasjon) => void;
-    ref: Ref<HTMLButtonElement>
 };
 
-const JuridiskEnhet: FunctionComponent<Props> = ({
+const JuridiskEnhet = forwardRef<HTMLButtonElement, Props>(({
     juridiskEnhet,
     valgtOrganisasjon,
     onUnderenhetClick,
-    ref,
-}) => {
+}, ref) => {
     const { JuridiskEnhet, Underenheter } = juridiskEnhet;
 
     const juridiskEnhetErValgt = Underenheter.some(
@@ -88,6 +86,6 @@ const JuridiskEnhet: FunctionComponent<Props> = ({
             </Accordion.Item>
         </li>
     );
-};
+});
 
 export default JuridiskEnhet;

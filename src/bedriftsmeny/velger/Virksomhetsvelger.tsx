@@ -24,10 +24,6 @@ const Velger = () => {
         setÅpen(verdi === undefined ? !åpen : verdi);
     };
 
-    const lukkDropdown = () => {
-        toggleVelger(false);
-    }
-
     const onUnderenhetClick = (virksomhet: Organisasjon) => {
         velgUnderenhet(virksomhet.OrganizationNumber);
         setÅpen(false);
@@ -45,7 +41,7 @@ const Velger = () => {
     );
 
 
-    const handleFocusOutside: { (event: MouseEvent | KeyboardEvent): void } = (
+    const handleClickOutside: { (event: MouseEvent | KeyboardEvent): void } = (
         e: MouseEvent | KeyboardEvent
     ) => {
         const node = dropdownRef.current
@@ -53,16 +49,21 @@ const Velger = () => {
         if (node && node !== e.target && node.contains(e.target as HTMLOrSVGElement)) {
             return
         }
-        console.log(e.target)
-        lukkDropdown()
+        // @ts-ignore
+        if (!document.contains(e.target as HTMLOrSVGElement)){
+            return
+            //Clear-knapp i søkefeltet forsvinner når klikket på.
+            //Dette blir derfor registrert som klikk utenfor dropdown-menyen.
+        }
+        setÅpen(false)
     }
 
     useEffect(() => {
-        document.addEventListener('click', handleFocusOutside)
+        document.addEventListener('click', handleClickOutside)
         return () => {
-            document.removeEventListener('click', handleFocusOutside)
+            document.removeEventListener('click', handleClickOutside)
         }
-    }, [handleFocusOutside])
+    }, [handleClickOutside])
 
 
     return (
@@ -92,7 +93,7 @@ const Velger = () => {
                 </div>
             </Button>
             <Dropdown
-                ariaLabelledby={"navbm-virksomhetsvelger__popup"}
+                ariaLabel="Virksomhetsvelger"
                 erApen={åpen}
             >
                 <div
@@ -100,7 +101,7 @@ const Velger = () => {
                     role="menu"
                     onKeyDown={({key}) => {
                         if (key === 'Escape' || key === 'Esc') {
-                            toggleVelger()
+                            setÅpen(false)
                         }
                     }}
                 >
@@ -114,10 +115,11 @@ const Velger = () => {
                         />
                         <Button
                             variant="tertiary"
+                            aria-label="lukk"
                             className="navbm-virksomhetsvelger__popup-header-xbtn"
-                            onClick={()=>toggleVelger()}
+                            onClick={() => setÅpen(false)}
                         >
-                            <Close/>
+                            <Close aria-hidden={true}/>
                         </Button>
                     </div>
                     {søketekst.length > 0 && (
