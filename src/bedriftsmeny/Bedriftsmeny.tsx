@@ -83,6 +83,13 @@ export const Virksomhetsvelger = (props: VirksomhetsvelgerProps): ReactElement =
     </AmplitudeProvider>
 }
 
+export {Arbeidsforhold} from "./piktogrammer/Arbeidsforhold";
+export {AvtalerOmTiltak} from "./piktogrammer/AvtalerOmTiltak";
+export {ForebyggeSykefravaer} from "./piktogrammer/ForebyggeSykefravaer";
+export {Kandidater} from "./piktogrammer/Kandidater";
+export {Refusjon} from "./piktogrammer/Refusjon";
+export {MSAIkon} from "./piktogrammer/MSAIkon";
+
 export type BedriftsmenyHeaderProps = {
     tittel?: string;
 }
