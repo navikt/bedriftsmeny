@@ -1,6 +1,6 @@
 import React, {ReactNode} from 'react';
 import {BodyShort, Heading} from '@navikt/ds-react';
-import {MSAIkon} from "./MSAIkon";
+import {MSAIkon} from "./piktogrammer/MSAIkon";
 
 interface Props {
     tittel?: string | JSX.Element;
