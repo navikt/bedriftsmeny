@@ -123,7 +123,7 @@ const Velger = () => {
                         </Button>
                     </div>
                     {søketekst.length > 0 && (
-                        <Detail aria-live="polite">
+                        <Detail role="status">
                             {antallTreff === 0 ? 'Ingen' : antallTreff} treff på "{søketekst}"
                         </Detail>
                     )}
