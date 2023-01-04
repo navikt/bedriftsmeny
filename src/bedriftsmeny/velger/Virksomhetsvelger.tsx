@@ -122,14 +122,11 @@ const Velger = () => {
                             <Close aria-hidden={true}/>
                         </Button>
                     </div>
-                    { søketekst.length > 0 &&
+                    {søketekst.length > 0 && (
                         <Detail role="status">
-                            { antallTreff === 0
-                                ? 'Ingen'
-                                : antallTreff
-                            } treff på "{søketekst}"
+                            {antallTreff === 0 ? 'Ingen' : antallTreff} treff på "{søketekst}"
                         </Detail>
-                    }
+                    )}
                     <Accordion style={{display: "flex", overflow: "auto"}}>
                         <ul
                             className="navbm-virksomhetsvelger__juridiske-enheter"
