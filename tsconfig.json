@@ -7,7 +7,7 @@
         "allowSyntheticDefaultImports": true,
         "moduleResolution": "node",
         "allowJs": true,
-        "target": "es2019",
+        "target": "esnext",
         "esModuleInterop": true
     },
     "include": ["src/**/*", "index.tsx"]
