@@ -1,7 +1,7 @@
-import React, {forwardRef, FunctionComponent, Ref} from 'react';
-import { Office1, Success } from '@navikt/ds-icons';
-import { Accordion, BodyShort, Button } from '@navikt/ds-react';
-import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../organisasjon';
+import React, {forwardRef, useState} from 'react';
+import {Office1, Success} from '@navikt/ds-icons';
+import {Accordion, BodyShort, Button} from '@navikt/ds-react';
+import {JuridiskEnhetMedUnderEnheterArray, Organisasjon} from '../organisasjon';
 
 type Props = {
     juridiskEnhet: JuridiskEnhetMedUnderEnheterArray;
@@ -19,14 +19,14 @@ const JuridiskEnhet = forwardRef<HTMLButtonElement, Props>(({
     const juridiskEnhetErValgt = Underenheter.some(
         (enhet: Organisasjon) => enhet.OrganizationNumber === valgtOrganisasjon.OrganizationNumber
     );
+    const [open, setOpen] = useState(juridiskEnhetErValgt)
 
     return (
         <li className="navbm-virksomhetsvelger__juridisk-enhet">
-            <Accordion.Item
-                key={JuridiskEnhet.OrganizationNumber}
-                defaultOpen={juridiskEnhetErValgt}
-            >
-                <Accordion.Header className="navbm-virksomhetsvelger__enhet navbm-virksomhetsvelger__enhet--juridisk">
+            <Accordion.Item open={open}>
+                <Accordion.Header
+                    className="navbm-virksomhetsvelger__enhet navbm-virksomhetsvelger__enhet--juridisk"
+                    onClick={() => { setOpen(!open); }}>
                     <div className="navbm-virksomhetsvelger__enhet-tekst">
                         <BodyShort className="navbm-virksomhetsvelger__enhet-tittel">
                             {JuridiskEnhet.Name}
