@@ -48,11 +48,6 @@ const Velger = () => {
     const antallTreff = underenheterFlat.length;
 
     useKeyboardEvent('keydown', listeRef, (e) => {
-        if (e.key === 'Enter') {
-            valgtUnderenhetRef.current?.click()
-            e.preventDefault()
-        }
-
         if (e.key === 'Tab') {
             if (e.shiftKey) {
                 lukkKnappRef.current?.focus()
@@ -93,7 +88,8 @@ const Velger = () => {
     };
 
     const onUnderenhetClick = (virksomhet: Organisasjon) => {
-        velgUnderenhet(virksomhet.OrganizationNumber);
+        velgOrganisasjonIntern(virksomhet);
+        velgUnderenhet(virksomhet.OrganizationNumber)
         setÅpen(false);
     };
 
