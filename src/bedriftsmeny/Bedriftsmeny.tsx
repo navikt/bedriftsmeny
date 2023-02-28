@@ -31,7 +31,7 @@ const Bedriftsmeny: FunctionComponent<EgneProps> = (props) => {
             tittel={sidetittel}
             undertittel={props.undertittel}
             piktogram={props.piktogram}
-            virksomhetsvelger={<Virksomhetsvelger {...props} />}
+            virksomhetsvelger={<Virksomhetsvelger {...props} friKomponent={false}/>}
             bjelle={props.children}
         />
     );
@@ -43,6 +43,7 @@ export type VirksomhetsvelgerProps = {
     /**
      * Hook som styrer hvordan man skal oppdatere søkeparametere i urlen
      */
+    friKomponent?: boolean;
     orgnrSearchParam?: OrgnrSearchParamType;
     amplitudeClient?: AmplitudeClient;
 }
@@ -78,7 +79,7 @@ export const Virksomhetsvelger = (props: VirksomhetsvelgerProps): ReactElement =
             organisasjonstre={organisasjonstre ?? []}
             onOrganisasjonChange={props.onOrganisasjonChange ?? (() => {})}
         >
-            <Velger />
+            <Velger friKomponent={props.friKomponent ?? true}/>
         </VirksomhetsvelgerProvider>
     </AmplitudeProvider>
 }
