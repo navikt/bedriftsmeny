@@ -5,6 +5,7 @@ import {Expand, Collapse, Office1, Close} from '@navikt/ds-icons';
 import {VirksomhetsvelgerContext} from './VirksomhetsvelgerProvider';
 import JuridiskEnhet from './JuridiskEnhet';
 import Dropdown from "./Dropdown";
+import {Props} from "react-modal";
 
 export const useKeyboardEvent = (type: 'keydown' | 'keypress' | 'keyup', containerRef: React.RefObject<HTMLElement>, handler: (event: KeyboardEvent) => void) => {
     React.useEffect(() => {
@@ -27,7 +28,7 @@ export const useKeyboardEvent = (type: 'keydown' | 'keypress' | 'keyup', contain
     }, [type, containerRef, handler]);
 }
 
-const Velger = () => {
+const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
     const buttonRef = useRef<HTMLButtonElement>(null);
     const lukkKnappRef = useRef<HTMLButtonElement>(null);
     const søkefeltRef = useRef<HTMLInputElement>(null);
@@ -46,6 +47,7 @@ const Velger = () => {
     const [valgtUnderenhetIntern, velgOrganisasjonIntern] = useState(valgtOrganisasjon)
     const underenheterFlat = aktivtOrganisasjonstre.flatMap(({Underenheter }) => [...Underenheter]);
     const antallTreff = underenheterFlat.length;
+    console.log("friKomponent ", friKomponent)
 
     useKeyboardEvent('keydown', listeRef, (e) => {
         if (e.key === 'Tab') {
@@ -128,7 +130,7 @@ const Velger = () => {
 
 
     return (
-        <div ref={dropdownRef}>
+        <div ref={dropdownRef} className={`${friKomponent ? "navbm-virksomhetsvelger-fri-komponent" : ""}`}>
             <Button
                 className="navbm-virksomhetsvelger"
                 onClick={() => toggleVelger()}
@@ -155,6 +157,7 @@ const Velger = () => {
             </Button>
             <Dropdown
                 ariaLabel="Virksomhetsvelger"
+                friKomponent={friKomponent}
                 erApen={åpen}
             >
                 <div
