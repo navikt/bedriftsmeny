@@ -47,7 +47,6 @@ const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
     const [valgtUnderenhetIntern, velgOrganisasjonIntern] = useState(valgtOrganisasjon)
     const underenheterFlat = aktivtOrganisasjonstre.flatMap(({Underenheter }) => [...Underenheter]);
     const antallTreff = underenheterFlat.length;
-    console.log("friKomponent ", friKomponent)
 
     useKeyboardEvent('keydown', listeRef, (e) => {
         if (e.key === 'Tab') {
