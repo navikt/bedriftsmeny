@@ -9,8 +9,9 @@
         "url": "git+https://github.com/navikt/bedriftsmeny.git"
     },
     "source": "src/index.html",
-    "main": "lib/Bedriftsmeny.js",
-    "types": "lib/Bedriftsmeny.d.ts",
+    "main": "lib/cjs/Bedriftsmeny.js",
+    "module": "lib/esm/Bedriftsmeny.js",
+    "types": "lib/types/Bedriftsmeny.d.ts",
     "files": [
         "lib",
         "src/bedriftsmeny"
@@ -22,7 +23,7 @@
         "clean": "rm -rf lib",
         "prebuild": "npm run clean",
         "build": "run-p build:ts build:css",
-        "build:ts": "tsc --project tsconfig.build.json",
+        "build:ts": "tsc -b ./tsconfig.build.cjs.json ./tsconfig.build.esm.json ./tsconfig.build.types.json",
         "build:css": "postcss --use postcss-import -o lib/bedriftsmeny.css src/bedriftsmeny/index.css"
     },
     "peerDependencies": {
