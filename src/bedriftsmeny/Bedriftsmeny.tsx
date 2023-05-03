@@ -90,6 +90,7 @@ export {ForebyggeSykefravaer} from "./piktogrammer/ForebyggeSykefravaer";
 export {Kandidater} from "./piktogrammer/Kandidater";
 export {Refusjon} from "./piktogrammer/Refusjon";
 export {MSAIkon} from "./piktogrammer/MSAIkon";
+export {hentAlleJuridiskeEnheter} from "./hentAlleJuridiskeEnheter"
 
 export type BedriftsmenyHeaderProps = {
     tittel?: string;
