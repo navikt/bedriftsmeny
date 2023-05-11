@@ -28,14 +28,18 @@ export const useOrgnrSearchParam: OrgnrSearchParamType = () => {
     const navigate = useNavigate();
 
     const setOrgnr = (orgnr: string) => {
-        if (currentOrgnr !== orgnr) {
-            if (orgnr === null) {
-                searchParam.delete(ORGNUMMER_PARAMETER);
-            } else {
-                searchParam.set(ORGNUMMER_PARAMETER, orgnr);
-            }
-            navigate({ search: searchParam.toString() });
+        if (currentOrgnr === orgnr) {
+            return;
         }
+        if (orgnr === null) {
+            searchParam.delete(ORGNUMMER_PARAMETER);
+        } else {
+            searchParam.set(ORGNUMMER_PARAMETER, orgnr);
+        }
+        navigate(
+            { search: searchParam.toString() },
+            { replace: currentOrgnr === null }
+        );
     };
 
     return [currentOrgnr, setOrgnr];
