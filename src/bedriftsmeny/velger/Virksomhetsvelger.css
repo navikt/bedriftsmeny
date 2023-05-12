@@ -12,14 +12,14 @@
 
 .navbm-virksomhetsvelger__innhold {
     display: grid;
-    grid-template-columns: auto 15rem 1.25rem;
+    grid-template-columns: auto minmax(3rem, 25rem) 1rem;
     align-items: center;
-    gap: 1rem;
+    gap: 8px;
 }
 
 @media (max-width: 520px) {
     .navbm-virksomhetsvelger__innhold {
-        grid-template-columns: minmax(3rem, 15rem) 1.25rem;
+        grid-template-columns: minmax(3rem, 25rem) 1rem;
     }
 
     navbm-virksomhetsvelger {
@@ -29,6 +29,7 @@
 
 .navbm-virksomhetsvelger-fri-komponent{
     position: relative;
+    max-width: 352px;
 }
 
 .navbm-virksomhetsvelger__innhold svg {
@@ -42,8 +43,13 @@
     text-align: left;
 }
 
-.navbm-virksomhetsvelger__tekst h2 {
+.navbm-virksomhetsvelger__tekst > h2 {
     white-space: pre;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.navbm-virksomhetsvelger__tekst > p {
     text-overflow: ellipsis;
     overflow: hidden;
 }
