@@ -62,6 +62,7 @@
     gap: 1rem;
     align-items: center;
     justify-content: flex-end;
-    max-width: 26.25rem;
+    width: min(26.25rem, 100vw);
+
 }
 
