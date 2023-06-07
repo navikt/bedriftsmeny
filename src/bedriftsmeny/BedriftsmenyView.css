@@ -6,14 +6,14 @@
 
 @media (min-width: 48rem) {
     .navbm-bedriftsmeny {
-        padding: 2rem 1rem 1.5rem;
+        padding: 32px 16px 24px;
     }
 }
 
 .navbm-piktogram {
     display: flex;
     justify-content: flex-end;
-    margin: 0 2rem 0 4rem;
+    margin: 0 32px 0 64px;
     align-items: flex-start;
 }
 
@@ -51,8 +51,8 @@
     flex-wrap: wrap;
     grid-column-start: 2;
     justify-content: space-between;
-    column-gap: 3rem;
-    row-gap: 1rem;
+    column-gap: 48px;
+    row-gap: 16px;
     align-items: center;
 }
 
