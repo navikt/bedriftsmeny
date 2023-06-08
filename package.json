@@ -1,6 +1,6 @@
 {
     "name": "@navikt/bedriftsmeny",
-    "version": "6.8.0-rc4",
+    "version": "6.8.0-rc5",
     "description": "Bedriftsvelger og -meny for innlogget arbeidsgiver. Laget av TAG (Tjenester for Arbeidsgivere).",
     "author": "NAVIKT",
     "license": "MIT",
