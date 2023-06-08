@@ -29,6 +29,7 @@ const App = () => {
     return (
         <BrowserRouter>
             <div className="eksempelapp">
+                <div style={{borderBottom: "1px solid gray", height: "42px"}}> dekoratøren </div>
                 <BedriftsmenyHeader tittel="foobar" />
                 <Bedriftsmeny
                     sidetittel="Min side – arbeidsgiver"

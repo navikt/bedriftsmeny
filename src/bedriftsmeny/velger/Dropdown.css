@@ -9,7 +9,7 @@
   max-width: 30rem;
   border: solid 2px var(--a-deepblue-700);
   border-radius: 4px;
-  max-height: calc(100vh - 17rem);
+  max-height: calc(100vh - 21rem);
 }
 
 .Dropdown-panel-Bedriftsmeny{
@@ -22,7 +22,7 @@
 
 @media (max-width: 979px){
   .Dropdown-panel {
-    max-height: calc(100vh - 24rem);
+    max-height: calc(100vh - 28rem);
   }
 }
 
