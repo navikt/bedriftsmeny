@@ -49,6 +49,7 @@ const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
     const antallTreff = underenheterFlat.length;
 
     useKeyboardEvent('keydown', listeRef, (e) => {
+        console.log("key down 1")
         if (e.key === 'Tab') {
             if (e.shiftKey) {
                 lukkKnappRef.current?.focus()
@@ -100,7 +101,7 @@ const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
         } else {
             setSøketekst('')
         }
-    }, [åpen]);
+    }, [åpen, fokusertUnderenhet]);
 
     const handleClickOutside: { (event: MouseEvent | KeyboardEvent): void } = (
         e: MouseEvent | KeyboardEvent
