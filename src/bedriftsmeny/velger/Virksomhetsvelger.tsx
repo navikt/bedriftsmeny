@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import React, {forwardRef, useContext, useEffect, useRef, useState} from 'react';
 import {Button,  Heading, BodyShort, Search, Accordion, Detail} from '@navikt/ds-react';
 import {Organisasjon} from '../organisasjon';
 import {Expand, Collapse, Office1, Close} from '@navikt/ds-icons';
@@ -49,7 +49,6 @@ const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
     const antallTreff = underenheterFlat.length;
 
     useKeyboardEvent('keydown', listeRef, (e) => {
-        console.log("key down 1")
         if (e.key === 'Tab') {
             if (e.shiftKey) {
                 lukkKnappRef.current?.focus()
@@ -187,25 +186,17 @@ const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
                                 }
                             }}
                         />
-                        <Button
+                        <CloseButton
                             ref={lukkKnappRef}
-                            variant="tertiary"
-                            aria-label="lukk"
-                            className="navbm-virksomhetsvelger__popup-header-xbtn"
                             onClick={() => setÅpen(false)}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Tab' && !e.shiftKey) {
-                                    if (underenheterFlat.some(({OrganizationNumber}) => OrganizationNumber === fokusertUnderenhet.OrganizationNumber)) {
-                                        valgtUnderenhetRef.current?.focus()
-                                    } else {
-                                        setFokusertUnderenhet(underenheterFlat[0])
-                                    }
-                                    e.preventDefault()
+                            onTab={() => {
+                                if (underenheterFlat.some(({OrganizationNumber}) => OrganizationNumber === fokusertUnderenhet.OrganizationNumber)) {
+                                    valgtUnderenhetRef.current?.focus()
+                                } else {
+                                    setFokusertUnderenhet(underenheterFlat[0])
                                 }
                             }}
-                        >
-                            <Close aria-hidden={true}/>
-                        </Button>
+                        />
                     </div>
                     {søketekst.length > 0 && (
                         <Detail role="status">
@@ -233,5 +224,28 @@ const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
         </div>
     );
 };
+
+
+type CloseButtonProps = {
+    onClick: () => void;
+    onTab: () => void;
+}
+const CloseButton = forwardRef<HTMLButtonElement, CloseButtonProps>(({onClick, onTab}, ref) =>
+    <Button
+        ref={ref}
+        variant="tertiary"
+        aria-label="lukk"
+        className="navbm-virksomhetsvelger__popup-header-xbtn"
+        onClick={onClick}
+        onKeyDown={e => {
+            if (e.key === 'Tab' && !e.shiftKey) {
+                onTab()
+                e.preventDefault()
+            }
+        }}
+    >
+        <Close aria-hidden={true}/>
+    </Button>
+)
 
 export default Velger;
