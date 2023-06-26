@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import React, {forwardRef, useContext, useEffect, useRef, useState} from 'react';
 import {Button,  Heading, BodyShort, Search, Accordion, Detail} from '@navikt/ds-react';
 import {Organisasjon} from '../organisasjon';
 import {Expand, Collapse, Office1, Close} from '@navikt/ds-icons';
@@ -44,7 +44,7 @@ const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
         søketekst,
         setSøketekst,
     } = useContext(VirksomhetsvelgerContext);
-    const [valgtUnderenhetIntern, velgOrganisasjonIntern] = useState(valgtOrganisasjon)
+    const [fokusertUnderenhet, setFokusertUnderenhet] = useState(valgtOrganisasjon)
     const underenheterFlat = aktivtOrganisasjonstre.flatMap(({Underenheter }) => [...Underenheter]);
     const antallTreff = underenheterFlat.length;
 
@@ -59,26 +59,26 @@ const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
         }
 
         if (e.key === 'Home') {
-            velgOrganisasjonIntern(underenheterFlat[0])
+            setFokusertUnderenhet(underenheterFlat[0])
             e.preventDefault()
         }
 
         if (e.key === 'End') {
-            velgOrganisasjonIntern(underenheterFlat[underenheterFlat.length - 1])
+            setFokusertUnderenhet(underenheterFlat[underenheterFlat.length - 1])
             e.preventDefault()
         }
 
         if (e.key === 'ArrowUp' || e.key === 'Up') {
-            const index = underenheterFlat.findIndex(({OrganizationNumber}) => OrganizationNumber === valgtUnderenhetIntern.OrganizationNumber)
+            const index = underenheterFlat.findIndex(({OrganizationNumber}) => OrganizationNumber === fokusertUnderenhet.OrganizationNumber)
             const nextIndex = Math.max(0, index - 1)
-            velgOrganisasjonIntern(underenheterFlat[nextIndex])
+            setFokusertUnderenhet(underenheterFlat[nextIndex])
             e.preventDefault()
         }
 
         if (e.key === 'ArrowDown' || e.key === 'Down') {
-            const index = underenheterFlat.findIndex(({OrganizationNumber}) => OrganizationNumber === valgtUnderenhetIntern.OrganizationNumber)
+            const index = underenheterFlat.findIndex(({OrganizationNumber}) => OrganizationNumber === fokusertUnderenhet.OrganizationNumber)
             const nextIndex = Math.min(underenheterFlat.length - 1, index + 1)
-            velgOrganisasjonIntern(underenheterFlat[nextIndex])
+            setFokusertUnderenhet(underenheterFlat[nextIndex])
             e.preventDefault()
         }
 
@@ -89,7 +89,7 @@ const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
     };
 
     const onUnderenhetClick = (virksomhet: Organisasjon) => {
-        velgOrganisasjonIntern(virksomhet);
+        setFokusertUnderenhet(virksomhet);
         velgUnderenhet(virksomhet.OrganizationNumber)
         setÅpen(false);
     };
@@ -99,9 +99,8 @@ const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
             valgtUnderenhetRef.current?.focus();
         } else {
             setSøketekst('')
-            velgOrganisasjonIntern(valgtOrganisasjon)
         }
-    }, [åpen, valgtUnderenhetIntern]);
+    }, [åpen, fokusertUnderenhet]);
 
     const handleClickOutside: { (event: MouseEvent | KeyboardEvent): void } = (
         e: MouseEvent | KeyboardEvent
@@ -178,34 +177,26 @@ const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
                             label="Søk på virksomhet"
                             onKeyDown={(e) => {
                                 if (e.key === 'Tab' && e.shiftKey) {
-                                    if (underenheterFlat.some(({OrganizationNumber}) => OrganizationNumber === valgtUnderenhetIntern.OrganizationNumber)) {
+                                    if (underenheterFlat.some(({OrganizationNumber}) => OrganizationNumber === fokusertUnderenhet.OrganizationNumber)) {
                                         valgtUnderenhetRef.current?.focus()
                                     } else {
-                                        velgOrganisasjonIntern(underenheterFlat[0])
+                                        setFokusertUnderenhet(underenheterFlat[0])
                                     }
                                     e.preventDefault()
                                 }
                             }}
                         />
-                        <Button
+                        <CloseButton
                             ref={lukkKnappRef}
-                            variant="tertiary"
-                            aria-label="lukk"
-                            className="navbm-virksomhetsvelger__popup-header-xbtn"
                             onClick={() => setÅpen(false)}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Tab' && !e.shiftKey) {
-                                    if (underenheterFlat.some(({OrganizationNumber}) => OrganizationNumber === valgtUnderenhetIntern.OrganizationNumber)) {
-                                        valgtUnderenhetRef.current?.focus()
-                                    } else {
-                                        velgOrganisasjonIntern(underenheterFlat[0])
-                                    }
-                                    e.preventDefault()
+                            onTab={() => {
+                                if (underenheterFlat.some(({OrganizationNumber}) => OrganizationNumber === fokusertUnderenhet.OrganizationNumber)) {
+                                    valgtUnderenhetRef.current?.focus()
+                                } else {
+                                    setFokusertUnderenhet(underenheterFlat[0])
                                 }
                             }}
-                        >
-                            <Close aria-hidden={true}/>
-                        </Button>
+                        />
                     </div>
                     {søketekst.length > 0 && (
                         <Detail role="status">
@@ -220,9 +211,9 @@ const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
                             {aktivtOrganisasjonstre.map((juridiskEnhet) => (
                                 <JuridiskEnhet
                                     ref={valgtUnderenhetRef}
-                                    key={juridiskEnhet.JuridiskEnhet.OrganizationNumber + valgtUnderenhetIntern.OrganizationNumber}
+                                    key={juridiskEnhet.JuridiskEnhet.OrganizationNumber + fokusertUnderenhet.OrganizationNumber}
                                     juridiskEnhet={juridiskEnhet}
-                                    valgtOrganisasjon={valgtUnderenhetIntern}
+                                    valgtOrganisasjon={fokusertUnderenhet}
                                     onUnderenhetClick={onUnderenhetClick}
                                 />
                             ))}
@@ -233,5 +224,28 @@ const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
         </div>
     );
 };
+
+
+type CloseButtonProps = {
+    onClick: () => void;
+    onTab: () => void;
+}
+const CloseButton = forwardRef<HTMLButtonElement, CloseButtonProps>(({onClick, onTab}, ref) =>
+    <Button
+        ref={ref}
+        variant="tertiary"
+        aria-label="lukk"
+        className="navbm-virksomhetsvelger__popup-header-xbtn"
+        onClick={onClick}
+        onKeyDown={e => {
+            if (e.key === 'Tab' && !e.shiftKey) {
+                onTab()
+                e.preventDefault()
+            }
+        }}
+    >
+        <Close aria-hidden={true}/>
+    </Button>
+)
 
 export default Velger;
