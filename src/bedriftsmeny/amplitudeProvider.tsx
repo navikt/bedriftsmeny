@@ -12,11 +12,18 @@ interface Props {
 
 export const AmplitudeLoggerContext = createContext<Context>({} as Context);
 
+const getLimitedUrl = () => {
+    const {origin, pathname } = window.location;
+    return `${origin}/${pathname.split('/')[1]}`;
+}
+
 export const AmplitudeProvider: FunctionComponent<Props> = (props) => {
 
     const loggBedriftValgt = () => {
         if (props.amplitudeClient !== undefined) {
-            props.amplitudeClient.logEvent("virksomhetsklikk", {url:window.location.toString()})
+            props.amplitudeClient.logEvent("virksomhetsklikk", {
+                url: getLimitedUrl(),
+            })
         }
     }
 
