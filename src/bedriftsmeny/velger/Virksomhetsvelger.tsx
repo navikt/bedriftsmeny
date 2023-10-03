@@ -1,17 +1,15 @@
-import React, {forwardRef, KeyboardEventHandler, useContext, useEffect, useRef, useState} from 'react';
+import React, {KeyboardEventHandler, useContext, useEffect, useRef, useState} from 'react';
 import {Button,  Heading, BodyShort, Search, Accordion, Detail} from '@navikt/ds-react';
 import {Organisasjon} from '../organisasjon';
 import {Expand, Collapse, Office1, Close} from '@navikt/ds-icons';
 import {VirksomhetsvelgerContext} from './VirksomhetsvelgerProvider';
 import JuridiskEnhet from './JuridiskEnhet';
 import Dropdown from "./Dropdown";
+import FocusTrap from 'focus-trap-react';
 
 const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
     const buttonRef = useRef<HTMLButtonElement>(null);
-    const lukkKnappRef = useRef<HTMLButtonElement>(null);
-    const søkefeltRef = useRef<HTMLInputElement>(null);
     const valgtUnderenhetRef = useRef<HTMLButtonElement>(null);
-    const dropdownRef = useRef<HTMLDivElement>(null);
     const [åpen, setÅpen] = useState<boolean>(false);
 
     const {
@@ -26,15 +24,6 @@ const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
     const antallTreff = underenheterFlat.length;
 
     const onKeyDown: KeyboardEventHandler<HTMLUListElement> = (e) => {
-        if (e.key === 'Tab') {
-            if (e.shiftKey) {
-                lukkKnappRef.current?.focus()
-            } else {
-                søkefeltRef.current?.focus()
-            }
-            e.preventDefault()
-        }
-
         if (e.key === 'Home') {
             setFokusertUnderenhet(underenheterFlat[0])
             e.preventDefault()
@@ -58,7 +47,6 @@ const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
             setFokusertUnderenhet(underenheterFlat[nextIndex])
             e.preventDefault()
         }
-
     };
 
     const toggleVelger = (verdi?: boolean) => {
@@ -79,33 +67,8 @@ const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
         }
     }, [åpen, fokusertUnderenhet]);
 
-    const handleClickOutside: { (event: MouseEvent | KeyboardEvent): void } = (
-        e: MouseEvent | KeyboardEvent
-    ) => {
-        const node = dropdownRef.current
-        // @ts-ignore
-        if (node && node !== e.target && node.contains(e.target as HTMLOrSVGElement)) {
-            return
-        }
-        // @ts-ignore
-        if (!document.contains(e.target as HTMLOrSVGElement)){
-            return
-            //Clear-knapp i søkefeltet forsvinner når klikket på.
-            //Dette blir derfor registrert som klikk utenfor dropdown-menyen.
-        }
-        setÅpen(false)
-    }
-
-    useEffect(() => {
-        document.addEventListener('click', handleClickOutside)
-        return () => {
-            document.removeEventListener('click', handleClickOutside)
-        }
-    }, [handleClickOutside])
-
-
     return (
-        <div ref={dropdownRef} className={`${friKomponent ? "navbm-virksomhetsvelger-fri-komponent" : ""}`}>
+        <div className={`${friKomponent ? "navbm-virksomhetsvelger-fri-komponent" : ""}`}>
             <Button
                 className="navbm-virksomhetsvelger"
                 onClick={() => toggleVelger()}
@@ -135,68 +98,59 @@ const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
                 friKomponent={friKomponent}
                 erApen={åpen}
             >
-                <div
-                    className="navbm-virksomhetsvelger__popup"
-                    role="menu"
-                    onKeyDown={({key}) => {
-                        if (key === 'Escape' || key === 'Esc') {
+                <FocusTrap
+                    focusTrapOptions={{
+                        clickOutsideDeactivates: e => {
+                            if (buttonRef.current && e.target instanceof Node && buttonRef.current.contains(e.target)) {
+                                /* Knappen flipper også `åpen`. Om vi også flipper, så flippes `åpen` fram og tilbake. */
+                            } else {
+                                setÅpen(false)
+                            }
+                            return true
+                        },
+                        escapeDeactivates: () => {
                             setÅpen(false)
-                        }
+                            return true;
+                        },
                     }}
                 >
-                    <div className="navbm-virksomhetsvelger__popup-header">
-                        <Search
-                            ref={søkefeltRef}
-                            variant="simple"
-                            value={søketekst}
-                            onChange={setSøketekst}
-                            placeholder="Søk på virksomhet ..."
-                            label="Søk på virksomhet"
-                            onKeyDown={(e) => {
-                                if (e.key === 'Tab' && e.shiftKey) {
-                                    if (underenheterFlat.some(({OrganizationNumber}) => OrganizationNumber === fokusertUnderenhet.OrganizationNumber)) {
-                                        valgtUnderenhetRef.current?.focus()
-                                    } else {
-                                        setFokusertUnderenhet(underenheterFlat[0])
-                                    }
-                                    e.preventDefault()
-                                }
-                            }}
-                        />
-                        <CloseButton
-                            ref={lukkKnappRef}
-                            onClick={() => setÅpen(false)}
-                            onTab={() => {
-                                if (underenheterFlat.some(({OrganizationNumber}) => OrganizationNumber === fokusertUnderenhet.OrganizationNumber)) {
-                                    valgtUnderenhetRef.current?.focus()
-                                } else {
-                                    setFokusertUnderenhet(underenheterFlat[0])
-                                }
-                            }}
-                        />
+                    <div
+                        className="navbm-virksomhetsvelger__popup"
+                        role="menu"
+                    >
+                        <div className="navbm-virksomhetsvelger__popup-header">
+                            <Search
+                                variant="simple"
+                                value={søketekst}
+                                onChange={setSøketekst}
+                                placeholder="Søk på virksomhet ..."
+                                label="Søk på virksomhet"
+                            />
+                            <CloseButton onClick={() => setÅpen(false)} />
+                        </div>
+                        {søketekst.length > 0 && (
+                            <Detail role="status">
+                                {antallTreff === 0 ? 'Ingen' : antallTreff} treff på "{søketekst}"
+                            </Detail>
+                        )}
+                        <Accordion style={{display: "flex", overflow: "auto"}}>
+                            <ul
+                                className="navbm-virksomhetsvelger__juridiske-enheter"
+                                onKeyDown={onKeyDown}
+                            >
+                                {aktivtOrganisasjonstre.map((juridiskEnhet) => (
+                                    <JuridiskEnhet
+                                        ref={valgtUnderenhetRef}
+                                        key={juridiskEnhet.JuridiskEnhet.OrganizationNumber + fokusertUnderenhet.OrganizationNumber}
+                                        juridiskEnhet={juridiskEnhet}
+                                        valgtOrganisasjon={fokusertUnderenhet}
+                                        onUnderenhetClick={onUnderenhetClick}
+                                    />
+                                ))}
+                            </ul>
+                        </Accordion>
                     </div>
-                    {søketekst.length > 0 && (
-                        <Detail role="status">
-                            {antallTreff === 0 ? 'Ingen' : antallTreff} treff på "{søketekst}"
-                        </Detail>
-                    )}
-                    <Accordion style={{display: "flex", overflow: "auto"}}>
-                        <ul
-                            className="navbm-virksomhetsvelger__juridiske-enheter"
-                            onKeyDown={onKeyDown}
-                        >
-                            {aktivtOrganisasjonstre.map((juridiskEnhet) => (
-                                <JuridiskEnhet
-                                    ref={valgtUnderenhetRef}
-                                    key={juridiskEnhet.JuridiskEnhet.OrganizationNumber + fokusertUnderenhet.OrganizationNumber}
-                                    juridiskEnhet={juridiskEnhet}
-                                    valgtOrganisasjon={fokusertUnderenhet}
-                                    onUnderenhetClick={onUnderenhetClick}
-                                />
-                            ))}
-                        </ul>
-                    </Accordion>
-                </div>
+                </FocusTrap>
             </Dropdown>
         </div>
     );
@@ -205,24 +159,15 @@ const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
 
 type CloseButtonProps = {
     onClick: () => void;
-    onTab: () => void;
 }
-const CloseButton = forwardRef<HTMLButtonElement, CloseButtonProps>(({onClick, onTab}, ref) =>
+const CloseButton = ({onClick}: CloseButtonProps) =>
     <Button
-        ref={ref}
         variant="tertiary"
         aria-label="lukk"
         className="navbm-virksomhetsvelger__popup-header-xbtn"
         onClick={onClick}
-        onKeyDown={e => {
-            if (e.key === 'Tab' && !e.shiftKey) {
-                onTab()
-                e.preventDefault()
-            }
-        }}
     >
         <Close aria-hidden={true}/>
     </Button>
-)
 
 export default Velger;

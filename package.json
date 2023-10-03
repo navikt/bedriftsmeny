@@ -61,7 +61,8 @@
     },
     "dependencies": {
         "fuzzysort": "^1.1.4",
-        "history": "^4.10.1"
+        "history": "^4.10.1",
+        "focus-trap-react": "^10.2.2"
     },
     "prettier": {
         "tabWidth": 4,
