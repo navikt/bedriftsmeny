@@ -91,7 +91,7 @@ export {Kandidater} from "./piktogrammer/Kandidater";
 export {Refusjon} from "./piktogrammer/Refusjon";
 export {MSAIkon} from "./piktogrammer/MSAIkon";
 export {hentAlleJuridiskeEnheter} from "./hentAlleJuridiskeEnheter";
-export {Organisasjon} from './organisasjon';
+export type {Organisasjon} from './organisasjon';
 
 export type BedriftsmenyHeaderProps = {
     tittel?: string;
