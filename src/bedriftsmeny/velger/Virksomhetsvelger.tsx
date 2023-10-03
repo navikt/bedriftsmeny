@@ -1,38 +1,15 @@
-import React, {forwardRef, useContext, useEffect, useRef, useState} from 'react';
+import React, {forwardRef, KeyboardEventHandler, useContext, useEffect, useRef, useState} from 'react';
 import {Button,  Heading, BodyShort, Search, Accordion, Detail} from '@navikt/ds-react';
 import {Organisasjon} from '../organisasjon';
 import {Expand, Collapse, Office1, Close} from '@navikt/ds-icons';
 import {VirksomhetsvelgerContext} from './VirksomhetsvelgerProvider';
 import JuridiskEnhet from './JuridiskEnhet';
 import Dropdown from "./Dropdown";
-import {Props} from "react-modal";
-
-export const useKeyboardEvent = (type: 'keydown' | 'keypress' | 'keyup', containerRef: React.RefObject<HTMLElement>, handler: (event: KeyboardEvent) => void) => {
-    React.useEffect(() => {
-        const listener = (event: KeyboardEvent) => {
-            const node = containerRef.current
-            if (node === null) {
-                return
-            }
-
-            if (node !== event.target && !node.contains(event.target as HTMLElement)) {
-                return
-            }
-
-            handler(event);
-        };
-        document.addEventListener(type, listener);
-        return () => {
-            document.removeEventListener(type, listener);
-        };
-    }, [type, containerRef, handler]);
-}
 
 const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
     const buttonRef = useRef<HTMLButtonElement>(null);
     const lukkKnappRef = useRef<HTMLButtonElement>(null);
     const søkefeltRef = useRef<HTMLInputElement>(null);
-    const listeRef = useRef<HTMLUListElement>(null);
     const valgtUnderenhetRef = useRef<HTMLButtonElement>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
     const [åpen, setÅpen] = useState<boolean>(false);
@@ -48,7 +25,7 @@ const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
     const underenheterFlat = aktivtOrganisasjonstre.flatMap(({Underenheter }) => [...Underenheter]);
     const antallTreff = underenheterFlat.length;
 
-    useKeyboardEvent('keydown', listeRef, (e) => {
+    const onKeyDown: KeyboardEventHandler<HTMLUListElement> = (e) => {
         if (e.key === 'Tab') {
             if (e.shiftKey) {
                 lukkKnappRef.current?.focus()
@@ -82,7 +59,7 @@ const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
             e.preventDefault()
         }
 
-    });
+    };
 
     const toggleVelger = (verdi?: boolean) => {
         setÅpen(verdi === undefined ? !åpen : verdi);
@@ -206,7 +183,7 @@ const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
                     <Accordion style={{display: "flex", overflow: "auto"}}>
                         <ul
                             className="navbm-virksomhetsvelger__juridiske-enheter"
-                            ref={listeRef}
+                            onKeyDown={onKeyDown}
                         >
                             {aktivtOrganisasjonstre.map((juridiskEnhet) => (
                                 <JuridiskEnhet
