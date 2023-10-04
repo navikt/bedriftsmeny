@@ -1,8 +1,6 @@
 import React, { FunctionComponent, ReactElement, ReactNode, useEffect, useState } from 'react';
 import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from './organisasjon';
 import { byggOrganisasjonstre } from './byggOrganisasjonsTre';
-import { AmplitudeClient } from 'amplitude-js';
-import { AmplitudeProvider } from './amplitudeProvider';
 import { VirksomhetsvelgerProvider } from './velger/VirksomhetsvelgerProvider';
 import { BedriftsmenyView } from './BedriftsmenyView';
 import { OrgnrSearchParamType } from './velger/utils';
@@ -18,7 +16,8 @@ interface EgneProps {
      * Hook som styrer hvordan man skal oppdatere søkeparametere i urlen
      */
     orgnrSearchParam?: OrgnrSearchParamType;
-    amplitudeClient?: AmplitudeClient;
+    /** @deprecated not in use. field preserved for api stability. */
+    amplitudeClient?: any;
     children?: ReactNode;
 }
 
@@ -43,9 +42,10 @@ export type VirksomhetsvelgerProps = {
     /**
      * Hook som styrer hvordan man skal oppdatere søkeparametere i urlen
      */
-    friKomponent?: boolean;
     orgnrSearchParam?: OrgnrSearchParamType;
-    amplitudeClient?: AmplitudeClient;
+    friKomponent?: boolean;
+    /** @deprecated not in use. field preserved for api stability. */
+    amplitudeClient?: any;
 }
 
 export const Virksomhetsvelger = (props: VirksomhetsvelgerProps): ReactElement => {
@@ -73,15 +73,13 @@ export const Virksomhetsvelger = (props: VirksomhetsvelgerProps): ReactElement =
         return <></>
     }
 
-    return <AmplitudeProvider amplitudeClient={props.amplitudeClient}>
-        <VirksomhetsvelgerProvider
-            orgnrSearchParam={props.orgnrSearchParam}
-            organisasjonstre={organisasjonstre ?? []}
-            onOrganisasjonChange={props.onOrganisasjonChange ?? (() => {})}
-        >
-            <Velger friKomponent={props.friKomponent ?? true}/>
-        </VirksomhetsvelgerProvider>
-    </AmplitudeProvider>
+    return <VirksomhetsvelgerProvider
+        orgnrSearchParam={props.orgnrSearchParam}
+        organisasjonstre={organisasjonstre ?? []}
+        onOrganisasjonChange={props.onOrganisasjonChange ?? (() => {})}
+    >
+        <Velger friKomponent={props.friKomponent ?? true}/>
+    </VirksomhetsvelgerProvider>
 }
 
 export {Arbeidsforhold} from "./piktogrammer/Arbeidsforhold";
@@ -91,7 +89,7 @@ export {Kandidater} from "./piktogrammer/Kandidater";
 export {Refusjon} from "./piktogrammer/Refusjon";
 export {MSAIkon} from "./piktogrammer/MSAIkon";
 export {hentAlleJuridiskeEnheter} from "./hentAlleJuridiskeEnheter";
-export {Organisasjon} from './organisasjon';
+export type {Organisasjon} from './organisasjon';
 
 export type BedriftsmenyHeaderProps = {
     tittel?: string;
