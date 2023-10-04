@@ -42,8 +42,8 @@ export type VirksomhetsvelgerProps = {
     /**
      * Hook som styrer hvordan man skal oppdatere søkeparametere i urlen
      */
-    friKomponent?: boolean;
     orgnrSearchParam?: OrgnrSearchParamType;
+    friKomponent?: boolean;
     /** @deprecated not in use. field preserved for api stability. */
     amplitudeClient?: any;
 }
