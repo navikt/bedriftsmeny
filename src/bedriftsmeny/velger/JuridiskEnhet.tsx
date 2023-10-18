@@ -115,7 +115,7 @@ const Hovedenhet = ({hovedenhet, valgt, antallUnderenheter}: HovedenhetProps) =>
                 <span>{hovedenhet.OrganizationNumber}</span>
             </BodyShort>
             <BodyShort className='navbm-virksomhetsvelger__enhet-beskrivelse'>
-                {antallUnderenheter} virksomhet
+                {antallUnderenheter} underenhet
                 {antallUnderenheter === 1 ? '' : 'er'}
                 {valgt ? ' - 1 valgt' : ''}
             </BodyShort>
