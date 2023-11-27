@@ -94,6 +94,7 @@ const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
                 </div>
             </Button>
             <Dropdown
+                id="navbm-virksomhetsvelger-popup"
                 ariaLabel="Virksomhetsvelger"
                 friKomponent={friKomponent}
                 erApen={åpen}
