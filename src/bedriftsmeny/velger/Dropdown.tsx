@@ -1,17 +1,18 @@
 import React from "react";
 
-interface Props {
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode,
   ariaLabel: string,
   friKomponent: boolean,
   erApen: boolean,
 }
 
-const Dropdown = ({erApen, ariaLabel, friKomponent,  children}: Props) => {
+const Dropdown = ({erApen, ariaLabel, friKomponent,  children, ...divProperties}: Props) => {
   return erApen ? <div
     role='dialog'
     aria-label={ariaLabel}
     className={`Dropdown-panel ${!friKomponent ? "Dropdown-panel-Bedriftsmeny" : ""}`}
+    {...divProperties}
   >
     {children}
   </div> : null
