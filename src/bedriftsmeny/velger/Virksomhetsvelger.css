@@ -16,6 +16,10 @@
     align-items: center;
     gap: 8px;
 }
+.navbm-virksomhetsvelger__virksomhetsnavn {
+    font-size: 1.25rem;
+    font-weight: var(--a-font-weight-bold);
+}
 
 @media (max-width: 520px) {
     .navbm-virksomhetsvelger__innhold {

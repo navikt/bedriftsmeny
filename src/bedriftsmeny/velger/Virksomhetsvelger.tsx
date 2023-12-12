@@ -85,9 +85,9 @@ const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
                         <Office1 aria-hidden={true}/>
                     </div>
                     <div className="navbm-virksomhetsvelger__tekst">
-                        <Heading size="small" level="2">
+                        <BodyShort className="navbm-virksomhetsvelger__virksomhetsnavn">
                             {valgtOrganisasjon.Name}
-                        </Heading>
+                        </BodyShort>
                         <BodyShort>virksomhetsnr. {valgtOrganisasjon.OrganizationNumber}</BodyShort>
                     </div>
                     {åpen ? <Collapse style={{pointerEvents:"none"}} aria-hidden={true}/> : <Expand style={{pointerEvents:"none"}} aria-hidden={true}/>}
