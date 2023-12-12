@@ -65,3 +65,9 @@
     max-width: 26.25rem;
 }
 
+
+@media (max-width: 420px) {
+    .navbm-widgets {
+        padding: 1rem 0 1rem 1rem;
+    }
+}
