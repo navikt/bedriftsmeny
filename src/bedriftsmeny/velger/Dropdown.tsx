@@ -9,7 +9,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 
 const Dropdown = ({erApen, ariaLabel, friKomponent,  children, ...divProperties}: Props) => {
   return erApen ? <div
-    role='dialog'
+    role='menu'
     aria-label={ariaLabel}
     className={`Dropdown-panel ${!friKomponent ? "Dropdown-panel-Bedriftsmeny" : ""}`}
     {...divProperties}

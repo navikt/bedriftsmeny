@@ -44,3 +44,5 @@ export const useOrgnrSearchParam: OrgnrSearchParamType = () => {
 
     return [currentOrgnr, setOrgnr];
 };
+
+export const a11yOrgnr = (str: string) => str.replaceAll(/(\d)/g, "$1 ")
