@@ -6,7 +6,7 @@ import {VirksomhetsvelgerContext} from './VirksomhetsvelgerProvider';
 import JuridiskEnhet from './JuridiskEnhet';
 import Dropdown from "./Dropdown";
 import FocusTrap from 'focus-trap-react';
-import {a11yOrgnr} from "@/bedriftsmeny/velger/utils";
+import {a11yOrgnr} from "./utils";
 
 const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
     const buttonRef = useRef<HTMLButtonElement>(null);

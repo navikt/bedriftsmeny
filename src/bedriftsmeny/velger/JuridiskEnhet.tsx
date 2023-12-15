@@ -2,7 +2,7 @@ import React, {ForwardedRef, forwardRef, useState} from 'react';
 import {Office1, Success} from '@navikt/ds-icons';
 import {Accordion, BodyShort, Button} from '@navikt/ds-react';
 import {JuridiskEnhetMedUnderEnheterArray, Organisasjon} from '../organisasjon';
-import {a11yOrgnr} from "@/bedriftsmeny/velger/utils";
+import {a11yOrgnr} from "./utils";
 
 type Props = {
     juridiskEnhet: JuridiskEnhetMedUnderEnheterArray;
