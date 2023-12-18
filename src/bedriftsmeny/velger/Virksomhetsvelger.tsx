@@ -130,7 +130,6 @@ const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
                                 placeholder="Søk på virksomhet ..."
                                 label="Søk på virksomhet"
                                 autoComplete="organization"
-                                aria-owns="sokestatus virksomhetsvelger__resultatliste"
                                 onKeyDown={(e) => {
                                     if (søketekst.length > 0 && enheterflat.length > 0) {
                                         if (e.key === 'ArrowDown' || e.key === 'Down') {
