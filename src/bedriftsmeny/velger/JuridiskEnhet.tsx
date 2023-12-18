@@ -81,6 +81,7 @@ type UnderenhetProps = {
 
 const Underenhet = forwardRef<HTMLButtonElement, UnderenhetProps>(({valgt, onClick, underenhet}, ref) =>
     <Button
+        type="button"
         ref={ref}
         tabIndex={valgt ? 0 : -1}
         aria-pressed={valgt}
