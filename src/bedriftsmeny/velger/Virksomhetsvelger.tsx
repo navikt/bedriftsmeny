@@ -119,7 +119,6 @@ const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
                 >
                     <div
                         className="navbm-virksomhetsvelger__popup"
-                        role="menu"
                     >
                         <div className="navbm-virksomhetsvelger__popup-header">
                             <Search
@@ -141,13 +140,12 @@ const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
                             />
                             <CloseButton onClick={() => setÅpen(false)} />
                         </div>
-                        <Detail role="status" id="sokestatus">
+                        <Detail role="status">
                             {søketekst.length > 0 && (<>
                                     {antallTreff === 0 ? `Ingen treff på "${søketekst}"` : `${antallTreff} treff på "${søketekst}".`}
                             </>)}
                         </Detail>
-                        <Accordion style={{display: "flex", overflow: "auto"}}
-                                   id="virksomhetsvelger__resultatliste">
+                        <Accordion style={{display: "flex", overflow: "auto"}}>
                             <ul
                                 className="navbm-virksomhetsvelger__juridiske-enheter"
                                 onKeyDown={onKeyDown}

@@ -83,7 +83,6 @@ const Underenhet = forwardRef<HTMLButtonElement, UnderenhetProps>(({valgt, onCli
     <Button
         ref={ref}
         tabIndex={valgt ? 0 : -1}
-        role='menuitemradio'
         aria-checked={valgt}
         variant='tertiary'
         onClick={() => onClick(underenhet)}
