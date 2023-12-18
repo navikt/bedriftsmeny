@@ -83,7 +83,7 @@ const Underenhet = forwardRef<HTMLButtonElement, UnderenhetProps>(({valgt, onCli
     <Button
         ref={ref}
         tabIndex={valgt ? 0 : -1}
-        aria-checked={valgt}
+        aria-pressed={valgt}
         variant='tertiary'
         onClick={() => onClick(underenhet)}
         className='navbm-virksomhetsvelger__underenhet-innhold'
