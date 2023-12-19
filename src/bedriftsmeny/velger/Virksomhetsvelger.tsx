@@ -1,18 +1,19 @@
-import React, {KeyboardEventHandler, useContext, useEffect, useRef, useState} from 'react';
-import {Button, BodyShort, Search, Accordion, Detail} from '@navikt/ds-react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
+import {Accordion, BodyShort, Button, Detail, Search} from '@navikt/ds-react';
 import {Organisasjon} from '../organisasjon';
-import {Expand, Collapse, Office1, Close} from '@navikt/ds-icons';
+import {Close, Collapse, Expand, Office1} from '@navikt/ds-icons';
 import {VirksomhetsvelgerContext} from './VirksomhetsvelgerProvider';
 import JuridiskEnhet from './JuridiskEnhet';
 import Dropdown from "./Dropdown";
 import FocusTrap from 'focus-trap-react';
 import {a11yOrgnr} from "./utils";
+import {useTastaturNavigasjon} from "./useTastaturNavigasjon";
+
 
 const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
     const buttonRef = useRef<HTMLButtonElement>(null);
     const valgtEnhetRef = useRef<HTMLButtonElement>(null);
     const [åpen, setÅpen] = useState<boolean>(false);
-
     const {
         velgUnderenhet,
         valgtOrganisasjon,
@@ -20,54 +21,29 @@ const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
         søketekst,
         setSøketekst,
     } = useContext(VirksomhetsvelgerContext);
-    const [fokusertEnhet, setFokusertEnhet] = useState<Organisasjon>(valgtOrganisasjon)
-    const enheterflat = aktivtOrganisasjonstre.flatMap(({JuridiskEnhet, Underenheter }) => [JuridiskEnhet,...Underenheter]);
-    const antallTreff = enheterflat.length;
-    const gjørFørsteElementTabbable = søketekst.length > 0 && antallTreff > 0 && !enheterflat.some(({OrganizationNumber}) => OrganizationNumber === fokusertEnhet.OrganizationNumber);
-
-    const onKeyDown: KeyboardEventHandler<HTMLUListElement> = (e) => {
-        if (e.key === 'Home') {
-            setFokusertEnhet(enheterflat[0])
-            e.preventDefault()
-        }
-
-        if (e.key === 'End') {
-            setFokusertEnhet(enheterflat[enheterflat.length - 1])
-            e.preventDefault()
-        }
-
-        if (e.key === 'ArrowUp' || e.key === 'Up') {
-            const index = enheterflat.findIndex(({OrganizationNumber}) => OrganizationNumber === fokusertEnhet.OrganizationNumber)
-            const nextIndex = Math.max(0, index - 1)
-            setFokusertEnhet(enheterflat[nextIndex])
-            e.preventDefault()
-        }
-
-        if (e.key === 'ArrowDown' || e.key === 'Down') {
-            const index = enheterflat.findIndex(({OrganizationNumber}) => OrganizationNumber === fokusertEnhet.OrganizationNumber)
-            const nextIndex = Math.min(enheterflat.length - 1, index + 1)
-            setFokusertEnhet(enheterflat[nextIndex])
-            e.preventDefault()
-        }
-    };
-
-    const onUnderenhetClick = (virksomhet: Organisasjon) => {
-        setFokusertEnhet(virksomhet);
-        velgUnderenhet(virksomhet.OrganizationNumber)
-        setÅpen(false);
-    };
+    const {
+        fokusertEnhet,
+        organisasjonerMedState,
+        fokuserFørsteEnhet,
+        fokuserSisteEnhet,
+        pilOpp,
+        pilNed,
+        pilHøyre,
+        pilVenstre,
+        toggleEkspander,
+        fokuserEnhet,
+        resetState,
+    } = useTastaturNavigasjon();
+    const antallTreff = organisasjonerMedState.length;
 
     useEffect(() => {
         if (åpen) {
             valgtEnhetRef.current?.focus();
         } else {
             setSøketekst('')
-            setFokusertEnhet(valgtOrganisasjon)
+            resetState()
         }
-    }, [åpen, fokusertEnhet]);
-    useEffect(() => {
-        setFokusertEnhet(valgtOrganisasjon)
-    }, [valgtOrganisasjon]);
+    }, [åpen, fokusertEnhet.OrganizationNumber]);
 
     return (
         <div className={`${friKomponent ? "navbm-virksomhetsvelger-fri-komponent" : ""}`}>
@@ -130,11 +106,9 @@ const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
                                 label="Søk på virksomhet"
                                 autoComplete="organization"
                                 onKeyDown={(e) => {
-                                    if (søketekst.length > 0 && enheterflat.length > 0) {
-                                        if (e.key === 'ArrowDown' || e.key === 'Down') {
-                                            setFokusertEnhet(enheterflat[0])
-                                            e.preventDefault()
-                                        }
+                                    if (e.key === 'ArrowDown' || e.key === 'Down') {
+                                        fokuserFørsteEnhet()
+                                        e.preventDefault()
                                     }
                                 }}
                             />
@@ -148,18 +122,62 @@ const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
                         <Accordion style={{display: "flex", overflow: "auto"}}>
                             <ul
                                 className="navbm-virksomhetsvelger__juridiske-enheter"
-                                onKeyDown={onKeyDown}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Home') {
+                                        fokuserFørsteEnhet();
+                                        e.preventDefault()
+                                    }
+
+                                    if (e.key === 'End') {
+                                        fokuserSisteEnhet();
+                                        e.preventDefault()
+                                    }
+
+                                    if (e.key === 'ArrowUp' || e.key === 'Up') {
+                                        pilOpp();
+                                        e.preventDefault()
+                                    }
+
+                                    if (e.key === 'ArrowDown' || e.key === 'Down') {
+                                        pilNed();
+                                        e.preventDefault()
+                                    }
+
+                                    if (e.key === 'ArrowRight' || e.key === 'Right') {
+                                        pilHøyre();
+                                        e.preventDefault()
+                                    }
+
+                                    if (e.key === 'ArrowLeft' || e.key === 'Left') {
+                                        pilVenstre();
+                                        e.preventDefault()
+                                    }
+                                }}
                             >
-                                {aktivtOrganisasjonstre.map((juridiskEnhet, i) => (
-                                    <JuridiskEnhet
-                                        forceTabbable={i === 0 && gjørFørsteElementTabbable}
-                                        enhetRef={valgtEnhetRef}
-                                        key={juridiskEnhet.JuridiskEnhet.OrganizationNumber}
-                                        juridiskEnhet={juridiskEnhet}
-                                        fokusertEnhet={fokusertEnhet}
-                                        onUnderenhetClick={onUnderenhetClick}
-                                    />
-                                ))}
+                                {aktivtOrganisasjonstre.map(({JuridiskEnhet: HovedEnhet, Underenheter}) => {
+                                    const flatSubtreMedState = organisasjonerMedState.filter(
+                                        ({OrganizationNumber}) =>
+                                            OrganizationNumber === HovedEnhet.OrganizationNumber
+                                            || Underenheter.some((underenhet) => OrganizationNumber === underenhet.OrganizationNumber)
+                                    );
+                                    return (
+                                        <JuridiskEnhet
+                                            enhetRef={valgtEnhetRef}
+                                            key={HovedEnhet.OrganizationNumber}
+                                            organisasjonerMedState={flatSubtreMedState}
+                                            onUnderenhetClick={(virksomhet: Organisasjon) => {
+                                                velgUnderenhet(virksomhet.OrganizationNumber);
+                                                setÅpen(false);
+                                            }}
+                                            onHovedenhetClick={(hovedenhet: Organisasjon) => {
+                                                toggleEkspander(hovedenhet)
+                                            }}
+                                            onFocus={(enhet: Organisasjon) => {
+                                                fokuserEnhet(enhet)
+                                            }}
+                                        />
+                                    );
+                                })}
                             </ul>
                         </Accordion>
                     </div>
