@@ -100,7 +100,7 @@ export default function() {
 
 ```sh
 npm install
-npm start
+npm run dev
 ```
 
 ## Publisering på NPM
@@ -113,16 +113,6 @@ commit med det nye versjonsnummeret som commit message.
 Det opprettes samtidig en ny tag med det nye versjonsnummeret.
 
 Commits til master med ny versjon i `package.json` vil publiseres til NPM.
-
-## Stack
-
-### Bundling
-
-Bedriftsmenyen bygges med Webpack og Babel. Babel klarer å tolke TypeScript med `@babel/preset-typescript` og JSX med `@babel/preset-react` (se _babel.config.js_). Less kompileres til CSS og bundles sammen med JavaScript i _lib/bedriftsmeny.css_. Babel klarer ikke å generere deklarasjonsfiler for TypeScript, så vi gjør dette i et eget steg som en del av bygget.
-
-### Utvikling
-
-Under utvikling (`npm start`) bygges appen med Parcel og en egen TypeScript-konfigurasjonsfil.
 
 ## Kontakt oss
 Opprett issue i repository hvis du lurer på noe.

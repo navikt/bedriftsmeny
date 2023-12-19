@@ -1,17 +1,19 @@
-import React, {KeyboardEventHandler, useContext, useEffect, useRef, useState} from 'react';
-import {Button,  Heading, BodyShort, Search, Accordion, Detail} from '@navikt/ds-react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
+import {Accordion, BodyShort, Button, Detail, Search} from '@navikt/ds-react';
 import {Organisasjon} from '../organisasjon';
-import {Expand, Collapse, Office1, Close} from '@navikt/ds-icons';
+import {Close, Collapse, Expand, Office1} from '@navikt/ds-icons';
 import {VirksomhetsvelgerContext} from './VirksomhetsvelgerProvider';
 import JuridiskEnhet from './JuridiskEnhet';
 import Dropdown from "./Dropdown";
 import FocusTrap from 'focus-trap-react';
+import {a11yOrgnr} from "./utils";
+import {useTastaturNavigasjon} from "./useTastaturNavigasjon";
+
 
 const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
     const buttonRef = useRef<HTMLButtonElement>(null);
-    const valgtUnderenhetRef = useRef<HTMLButtonElement>(null);
+    const valgtEnhetRef = useRef<HTMLButtonElement>(null);
     const [åpen, setÅpen] = useState<boolean>(false);
-
     const {
         velgUnderenhet,
         valgtOrganisasjon,
@@ -19,63 +21,39 @@ const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
         søketekst,
         setSøketekst,
     } = useContext(VirksomhetsvelgerContext);
-    const [fokusertUnderenhet, setFokusertUnderenhet] = useState(valgtOrganisasjon)
-    const underenheterFlat = aktivtOrganisasjonstre.flatMap(({Underenheter }) => [...Underenheter]);
-    const antallTreff = underenheterFlat.length;
-
-    const onKeyDown: KeyboardEventHandler<HTMLUListElement> = (e) => {
-        if (e.key === 'Home') {
-            setFokusertUnderenhet(underenheterFlat[0])
-            e.preventDefault()
-        }
-
-        if (e.key === 'End') {
-            setFokusertUnderenhet(underenheterFlat[underenheterFlat.length - 1])
-            e.preventDefault()
-        }
-
-        if (e.key === 'ArrowUp' || e.key === 'Up') {
-            const index = underenheterFlat.findIndex(({OrganizationNumber}) => OrganizationNumber === fokusertUnderenhet.OrganizationNumber)
-            const nextIndex = Math.max(0, index - 1)
-            setFokusertUnderenhet(underenheterFlat[nextIndex])
-            e.preventDefault()
-        }
-
-        if (e.key === 'ArrowDown' || e.key === 'Down') {
-            const index = underenheterFlat.findIndex(({OrganizationNumber}) => OrganizationNumber === fokusertUnderenhet.OrganizationNumber)
-            const nextIndex = Math.min(underenheterFlat.length - 1, index + 1)
-            setFokusertUnderenhet(underenheterFlat[nextIndex])
-            e.preventDefault()
-        }
-    };
-
-    const toggleVelger = (verdi?: boolean) => {
-        setÅpen(verdi === undefined ? !åpen : verdi);
-    };
-
-    const onUnderenhetClick = (virksomhet: Organisasjon) => {
-        setFokusertUnderenhet(virksomhet);
-        velgUnderenhet(virksomhet.OrganizationNumber)
-        setÅpen(false);
-    };
+    const {
+        fokusertEnhet,
+        organisasjonerMedState,
+        fokuserFørsteEnhet,
+        fokuserSisteEnhet,
+        pilOpp,
+        pilNed,
+        pilHøyre,
+        pilVenstre,
+        toggleEkspander,
+        fokuserEnhet,
+        resetState,
+    } = useTastaturNavigasjon();
+    const antallTreff = organisasjonerMedState.length;
 
     useEffect(() => {
         if (åpen) {
-            valgtUnderenhetRef.current?.focus();
+            valgtEnhetRef.current?.focus();
         } else {
             setSøketekst('')
+            resetState()
         }
-    }, [åpen, fokusertUnderenhet]);
+    }, [åpen, fokusertEnhet.OrganizationNumber]);
 
     return (
         <div className={`${friKomponent ? "navbm-virksomhetsvelger-fri-komponent" : ""}`}>
             <Button
                 className="navbm-virksomhetsvelger"
-                onClick={() => toggleVelger()}
+                onClick={() => setÅpen((prev) => !prev)}
                 type="button"
                 variant="secondary"
                 ref={buttonRef}
-                aria-label="Velg aktiv virksomhet"
+                aria-label={`Virksomhetsmeny. Valgt virksomhet er ${valgtOrganisasjon.Name} med virksomhetsnummer ${a11yOrgnr(valgtOrganisasjon.OrganizationNumber)}`}
                 aria-controls="navbm-virksomhetsvelger-popup"
                 aria-haspopup={true}
                 aria-expanded={åpen}
@@ -117,37 +95,89 @@ const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
                 >
                     <div
                         className="navbm-virksomhetsvelger__popup"
-                        role="menu"
                     >
                         <div className="navbm-virksomhetsvelger__popup-header">
                             <Search
                                 variant="simple"
                                 value={søketekst}
                                 onChange={setSøketekst}
+                                clearButtonLabel="Tøm søkefelt"
                                 placeholder="Søk på virksomhet ..."
                                 label="Søk på virksomhet"
+                                autoComplete="organization"
+                                onKeyDown={(e) => {
+                                    if (e.key === 'ArrowDown' || e.key === 'Down') {
+                                        fokuserFørsteEnhet()
+                                        e.preventDefault()
+                                    }
+                                }}
                             />
                             <CloseButton onClick={() => setÅpen(false)} />
                         </div>
-                        {søketekst.length > 0 && (
-                            <Detail role="status">
-                                {antallTreff === 0 ? 'Ingen' : antallTreff} treff på "{søketekst}"
-                            </Detail>
-                        )}
+                        <Detail role="status">
+                            {søketekst.length > 0 && (<>
+                                    {antallTreff === 0 ? `Ingen treff på "${søketekst}"` : `${antallTreff} treff på "${søketekst}".`}
+                            </>)}
+                        </Detail>
                         <Accordion style={{display: "flex", overflow: "auto"}}>
                             <ul
                                 className="navbm-virksomhetsvelger__juridiske-enheter"
-                                onKeyDown={onKeyDown}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Home') {
+                                        fokuserFørsteEnhet();
+                                        e.preventDefault()
+                                    }
+
+                                    if (e.key === 'End') {
+                                        fokuserSisteEnhet();
+                                        e.preventDefault()
+                                    }
+
+                                    if (e.key === 'ArrowUp' || e.key === 'Up') {
+                                        pilOpp();
+                                        e.preventDefault()
+                                    }
+
+                                    if (e.key === 'ArrowDown' || e.key === 'Down') {
+                                        pilNed();
+                                        e.preventDefault()
+                                    }
+
+                                    if (e.key === 'ArrowRight' || e.key === 'Right') {
+                                        pilHøyre();
+                                        e.preventDefault()
+                                    }
+
+                                    if (e.key === 'ArrowLeft' || e.key === 'Left') {
+                                        pilVenstre();
+                                        e.preventDefault()
+                                    }
+                                }}
                             >
-                                {aktivtOrganisasjonstre.map((juridiskEnhet) => (
-                                    <JuridiskEnhet
-                                        ref={valgtUnderenhetRef}
-                                        key={juridiskEnhet.JuridiskEnhet.OrganizationNumber + fokusertUnderenhet.OrganizationNumber}
-                                        juridiskEnhet={juridiskEnhet}
-                                        valgtOrganisasjon={fokusertUnderenhet}
-                                        onUnderenhetClick={onUnderenhetClick}
-                                    />
-                                ))}
+                                {aktivtOrganisasjonstre.map(({JuridiskEnhet: HovedEnhet, Underenheter}) => {
+                                    const flatSubtreMedState = organisasjonerMedState.filter(
+                                        ({OrganizationNumber}) =>
+                                            OrganizationNumber === HovedEnhet.OrganizationNumber
+                                            || Underenheter.some((underenhet) => OrganizationNumber === underenhet.OrganizationNumber)
+                                    );
+                                    return (
+                                        <JuridiskEnhet
+                                            enhetRef={valgtEnhetRef}
+                                            key={HovedEnhet.OrganizationNumber}
+                                            organisasjonerMedState={flatSubtreMedState}
+                                            onUnderenhetClick={(virksomhet: Organisasjon) => {
+                                                velgUnderenhet(virksomhet.OrganizationNumber);
+                                                setÅpen(false);
+                                            }}
+                                            onHovedenhetClick={(hovedenhet: Organisasjon) => {
+                                                toggleEkspander(hovedenhet)
+                                            }}
+                                            onFocus={(enhet: Organisasjon) => {
+                                                fokuserEnhet(enhet)
+                                            }}
+                                        />
+                                    );
+                                })}
                             </ul>
                         </Accordion>
                     </div>
@@ -164,7 +194,7 @@ type CloseButtonProps = {
 const CloseButton = ({onClick}: CloseButtonProps) =>
     <Button
         variant="tertiary"
-        aria-label="lukk"
+        aria-label="lukk virksomhetsvelger"
         className="navbm-virksomhetsvelger__popup-header-xbtn"
         onClick={onClick}
     >

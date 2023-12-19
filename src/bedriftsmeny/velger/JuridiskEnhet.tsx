@@ -1,55 +1,69 @@
-import React, { forwardRef, useState } from 'react';
-import { Office1, Success } from '@navikt/ds-icons';
-import { Accordion, BodyShort, Button } from '@navikt/ds-react';
-import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from '../organisasjon';
+import React, {ForwardedRef, forwardRef} from 'react';
+import {Office1, Success} from '@navikt/ds-icons';
+import {Accordion, BodyShort, Button} from '@navikt/ds-react';
+import {Organisasjon} from '../organisasjon';
+import {a11yOrgnr} from "./utils";
+import {OrganisasjonMedState} from "./useTastaturNavigasjon";
 
 type Props = {
-    juridiskEnhet: JuridiskEnhetMedUnderEnheterArray;
-    valgtOrganisasjon: Organisasjon;
+    organisasjonerMedState: OrganisasjonMedState[];
     onUnderenhetClick: (underenhet: Organisasjon) => void;
+    onHovedenhetClick: (hovedenhet: Organisasjon) => void;
+    onFocus: (enhet: Organisasjon) => void;
+    enhetRef: ForwardedRef<HTMLButtonElement>;
 };
 
-const JuridiskEnhet = forwardRef<HTMLButtonElement, Props>(({
-                                                                juridiskEnhet,
-                                                                valgtOrganisasjon,
-                                                                onUnderenhetClick
-                                                            }, ref) => {
-    const { JuridiskEnhet, Underenheter } = juridiskEnhet;
+const JuridiskEnhet = (
+    {
+        organisasjonerMedState,
+        onUnderenhetClick,
+        onHovedenhetClick,
+        enhetRef,
+        onFocus,
+    }: Props
+) => {
+    const [juridiskEnhet, ...underenheter] = organisasjonerMedState;
 
-    const juridiskEnhetErValgt = Underenheter.some(
-        (enhet: Organisasjon) => enhet.OrganizationNumber === valgtOrganisasjon.OrganizationNumber
-    );
-    const [open, setOpen] = useState(juridiskEnhetErValgt);
-
-    return (
+    const valgt = organisasjonerMedState.some(({valgt}) => valgt);
+    return juridiskEnhet && (
         <li className='navbm-virksomhetsvelger__juridisk-enhet'>
-            <Accordion.Item open={open}>
+            <Accordion.Item open={juridiskEnhet.ekspandert} role="group">
                 <Accordion.Header
+                    tabIndex={valgt ? 0 : -1}
+                    ref={juridiskEnhet.fokusert ? enhetRef : null}
                     onClick={() => {
-                        setOpen(!open);
+                        onHovedenhetClick(juridiskEnhet);
                     }}
-                    style={{backgroundColor: open ? 'var(--a-surface-action-subtle' : 'transparent'}}
+                    onFocus={() => {
+                        if (!juridiskEnhet.fokusert) {
+                            onFocus(juridiskEnhet)
+                        }
+                    }}
+                    aria-owns={`underenheter-${juridiskEnhet.OrganizationNumber}`}
+                    style={{backgroundColor: juridiskEnhet.ekspandert ? 'var(--a-surface-action-subtle' : 'transparent'}}
                 >
                     <Hovedenhet
-                        hovedenhet={JuridiskEnhet}
-                        valgt={juridiskEnhetErValgt}
-                        antallUnderenheter={Underenheter.length}
+                        hovedenhet={juridiskEnhet}
+                        valgt={valgt}
+                        antallUnderenheter={underenheter.length}
                     />
                 </Accordion.Header>
                 <Accordion.Content>
-                    <ul className='navbm-virksomhetsvelger__underenheter'>
-                        {Underenheter.map((virksomhet) => {
-                            const underenhetErValgt =
-                                valgtOrganisasjon.OrganizationNumber ===
-                                virksomhet.OrganizationNumber;
-
+                    <ul className='navbm-virksomhetsvelger__underenheter'
+                        id={`underenheter-${juridiskEnhet.OrganizationNumber}`}>
+                        {underenheter.map((underenhetMedState) => {
                             return (
-                                <li key={virksomhet.OrganizationNumber}>
+                                <li key={underenhetMedState.OrganizationNumber}>
                                     <Underenhet
-                                        underenhet={virksomhet}
-                                        valgt={underenhetErValgt}
-                                        ref={underenhetErValgt ? ref : null}
+                                        underenhet={underenhetMedState}
+                                        valgt={underenhetMedState.valgt}
+                                        ref={underenhetMedState.fokusert ? enhetRef : null}
                                         onClick={onUnderenhetClick}
+                                        onFocus={() => {
+                                            if (!underenhetMedState.fokusert) {
+                                                onFocus(underenhetMedState)
+                                            }
+                                        }}
                                     />
                                 </li>
                             );
@@ -59,30 +73,33 @@ const JuridiskEnhet = forwardRef<HTMLButtonElement, Props>(({
             </Accordion.Item>
         </li>
     );
-});
+};
 
 type UnderenhetProps = {
     valgt: boolean;
     onClick: (underenhet: Organisasjon) => void;
+    onFocus: (e: React.FocusEvent<HTMLButtonElement>) => void;
     underenhet: Organisasjon;
 }
 
-const Underenhet = forwardRef<HTMLButtonElement, UnderenhetProps>(({valgt, onClick, underenhet}, ref) =>
+const Underenhet = forwardRef<HTMLButtonElement, UnderenhetProps>(({valgt, onClick, underenhet, onFocus}, ref) =>
     <Button
+        type="button"
         ref={ref}
-        role='menuitemradio'
-        aria-checked={valgt}
+        tabIndex={valgt ? 0 : -1}
+        aria-pressed={valgt}
         variant='tertiary'
         onClick={() => onClick(underenhet)}
+        onFocus={onFocus}
         className='navbm-virksomhetsvelger__underenhet-innhold'
     >
         <div className='navbm-virksomhetsvelger__enhet'>
-            <Office1 aria-hidden={true} />
+            <Office1 aria-hidden={true}/>
             <div className='navbm-virksomhetsvelger__enhet-tekst'>
                 <BodyShort className='navbm-virksomhetsvelger__enhet-tittel'>
                     {underenhet.Name}
                 </BodyShort>
-                <BodyShort>
+                <BodyShort aria-label={`virksomhetsnummer ${a11yOrgnr(underenhet.OrganizationNumber)}`}>
                     <span>virksomhetsnr. </span>
                     <span>{underenhet.OrganizationNumber}</span>
                 </BodyShort>
@@ -112,11 +129,11 @@ const Hovedenhet = ({hovedenhet, valgt, antallUnderenheter}: HovedenhetProps) =>
             </BodyShort>
             <BodyShort>
                 <span>org.nummer </span>
-                <span>{hovedenhet.OrganizationNumber}</span>
+                <span aria-label={a11yOrgnr(hovedenhet.OrganizationNumber)}>{hovedenhet.OrganizationNumber}</span>
             </BodyShort>
-            <BodyShort className='navbm-virksomhetsvelger__enhet-beskrivelse'>
-                {antallUnderenheter} underenhet
-                {antallUnderenheter === 1 ? '' : 'er'}
+            <BodyShort className='navbm-virksomhetsvelger__enhet-beskrivelse'
+                       aria-label={`Hovedenheten har ${antallUnderenheter} ${antallUnderenheter === 1 ? 'underenhet' : 'underenheter'}`}>
+                {antallUnderenheter} {antallUnderenheter === 1 ? 'underenhet' : 'underenheter'}
                 {valgt ? ' - 1 valgt' : ''}
             </BodyShort>
         </div>
