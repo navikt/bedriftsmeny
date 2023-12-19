@@ -96,8 +96,7 @@ const Underenhet = forwardRef<HTMLButtonElement, UnderenhetProps>(({valgt, onCli
         <div className='navbm-virksomhetsvelger__enhet'>
             <Office1 aria-hidden={true}/>
             <div className='navbm-virksomhetsvelger__enhet-tekst'>
-                <BodyShort className='navbm-virksomhetsvelger__enhet-tittel'
-                           aria-label={`Underenhet ${underenhet.Name}`}>
+                <BodyShort className='navbm-virksomhetsvelger__enhet-tittel'>
                     {underenhet.Name}
                 </BodyShort>
                 <BodyShort aria-label={`virksomhetsnummer ${a11yOrgnr(underenhet.OrganizationNumber)}`}>
@@ -125,7 +124,7 @@ type HovedenhetProps = {
 const Hovedenhet = ({hovedenhet, valgt, antallUnderenheter}: HovedenhetProps) =>
     <div className='navbm-virksomhetsvelger__enhet navbm-virksomhetsvelger__enhet--juridisk'>
         <div className='navbm-virksomhetsvelger__enhet-tekst'>
-            <BodyShort className='navbm-virksomhetsvelger__enhet-tittel' aria-label={`Hovedenhet ${hovedenhet.Name}`}>
+            <BodyShort className='navbm-virksomhetsvelger__enhet-tittel'>
                 {hovedenhet.Name}
             </BodyShort>
             <BodyShort>
