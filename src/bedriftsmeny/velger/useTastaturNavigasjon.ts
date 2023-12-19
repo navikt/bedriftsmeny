@@ -173,7 +173,7 @@ export const useTastaturNavigasjon = (): UseTastaturNavigasjon => {
                 toggleEkspander(fokusertEnhet);
             }
         } else {
-            const nextEnhet = organisasjonerMedState[fokusertIndex - 1];
+            const nextEnhet = organisasjonerMedState.find(({OrganizationNumber}) => OrganizationNumber === fokusertEnhet.ParentOrganizationNumber);
             if (nextEnhet !== undefined) {
                 fokuserEnhet(nextEnhet);
             }
