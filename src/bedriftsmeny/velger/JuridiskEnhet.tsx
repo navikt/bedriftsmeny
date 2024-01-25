@@ -98,7 +98,7 @@ const Underenhet = forwardRef<HTMLButtonElement, UnderenhetProps>(({valgt, onCli
                 <BodyShort className='navbm-virksomhetsvelger__enhet-tittel'>
                     {underenhet.Name}
                 </BodyShort>
-                <BodyShort aria-label={`virksomhetsnummer ${(underenhet.OrganizationNumber)}`}>
+                <BodyShort>
                     <span>virksomhetsnr. </span>
                     <span>{underenhet.OrganizationNumber}</span>
                 </BodyShort>
@@ -128,7 +128,7 @@ const Hovedenhet = ({hovedenhet, valgt, antallUnderenheter}: HovedenhetProps) =>
             </BodyShort>
             <BodyShort>
                 <span>org.nummer </span>
-                <span aria-label={hovedenhet.OrganizationNumber}>{hovedenhet.OrganizationNumber}</span>
+                <span>{hovedenhet.OrganizationNumber}</span>
             </BodyShort>
             <BodyShort className='navbm-virksomhetsvelger__enhet-beskrivelse'
                        aria-label={`Hovedenheten har ${antallUnderenheter} ${antallUnderenheter === 1 ? 'underenhet' : 'underenheter'}`}>
