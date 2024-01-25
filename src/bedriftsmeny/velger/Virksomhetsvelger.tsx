@@ -6,7 +6,6 @@ import {VirksomhetsvelgerContext} from './VirksomhetsvelgerProvider';
 import JuridiskEnhet from './JuridiskEnhet';
 import Dropdown from "./Dropdown";
 import FocusTrap from 'focus-trap-react';
-import {a11yOrgnr} from "./utils";
 import {useTastaturNavigasjon} from "./useTastaturNavigasjon";
 
 
@@ -53,7 +52,7 @@ const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
                 type="button"
                 variant="secondary"
                 ref={buttonRef}
-                aria-label={`Virksomhetsmeny. Valgt virksomhet er ${valgtOrganisasjon.Name} med virksomhetsnummer ${a11yOrgnr(valgtOrganisasjon.OrganizationNumber)}`}
+                aria-label={`Virksomhetsmeny. Valgt virksomhet er ${valgtOrganisasjon.Name} med virksomhetsnummer ${valgtOrganisasjon.OrganizationNumber}`}
                 aria-controls="navbm-virksomhetsvelger-popup"
                 aria-haspopup={true}
                 aria-expanded={åpen}
