@@ -2,7 +2,6 @@ import React, {ForwardedRef, forwardRef} from 'react';
 import {Office1, Success} from '@navikt/ds-icons';
 import {Accordion, BodyShort, Button} from '@navikt/ds-react';
 import {Organisasjon} from '../organisasjon';
-import {a11yOrgnr} from "./utils";
 import {OrganisasjonMedState} from "./useTastaturNavigasjon";
 
 type Props = {
@@ -99,7 +98,7 @@ const Underenhet = forwardRef<HTMLButtonElement, UnderenhetProps>(({valgt, onCli
                 <BodyShort className='navbm-virksomhetsvelger__enhet-tittel'>
                     {underenhet.Name}
                 </BodyShort>
-                <BodyShort aria-label={`virksomhetsnummer ${a11yOrgnr(underenhet.OrganizationNumber)}`}>
+                <BodyShort aria-label={`virksomhetsnummer ${(underenhet.OrganizationNumber)}`}>
                     <span>virksomhetsnr. </span>
                     <span>{underenhet.OrganizationNumber}</span>
                 </BodyShort>
@@ -129,7 +128,7 @@ const Hovedenhet = ({hovedenhet, valgt, antallUnderenheter}: HovedenhetProps) =>
             </BodyShort>
             <BodyShort>
                 <span>org.nummer </span>
-                <span aria-label={a11yOrgnr(hovedenhet.OrganizationNumber)}>{hovedenhet.OrganizationNumber}</span>
+                <span aria-label={hovedenhet.OrganizationNumber}>{hovedenhet.OrganizationNumber}</span>
             </BodyShort>
             <BodyShort className='navbm-virksomhetsvelger__enhet-beskrivelse'
                        aria-label={`Hovedenheten har ${antallUnderenheter} ${antallUnderenheter === 1 ? 'underenhet' : 'underenheter'}`}>
