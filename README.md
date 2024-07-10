@@ -1,4 +1,4 @@
-![master build](https://github.com/navikt/bedriftsmeny/actions/workflows/ci.yaml/badge.svg?branch=master)
+![main build](https://github.com/navikt/bedriftsmeny/actions/workflows/ci.yaml/badge.svg?branch=main)
 ![npm version](https://img.shields.io/npm/v/@navikt/bedriftsmeny?label=current%20version)
 
 # Virksomhetmeny (Bedriftsmeny)
@@ -112,7 +112,7 @@ major, kan lese om sematic versioning på https://semver.org/. Ved å kjøre en 
 commit med det nye versjonsnummeret som commit message.
 Det opprettes samtidig en ny tag med det nye versjonsnummeret.
 
-Commits til master med ny versjon i `package.json` vil publiseres til NPM.
+Commits til main med ny versjon i `package.json` vil publiseres til NPM.
 
 ## Kontakt oss
 Opprett issue i repository hvis du lurer på noe.

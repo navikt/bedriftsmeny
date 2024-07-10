@@ -23,7 +23,7 @@ jobs:
       - name: build
         run: npm run build
 
-      - if: github.ref == 'refs/heads/master'
+      - if: github.ref == 'refs/heads/main'
         name: publish on npmjs.org
         run: |
           if jq --null-input --exit-status \
@@ -43,7 +43,7 @@ jobs:
           node-version: '16'
           registry-url: 'https://npm.pkg.github.com'
 
-      - if: github.ref == 'refs/heads/master'
+      - if: github.ref == 'refs/heads/main'
         name: publish on github
         run: |
           if jq --null-input --exit-status \
