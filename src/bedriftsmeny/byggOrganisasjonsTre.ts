@@ -1,16 +1,11 @@
-import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from './organisasjon';
-import { hentAlleJuridiskeEnheter } from './hentAlleJuridiskeEnheter';
-
-const erHovedenhet = (organisasjon: Organisasjon): boolean =>
-    !!organisasjon.OrganizationNumber &&
-    (organisasjon.Type === 'Enterprise' || organisasjon.OrganizationForm === 'FLI');
+import {JuridiskEnhetMedUnderEnheterArray, Organisasjon} from './organisasjon';
+import {hentAlleJuridiskeEnheter} from './hentAlleJuridiskeEnheter';
 
 const erUnderenhet = (organisasjon: Organisasjon): boolean =>
     !!organisasjon.OrganizationNumber
     && ['BEDR', 'AAFY'].includes(organisasjon.OrganizationForm);
 
-
-const sorted = <T extends any>(array: T[], on: (e:T) => string): T[] =>
+const sorted = <T extends any>(array: T[], on: (e: T) => string): T[] =>
     [...array].sort((a, b) => on(a).localeCompare(on(b)));
 
 export async function byggOrganisasjonstre(
@@ -18,25 +13,30 @@ export async function byggOrganisasjonstre(
 ): Promise<JuridiskEnhetMedUnderEnheterArray[]> {
     organisasjoner = sorted(organisasjoner, org => org.Name);
 
-    const hovedenheter = organisasjoner.filter(erHovedenhet);
     const underenheter = organisasjoner.filter(erUnderenhet);
 
-    const hovedenhetersOrgnr = new Set(hovedenheter.map(enhet => enhet.OrganizationNumber));
+    const alleOrgnr = new Set(organisasjoner.map(enhet => enhet.OrganizationNumber));
     const manglendeHovedenheterOrgnr = underenheter
-        .filter(org => !hovedenhetersOrgnr.has(org.ParentOrganizationNumber))
+        .filter(org => !alleOrgnr.has(org.ParentOrganizationNumber))
         .map(org => org.ParentOrganizationNumber);
 
-    hovedenheter.push(... await hentAlleJuridiskeEnheter(manglendeHovedenheterOrgnr))
+    const alleParentsOrgnr = new Set(underenheter.map(enhet => enhet.ParentOrganizationNumber))
+    const alleParents = Array.from(alleParentsOrgnr)
+        .map(parentOrgnr => {
+            return organisasjoner.find(({OrganizationNumber}) => parentOrgnr === OrganizationNumber);
+        })
+        .filter((e) : e is Organisasjon => e !== undefined)
 
-    const resultat = hovedenheter
-        .map(hovedenhet => ({
-                JuridiskEnhet: hovedenhet,
-                Underenheter: underenheter.filter(underenhet =>
-                    underenhet.ParentOrganizationNumber === hovedenhet.OrganizationNumber
-                ),
-                SokeresultatKunUnderenhet: false
-            })
-        )
+    const hovedenheter = [...alleParents, ...await hentAlleJuridiskeEnheter(manglendeHovedenheterOrgnr)]
+
+    const resultat = hovedenheter.map(hovedenhet => ({
+            JuridiskEnhet: hovedenhet,
+            Underenheter: underenheter.filter(underenhet =>
+                underenhet.ParentOrganizationNumber === hovedenhet.OrganizationNumber
+            ),
+            SokeresultatKunUnderenhet: false
+        })
+    )
         .filter(orgtre => orgtre.Underenheter.length > 0);
     return sorted(resultat, a => a.JuridiskEnhet.Name);
 }
