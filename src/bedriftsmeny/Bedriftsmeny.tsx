@@ -21,7 +21,6 @@ interface EgneProps {
     children?: ReactNode;
 }
 
-
 const Bedriftsmeny: FunctionComponent<EgneProps> = (props) => {
     const { sidetittel = 'Arbeidsgiver' } = props;
 
@@ -30,7 +29,7 @@ const Bedriftsmeny: FunctionComponent<EgneProps> = (props) => {
             tittel={sidetittel}
             undertittel={props.undertittel}
             piktogram={props.piktogram}
-            virksomhetsvelger={<Virksomhetsvelger {...props} friKomponent={false}/>}
+            virksomhetsvelger={<Virksomhetsvelger {...props} friKomponent={false} />}
             bjelle={props.children}
         />
     );
@@ -46,12 +45,12 @@ export type VirksomhetsvelgerProps = {
     friKomponent?: boolean;
     /** @deprecated not in use. field preserved for api stability. */
     amplitudeClient?: any;
-}
+};
 
 export const Virksomhetsvelger = (props: VirksomhetsvelgerProps): ReactElement => {
     const [organisasjonstre, setOrganisasjonstre] = useState<
         JuridiskEnhetMedUnderEnheterArray[] | undefined
-        >(undefined);
+    >(undefined);
 
     useEffect(() => {
         if (props.organisasjoner && props.organisasjoner.length > 0) {
@@ -70,34 +69,66 @@ export const Virksomhetsvelger = (props: VirksomhetsvelgerProps): ReactElement =
         props.organisasjoner?.length > 0;
 
     if (!visVirksomhetsvelger) {
-        return <></>
+        return <></>;
     }
 
-    return <VirksomhetsvelgerProvider
-        orgnrSearchParam={props.orgnrSearchParam}
-        organisasjonstre={organisasjonstre ?? []}
-        onOrganisasjonChange={props.onOrganisasjonChange ?? (() => {})}
-    >
-        <Velger friKomponent={props.friKomponent ?? true}/>
-    </VirksomhetsvelgerProvider>
-}
+    return (
+        <VirksomhetsvelgerProvider
+            orgnrSearchParam={props.orgnrSearchParam}
+            organisasjonstre={organisasjonstre ?? []}
+            onOrganisasjonChange={props.onOrganisasjonChange ?? (() => {})}
+        >
+            <Velger friKomponent={props.friKomponent ?? true} />
+        </VirksomhetsvelgerProvider>
+    );
+};
 
-export {Arbeidsforhold} from "./piktogrammer/Arbeidsforhold";
-export {AvtalerOmTiltak} from "./piktogrammer/AvtalerOmTiltak";
-export {ForebyggeSykefravaer} from "./piktogrammer/ForebyggeSykefravaer";
-export {Kandidater} from "./piktogrammer/Kandidater";
-export {Refusjon} from "./piktogrammer/Refusjon";
-export {MSAIkon} from "./piktogrammer/MSAIkon";
-export {hentAlleJuridiskeEnheter} from "./hentAlleJuridiskeEnheter";
-export type {Organisasjon} from './organisasjon';
+type Organisasjonstre = {
+    name: string;
+    orgNr: string;
+    organizationForm: string;
+    underenheter: Organisasjonstre[];
+};
+
+export const flatUtOrganisasjonstre = (organisasjonstre: Organisasjonstre[]): Organisasjon[] => {
+    const kutter = (organisasjonstre: Organisasjonstre): Organisasjon[] => {
+        if (organisasjonstre.underenheter[0]?.underenheter.length > 0) {
+            return organisasjonstre.underenheter.flatMap((underenhet) => kutter(underenhet));
+        } else {
+            return [
+                {
+                    Name: organisasjonstre.name,
+                    OrganizationNumber: organisasjonstre.orgNr,
+                    OrganizationForm: organisasjonstre.organizationForm,
+                    ParentOrganizationNumber: '',
+                },
+                ...organisasjonstre.underenheter.map((underenhet) => {
+                    return {
+                        Name: underenhet.name,
+                        OrganizationNumber: underenhet.orgNr,
+                        OrganizationForm: underenhet.organizationForm,
+                        ParentOrganizationNumber: organisasjonstre.orgNr };
+                }),
+            ];
+        }
+    };
+    return organisasjonstre.flatMap(o => kutter(o))
+};
+
+export { Arbeidsforhold } from './piktogrammer/Arbeidsforhold';
+export { AvtalerOmTiltak } from './piktogrammer/AvtalerOmTiltak';
+export { ForebyggeSykefravaer } from './piktogrammer/ForebyggeSykefravaer';
+export { Kandidater } from './piktogrammer/Kandidater';
+export { Refusjon } from './piktogrammer/Refusjon';
+export { MSAIkon } from './piktogrammer/MSAIkon';
+export { hentAlleJuridiskeEnheter } from './hentAlleJuridiskeEnheter';
+export type { Organisasjon } from './organisasjon';
 
 export type BedriftsmenyHeaderProps = {
     tittel?: string;
-}
-export const BedriftsmenyHeader = (props: BedriftsmenyHeaderProps): ReactElement =>
-    <BedriftsmenyView
-        tittel={props.tittel}
-        virksomhetsvelger={<></>}
-    />
+};
+export const BedriftsmenyHeader = (props: BedriftsmenyHeaderProps): ReactElement => (
+    <BedriftsmenyView tittel={props.tittel} virksomhetsvelger={<></>} />
+);
 
 export default Bedriftsmeny;
