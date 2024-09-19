@@ -90,29 +90,31 @@ type Organisasjonstre = {
     underenheter: Organisasjonstre[];
 };
 
+
 export const flatUtOrganisasjonstre = (organisasjonstre: Organisasjonstre[]): Organisasjon[] => {
-    const kutter = (organisasjonstre: Organisasjonstre): Organisasjon[] => {
-        if (organisasjonstre.underenheter[0]?.underenheter.length > 0) {
-            return organisasjonstre.underenheter.flatMap((underenhet) => kutter(underenhet));
-        } else {
-            return [
-                {
-                    Name: organisasjonstre.name,
-                    OrganizationNumber: organisasjonstre.orgNr,
-                    OrganizationForm: organisasjonstre.organizationForm,
-                    ParentOrganizationNumber: '',
-                },
-                ...organisasjonstre.underenheter.map((underenhet) => {
-                    return {
-                        Name: underenhet.name,
-                        OrganizationNumber: underenhet.orgNr,
-                        OrganizationForm: underenhet.organizationForm,
-                        ParentOrganizationNumber: organisasjonstre.orgNr };
-                }),
-            ];
-        }
+    const kutter = (parent: Organisasjonstre, parentOrgNr: String = ""): Organisasjon[] => {
+        return parent.underenheter.flatMap((child, i) => {
+            if (child.underenheter.length > 0) {
+                return kutter(child, parent.orgNr)
+            } else {
+                return [
+                    ...[i === 0 ? {
+                        Name: parent.name,
+                        OrganizationNumber: parent.orgNr,
+                        OrganizationForm: parent.organizationForm,
+                        ParentOrganizationNumber: parentOrgNr,
+                    } : null],
+                    {
+                        Name: child.name,
+                        OrganizationNumber: child.orgNr,
+                        OrganizationForm: child.organizationForm,
+                        ParentOrganizationNumber: parent.orgNr,
+                    },
+                ];
+            }
+        }).filter( x => x!==null) as Organisasjon[];
     };
-    return organisasjonstre.flatMap(o => kutter(o))
+    return organisasjonstre.flatMap((o) => kutter(o));
 };
 
 export { Arbeidsforhold } from './piktogrammer/Arbeidsforhold';
