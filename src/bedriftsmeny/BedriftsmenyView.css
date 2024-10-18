@@ -1,12 +1,12 @@
 .navbm-bedriftsmeny {
     background-color: var(--a-bg-default);
-    border-bottom: 0.25rem solid var(--a-border-focus-on-inverted);
+    border-bottom: 1px solid var(--a-gray-300);
     padding: 1rem;
 }
 
 @media (min-width: 48rem) {
     .navbm-bedriftsmeny {
-        padding: 32px 16px 24px;
+        padding: 20px 16px;
     }
 }
 
