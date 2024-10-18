@@ -12,7 +12,7 @@
 
 .navbm-virksomhetsvelger__innhold {
     display: grid;
-    grid-template-columns: auto minmax(3rem, 25rem) 1rem;
+    grid-template-columns: minmax(3rem, 25rem) 1rem;
     align-items: center;
     gap: 8px;
 }
