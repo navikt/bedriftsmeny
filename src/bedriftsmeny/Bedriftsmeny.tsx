@@ -8,8 +8,6 @@ import Velger from './velger/Virksomhetsvelger';
 
 interface EgneProps {
     sidetittel?: string | JSX.Element;
-    undertittel?: string;
-    piktogram?: JSX.Element;
     organisasjoner?: Organisasjon[];
     onOrganisasjonChange?: (organisasjon: Organisasjon) => void;
     /**
@@ -27,8 +25,6 @@ const Bedriftsmeny: FunctionComponent<EgneProps> = (props) => {
     return (
         <BedriftsmenyView
             tittel={sidetittel}
-            undertittel={props.undertittel}
-            piktogram={props.piktogram}
             virksomhetsvelger={<Virksomhetsvelger {...props} friKomponent={false} />}
             bjelle={props.children}
         />
@@ -117,12 +113,6 @@ export const flatUtOrganisasjonstre = (organisasjonstre: Organisasjonstre[]): Or
     return organisasjonstre.flatMap((o) => kutter(o));
 };
 
-export { Arbeidsforhold } from './piktogrammer/Arbeidsforhold';
-export { AvtalerOmTiltak } from './piktogrammer/AvtalerOmTiltak';
-export { ForebyggeSykefravaer } from './piktogrammer/ForebyggeSykefravaer';
-export { Kandidater } from './piktogrammer/Kandidater';
-export { Refusjon } from './piktogrammer/Refusjon';
-export { MSAIkon } from './piktogrammer/MSAIkon';
 export { hentAlleJuridiskeEnheter } from './hentAlleJuridiskeEnheter';
 export type { Organisasjon } from './organisasjon';
 
