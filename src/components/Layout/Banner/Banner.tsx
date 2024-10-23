@@ -5,7 +5,6 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { Heading } from "@navikt/ds-react";
 import { OrgnrSearchParamType } from "../../../bedriftsmeny/velger/utils";
-import { ForebyggeSykefravaer } from "../../../bedriftsmeny/Bedriftsmeny";
 
 interface Props {
     organisasjoner: Organisasjon[];
@@ -46,11 +45,9 @@ export default function Banner({ organisasjoner }: Props) {
             orgnrSearchParam={useHentOrgnummer().hook}
             sidetittel={
                 <Heading size="xlarge" level="1">
-                    Slik forebygger dere sykefravær
+                    Forebygge fravær
                 </Heading>
             }
-            undertittel="Inkluderende arbeidsliv"
-            piktogram={<ForebyggeSykefravaer />}
             organisasjoner={organisasjoner}
         />
     );

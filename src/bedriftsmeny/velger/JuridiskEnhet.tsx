@@ -1,5 +1,5 @@
 import React, {ForwardedRef, forwardRef} from 'react';
-import {Office1, Success} from '@navikt/ds-icons';
+import { Office2, Success } from '@navikt/ds-icons';
 import {Accordion, BodyShort, Button} from '@navikt/ds-react';
 import {Organisasjon} from '../organisasjon';
 import {OrganisasjonMedState} from "./useTastaturNavigasjon";
@@ -93,14 +93,13 @@ const Underenhet = forwardRef<HTMLButtonElement, UnderenhetProps>(({valgt, onCli
         className='navbm-virksomhetsvelger__underenhet-innhold'
     >
         <div className='navbm-virksomhetsvelger__enhet'>
-            <Office1 aria-hidden={true}/>
             <div className='navbm-virksomhetsvelger__enhet-tekst'>
                 <BodyShort className='navbm-virksomhetsvelger__enhet-tittel'>
                     {underenhet.Name}
                 </BodyShort>
                 <BodyShort>
-                    <span>virksomhetsnr. </span>
-                    <span>{underenhet.OrganizationNumber}</span>
+                    <span>Org.nr </span>
+                    <span>{underenhet.OrganizationNumber.replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</span>
                 </BodyShort>
             </div>
             {valgt && (
@@ -127,8 +126,8 @@ const Hovedenhet = ({hovedenhet, valgt, antallUnderenheter}: HovedenhetProps) =>
                 {hovedenhet.Name}
             </BodyShort>
             <BodyShort>
-                <span>org.nummer </span>
-                <span>{hovedenhet.OrganizationNumber}</span>
+                <span>Org.nr. </span>
+                <span>{hovedenhet.OrganizationNumber.replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</span>
             </BodyShort>
             <BodyShort className='navbm-virksomhetsvelger__enhet-beskrivelse'
                        aria-label={`Hovedenheten har ${antallUnderenheter} ${antallUnderenheter === 1 ? 'underenhet' : 'underenheter'}`}>

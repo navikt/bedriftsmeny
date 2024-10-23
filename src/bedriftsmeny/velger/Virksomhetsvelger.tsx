@@ -58,14 +58,11 @@ const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
                 aria-expanded={åpen}
             >
                 <div className="navbm-virksomhetsvelger__innhold">
-                    <div className="navbm-virksomhetsvelger__underenhet-ikon">
-                        <Office1 aria-hidden={true}/>
-                    </div>
                     <div className="navbm-virksomhetsvelger__tekst">
                         <BodyShort className="navbm-virksomhetsvelger__virksomhetsnavn">
                             {valgtOrganisasjon.Name}
                         </BodyShort>
-                        <BodyShort>virksomhetsnr. {valgtOrganisasjon.OrganizationNumber}</BodyShort>
+                        <BodyShort>Org.nr. {valgtOrganisasjon.OrganizationNumber.replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</BodyShort>
                     </div>
                     {åpen ? <Collapse style={{pointerEvents:"none"}} aria-hidden={true}/> : <Expand style={{pointerEvents:"none"}} aria-hidden={true}/>}
                 </div>
