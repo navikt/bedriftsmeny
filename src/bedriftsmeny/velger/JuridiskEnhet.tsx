@@ -98,7 +98,7 @@ const Underenhet = forwardRef<HTMLButtonElement, UnderenhetProps>(({valgt, onCli
                     {underenhet.Name}
                 </BodyShort>
                 <BodyShort>
-                    <span>Org.nr </span>
+                    <span>Org.nr. </span>
                     <span>{underenhet.OrganizationNumber.replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</span>
                 </BodyShort>
             </div>
