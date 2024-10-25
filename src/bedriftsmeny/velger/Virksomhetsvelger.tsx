@@ -9,7 +9,7 @@ import FocusTrap from 'focus-trap-react';
 import {useTastaturNavigasjon} from "./useTastaturNavigasjon";
 
 
-const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
+const Velger = ({friKomponent, maxWidth} : {friKomponent: boolean, maxWidth: string | undefined} ) => {
     const buttonRef = useRef<HTMLButtonElement>(null);
     const valgtEnhetRef = useRef<HTMLButtonElement>(null);
     const [åpen, setÅpen] = useState<boolean>(false);
@@ -45,7 +45,10 @@ const Velger = ({friKomponent} : {friKomponent: boolean} ) => {
     }, [åpen, fokusertEnhet.OrganizationNumber]);
 
     return (
-        <div className={`${friKomponent ? "navbm-virksomhetsvelger-fri-komponent" : ""}`}>
+        <div
+            className={`${friKomponent ? "navbm-virksomhetsvelger-fri-komponent" : ""}`}
+            style={{maxWidth:maxWidth??"352px"}}
+        >
             <Button
                 className="navbm-virksomhetsvelger"
                 onClick={() => setÅpen((prev) => !prev)}

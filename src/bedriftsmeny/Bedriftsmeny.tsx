@@ -39,6 +39,7 @@ export type VirksomhetsvelgerProps = {
      */
     orgnrSearchParam?: OrgnrSearchParamType;
     friKomponent?: boolean;
+    maxWidth?: string
     /** @deprecated not in use. field preserved for api stability. */
     amplitudeClient?: any;
 };
@@ -74,7 +75,7 @@ export const Virksomhetsvelger = (props: VirksomhetsvelgerProps): ReactElement =
             organisasjonstre={organisasjonstre ?? []}
             onOrganisasjonChange={props.onOrganisasjonChange ?? (() => {})}
         >
-            <Velger friKomponent={props.friKomponent ?? true} />
+            <Velger friKomponent={props.friKomponent ?? true} maxWidth={props.maxWidth} />
         </VirksomhetsvelgerProvider>
     );
 };
