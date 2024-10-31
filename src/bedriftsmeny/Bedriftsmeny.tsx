@@ -39,7 +39,7 @@ export type VirksomhetsvelgerProps = {
      */
     orgnrSearchParam?: OrgnrSearchParamType;
     friKomponent?: boolean;
-    maxWidth?: string
+    maxWidth?: string;
     /** @deprecated not in use. field preserved for api stability. */
     amplitudeClient?: any;
 };
@@ -87,29 +87,75 @@ type Organisasjonstre = {
     underenheter: Organisasjonstre[];
 };
 
-
 export const flatUtOrganisasjonstre = (organisasjonstre: Organisasjonstre[]): Organisasjon[] => {
-    const kutter = (parent: Organisasjonstre, parentOrgNr: String = ""): Organisasjon[] => {
-        return parent.underenheter.flatMap((child, i) => {
-            if (child.underenheter.length > 0) {
-                return kutter(child, parent.orgNr)
-            } else {
-                return [
-                    ...[i === 0 ? {
-                        Name: parent.name,
-                        OrganizationNumber: parent.orgNr,
-                        OrganizationForm: parent.organizationForm,
-                        ParentOrganizationNumber: parentOrgNr,
-                    } : null],
-                    {
-                        Name: child.name,
-                        OrganizationNumber: child.orgNr,
-                        OrganizationForm: child.organizationForm,
-                        ParentOrganizationNumber: parent.orgNr,
-                    },
-                ];
-            }
-        }).filter( x => x!==null) as Organisasjon[];
+    const kutter = (parent: Organisasjonstre, parentOrgNr: String = ''): Organisasjon[] => {
+        return parent.underenheter
+            .flatMap((child, i) => {
+                if (child.underenheter.length > 0) {
+                    return kutter(child, parent.orgNr);
+                } else {
+                    return [
+                        ...[
+                            i === 0
+                                ? {
+                                      Name: parent.name,
+                                      OrganizationNumber: parent.orgNr,
+                                      OrganizationForm: parent.organizationForm,
+                                      ParentOrganizationNumber: parentOrgNr,
+                                  }
+                                : null,
+                        ],
+                        {
+                            Name: child.name,
+                            OrganizationNumber: child.orgNr,
+                            OrganizationForm: child.organizationForm,
+                            ParentOrganizationNumber: parent.orgNr,
+                        },
+                    ];
+                }
+            })
+            .filter((x) => x !== null) as Organisasjon[];
+    };
+    return organisasjonstre.flatMap((o) => kutter(o));
+};
+
+type OrganisasjonstreV2 = {
+    navn: string;
+    orgnr: string;
+    organisasjonsform: string;
+    underenheter: OrganisasjonstreV2[];
+};
+
+export const flatUtOrganisasjonstreV2 = (
+    organisasjonstre: OrganisasjonstreV2[]
+): Organisasjon[] => {
+    const kutter = (parent: OrganisasjonstreV2, parentOrgNr: String = ''): Organisasjon[] => {
+        return parent.underenheter
+            .flatMap((child, i) => {
+                if (child.underenheter.length > 0) {
+                    return kutter(child, parent.orgnr);
+                } else {
+                    return [
+                        ...[
+                            i === 0
+                                ? {
+                                      Name: parent.navn,
+                                      OrganizationNumber: parent.orgnr,
+                                      OrganizationForm: parent.organisasjonsform,
+                                      ParentOrganizationNumber: parentOrgNr,
+                                  }
+                                : null,
+                        ],
+                        {
+                            Name: child.navn,
+                            OrganizationNumber: child.orgnr,
+                            OrganizationForm: child.organisasjonsform,
+                            ParentOrganizationNumber: parent.orgnr,
+                        },
+                    ];
+                }
+            })
+            .filter((x) => x !== null) as Organisasjon[];
     };
     return organisasjonstre.flatMap((o) => kutter(o));
 };
