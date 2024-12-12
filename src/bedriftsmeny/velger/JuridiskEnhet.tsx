@@ -1,5 +1,5 @@
 import React, { ForwardedRef, forwardRef } from 'react';
-import { Office2, Success } from '@navikt/ds-icons';
+import { Success } from '@navikt/ds-icons';
 import { Accordion, BodyShort, Button } from '@navikt/ds-react';
 import { Organisasjon } from '../organisasjon';
 import { OrganisasjonMedState } from './useTastaturNavigasjon';
@@ -134,12 +134,7 @@ const Hovedenhet = ({ hovedenhet, valgt, antallUnderenheter }: HovedenhetProps) 
                 <span>Org.nr. </span>
                 <span>{hovedenhet.OrganizationNumber.replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}</span>
             </BodyShort>
-            <BodyShort
-                className="navbm-virksomhetsvelger__enhet-beskrivelse"
-                aria-label={`Hovedenheten har ${antallUnderenheter} ${
-                    antallUnderenheter === 1 ? 'underenhet' : 'underenheter'
-                }`}
-            >
+            <BodyShort className="navbm-virksomhetsvelger__enhet-beskrivelse">
                 {antallUnderenheter} {antallUnderenheter === 1 ? 'underenhet' : 'underenheter'}
                 {valgt ? ' - 1 valgt' : ''}
             </BodyShort>
