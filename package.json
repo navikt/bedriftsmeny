@@ -36,7 +36,6 @@
     "devDependencies": {
         "@navikt/ds-css": "^7.21.0",
         "@navikt/ds-react": "^7.21.0",
-        "@types/history": "^5.0.0",
         "@types/node": "22.15.3",
         "@types/react": "^19.1.2",
         "@types/react-collapse": "^5.0.4",
