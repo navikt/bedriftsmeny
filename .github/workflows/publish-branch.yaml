@@ -18,6 +18,8 @@ jobs:
 
       - name: install dependencies
         run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: build
         run: npm run build
