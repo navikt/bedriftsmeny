@@ -22,10 +22,6 @@ jobs:
       - name: build
         run: npm run build
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-
       - name: publish on github
         run: |
           if jq --null-input --exit-status \
