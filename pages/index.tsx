@@ -1,7 +1,7 @@
 import React from 'react';
 import { BodyLong, BodyShort } from '@navikt/ds-react';
-import { BedriftsmenyHeader } from '../src/bedriftsmeny/Bedriftsmeny';
-import { MOCK_ORGANISASJONER } from '../src/mock/organisasjoner';
+import { BedriftsmenyHeader } from '@/bedriftsmeny/Bedriftsmeny';
+import { MOCK_ORGANISASJONER } from '@/mock/organisasjoner';
 import Banner, { useHentOrgnummer } from '@/components/Layout/Banner/Banner';
 
 const App = () => {
@@ -29,7 +29,6 @@ const App = () => {
                         <code>{JSON.stringify(valgtOrganisasjon, null, 4)}</code>
                     </div>
                 )}
-
             </section>
         </div>
     );
