@@ -1,5 +1,5 @@
 import React, { ForwardedRef, forwardRef } from 'react';
-import { Success } from '@navikt/ds-icons';
+import { CheckmarkCircleIcon } from '@navikt/aksel-icons';
 import { Accordion, BodyShort, Button } from '@navikt/ds-react';
 import { Organisasjon } from '../organisasjon';
 import { OrganisasjonMedState } from './useTastaturNavigasjon';
@@ -108,7 +108,7 @@ const Underenhet = forwardRef<HTMLButtonElement, UnderenhetProps>(
                     </BodyShort>
                 </div>
                 {valgt && (
-                    <Success
+                    <CheckmarkCircleIcon
                         aria-hidden={true}
                         className="navbm-virksomhetsvelger__underenhet-valgt-ikon"
                     />

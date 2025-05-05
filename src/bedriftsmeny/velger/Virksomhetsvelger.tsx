@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Accordion, BodyShort, Button, Detail, Search } from '@navikt/ds-react';
 import { Organisasjon } from '../organisasjon';
-import { Close, Collapse, Expand, Office1 } from '@navikt/ds-icons';
+import { XMarkIcon, ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
 import { VirksomhetsvelgerContext } from './VirksomhetsvelgerProvider';
 import JuridiskEnhet from './JuridiskEnhet';
 import Dropdown from './Dropdown';
@@ -78,9 +78,9 @@ const Velger = ({
                         </BodyShort>
                     </div>
                     {åpen ? (
-                        <Collapse style={{ pointerEvents: 'none' }} aria-hidden={true} />
+                        <ChevronUpIcon style={{ pointerEvents: 'none' }} aria-hidden={true} />
                     ) : (
-                        <Expand style={{ pointerEvents: 'none' }} aria-hidden={true} />
+                        <ChevronDownIcon style={{ pointerEvents: 'none' }} aria-hidden={true} />
                     )}
                 </div>
             </Button>
@@ -223,7 +223,7 @@ const CloseButton = ({ onClick }: CloseButtonProps) => (
         className="navbm-virksomhetsvelger__popup-header-xbtn"
         onClick={onClick}
     >
-        <Close aria-hidden={true} />
+        <XMarkIcon aria-hidden={true} />
     </Button>
 );
 
