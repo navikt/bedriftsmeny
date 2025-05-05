@@ -7,7 +7,7 @@ import { OrgnrSearchParamType } from './velger/utils';
 import Velger from './velger/Virksomhetsvelger';
 
 interface EgneProps {
-    sidetittel?: string | JSX.Element;
+    sidetittel?: string | React.JSX.Element;
     organisasjoner?: Organisasjon[];
     onOrganisasjonChange?: (organisasjon: Organisasjon) => void;
     /**

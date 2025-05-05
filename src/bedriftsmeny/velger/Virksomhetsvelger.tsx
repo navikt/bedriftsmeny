@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Accordion, BodyShort, Button, Detail, Search } from '@navikt/ds-react';
 import { Organisasjon } from '../organisasjon';
-import { Close, Collapse, Expand, Office1 } from '@navikt/ds-icons';
+import { XMarkIcon, ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
 import { VirksomhetsvelgerContext } from './VirksomhetsvelgerProvider';
 import JuridiskEnhet from './JuridiskEnhet';
 import Dropdown from './Dropdown';
-import FocusTrap from 'focus-trap-react';
+import { FocusTrap } from 'focus-trap-react';
 import { useTastaturNavigasjon } from './useTastaturNavigasjon';
 
 const Velger = ({
@@ -18,13 +18,8 @@ const Velger = ({
     const buttonRef = useRef<HTMLButtonElement>(null);
     const valgtEnhetRef = useRef<HTMLButtonElement>(null);
     const [åpen, setÅpen] = useState<boolean>(false);
-    const {
-        velgUnderenhet,
-        valgtOrganisasjon,
-        aktivtOrganisasjonstre,
-        søketekst,
-        setSøketekst,
-    } = useContext(VirksomhetsvelgerContext);
+    const { velgUnderenhet, valgtOrganisasjon, aktivtOrganisasjonstre, søketekst, setSøketekst } =
+        useContext(VirksomhetsvelgerContext);
     const {
         fokusertEnhet,
         organisasjonerMedState,
@@ -73,14 +68,14 @@ const Velger = ({
                             Org.nr.{' '}
                             {valgtOrganisasjon.OrganizationNumber.replace(
                                 /\B(?=(\d{3})+(?!\d))/g,
-                                ' '
+                                ' ',
                             )}
                         </BodyShort>
                     </div>
                     {åpen ? (
-                        <Collapse style={{ pointerEvents: 'none' }} aria-hidden={true} />
+                        <ChevronUpIcon style={{ pointerEvents: 'none' }} aria-hidden={true} />
                     ) : (
-                        <Expand style={{ pointerEvents: 'none' }} aria-hidden={true} />
+                        <ChevronDownIcon style={{ pointerEvents: 'none' }} aria-hidden={true} />
                     )}
                 </div>
             </Button>
@@ -182,8 +177,8 @@ const Velger = ({
                                                 Underenheter.some(
                                                     (underenhet) =>
                                                         OrganizationNumber ===
-                                                        underenhet.OrganizationNumber
-                                                )
+                                                        underenhet.OrganizationNumber,
+                                                ),
                                         );
                                         return (
                                             <JuridiskEnhet
@@ -202,7 +197,7 @@ const Velger = ({
                                                 }}
                                             />
                                         );
-                                    }
+                                    },
                                 )}
                             </ul>
                         </Accordion>
@@ -223,7 +218,7 @@ const CloseButton = ({ onClick }: CloseButtonProps) => (
         className="navbm-virksomhetsvelger__popup-header-xbtn"
         onClick={onClick}
     >
-        <Close aria-hidden={true} />
+        <XMarkIcon aria-hidden={true} />
     </Button>
 );
 

@@ -2,9 +2,9 @@ import React, {ReactNode} from 'react';
 import { Heading} from '@navikt/ds-react';
 
 interface Props {
-    tittel?: string | JSX.Element;
-    virksomhetsvelger: JSX.Element;
-    bjelle?: JSX.Element | ReactNode;
+    tittel?: string | React.JSX.Element;
+    virksomhetsvelger: React.JSX.Element;
+    bjelle?: React.JSX.Element | ReactNode;
 }
 
 export const BedriftsmenyView = (props: Props) => (
