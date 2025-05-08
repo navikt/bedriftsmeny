@@ -1,6 +1,6 @@
 {
     "name": "@navikt/bedriftsmeny",
-    "version": "8.0.2",
+    "version": "8.0.3",
     "description": "Bedriftsvelger og -meny for innlogget arbeidsgiver. Laget av TAG (Tjenester for Arbeidsgivere).",
     "author": "NAVIKT",
     "license": "MIT",
@@ -34,7 +34,7 @@
         "react-router": "^7.5.3"
     },
     "peerDependenciesMeta": {
-        "react-dom": {
+        "react-router": {
             "optional": true
         }
     },
