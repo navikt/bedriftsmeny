@@ -38,7 +38,6 @@
             "optional": true
         }
     },
-
     "devDependencies": {
         "@navikt/ds-css": "^7.21.1",
         "@navikt/ds-react": "^7.21.1",
