@@ -1,5 +1,5 @@
 import { Organisasjon, JuridiskEnhetMedUnderEnheterArray } from '../organisasjon';
-import { useLocation, useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const ORGNUMMER_PARAMETER = 'bedrift';
 const ORGNUMMER_LOCAL_STORE = 'virksomhetsvelger_bedrift';
