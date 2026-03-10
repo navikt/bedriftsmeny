@@ -1,7 +1,7 @@
 {
     "name": "@navikt/bedriftsmeny",
     "version": "8.0.5",
-    "description": "Bedriftsvelger og -meny for innlogget arbeidsgiver. Laget av TAG (Tjenester for Arbeidsgivere).",
+    "description": "Bedriftsvelger og -meny for innlogget arbeidsgiver. Avvikles til fordel for virksomhetsvelger: https://github.com/navikt/virksomhetsvelger",
     "author": "NAVIKT",
     "license": "MIT",
     "repository": {

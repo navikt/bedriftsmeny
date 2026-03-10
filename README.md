@@ -5,6 +5,13 @@
 
 Virksomhetsvelger og -meny for innlogget arbeidsgiver.
 
+## Status
+
+Dette biblioteket vil snart avvikles og erstattes av
+[virksomhetsvelger](https://github.com/navikt/virksomhetsvelger).
+Nye integrasjoner bør bruke `virksomhetsvelger`, og eksisterende brukere
+anbefales å planlegge migrering dit.
+
 Begrepet «virksomhet» er ønsket terminologi og det som vises i nettleseren, men
 du vil se at npm-pakken, koden og lignende bruker begrepet «bedrift». Det som vises i nettleseren er «virksomhet» og
 det er ikke prioritert å endre pakkenavn og lignende.
