@@ -33,23 +33,23 @@
         "react-router": "^7.7.1"
     },
     "devDependencies": {
-        "@navikt/ds-css": "^7.21.1",
-        "@navikt/ds-react": "^7.21.1",
-        "@types/node": "22.15.14",
-        "@types/react": "19.2.7",
+        "@navikt/ds-css": "^7.40.0",
+        "@navikt/ds-react": "^7.40.0",
+        "@types/node": "22.20.5",
+        "@types/react": "19.3.0",
         "@types/react-collapse": "^5.0.4",
-        "@types/react-dom": "19.2.3",
+        "@types/react-dom": "19.3.0",
         "@types/react-modal": "^3.16.3",
         "npm-run-all": "^4.1.5",
         "postcss": "^8.5.32",
         "postcss-cli": "^11.0.1",
-        "postcss-import": "^16.1.0",
-        "prettier": "3.5.3",
+        "postcss-import": "^16.2.0",
+        "prettier": "3.9.10",
         "process": "^0.11.10",
-        "typescript": "^5.8.3"
+        "typescript": "^5.9.3"
     },
     "dependencies": {
-        "focus-trap-react": "^11.0.3",
+        "focus-trap-react": "^11.0.6",
         "fuzzysort": "^3.1.0",
         "history": "^5.3.0"
     },
