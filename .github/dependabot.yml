@@ -1,0 +1,51 @@
+version: 2
+
+registries:
+  npm-github:
+    type: npm-registry
+    url: https://npm.pkg.github.com
+    scope: "@navikt"
+    replaces-base: false
+    token: ${{ secrets.READER_TOKEN }}
+
+updates:
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Europe/Oslo
+    cooldown:
+      default-days: 3
+    open-pull-requests-limit: 10
+    groups:
+      actions:
+        patterns:
+          - "*"
+
+  - package-ecosystem: npm
+    directories:
+      - "/"
+    registries:
+      - npm-github
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Europe/Oslo
+    cooldown:
+      default-days: 3
+    versioning-strategy: increase
+    open-pull-requests-limit: 10
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+    groups:
+      pnpm:
+        applies-to: version-updates
+        patterns: ["*"]
+        update-types: [minor, patch]
+      pnpm-security:
+        applies-to: security-updates
+        patterns: ["*"]
